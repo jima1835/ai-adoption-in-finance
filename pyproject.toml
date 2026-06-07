@@ -1,0 +1,18 @@
+[project]
+name = "ai-adoption-in-finance"
+version = "0.1.0"
+description = "Self-updating intelligence feed tracking AI adoption across financial services."
+requires-python = ">=3.10"
+dependencies = [
+    "anthropic",
+    "requests",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.3",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

@@ -1,0 +1,118 @@
+[
+  {
+    "name": "CalSTRS",
+    "aliases": [
+      "CalSTRS",
+      "California State Teachers' Retirement System",
+      "CalSTRS Investments"
+    ],
+    "type": "pension",
+    "aum": "~$390B",
+    "stage": "piloting",
+    "rationale": "Most governance-advanced public pension per its own peer research; GenAI policy, cost-benefit analysis, and prioritized pipeline of scalable use cases (25 scoped) in place. Explicitly following a governance-first, deploy-later approach — preconditions for scaling met, but not yet firm-wide production.",
+    "use_cases": [
+      "portfolio & research intelligence",
+      "manager due diligence",
+      "cash flow forecasting",
+      "memo drafting"
+    ],
+    "events": [
+      {
+        "date": "2024-07",
+        "event": "July offsite: management and board agree CalSTRS should position as an 'Early Adopter' on the AI innovation curve",
+        "source_url": "https://www.calstrs.com/files/fe584f412/TRB+2024-09+Item+11+Pres+01+-+AI+Journey+NEW+COMMS+OK.pdf"
+      },
+      {
+        "date": "2024-08",
+        "event": "AI use-case inventory: 25 candidate use cases documented across 10+ business programs (6 in investments)",
+        "source_url": "https://www.calstrs.com/files/fe584f412/TRB+2024-09+Item+11+Pres+01+-+AI+Journey+NEW+COMMS+OK.pdf"
+      },
+      {
+        "date": "2024-10",
+        "event": "Board launches collaborative board-and-staff Technology-AI working group to define board oversight role",
+        "source_url": "https://www.calstrs.com/governing-in-the-age-of-ai"
+      },
+      {
+        "date": "2025-07",
+        "event": "GenAI policy, cost-benefit analysis, and pipeline of scalable use cases presented to board; staff AI bootcamp set for September",
+        "source_url": "https://www.top1000funds.com/2025/07/change-management-in-action-calstrs-lays-out-how-its-integrating-ai/"
+      },
+      {
+        "date": "2026-05-28",
+        "event": "CEO recommends embedding AI oversight into existing board governance; formal AI governance principles to be set at July 2026 offsite",
+        "source_url": "https://www.pionline.com/institutional-investors/calstrs/pi-calstrs-artificial-intelligence-governance-board-june-july/"
+      }
+    ],
+    "latest_signal": "Recommends embedding AI oversight into existing board governance structures; formal AI governance principles to be set at July 2026 offsite",
+    "latest_date": "2026-05-28",
+    "source_url": "https://www.pionline.com/institutional-investors/calstrs/pi-calstrs-artificial-intelligence-governance-board-june-july/"
+  },
+  {
+    "name": "CalPERS",
+    "aliases": [
+      "CalPERS",
+      "California Public Employees' Retirement System",
+      "CalPERS Investment Office"
+    ],
+    "type": "pension",
+    "aum": "~$540B",
+    "stage": "exploring",
+    "rationale": "Board-level AI education only. Jan 2026 board education day featured a Jefferies macro briefing ('AI: What We Need to Know') covering AI fundamentals, economics, and geopolitics — AI as an investment/market topic, not internal use. No public GenAI policy, use-case pipeline, pilot, or deployment as of early 2026; roughly a stage behind CalSTRS.",
+    "use_cases": [],
+    "events": [
+      {
+        "date": "2025-01-13",
+        "event": "Board education day: 'Reinvention with Generative AI' intro session led by Accenture (what GenAI is, its importance, public-sector examples)",
+        "source_url": "https://www.calpers.ca.gov/documents/board-member-education-program-schedule-2025/download"
+      },
+      {
+        "date": "2026-01-20",
+        "event": "Board education briefing from Jefferies — AI as a macro/investment phenomenon (US/China tech race, capex, power), led by CIO Stephen Gilmore",
+        "source_url": "https://www.top1000funds.com/organisational-design/technology/calpers-board-warned-of-risks-in-ai-investments-including-china-innovation/"
+      }
+    ],
+    "latest_signal": "Board education briefing from Jefferies on AI as a macro/investment phenomenon (US/China tech race, capex, power) led by CIO Stephen Gilmore",
+    "latest_date": "2026-01-20",
+    "source_url": "https://www.top1000funds.com/organisational-design/technology/calpers-board-warned-of-risks-in-ai-investments-including-china-innovation/"
+  },
+  {
+    "name": "NBIM (Norges Bank Investment Management)",
+    "aliases": [
+      "NBIM",
+      "Norges Bank Investment Management",
+      "Norway sovereign wealth fund",
+      "Norges Bank",
+      "Government Pension Fund Global"
+    ],
+    "type": "sovereign-wealth",
+    "aum": "~$2.1T",
+    "stage": "scaling",
+    "rationale": "Most AI-advanced LP publicly. ~50% of 700 staff build their own Claude-based tools in production for screening, ESG/risk monitoring across 7,000 holdings, and meeting prep; 3-year firm-wide push with AI teams, ambassadors, and mandatory training. Stops short of embedded: AI cannot make autonomous investment decisions — human oversight is non-negotiable.",
+    "use_cases": [
+      "investment screening",
+      "ESG & financial risk monitoring",
+      "contract-negotiation simulation",
+      "company-meeting prep"
+    ],
+    "events": [
+      {
+        "date": "2023",
+        "event": "Publishes 'Responsible AI' position paper (board accountability, transparency, risk management)",
+        "source_url": "https://www.nbim.no/en/news-and-insights/our-views/2023/responsible-artificial-intelligence/"
+      },
+      {
+        "date": "2026-03-24",
+        "event": "~50% of 700 staff building their own Claude tools; roadmap toward supervised-autonomous agents",
+        "source_url": "https://www.reuters.com/business/norway-wealth-fund-moves-towards-some-ai-driven-decisions-with-humans-control-2026-03-24/"
+      },
+      {
+        "date": "2026-04-28",
+        "event": "Tangen: 3-year firm-wide AI push, benefits already 'in the billions' (company claim)",
+        "source_url": "https://www.cnbc.com/2026/04/28/norway-sovereign-wealth-fund-oil-iran-war-anthropic-claude-ai-invest-stocks.html"
+      }
+    ],
+    "latest_signal": "Plans to eventually allow AI agents limited autonomous decisions under human supervision; not yet, as tools still make errors",
+    "latest_date": "2026-03-24",
+    "source_url": "https://www.reuters.com/business/norway-wealth-fund-moves-towards-some-ai-driven-decisions-with-humans-control-2026-03-24/"
+  }
+]
