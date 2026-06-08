@@ -7,6 +7,7 @@ import react from '@vitejs/plugin-react'
 // so the same `data/institutions.json` the daily job rewrites is fetched
 // at runtime (same origin, no CORS).
 export default defineConfig({
-  base: './',
+  base: '/ai-adoption-in-finance/',
+  build: { outDir: 'docs'},
   plugins: [react()],
 })

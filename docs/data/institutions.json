@@ -1,0 +1,272 @@
+[
+  {
+    "name": "CalSTRS",
+    "aliases": [
+      "CalSTRS",
+      "California State Teachers' Retirement System",
+      "CalSTRS Investments"
+    ],
+    "type": "pension",
+    "aum": "~$390B",
+    "stage": "piloting",
+    "rationale": "Most governance-advanced public pension per its own peer research; GenAI policy, cost-benefit analysis, and prioritized pipeline of scalable use cases (25 scoped) in place. Explicitly following a governance-first, deploy-later approach — preconditions for scaling met, but not yet firm-wide production.",
+    "use_cases": [
+      "portfolio & research intelligence",
+      "manager due diligence",
+      "cash flow forecasting",
+      "memo drafting"
+    ],
+    "events": [
+      {
+        "date": "2024-07",
+        "event": "July offsite: management and board agree CalSTRS should position as an 'Early Adopter' on the AI innovation curve",
+        "source_url": "https://www.calstrs.com/files/fe584f412/TRB+2024-09+Item+11+Pres+01+-+AI+Journey+NEW+COMMS+OK.pdf"
+      },
+      {
+        "date": "2024-08",
+        "event": "AI use-case inventory: 25 candidate use cases documented across 10+ business programs (6 in investments)",
+        "source_url": "https://www.calstrs.com/files/fe584f412/TRB+2024-09+Item+11+Pres+01+-+AI+Journey+NEW+COMMS+OK.pdf"
+      },
+      {
+        "date": "2024-10",
+        "event": "Board launches collaborative board-and-staff Technology-AI working group to define board oversight role",
+        "source_url": "https://www.calstrs.com/governing-in-the-age-of-ai"
+      },
+      {
+        "date": "2025-07",
+        "event": "GenAI policy, cost-benefit analysis, and pipeline of scalable use cases presented to board; staff AI bootcamp set for September",
+        "source_url": "https://www.top1000funds.com/2025/07/change-management-in-action-calstrs-lays-out-how-its-integrating-ai/"
+      },
+      {
+        "date": "2026-05-28",
+        "event": "CEO recommends embedding AI oversight into existing board governance; formal AI governance principles to be set at July 2026 offsite",
+        "source_url": "https://www.pionline.com/institutional-investors/calstrs/pi-calstrs-artificial-intelligence-governance-board-june-july/"
+      }
+    ],
+    "latest_signal": "Recommends embedding AI oversight into existing board governance structures; formal AI governance principles to be set at July 2026 offsite",
+    "latest_date": "2026-05-28",
+    "source_url": "https://www.pionline.com/institutional-investors/calstrs/pi-calstrs-artificial-intelligence-governance-board-june-july/"
+  },
+  {
+    "name": "CalPERS",
+    "aliases": [
+      "CalPERS",
+      "California Public Employees' Retirement System",
+      "CalPERS Investment Office"
+    ],
+    "type": "pension",
+    "aum": "~$540B",
+    "stage": "exploring",
+    "rationale": "Board-level AI education only. Jan 2026 board education day featured a Jefferies macro briefing ('AI: What We Need to Know') covering AI fundamentals, economics, and geopolitics — AI as an investment/market topic, not internal use. No public GenAI policy, use-case pipeline, pilot, or deployment as of early 2026; roughly a stage behind CalSTRS.",
+    "use_cases": [],
+    "events": [
+      {
+        "date": "2025-01-13",
+        "event": "Board education day: 'Reinvention with Generative AI' intro session led by Accenture (what GenAI is, its importance, public-sector examples)",
+        "source_url": "https://www.calpers.ca.gov/documents/board-member-education-program-schedule-2025/download"
+      },
+      {
+        "date": "2026-01-20",
+        "event": "Board education briefing from Jefferies — AI as a macro/investment phenomenon (US/China tech race, capex, power), led by CIO Stephen Gilmore",
+        "source_url": "https://www.top1000funds.com/organisational-design/technology/calpers-board-warned-of-risks-in-ai-investments-including-china-innovation/"
+      }
+    ],
+    "latest_signal": "Board education briefing from Jefferies on AI as a macro/investment phenomenon (US/China tech race, capex, power) led by CIO Stephen Gilmore",
+    "latest_date": "2026-01-20",
+    "source_url": "https://www.top1000funds.com/organisational-design/technology/calpers-board-warned-of-risks-in-ai-investments-including-china-innovation/"
+  },
+  {
+    "name": "NBIM (Norges Bank Investment Management)",
+    "aliases": [
+      "NBIM",
+      "Norges Bank Investment Management",
+      "Norway sovereign wealth fund",
+      "Norges Bank",
+      "Government Pension Fund Global"
+    ],
+    "type": "sovereign-wealth",
+    "aum": "~$2.1T",
+    "stage": "scaling",
+    "rationale": "Most AI-advanced LP publicly. ~50% of 700 staff build their own Claude-based tools in production for screening, ESG/risk monitoring across 7,000 holdings, and meeting prep; 3-year firm-wide push with AI teams, ambassadors, and mandatory training. Stops short of embedded: AI cannot make autonomous investment decisions — human oversight is non-negotiable.",
+    "use_cases": [
+      "investment screening",
+      "ESG & financial risk monitoring",
+      "contract-negotiation simulation",
+      "company-meeting prep"
+    ],
+    "events": [
+      {
+        "date": "2023",
+        "event": "Publishes 'Responsible AI' position paper (board accountability, transparency, risk management)",
+        "source_url": "https://www.nbim.no/en/news-and-insights/our-views/2023/responsible-artificial-intelligence/"
+      },
+      {
+        "date": "2026-03-24",
+        "event": "~50% of 700 staff building their own Claude tools; roadmap toward supervised-autonomous agents",
+        "source_url": "https://www.reuters.com/business/norway-wealth-fund-moves-towards-some-ai-driven-decisions-with-humans-control-2026-03-24/"
+      },
+      {
+        "date": "2026-04-28",
+        "event": "Tangen: 3-year firm-wide AI push, benefits already 'in the billions' (company claim)",
+        "source_url": "https://www.cnbc.com/2026/04/28/norway-sovereign-wealth-fund-oil-iran-war-anthropic-claude-ai-invest-stocks.html"
+      }
+    ],
+    "latest_signal": "Plans to eventually allow AI agents limited autonomous decisions under human supervision; not yet, as tools still make errors",
+    "latest_date": "2026-03-24",
+    "source_url": "https://www.reuters.com/business/norway-wealth-fund-moves-towards-some-ai-driven-decisions-with-humans-control-2026-03-24/"
+  },
+  {
+    "name": "CPP Investments",
+    "aliases": [
+      "CPP Investments",
+      "Canada Pension Plan Investment Board",
+      "CPPIB",
+      "CPP"
+    ],
+    "type": "pension",
+    "aum": "~$562B",
+    "stage": "scaling",
+    "rationale": "ChatGPT Enterprise deployed to ~1,800 of 2,000 eligible staff (83% activation, 84% sustained weekly use in 90 days); 528 custom GPTs built (99th percentile vs. industry median of 18); ran agent-vs-human experiments on real tasks (portfolio reconciliation, attribution, tariff scenarios) with a five-gate governance framework. Stops short of embedded: humans still frame and verify every output; org structure not yet redesigned.",
+    "use_cases": [
+      "portfolio reconciliation",
+      "performance & risk attribution",
+      "tariff/scenario modeling",
+      "research via custom GPTs",
+      "data analysis"
+    ],
+    "events": [
+      {
+        "date": "2025-09-25",
+        "event": "Publishes 'From Experiment to Workflow': 83% ChatGPT Enterprise activation, 528 custom GPTs in first 90 days",
+        "source_url": "https://www.cppinvestments.com/insight-institute/from-experiment-to-workflow-cpp-investments-and-the-challenge-of-turning-ai-into-value/"
+      },
+      {
+        "date": "2026-01-15",
+        "event": "Details agent-vs-human experiments (reconciliation, attribution, tariff scenario) and five-gate governance framework",
+        "source_url": "https://www.top1000funds.com/organisational-design/technology/cpp-investments-on-how-ai-redefines-core-investing-roles-and-processes/"
+      }
+    ],
+    "latest_signal": "Internal agent experiments show AI could eventually redefine investment roles, but only with strict governance; humans still frame and verify",
+    "latest_date": "2026-01-15",
+    "source_url": "https://www.top1000funds.com/organisational-design/technology/cpp-investments-on-how-ai-redefines-core-investing-roles-and-processes/"
+  },
+  {
+    "name": "GIC",
+    "aliases": [
+      "GIC",
+      "GIC Private Limited",
+      "Government of Singapore Investment Corporation"
+    ],
+    "type": "sovereign-wealth",
+    "aum": "~$936B",
+    "stage": "scaling",
+    "as_of_reviewed": "2026-06-07",
+    "as_of_latest_signal": "2026-03-17",
+    "rationale": "Enterprise-wide ChatGIC (secure ChatGPT) since 2023; production AI in trading — LLMs processing Bloomberg broker-commentary streams cross-referenced with PM positions for market intelligence at scale, AI-processed broker quotes and ECM deal emails, semi-automated OTC RFQs, global algo wheels, and trader 'vibe coding' in a secure environment. Self-describes as 'early adopter' embedding AI 'across operations.' Strongest evidence is trading-desk-specific; lacks firm-wide penetration metrics, so scaling call rests on depth in the core investment function rather than disclosed org-wide adoption rates.",
+    "use_cases": [
+      "broker-commentary intelligence (Bloomberg chat/email LLM processing)",
+      "broker-quote processing & OTC RFQ semi-automation",
+      "global algo wheels (equities/futures/FX)",
+      "ECM deal-email processing",
+      "document summarization ('opinion mining')",
+      "internal-audit anomaly detection",
+      "trader 'vibe coding'"
+    ],
+    "events": [
+      {
+        "date": "2023",
+        "event": "Launches ChatGIC, an enterprise secure ChatGPT, marking the start of broader AI adoption",
+        "source_url": "https://www.tradersmagazine.com/departments/buy-side/gics-travis-ni-balances-technical-and-interpersonal-skills/"
+      },
+      {
+        "date": "2025-04",
+        "event": "GIC & Temasek staff detail AI in portfolio management at Fiduciary Investors Symposium; ChatGIC and RL research with Ortec Finance disclosed",
+        "source_url": "https://www.top1000funds.com/2025/04/how-next-gen-investors-at-gic-temasek-harness-ai-potential/"
+      },
+      {
+        "date": "2025-07-25",
+        "event": "FY2024/25 report: AI in internal audit for anomaly detection; CEO calls AI integration a cross-organization priority",
+        "source_url": "https://www.gic.com.sg/newsroom/all/gic-delivers-stable-long-term-returns-and-remains-focused-on-portfolio-resilience-amidst-unprecedented-uncertainty/"
+      },
+      {
+        "date": "2026-03-17",
+        "event": "Head of Equities Trading Americas details production AI: broker-commentary LLM intelligence, semi-automated OTC RFQs, algo wheels, ECM deal processing, trader 'vibe coding'",
+        "source_url": "https://www.tradersmagazine.com/departments/buy-side/gics-travis-ni-balances-technical-and-interpersonal-skills/"
+      }
+    ],
+    "latest_signal": "Head of Equities Trading Americas details production AI across trading: broker-commentary intelligence, OTC RFQ automation, algo wheels, ECM processing",
+    "latest_date": "2026-03-17",
+    "source_url": "https://www.tradersmagazine.com/departments/buy-side/gics-travis-ni-balances-technical-and-interpersonal-skills/"
+  },
+  {
+    "name": "BlackRock",
+    "aliases": [
+      "BlackRock",
+      "Blackrock Inc",
+      "BLK"
+    ],
+    "type": "asset-manager",
+    "aum": "~$14T",
+    "stage": "scaling",
+    "rationale": "Deep internal AI adoption: Asimov (2024), an agentic investment-research platform autonomously monitoring theses from filings/earnings/research, used by ~150 fundamental-equity staff and scaling to other divisions; RockAI no-code agent platform rolled out to 5,000 in-house developers with firm-wide 'citizen developer' intent; 50+ internal teams contributing agents; production AI in client intelligence, legal, and HR. Dedicated AI Labs unit since 2018, named executive AI sponsor. Stops short of embedded: exec says the reimagined-workflow future 'isn't quite here yet' and 'no one has cracked the nut.'",
+    "footnote": "BlackRock also sells AI to clients via Aladdin Copilot (70+ countries) and Auto Commentary — these are commercial products, not internal adoption, and are NOT counted toward its stage. Classification rests solely on operational/internal use (Asimov, RockAI, internal agents).",
+    "use_cases": [
+      "agentic investment research (Asimov)",
+      "no-code internal agent platform (RockAI)",
+      "client intelligence / meeting prep",
+      "AI in legal contracting",
+      "HR action-taking agents"
+    ],
+    "events": [
+      {
+        "date": "2025-06",
+        "event": "COO Rob Goldstein publicly announces Asimov, an agentic investment-research platform (hundreds of agents autonomously monitoring theses) built with the internal AI Labs team; helps ~150 fundamental-equity staff, scaling to other asset classes",
+        "source_urls": [
+          "https://www.bloomberg.com/news/articles/2025-06-12/blackrock-has-built-an-ai-analyst-asimov-to-scour-filings",
+          "https://www.imd.org/entity-profile/blackrock-ai-maturity-2025/"
+        ]
+      },
+      {
+        "date": "2026-04-21",
+        "event": "Rolls out RockAI no-code agent platform to 5,000 in-house developers; exec sponsor envisions AI as default mode with humans in oversight 'squads'",
+        "source_url": "https://www.wsj.com/cio-journal/inside-blackrocks-ai-transformation-03a1e8c7"
+      }
+    ],
+    "latest_signal": "Rolls out RockAI no-code agent platform to 5,000 developers; aims firm-wide, envisions AI as default execution mode with humans overseeing in 'squads'",
+    "latest_date": "2026-04-21",
+    "source_url": "https://www.wsj.com/cio-journal/inside-blackrocks-ai-transformation-03a1e8c7"
+  },
+  {
+    "name": "Temasek",
+    "aliases": [
+      "Temasek",
+      "Temasek Holdings"
+    ],
+    "type": "sovereign-wealth",
+    "aum": "~$320B",
+    "stage": "piloting",
+    "rationale": "Real internal tooling short of firm-wide scale: 'Winnow' investment super-app (built ground-up with investment teams, aggregating internal/external data and ESG intelligence on prospective investments) and a Knowledge Graph mapping portfolio relationships; firm-wide 'AI & digital fluency' program spanning investment, O&P, risk, audit, legal, and cyber; governed via a 'thin layer' over OpenAI/Google models. CDO frames AI as augmentation — 'spotting pitfalls,' reducing human bias — not automating decisions. No public penetration metrics; more augmentation-framed and less quantified than NBIM/CPP/GIC, so piloting rather than scaling.",
+    "footnote": "Separately, Temasek runs an 'AI pod' (since 2019) and Aicadium to help its PORTFOLIO COMPANIES adopt AI, and invests in AI as a theme (e.g. the BlackRock-led AI Infrastructure Partnership). These are portfolio value-creation and investment activities, not Temasek's own operational adoption, and are NOT counted toward its stage.",
+    "use_cases": [
+      "Winnow investment super-app (data/insight aggregation)",
+      "Knowledge Graph (portfolio relationship mapping)",
+      "document processing & data extraction",
+      "firm-wide AI fluency across functions"
+    ],
+    "events": [
+      {
+        "date": "2025-04",
+        "event": "Temasek VP of AI Strategy details AI@Temasek program and internal workflow/decision use at Fiduciary Investors Symposium",
+        "source_url": "https://www.top1000funds.com/2025/04/how-next-gen-investors-at-gic-temasek-harness-ai-potential/"
+      },
+      {
+        "date": "2025-10-10",
+        "event": "CDO Mark Lim details internal AI: Winnow super-app, Knowledge Graph, 'AI & digital fluency' program; frames AI as bias-reduction and pitfall-spotting under human oversight",
+        "source_url": "https://www.marketing-interactive.com/temasek-bets-on-human-ai-collaboration-to-transform-investment-decisions"
+      }
+    ],
+    "latest_signal": "CDO details internal AI tooling (Winnow super-app, Knowledge Graph) framed as augmenting human judgment and reducing bias, not automating decisions",
+    "latest_date": "2025-10-10",
+    "source_url": "https://www.marketing-interactive.com/temasek-bets-on-human-ai-collaboration-to-transform-investment-decisions"
+  }
+]
