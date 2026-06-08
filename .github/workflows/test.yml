@@ -1,0 +1,28 @@
+name: tests
+
+# Test runner only — runs the pytest suite so PRs show a green check.
+# No cron, no secrets, no monitor.py scheduling, no auto-commit. The daily
+# automation of the engine is intentionally NOT set up here.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv (with Python 3.12)
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: uv sync
+
+      # Network/live tests are deselected by default (addopts = -m 'not live'),
+      # so no API keys are needed.
+      - name: Run tests
+        run: uv run pytest

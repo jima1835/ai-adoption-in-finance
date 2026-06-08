@@ -1,16 +1,14 @@
 # AI Adoption in Finance
 
-**A public dashboard classifying where major institutional investors sit on AI adoption right now** — asset managers, pensions, sovereign wealth funds, hedge funds, endowments. Every classification rests strictly on public sources (news, official disclosures, board materials), and a daily automated job keeps it current.
+**A public dashboard classifying where major institutional investors sit on AI adoption right now** — asset managers, pensions, sovereign wealth funds, hedge funds, endowments. Every classification rests strictly on public sources (news, official disclosures, board materials) and is curated by hand; a monitoring engine — run on demand today — surfaces fresh public signals to keep each institution's *latest signal* current.
 
 ### → [**View the live dashboard**](https://jima1835.github.io/ai-adoption-in-finance/) ←
-
-> _Live once GitHub Pages is enabled (final step)._
 
 ---
 
 ## What it is
 
-Most "AI in finance" coverage is vendor hype and listicles. This project answers a sharper question for each institution: **where are they actually on the adoption curve — exploring, piloting, scaling, or embedded?** Each placement is hand-curated from public evidence and carries a one-line rationale. An automated pipeline then keeps each institution's "latest signal" fresh and runs a screened news feed underneath the grid as living proof the classifications are current.
+Most "AI in finance" coverage is vendor hype and listicles. This project answers a sharper question for each institution: **where are they actually on the adoption curve — exploring, piloting, scaling, or embedded?** Each placement is hand-curated from public evidence and carries a one-line rationale. A monitoring engine then screens public news and keeps each institution's "latest signal" fresh, so the classifications stay backed by a current, dated public record.
 
 The whole thing runs on GitHub — no servers, no database, no backend.
 
@@ -39,11 +37,11 @@ Institution types: `asset-manager` · `pension` · `sovereign-wealth` · `hedge-
 ## How it works
 
 ```
-GDELT DOC 2.0 API        Claude (claude-opus-4-8)        data/*.json              GitHub Pages
+GDELT DOC 2.0 API        Claude (claude-haiku-4-5)       data/*.json              GitHub Pages
   global news, 24h   ──►   screens for real signal   ──►   institutions.json  ──►   static React
   (monitor.py)             (drops the hype)                 feed.json               dashboard
         ▲                                                   (committed)             (one page, no API)
-        └──────────────────── GitHub Actions runs the engine on a daily schedule ──────────┘
+        └──────────── run on demand today · daily GitHub Actions schedule is planned, not built ──────────┘
 ```
 
 When a screened signal looks like it could move an institution's stage, the engine **notifies instead of acting** — it never edits the stage itself (see [Design principle](#design-principle--humans-hold-the-stage)):
@@ -84,21 +82,28 @@ Tune the GDELT search by editing the `QUERY` constant at the top of [`monitor.py
 ```
 ai-adoption-in-finance/
 ├── monitor.py             # the engine: GDELT → Claude → institutions.json + feed.json
+├── alerts.py              # notify-only email digest (Resend) for stage-relevant signals
 ├── pyproject.toml         # uv project + dependencies
 ├── CLAUDE.md              # architecture & context
+├── METHODOLOGY.md         # how institutions are classified (the credibility spine)
+├── CONTRIBUTING.md        # how to contribute
 ├── tests/                 # pytest suite for the engine
-├── data/
+├── data/                  # source of truth (root) — monitor.py writes here
 │   ├── institutions.json  # the STATE — hand-curated classification grid
 │   ├── feed.json          # the STREAM — screened signals (newest first, ≤200)
-│   └── seen_urls.json     # dedup ledger
-└── web/                   # static React site (Vite) — coming next
+│   ├── seen_urls.json     # dedup ledger
+│   └── stage_definitions.json  # shared stage reference (defs, scope, notes)
+├── index.html             # Vite entry
+├── vite.config.js         # build config; copies data/ → docs/data/ on build
+├── src/                   # static React site (Vite) — components + plain CSS
+└── docs/                  # built site served by GitHub Pages (includes docs/data/)
 ```
 
 ## Tech stack
 
-- **Engine** — Python + [uv](https://docs.astral.sh/uv/), [GDELT DOC 2.0](https://www.gdeltproject.org/), [Claude API](https://docs.claude.com/) (`claude-opus-4-8`)
-- **Site** — Vite + React, plain CSS, static
-- **Infra** — GitHub Actions (engine) + GitHub Pages (hosting). One repo, no backend.
+- **Engine** — Python + [uv](https://docs.astral.sh/uv/), [GDELT DOC 2.0](https://www.gdeltproject.org/), [Claude API](https://docs.claude.com/) (`claude-haiku-4-5-20251001`)
+- **Site** — Vite + React, plain CSS, static (built to `docs/`)
+- **Infra** — [GitHub Pages](https://jima1835.github.io/ai-adoption-in-finance/) (hosting, live) + GitHub Actions CI (runs the test suite on PRs). Scheduled automation of the engine is planned, not yet built. One repo, no backend.
 
 ## A note on sourcing
 
@@ -106,7 +111,7 @@ Every classification is based **only on public information** — reported news, 
 
 ## Status
 
-🚧 Early — the engine works locally and is unit-tested. Front end and scheduled automation are in progress.
+🚧 Early — the dashboard is **live** on GitHub Pages, and the engine works locally (unit-tested, run on demand). **Not yet built:** scheduled daily automation of the engine, and the in-UI "Recent Signals" feed panel (the `feed.json` stream exists; it isn't rendered on the page yet).
 
 ## License
 
