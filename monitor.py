@@ -28,15 +28,14 @@ INSTITUTIONS_PATH = DATA_DIR / "institutions.json"
 FEED_LIMIT = 200
 
 # Tight query: named financial institutions actually deploying/investing in AI,
-# not generic "AI-powered" marketing. Edit freely — GDELT ANDs the groups,
-# ORs inside each group. Phrases must stay quoted.
+# not generic "AI-powered" marketing. GDELT ANDs the groups, ORs inside each
+# group; phrases must stay quoted. GDELT limits query length/complexity and
+# rejects overly long queries ("Your query was too long or too short."), so keep
+# the term count modest when editing.
 QUERY = (
-    '(bank OR "asset manager" OR "asset management" OR insurer OR insurance '
-    'OR fintech OR payments OR "wealth management" OR "hedge fund") '
-    '("artificial intelligence" OR "generative AI" OR "machine learning" '
-    'OR "AI agent" OR "AI model" OR copilot) '
-    '(deploys OR deploy OR adopts OR adopt OR rollout OR "rolls out" '
-    'OR launches OR invests OR partnership OR pilot) '
+    '(bank OR "asset manager" OR insurer OR fintech OR payments) '
+    '("artificial intelligence" OR "generative AI") '
+    '(deploys OR adopts OR launches OR invests OR partnership) '
     'sourcelang:english'
 )
 
@@ -94,12 +93,28 @@ def fetch_articles():
         "sortby": "datedesc",
         "maxrecords": 250,
     }
-    resp = requests.get(GDELT_URL, params=params, timeout=60)
-    resp.raise_for_status()
-    # GDELT returns an empty body when there are no matches.
-    if not resp.text.strip():
+    # Transient failures (429, 5xx, timeouts, connection errors) should produce a
+    # clean "nothing new" run, not a crash / red CI. No retries — a daily cron
+    # won't normally hit rate limits.
+    try:
+        resp = requests.get(GDELT_URL, params=params, timeout=60)
+        resp.raise_for_status()
+    except requests.exceptions.RequestException as e:
+        status = getattr(e.response, "status_code", None)
+        detail = f" (HTTP {status})" if status else ""
+        print(f"GDELT request failed{detail}; skipping this run.")
         return []
-    articles = resp.json().get("articles", [])
+    body = resp.text.strip()
+    # GDELT returns an empty body when there are no matches.
+    if not body:
+        return []
+    # GDELT can return a plain-text error (e.g. "Your query was too long or too
+    # short.") with HTTP 200 — don't hard-crash the daily job on a bad response.
+    try:
+        articles = resp.json().get("articles", [])
+    except ValueError:
+        print(f"Warning: GDELT returned non-JSON ({len(body)} bytes): {body[:120]!r}")
+        return []
     # Normalize dates to YYYY-MM-DD before they reach Claude or feed.json.
     for a in articles:
         a["seendate"] = normalize_date(a.get("seendate", ""))

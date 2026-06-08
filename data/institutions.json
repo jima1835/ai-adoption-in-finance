@@ -114,5 +114,88 @@
     "latest_signal": "Plans to eventually allow AI agents limited autonomous decisions under human supervision; not yet, as tools still make errors",
     "latest_date": "2026-03-24",
     "source_url": "https://www.reuters.com/business/norway-wealth-fund-moves-towards-some-ai-driven-decisions-with-humans-control-2026-03-24/"
+  },
+  {
+    "name": "CPP Investments",
+    "aliases": [
+      "CPP Investments",
+      "Canada Pension Plan Investment Board",
+      "CPPIB",
+      "CPP"
+    ],
+    "type": "pension",
+    "aum": "~$562B",
+    "stage": "scaling",
+    "rationale": "ChatGPT Enterprise deployed to ~1,800 of 2,000 eligible staff (83% activation, 84% sustained weekly use in 90 days); 528 custom GPTs built (99th percentile vs. industry median of 18); ran agent-vs-human experiments on real tasks (portfolio reconciliation, attribution, tariff scenarios) with a five-gate governance framework. Stops short of embedded: humans still frame and verify every output; org structure not yet redesigned.",
+    "use_cases": [
+      "portfolio reconciliation",
+      "performance & risk attribution",
+      "tariff/scenario modeling",
+      "research via custom GPTs",
+      "data analysis"
+    ],
+    "events": [
+      {
+        "date": "2025-09-25",
+        "event": "Publishes 'From Experiment to Workflow': 83% ChatGPT Enterprise activation, 528 custom GPTs in first 90 days",
+        "source_url": "https://www.cppinvestments.com/insight-institute/from-experiment-to-workflow-cpp-investments-and-the-challenge-of-turning-ai-into-value/"
+      },
+      {
+        "date": "2026-01-15",
+        "event": "Details agent-vs-human experiments (reconciliation, attribution, tariff scenario) and five-gate governance framework",
+        "source_url": "https://www.top1000funds.com/organisational-design/technology/cpp-investments-on-how-ai-redefines-core-investing-roles-and-processes/"
+      }
+    ],
+    "latest_signal": "Internal agent experiments show AI could eventually redefine investment roles, but only with strict governance; humans still frame and verify",
+    "latest_date": "2026-01-15",
+    "source_url": "https://www.top1000funds.com/organisational-design/technology/cpp-investments-on-how-ai-redefines-core-investing-roles-and-processes/"
+  },
+  {
+    "name": "GIC",
+    "aliases": [
+      "GIC",
+      "GIC Private Limited",
+      "Government of Singapore Investment Corporation"
+    ],
+    "type": "sovereign-wealth",
+    "aum": "~$936B",
+    "stage": "scaling",
+    "as_of_reviewed": "2026-06-07",
+    "as_of_latest_signal": "2026-03-17",
+    "rationale": "Enterprise-wide ChatGIC (secure ChatGPT) since 2023; production AI in trading — LLMs processing Bloomberg broker-commentary streams cross-referenced with PM positions for market intelligence at scale, AI-processed broker quotes and ECM deal emails, semi-automated OTC RFQs, global algo wheels, and trader 'vibe coding' in a secure environment. Self-describes as 'early adopter' embedding AI 'across operations.' Strongest evidence is trading-desk-specific; lacks firm-wide penetration metrics, so scaling call rests on depth in the core investment function rather than disclosed org-wide adoption rates.",
+    "use_cases": [
+      "broker-commentary intelligence (Bloomberg chat/email LLM processing)",
+      "broker-quote processing & OTC RFQ semi-automation",
+      "global algo wheels (equities/futures/FX)",
+      "ECM deal-email processing",
+      "document summarization ('opinion mining')",
+      "internal-audit anomaly detection",
+      "trader 'vibe coding'"
+    ],
+    "events": [
+      {
+        "date": "2023",
+        "event": "Launches ChatGIC, an enterprise secure ChatGPT, marking the start of broader AI adoption",
+        "source_url": "https://www.tradersmagazine.com/departments/buy-side/gics-travis-ni-balances-technical-and-interpersonal-skills/"
+      },
+      {
+        "date": "2025-04",
+        "event": "GIC & Temasek staff detail AI in portfolio management at Fiduciary Investors Symposium; ChatGIC and RL research with Ortec Finance disclosed",
+        "source_url": "https://www.top1000funds.com/2025/04/how-next-gen-investors-at-gic-temasek-harness-ai-potential/"
+      },
+      {
+        "date": "2025-07-25",
+        "event": "FY2024/25 report: AI in internal audit for anomaly detection; CEO calls AI integration a cross-organization priority",
+        "source_url": "https://www.gic.com.sg/newsroom/all/gic-delivers-stable-long-term-returns-and-remains-focused-on-portfolio-resilience-amidst-unprecedented-uncertainty/"
+      },
+      {
+        "date": "2026-03-17",
+        "event": "Head of Equities Trading Americas details production AI: broker-commentary LLM intelligence, semi-automated OTC RFQs, algo wheels, ECM deal processing, trader 'vibe coding'",
+        "source_url": "https://www.tradersmagazine.com/departments/buy-side/gics-travis-ni-balances-technical-and-interpersonal-skills/"
+      }
+    ],
+    "latest_signal": "Head of Equities Trading Americas details production AI across trading: broker-commentary intelligence, OTC RFQ automation, algo wheels, ECM processing",
+    "latest_date": "2026-03-17",
+    "source_url": "https://www.tradersmagazine.com/departments/buy-side/gics-travis-ni-balances-technical-and-interpersonal-skills/"
   }
 ]

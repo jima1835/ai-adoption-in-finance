@@ -55,6 +55,22 @@ def test_normalize_date():
     assert monitor.normalize_date("garbage") == ""
 
 
+def test_fetch_articles_skips_on_http_error(monkeypatch, capsys):
+    import requests
+    resp = type("R", (), {"status_code": 429})()
+    err = requests.exceptions.HTTPError(response=resp)
+    monkeypatch.setattr(monitor.requests, "get", lambda *a, **k: (_ for _ in ()).throw(err))
+    assert monitor.fetch_articles() == []           # clean skip, no crash
+    assert "HTTP 429" in capsys.readouterr().out
+
+
+def test_fetch_articles_skips_on_connection_error(monkeypatch):
+    import requests
+    err = requests.exceptions.ConnectionError()   # no .response / status code
+    monkeypatch.setattr(monitor.requests, "get", lambda *a, **k: (_ for _ in ()).throw(err))
+    assert monitor.fetch_articles() == []
+
+
 # --- screen ---------------------------------------------------------------
 
 class _Block:
