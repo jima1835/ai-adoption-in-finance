@@ -19,12 +19,14 @@
   --text-dim: #9aa0a8;
   --text-faint: #61656d;
 
-  /* the one accent + its stage ramp (single hue, rising luminance) */
+  /* the one accent + its stage TEMPERATURE ramp: cool/dim → warm/bright,
+     so "further right = further along" is felt before it's read. embedded is
+     reserved/unreached — a neutral outline, never filled. */
   --accent: #f0a830;
-  --stage-exploring: #8c7c54;
-  --stage-piloting: #cf9633;
-  --stage-scaling: #f0a830;
-  --stage-embedded: #ffd479;
+  --stage-exploring: #9a9177; /* dim grey-amber, lowest intensity (cool) */
+  --stage-piloting: #e0a338; /* standard amber */
+  --stage-scaling: #ffc24d; /* brighter, warmer amber (highest intensity) */
+  --stage-embedded: #71737b; /* neutral, outline-only, reserved */
   --human: #5b9bd1; /* cool counterpoint: human-curated marker */
 
   --radius: 6px;
@@ -191,6 +193,34 @@ code {
   background: var(--human);
 }
 
+/* ---------------- Scope note ---------------- */
+.scope-note {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  margin-bottom: 16px;
+}
+.scope-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  flex-shrink: 0;
+  padding-top: 1px;
+}
+.scope-note p {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text-dim);
+}
+
 /* ---------------- Controls / filter ---------------- */
 .controls {
   display: flex;
@@ -274,9 +304,46 @@ code {
   --col-accent: var(--stage-embedded);
 }
 .phase-head {
+  position: relative;
   display: flex;
   align-items: baseline;
   gap: 8px;
+  cursor: help;
+  outline: none;
+}
+/* subtle "there's more here" affordance — no icon, just a dotted underline */
+.phase-title {
+  text-decoration: underline dotted
+    color-mix(in srgb, var(--col-accent, var(--text-faint)) 55%, transparent);
+  text-underline-offset: 3px;
+}
+/* terminal-styled definition tooltip, shown on hover or keyboard focus */
+.phase-tooltip {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 30;
+  background: var(--bg-2);
+  border: 1px solid var(--border-bright);
+  border-left: 2px solid var(--col-accent, var(--accent));
+  border-radius: 5px;
+  padding: 9px 11px;
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--text-dim);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  transform: translateY(-3px);
+  pointer-events: none;
+  transition: opacity 0.12s, transform 0.12s;
+}
+.phase-head:hover .phase-tooltip,
+.phase-head:focus-visible .phase-tooltip,
+.phase-head:focus .phase-tooltip {
+  opacity: 1;
+  transform: translateY(0);
 }
 .phase-index {
   font-family: var(--mono);
@@ -321,6 +388,7 @@ code {
 
 /* institution card */
 .inst-card {
+  position: relative;
   display: flex;
   gap: 10px;
   align-items: center;
@@ -366,6 +434,18 @@ code {
   flex-direction: column;
   gap: 2px;
   min-width: 0;
+  padding-right: 56px; /* reserve room for the corner date */
+}
+.card-date {
+  position: absolute;
+  right: 9px;
+  bottom: 7px;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  pointer-events: none;
 }
 .card-name {
   font-size: 13px;
@@ -450,6 +530,7 @@ code {
 }
 .badge[data-stage="embedded"] {
   --badge-c: var(--stage-embedded);
+  background: transparent; /* reserved/unreached: outline only, no fill */
 }
 
 /* ---------------- Table ---------------- */
@@ -638,6 +719,33 @@ code {
   font-size: 13.5px;
   line-height: 1.6;
 }
+.modal-footnote {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  margin-top: -4px;
+  margin-bottom: 4px;
+  padding: 9px 12px;
+  background: var(--panel-2);
+  border: 1px dashed var(--border-bright);
+  border-radius: 5px;
+}
+.footnote-label {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-faint);
+  flex-shrink: 0;
+  padding-top: 1px;
+}
+.modal-footnote p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-dim);
+}
+
 .use-cases {
   list-style: none;
   margin: 0;

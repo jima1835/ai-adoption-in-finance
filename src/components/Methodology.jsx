@@ -1,7 +1,17 @@
-import { STAGES, STAGE_LABELS, STAGE_DEFS } from '../data.js'
+import {
+  STAGES,
+  STAGE_LABELS,
+  stageDefinition,
+  embeddedNote,
+  scopeNote,
+} from '../data.js'
 
-// Prose page — allowed to breathe more than the dense grid.
-export default function Methodology() {
+// Prose page — allowed to breathe more than the dense grid. Pulls the shared
+// stage-classification reference (stage_definitions.json) when available, and
+// falls back to the built-in constants if it's missing.
+export default function Methodology({ defs }) {
+  const scope = scopeNote(defs)
+
   return (
     <article className="prose">
       <h2 className="prose-h1">Methodology</h2>
@@ -21,6 +31,21 @@ export default function Methodology() {
           materials, position papers — and each placement carries a written
           rationale and a dated timeline back to its sources.
         </p>
+      </section>
+
+      <section>
+        <h3 className="prose-h2">What we measure: operational adoption</h3>
+        <p>
+          The stage measures <strong>operational, internal AI adoption</strong> —
+          how a firm uses AI inside its own investment process and operations.
+          Two things that often get counted as “AI adoption” are deliberately{' '}
+          <em>out of scope</em>: AI products a firm <strong>sells</strong> to
+          clients, and AI as an <strong>investment thesis</strong> or portfolio
+          holding. A firm can run a large AI business or hold every AI stock and
+          still be early in how it operates internally — those are different
+          questions, and this dashboard answers only the operational one.
+        </p>
+        {scope && <p className="prose-callout">{scope}</p>}
       </section>
 
       <section>
@@ -59,16 +84,12 @@ export default function Methodology() {
                 <span className="stage-swatch" data-stage={stage} />
                 {STAGE_LABELS[stage]}
               </dt>
-              <dd>{STAGE_DEFS[stage]}</dd>
+              <dd>{stageDefinition(defs, stage)}</dd>
             </div>
           ))}
         </dl>
         <p className="prose-note">
-          <strong>Embedded is intentionally empty.</strong> It is a real bar, not
-          a missing tier: no institution treats AI as autonomous core
-          infrastructure across the business — even the most advanced keep a
-          human in control of every decision. The day that changes, the column
-          fills.
+          <strong>Embedded is intentionally empty.</strong> {embeddedNote(defs)}
         </p>
       </section>
 

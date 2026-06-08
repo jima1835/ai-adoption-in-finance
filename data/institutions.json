@@ -197,5 +197,76 @@
     "latest_signal": "Head of Equities Trading Americas details production AI across trading: broker-commentary intelligence, OTC RFQ automation, algo wheels, ECM processing",
     "latest_date": "2026-03-17",
     "source_url": "https://www.tradersmagazine.com/departments/buy-side/gics-travis-ni-balances-technical-and-interpersonal-skills/"
+  },
+  {
+    "name": "BlackRock",
+    "aliases": [
+      "BlackRock",
+      "Blackrock Inc",
+      "BLK"
+    ],
+    "type": "asset-manager",
+    "aum": "~$14T",
+    "stage": "scaling",
+    "rationale": "Deep internal AI adoption: Asimov (2024), an agentic investment-research platform autonomously monitoring theses from filings/earnings/research, used by ~150 fundamental-equity staff and scaling to other divisions; RockAI no-code agent platform rolled out to 5,000 in-house developers with firm-wide 'citizen developer' intent; 50+ internal teams contributing agents; production AI in client intelligence, legal, and HR. Dedicated AI Labs unit since 2018, named executive AI sponsor. Stops short of embedded: exec says the reimagined-workflow future 'isn't quite here yet' and 'no one has cracked the nut.'",
+    "footnote": "BlackRock also sells AI to clients via Aladdin Copilot (70+ countries) and Auto Commentary — these are commercial products, not internal adoption, and are NOT counted toward its stage. Classification rests solely on operational/internal use (Asimov, RockAI, internal agents).",
+    "use_cases": [
+      "agentic investment research (Asimov)",
+      "no-code internal agent platform (RockAI)",
+      "client intelligence / meeting prep",
+      "AI in legal contracting",
+      "HR action-taking agents"
+    ],
+    "events": [
+      {
+        "date": "2025-06",
+        "event": "COO Rob Goldstein publicly announces Asimov, an agentic investment-research platform (hundreds of agents autonomously monitoring theses) built with the internal AI Labs team; helps ~150 fundamental-equity staff, scaling to other asset classes",
+        "source_urls": [
+          "https://www.bloomberg.com/news/articles/2025-06-12/blackrock-has-built-an-ai-analyst-asimov-to-scour-filings",
+          "https://www.imd.org/entity-profile/blackrock-ai-maturity-2025/"
+        ]
+      },
+      {
+        "date": "2026-04-21",
+        "event": "Rolls out RockAI no-code agent platform to 5,000 in-house developers; exec sponsor envisions AI as default mode with humans in oversight 'squads'",
+        "source_url": "https://www.wsj.com/cio-journal/inside-blackrocks-ai-transformation-03a1e8c7"
+      }
+    ],
+    "latest_signal": "Rolls out RockAI no-code agent platform to 5,000 developers; aims firm-wide, envisions AI as default execution mode with humans overseeing in 'squads'",
+    "latest_date": "2026-04-21",
+    "source_url": "https://www.wsj.com/cio-journal/inside-blackrocks-ai-transformation-03a1e8c7"
+  },
+  {
+    "name": "Temasek",
+    "aliases": [
+      "Temasek",
+      "Temasek Holdings"
+    ],
+    "type": "sovereign-wealth",
+    "aum": "~$320B",
+    "stage": "piloting",
+    "rationale": "Real internal tooling short of firm-wide scale: 'Winnow' investment super-app (built ground-up with investment teams, aggregating internal/external data and ESG intelligence on prospective investments) and a Knowledge Graph mapping portfolio relationships; firm-wide 'AI & digital fluency' program spanning investment, O&P, risk, audit, legal, and cyber; governed via a 'thin layer' over OpenAI/Google models. CDO frames AI as augmentation — 'spotting pitfalls,' reducing human bias — not automating decisions. No public penetration metrics; more augmentation-framed and less quantified than NBIM/CPP/GIC, so piloting rather than scaling.",
+    "footnote": "Separately, Temasek runs an 'AI pod' (since 2019) and Aicadium to help its PORTFOLIO COMPANIES adopt AI, and invests in AI as a theme (e.g. the BlackRock-led AI Infrastructure Partnership). These are portfolio value-creation and investment activities, not Temasek's own operational adoption, and are NOT counted toward its stage.",
+    "use_cases": [
+      "Winnow investment super-app (data/insight aggregation)",
+      "Knowledge Graph (portfolio relationship mapping)",
+      "document processing & data extraction",
+      "firm-wide AI fluency across functions"
+    ],
+    "events": [
+      {
+        "date": "2025-04",
+        "event": "Temasek VP of AI Strategy details AI@Temasek program and internal workflow/decision use at Fiduciary Investors Symposium",
+        "source_url": "https://www.top1000funds.com/2025/04/how-next-gen-investors-at-gic-temasek-harness-ai-potential/"
+      },
+      {
+        "date": "2025-10-10",
+        "event": "CDO Mark Lim details internal AI: Winnow super-app, Knowledge Graph, 'AI & digital fluency' program; frames AI as bias-reduction and pitfall-spotting under human oversight",
+        "source_url": "https://www.marketing-interactive.com/temasek-bets-on-human-ai-collaboration-to-transform-investment-decisions"
+      }
+    ],
+    "latest_signal": "CDO details internal AI tooling (Winnow super-app, Knowledge Graph) framed as augmenting human judgment and reducing bias, not automating decisions",
+    "latest_date": "2025-10-10",
+    "source_url": "https://www.marketing-interactive.com/temasek-bets-on-human-ai-collaboration-to-transform-investment-decisions"
   }
 ]

@@ -33,11 +33,12 @@ export default function Header({ route, onNavigate, refreshed }) {
       </div>
 
       <div className="header-stamps">
-        <span className="stamp">
+        <span className="stamp" title="Date of the newest signal across all rows (max latest_date)">
           <span className="stamp-dot" data-kind="auto" />
-          Signals last refreshed:{' '}
-          <span className="stamp-val">{refreshed || '—'}</span>
+          Signals through <span className="stamp-val">{refreshed || '—'}</span>
         </span>
+        {/* Room is intentionally left here for a future "Last reviewed [date]"
+            stamp once an as_of_reviewed field exists; not added yet. */}
         <span className="stamp">
           <span className="stamp-dot" data-kind="human" />
           Classifications curated from public sources

@@ -1,5 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
-import { TYPE_GROUPS, maxDate } from './data.js'
+import {
+  TYPE_GROUPS,
+  maxDate,
+  loadStageDefinitions,
+  scopeNote,
+} from './data.js'
 import { useInstitutions } from './useInstitutions.js'
 import Header from './components/Header.jsx'
 import Footer from './components/Footer.jsx'
@@ -20,6 +25,7 @@ export default function App() {
   const [route, setRoute] = useState(routeFromHash)
   const [typeFilter, setTypeFilter] = useState('all')
   const [selected, setSelected] = useState(null)
+  const [stageDefs, setStageDefs] = useState(null)
 
   // Live data: snappy poll in dev (edit the JSON → see it), gentle in prod.
   const {
@@ -27,6 +33,16 @@ export default function App() {
     data: institutions,
     error,
   } = useInstitutions({ pollMs: import.meta.env.DEV ? 2000 : 60000 })
+
+  // Stage-classification reference — static, fetched once; null → fall back to
+  // the built-in constants, so the UI never breaks if the file is absent.
+  useEffect(() => {
+    let live = true
+    loadStageDefinitions().then((d) => live && setStageDefs(d))
+    return () => {
+      live = false
+    }
+  }, [])
 
   useEffect(() => {
     const onHash = () => setRoute(routeFromHash())
@@ -67,7 +83,7 @@ export default function App() {
 
       <main className="main">
         {route === 'methodology' ? (
-          <Methodology />
+          <Methodology defs={stageDefs} />
         ) : status === 'loading' ? (
           <div className="state-msg">
             <span className="spinner" /> Loading classification data…
@@ -89,6 +105,13 @@ export default function App() {
           </div>
         ) : (
           <>
+            {scopeNote(stageDefs) && (
+              <aside className="scope-note">
+                <span className="scope-label">Scope</span>
+                <p>{scopeNote(stageDefs)}</p>
+              </aside>
+            )}
+
             <div className="controls">
               <TypeFilter
                 value={typeFilter}
@@ -101,7 +124,11 @@ export default function App() {
               </span>
             </div>
 
-            <PhaseGrid institutions={filtered} onSelect={setSelected} />
+            <PhaseGrid
+              institutions={filtered}
+              onSelect={setSelected}
+              defs={stageDefs}
+            />
 
             <section className="table-section">
               <h2 className="section-title">All institutions</h2>

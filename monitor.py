@@ -140,9 +140,12 @@ def update_institutions(accepted):
 
     Touches ONLY latest_signal / latest_date / source_url, and only when the
     item's date is newer than the row's current latest_date. Hand-curated fields
-    (name, aliases, type, aum, stage, rationale, use_cases, events) are never
-    modified. Institutions not already in the file are skipped — rows are never
-    added. Returns the number of rows updated.
+    (name, aliases, type, aum, stage, rationale, use_cases, events, footnote)
+    are never modified. Institutions not already in the file are skipped — rows
+    are never added. Returns the number of rows updated.
+
+    The shared data/stage_definitions.json reference is a separate file this
+    engine never reads or writes.
     """
     if not INSTITUTIONS_PATH.exists():
         print(f"Warning: {INSTITUTIONS_PATH.name} not found; skipping state update.")
@@ -167,7 +170,7 @@ def update_institutions(accepted):
         if item_date <= row.get("latest_date", ""):
             continue
         # Auto fields only. Never touch curated fields: name, aliases, type,
-        # aum, stage, rationale, use_cases, events.
+        # aum, stage, rationale, use_cases, events, footnote.
         row["latest_signal"] = item.get("why_it_matters", "")
         row["latest_date"] = item_date
         row["source_url"] = item.get("url", "")

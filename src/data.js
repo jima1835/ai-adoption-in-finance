@@ -79,3 +79,31 @@ export async function loadInstitutions() {
   if (!Array.isArray(data)) throw new Error('Malformed data: expected an array')
   return data
 }
+
+// Shared stage-classification reference (data/stage_definitions.json): the four
+// detailed definitions plus _scope_note and _embedded_empty_note. Returns null
+// on any failure so the UI degrades to the built-in STAGE_DEFS / EMBEDDED_EMPTY_NOTE.
+export async function loadStageDefinitions() {
+  try {
+    const res = await fetch(
+      `${import.meta.env.BASE_URL}data/stage_definitions.json`,
+      { cache: 'no-store' },
+    )
+    if (!res.ok) return null
+    const data = await res.json()
+    return data && typeof data === 'object' && !Array.isArray(data) ? data : null
+  } catch {
+    return null
+  }
+}
+
+// Resolve helpers that prefer the loaded reference and fall back to constants.
+export function stageDefinition(defs, stage) {
+  return defs?.[stage] || STAGE_DEFS[stage] || ''
+}
+export function embeddedNote(defs) {
+  return defs?._embedded_empty_note || EMBEDDED_EMPTY_NOTE
+}
+export function scopeNote(defs) {
+  return defs?._scope_note || ''
+}

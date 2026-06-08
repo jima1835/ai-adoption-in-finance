@@ -48,6 +48,13 @@ export default function DrillDown({ inst, onClose }) {
           <p className="modal-rationale">{inst.rationale}</p>
         </section>
 
+        {inst.footnote && (
+          <aside className="modal-footnote">
+            <span className="footnote-label">Note</span>
+            <p>{inst.footnote}</p>
+          </aside>
+        )}
+
         {inst.use_cases?.length > 0 && (
           <section className="modal-section">
             <h3 className="modal-label">Use cases</h3>

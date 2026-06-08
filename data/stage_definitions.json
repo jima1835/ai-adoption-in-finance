@@ -1,0 +1,8 @@
+{
+  "exploring": "Stated intent, hiring, task forces, or 'evaluating' AI — but no shipped internal use case yet.",
+  "piloting": "Named pilots or limited deployments in specific teams, plus policy/governance build-out — not yet firm-wide production.",
+  "scaling": "Multiple AI use cases in production across the firm, used daily, named as a strategic priority — but AI augments human decisions; humans still frame, guardrail, and make/verify the final call. AI is in the workflow.",
+  "embedded": "AI is structurally constitutive of how the firm operates, not just a tool within it: autonomous decisions without a human in the loop on each one, org structure actually redesigned around AI, and AI as the default mode with humans as the exception. AI IS the workflow. Currently UNREACHED — see note.",
+  "_scope_note": "This dashboard measures OPERATIONAL/INTERNAL AI adoption — how a firm uses AI in its own investment process and operations. It excludes (a) AI products a firm sells to clients, and (b) AI as an investment thesis or portfolio holding.",
+  "_embedded_empty_note": "No institution is classified Embedded. This is deliberate and evidence-based: the most AI-advanced institutions tracked (NBIM, CPP Investments, BlackRock, GIC) each independently state they keep humans in control of decisions and have not redesigned their org structure around AI. The empty column is an editorial finding, not missing data."
+}

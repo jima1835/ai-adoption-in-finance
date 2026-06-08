@@ -2,9 +2,10 @@ import {
   STAGES,
   STAGE_LABELS,
   STAGE_DEFS,
-  EMBEDDED_EMPTY_NOTE,
   TYPE_LABELS,
   initials,
+  stageDefinition,
+  embeddedNote,
 } from '../data.js'
 
 function Card({ inst, onSelect }) {
@@ -25,13 +26,20 @@ function Card({ inst, onSelect }) {
           <span className="card-aum">{inst.aum}</span>
         </span>
       </span>
+      {inst.latest_date && (
+        <span className="card-date" title="Latest signal date">
+          {inst.latest_date}
+        </span>
+      )}
     </button>
   )
 }
 
 // Four columns left→right: EXPLORING | PILOTING | SCALING | EMBEDDED.
 // EMBEDDED is intentionally empty — rendered as an editorial statement.
-export default function PhaseGrid({ institutions, onSelect }) {
+// Column headers expose the full stage definition (from stage_definitions.json,
+// falling back to the built-in one-liners) on hover/focus.
+export default function PhaseGrid({ institutions, onSelect, defs }) {
   const byStage = Object.fromEntries(STAGES.map((s) => [s, []]))
   for (const inst of institutions) {
     if (byStage[inst.stage]) byStage[inst.stage].push(inst)
@@ -42,19 +50,29 @@ export default function PhaseGrid({ institutions, onSelect }) {
       {STAGES.map((stage, i) => {
         const rows = byStage[stage]
         const isEmbedded = stage === 'embedded'
+        const fullDef = stageDefinition(defs, stage)
         return (
           <section key={stage} className="phase-col" data-stage={stage}>
-            <header className="phase-head">
+            <header
+              className="phase-head"
+              tabIndex={0}
+              aria-label={`${STAGE_LABELS[stage]}: ${fullDef}`}
+            >
               <span className="phase-index">{String(i + 1).padStart(2, '0')}</span>
               <h2 className="phase-title">{STAGE_LABELS[stage]}</h2>
               <span className="phase-count">{rows.length}</span>
+              {fullDef && (
+                <span className="phase-tooltip" role="tooltip">
+                  {fullDef}
+                </span>
+              )}
             </header>
             <p className="phase-def">{STAGE_DEFS[stage]}</p>
             <div className="phase-cards">
               {isEmbedded ? (
                 <div className="embedded-note">
                   <span className="embedded-rule" />
-                  <p>{EMBEDDED_EMPTY_NOTE}</p>
+                  <p>{embeddedNote(defs)}</p>
                   <span className="embedded-tag">editorial position</span>
                 </div>
               ) : rows.length === 0 ? (
