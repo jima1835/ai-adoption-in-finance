@@ -14,6 +14,15 @@ Most "AI in finance" coverage is vendor hype and listicles. This project answers
 
 The whole thing runs on GitHub — no servers, no database, no backend.
 
+## Design principle — humans hold the stage
+
+**AI surfaces signals; humans decide what they mean.** This is the project's core principle, and it is enforced in code, not merely stated:
+
+- The automated engine refreshes an institution's *latest signal* line, and when a daily signal looks materially stage-relevant — a firm-wide rollout, a first autonomous decision, an org restructure around AI, a pullback — it **emails a human a digest** titled _"may warrant re-classification,"_ annotated with each institution's current stage.
+- It **never changes the `stage`.** No model assigns, scores, or moves a classification. A stage changes only when a **human reads the public evidence and decides** — the same human judgment that keeps the `embedded` column [deliberately empty](#the-classification).
+
+So the pipeline is a **notifier, not a classifier**: `monitor.py` flags and emails (via [`alerts.py`](alerts.py)); a human reviews and hand-edits [`data/institutions.json`](data/institutions.json). The split is structural — automation writes only `latest_signal` / `latest_date` / `source_url`, while everything that embodies a judgment (`stage`, `rationale`, `use_cases`, `events`, `footnote`) is curated by hand and never touched by the engine. The alert email can never act on its own; it can only put a decision in front of a person.
+
 ## The classification
 
 Four stages, applied as a strict bar:
@@ -37,9 +46,16 @@ GDELT DOC 2.0 API        Claude (claude-opus-4-8)        data/*.json            
         └──────────────────── GitHub Actions runs the engine on a daily schedule ──────────┘
 ```
 
+When a screened signal looks like it could move an institution's stage, the engine **notifies instead of acting** — it never edits the stage itself (see [Design principle](#design-principle--humans-hold-the-stage)):
+
+```
+monitor.py  ──flags stage-relevant──►  email digest        ──►  human reviews   ──►  hand-edits `stage`
+ (collect_flagged)                      (alerts.py / Resend)     public evidence      in institutions.json
+```
+
 The pipeline produces two datasets from one run:
 
-1. **State** — `data/institutions.json`: one row per institution. The stage, rationale, and use-cases are **hand-curated** from public evidence; the engine only refreshes each institution's `latest_signal` / `latest_date` / `source_url` and never touches the curated fields. This is the dashboard.
+1. **State** — `data/institutions.json`: one row per institution. The stage, rationale, and use-cases are **hand-curated** from public evidence; the engine only refreshes each institution's `latest_signal` / `latest_date` / `source_url` (and emails a human when a signal may warrant re-classification) — it never touches the curated fields. This is the dashboard.
 2. **Stream** — `data/feed.json`: the latest screened news (newest first, capped at 200), each item tagged with its institution. Backs the "Recent Signals" panel and the per-institution drill-down.
 
 `monitor.py` queries [GDELT DOC 2.0](https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/) for the last 24h, dedupes against `data/seen_urls.json`, sends new candidates to Claude in one batched call, prepends the accepted items to the feed, and updates the matching institution rows. The static React site reads both JSON files from the same repo (no CORS, no API).
