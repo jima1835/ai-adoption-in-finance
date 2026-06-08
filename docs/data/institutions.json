@@ -268,5 +268,45 @@
     "latest_signal": "CDO details internal AI tooling (Winnow super-app, Knowledge Graph) framed as augmenting human judgment and reducing bias, not automating decisions",
     "latest_date": "2025-10-10",
     "source_url": "https://www.marketing-interactive.com/temasek-bets-on-human-ai-collaboration-to-transform-investment-decisions"
+  },
+  {
+    "name": "Vanguard",
+    "aliases": [
+      "Vanguard",
+      "The Vanguard Group"
+    ],
+    "type": "asset-manager",
+    "aum": "~$10T",
+    "stage": "scaling",
+    "as_of_reviewed": "2026-06-07",
+    "rationale": "Defies the 'big-but-conservative' expectation. Decade-plus of AI use, deliberately shifted from 'experimentation to impact' after GenAI; multiple production tools across functions (Crew Assist for contact centers on Azure OpenAI; Client-Ready Article Summaries; Stress Testing) and a documented ~$500M return (per MIT SMR). Firm-wide structure of 'AI champions' (top-down, across client-facing + HR/legal/compliance) and 'digital ambassadors' (bottom-up). Stops short of embedded: CIO's own assist→augment→action framework places Vanguard at 'augment,' with autonomous 'action' explicitly still ahead.",
+    "footnote": "Vanguard's flagship investment tool, Expert Insights (GenAI portfolio analysis), is still in pilot with select advisors as of April 2026 (firm-wide rollout planned later in 2026) — its operational/contact-center AI is further along than its investment-facing AI. Stage reflects the broader production footprint, not Expert Insights alone.",
+    "use_cases": [
+      "contact-center assistant (Crew Assist)",
+      "advisor portfolio analysis (Expert Insights, piloting)",
+      "client-ready article summaries",
+      "portfolio stress testing",
+      "code generation / content / search (internal)"
+    ],
+    "events": [
+      {
+        "date": "2025-05",
+        "event": "Rolls out Client-Ready Article Summaries (GenAI market-perspective synopses) for advisors",
+        "source_url": "https://www.wealthmanagement.com/artificial-intelligence/vanguard_launches_ai_tool_portfolio"
+      },
+      {
+        "date": "2026-02",
+        "event": "CIO Lauren Wilkinson lays out assist→augment→action AI-maturity framework; places Vanguard at 'augment,' 'action' still ahead",
+        "source_url": "https://www.advisorperspectives.com/commentaries/2026/02/06/an-advisors-roadmap-to-ai-integration-from-vanguards-cio"
+      },
+      {
+        "date": "2026-04-09",
+        "event": "Launches Expert Insights (GenAI portfolio analysis) in pilot with select advisors; firm-wide rollout planned later in 2026",
+        "source_url": "https://corporate.vanguard.com/content/corporatesite/us/en/corp/who-we-are/pressroom/press-release-vanguard-launches-expert-insights-equipping-advisors-with-ai-powered-portfolio-analysis-expertise-04092026.html"
+      }
+    ],
+    "latest_signal": "Launches Expert Insights GenAI portfolio-analysis tool in pilot with select advisors; firm-wide rollout planned later in 2026",
+    "latest_date": "2026-04-09",
+    "source_url": "https://corporate.vanguard.com/content/corporatesite/us/en/corp/who-we-are/pressroom/press-release-vanguard-launches-expert-insights-equipping-advisors-with-ai-powered-portfolio-analysis-expertise-04092026.html"
   }
 ]
