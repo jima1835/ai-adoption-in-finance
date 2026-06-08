@@ -15,10 +15,12 @@ from pathlib import Path
 import anthropic
 import requests
 
+from alerts import send_stage_alert
+
 # --- Config ---------------------------------------------------------------
 
 GDELT_URL = "https://api.gdeltproject.org/api/v2/doc/doc"
-MODEL = "claude-opus-4-8"
+MODEL = "claude-haiku-4-5-20251001"
 
 DATA_DIR = Path(__file__).parent / "data"
 FEED_PATH = DATA_DIR / "feed.json"
@@ -59,6 +61,16 @@ Return a JSON array. Each accepted item is an object with exactly these keys:
   "url"                     - the article url, copied verbatim from the input
   "date"                    - the article date, copied verbatim from the input
   "why_it_matters"          - one sharp sentence on the significance
+  "stage_relevant"          - true/false: does this signal plausibly suggest a
+                              MATERIAL change in the institution's operational
+                              AI-adoption stage — firm-wide production rollout,
+                              first autonomous decisioning, an org restructure
+                              around AI, or a major pullback — NOT routine
+                              incremental news? Be CONSERVATIVE: a single press
+                              release or a vague "AI-powered" claim is NOT
+                              stage-relevant. Require language implying a real
+                              shift in production scope, autonomy, or structure.
+  "stage_relevant_reason"   - one sentence on why stage_relevant is true/false
 
 Return [] if nothing qualifies. Output JSON only — no markdown fences, no
 preamble, no commentary."""
@@ -182,6 +194,35 @@ def update_institutions(accepted):
     return len(updated)
 
 
+def collect_flagged(accepted):
+    """Accepted items the screener flagged stage_relevant AND that match an
+    existing institution row, each annotated with the row's CURRENT stage.
+
+    Only matched items can be flagged — the screener's flag is advisory; the
+    institution match (case-insensitive alias lookup, same key as
+    update_institutions) is enforced here. Curated state is never changed; this
+    is purely for notification.
+    """
+    if not INSTITUTIONS_PATH.exists():
+        return []
+    institutions = load_json(INSTITUTIONS_PATH, [])
+    alias_to_row = {
+        alias.lower(): row
+        for row in institutions
+        for alias in row.get("aliases", [])
+    }
+    flagged = []
+    for item in accepted:
+        if not item.get("stage_relevant"):
+            continue
+        norm = item.get("institution_normalized", "")
+        row = alias_to_row.get(norm.lower()) if norm else None
+        if row is None:
+            continue
+        flagged.append({**item, "current_stage": row.get("stage", "")})
+    return flagged
+
+
 # --- Main -----------------------------------------------------------------
 
 def main():
@@ -222,6 +263,12 @@ def main():
 
     updated = update_institutions(accepted)
     print(f"Updated {updated} institution row(s) in {INSTITUTIONS_PATH.name}.")
+
+    # Notify-only: flag matched signals that may warrant re-classification. The
+    # stage is NEVER changed by this script; the email just prompts a review.
+    flagged = collect_flagged(accepted)
+    print(f"{len(flagged)} signal(s) flagged stage-relevant.")
+    send_stage_alert(flagged)
 
 
 if __name__ == "__main__":
