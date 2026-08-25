@@ -24,7 +24,10 @@ board materials). A daily automated job updates it. Hosted entirely on GitHub
   "type": "pension",
   "aum": "~$390B",
   "stage": "piloting",
+  "confidence": "high",
+  "as_of_reviewed": "2026-08-25",
   "rationale": "hand-written, cites public evidence for the stage",
+  "footnote": "optional — scope calls: what was seen but NOT counted toward the stage, and why",
   "use_cases": ["portfolio & research intelligence", "manager due diligence"],
   "events": [
     { "date": "2026-03-24", "event": "one-line description", "source_url": "..." }
@@ -37,12 +40,23 @@ board materials). A daily automated job updates it. Hosted entirely on GitHub
 - `type` ∈ `asset-manager | pension | sovereign-wealth | hedge-fund | endowment`
 - `stage` ∈ `exploring | piloting | scaling | embedded`
 - HAND-CURATED fields (never auto-touched): `name`, `aliases`, `type`, `aum`,
-  `stage`, `rationale`, `use_cases`, `events`.
+  `stage`, `confidence`, `as_of_reviewed`, `rationale`, `footnote`,
+  `use_cases`, `events`.
+- `confidence` ∈ `high | med | low` — strength of the public evidence for the stage.
+- `as_of_reviewed` — date a human last confirmed the stage. Set on approval,
+  never by an agent.
+- `footnote` — optional. Present whenever a scope call was made (client-facing
+  AI product, AI-as-thesis, portfolio-company program seen but not counted).
 - AUTO fields (`monitor.py` only): `latest_signal`, `latest_date`, `source_url`.
 - `events` — the institution's dated public AI-adoption arc (front end sorts it).
   Event `date` is a STRING of varying precision (`"2023"`, `"2026-03"`,
   `"2026-03-24"`) — preserved verbatim, never padded or normalized. This is
   separate from the YYYY-MM-DD `latest_date` the engine compares against.
+- Events start 2023-01-01 (GenAI era). Pre-2023 ML history may appear in
+  `rationale` as context; it is never an `events` entry.
+- Each event has exactly one `source_url` (singular).
+- Type mapping: PE / alternatives managers → `asset-manager`; foundations →
+  `endowment`.
 
 `data/feed.json` — the STREAM (recent signals + drill-down source). Array, newest
 first, capped at 200. Each item carries the institution tag so the front end can
@@ -72,13 +86,10 @@ currency symbols stay literal). This keeps automated rewrites to minimal,
 meaningful diffs.
 
 ## Stage definitions (the classification bar)
-- `exploring`: stated intent, hiring, task forces, "evaluating"; no shipped use case.
-- `piloting`: named pilots/POCs, limited deployment, governance/policy build-out;
-  not yet multi-use-case firm-wide production.
-- `scaling`: multiple use cases in production, firm-wide rollout, AI as strategic
-  pillar with deployment evidence.
-- `embedded`: AI is core infrastructure across the business. INTENTIONALLY EMPTY —
-  no institution qualifies yet. This is a deliberate editorial position.
+METHODOLOGY.md is the classification bar: scope §1, sources §2, stages §3,
+decision discipline §4. `data/stage_definitions.json` is the machine-readable
+copy; keep it in sync with METHODOLOGY.md. Any agent classifying an
+institution reads METHODOLOGY.md first.
 
 ## The engine — monitor.py (Python). Already built. Pipeline per run:
 1. `fetch_articles()`: GDELT DOC 2.0 query, last 24h, normalize `seendate` to
