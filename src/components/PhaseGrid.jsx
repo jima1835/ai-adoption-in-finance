@@ -26,9 +26,19 @@ function Card({ inst, onSelect }) {
           <span className="card-aum">{inst.aum}</span>
         </span>
       </span>
-      {inst.latest_date && (
-        <span className="card-date" title="Latest signal date">
-          {inst.latest_date}
+      {(inst.latest_date || inst.as_of_reviewed) && (
+        <span className="card-dates">
+          {inst.latest_date && (
+            <span className="card-date" title="Latest signal date">
+              {inst.latest_date}
+            </span>
+          )}
+          {inst.as_of_reviewed && (
+            <span className="card-date card-reviewed"
+              title="Date a human last reviewed this classification">
+              ✓ {inst.as_of_reviewed}
+            </span>
+          )}
         </span>
       )}
     </button>

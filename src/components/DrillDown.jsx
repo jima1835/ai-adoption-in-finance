@@ -40,6 +40,10 @@ export default function DrillDown({ inst, onClose }) {
             <span>{TYPE_LABELS[inst.type] || inst.type}</span>
             <span className="card-dot">·</span>
             <span>AUM {inst.aum}</span>
+            <span className="card-dot">·</span>
+            <span title="Date a human last reviewed this classification">
+              Reviewed {inst.as_of_reviewed || '—'}
+            </span>
           </div>
         </div>
 

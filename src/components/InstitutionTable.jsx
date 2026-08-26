@@ -17,7 +17,8 @@ const COLUMNS = [
   { key: 'aum', label: 'AUM', sortable: true, align: 'right' },
   { key: 'stage', label: 'Stage', sortable: true, align: 'left' },
   { key: 'latest_signal', label: 'Latest signal', sortable: false, align: 'left' },
-  { key: 'latest_date', label: 'Date', sortable: true, align: 'right' },
+  { key: 'latest_date', label: 'Signal date', sortable: true, align: 'right' },
+  { key: 'as_of_reviewed', label: 'Last reviewed', sortable: true, align: 'right' },
 ]
 
 function compare(a, b, key) {
@@ -104,6 +105,10 @@ export default function InstitutionTable({ institutions, onSelect }) {
               </td>
               <td data-align="right" className="td-num td-muted">
                 {inst.latest_date || '—'}
+              </td>
+              <td data-align="right" className="td-num td-muted"
+                title="Date a human last reviewed this row's classification against its public evidence">
+                {inst.as_of_reviewed || '—'}
               </td>
             </tr>
           ))}

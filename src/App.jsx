@@ -77,9 +77,14 @@ export default function App() {
     [institutions],
   )
 
+  const reviewed = useMemo(
+    () => maxDate(institutions.map((i) => i.as_of_reviewed)),
+    [institutions],
+  )
+
   return (
     <div className="app">
-      <Header route={route} onNavigate={navigate} refreshed={refreshed} />
+      <Header route={route} onNavigate={navigate} refreshed={refreshed} reviewed={reviewed} />
 
       <main className="main">
         {route === 'methodology' ? (

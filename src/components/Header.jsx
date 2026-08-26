@@ -1,6 +1,6 @@
 // Top bar: identity, the two distinct timestamps, and the page nav.
 // `refreshed` is the newest latest_date across all rows (automated signal).
-export default function Header({ route, onNavigate, refreshed }) {
+export default function Header({ route, onNavigate, refreshed, reviewed }) {
   return (
     <header className="site-header">
       <div className="header-top">
@@ -37,8 +37,10 @@ export default function Header({ route, onNavigate, refreshed }) {
           <span className="stamp-dot" data-kind="auto" />
           Signals through <span className="stamp-val">{refreshed || '—'}</span>
         </span>
-        {/* Room is intentionally left here for a future "Last reviewed [date]"
-            stamp once an as_of_reviewed field exists; not added yet. */}
+        <span className="stamp" title="Newest human review date across all rows (max as_of_reviewed)">
+          <span className="stamp-dot" data-kind="human" />
+          Last reviewed <span className="stamp-val">{reviewed || '—'}</span>
+        </span>
         <span className="stamp">
           <span className="stamp-dot" data-kind="human" />
           Classifications curated from public sources

@@ -7,6 +7,7 @@
 local/
 CLAUDE.local.md
 data/*.bak
+data/.institutions.lock
 
 # --- Claude Code local state ---
 .claude/settings.local.json
