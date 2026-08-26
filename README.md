@@ -99,6 +99,16 @@ ai-adoption-in-finance/
 └── docs/                  # built site served by GitHub Pages (includes docs/data/)
 ```
 
+### Local working area (not in this repo)
+
+Curation happens in a gitignored `local/` directory that never leaves the
+maintainer's machine: the ranked research queue, the per-institution evidence
+ledger behind each classification, progress and rejection logs, and the
+overnight research supervisor. Only its *outputs* are committed — hand-reviewed
+rows in `data/institutions.json`. `CLAUDE.local.md` (also gitignored) carries
+local agent context. If you fork this repo you need neither: everything the
+dashboard runs on is tracked.
+
 ## Tech stack
 
 - **Engine** — Python + [uv](https://docs.astral.sh/uv/), [GDELT DOC 2.0](https://www.gdeltproject.org/), [Claude API](https://docs.claude.com/) (`claude-haiku-4-5-20251001`)

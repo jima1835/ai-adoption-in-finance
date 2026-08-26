@@ -95,7 +95,7 @@ institution reads METHODOLOGY.md first.
 1. `fetch_articles()`: GDELT DOC 2.0 query, last 24h, normalize `seendate` to
    `YYYY-MM-DD`.
 2. dedup new URLs against `seen_urls.json`.
-3. `screen()`: batch new candidates to the Claude API (`claude-opus-4-8`). Claude
+3. `screen()`: batch new candidates to the Claude API (`claude-haiku-4-5-20251001`). Claude
    returns a JSON array of accepted items, each with `source`, `institution`,
    `institution_normalized`, `category`, `headline`, `url`, `date`,
    `why_it_matters`. Returns `[]` if nothing qualifies.
@@ -152,3 +152,15 @@ Key from env (`ANTHROPIC_API_KEY`); repo secret in CI. Never hardcoded.
 2. Build front end against local data files.
 3. GitHub Actions automation.
 4. GitHub Pages deploy + one manual `workflow_dispatch` test run.
+
+## Repo map (orientation — avoid re-exploring)
+- `monitor.py` — engine: GDELT fetch → dedup → Claude screen → feed/institutions update
+- `alerts.py` — notify-only email digest (Resend) for stage-relevant signals
+- `data/` — `institutions.json` (STATE) · `feed.json` (STREAM) · `seen_urls.json` (dedup) · `stage_definitions.json`
+- `src/` — React dashboard: `App.jsx`, `main.jsx`, `data.js`, `useInstitutions.js`, `styles.css`;
+  `components/`: Header, Footer, InstitutionTable, PhaseGrid, StageBadge, TypeFilter, DrillDown, Methodology
+- `tests/` — `test_monitor.py` (unit) · `test_gdelt_live.py` (live)
+- `docs/` — built site served by GitHub Pages; `vite.config.js` copies `data/` → `docs/data/`
+- `local/` + `CLAUDE.local.md` — gitignored working area (research queue, evidence
+  ledger, overnight supervisor). Never committed. When present, read
+  `CLAUDE.local.md` for current state before exploring `local/`.

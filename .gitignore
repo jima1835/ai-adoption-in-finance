@@ -3,6 +3,15 @@
 .env.*
 !.env.example
 
+# --- Local working area (gitignored by design — see README "Project structure") ---
+local/
+CLAUDE.local.md
+data/*.bak
+
+# --- Claude Code local state ---
+.claude/settings.local.json
+.claude/.cc-writes/
+
 # --- Python ---
 __pycache__/
 *.py[cod]
