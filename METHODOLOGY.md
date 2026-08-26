@@ -83,6 +83,8 @@ set the guardrails, and make or verify the final call. *AI is in the workflow.*
 A firm with firm-wide tools that nonetheless keeps a human on every investment
 decision is `scaling`, not `embedded`.
 
+A single production use case that makes live investment decisions with material capital counts as scaling.
+
 ### `embedded` — currently UNREACHED, by design
 AI is **structurally constitutive of how the firm operates**, not just a tool
 within it:
