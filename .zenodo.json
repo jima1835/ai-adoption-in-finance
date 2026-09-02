@@ -1,0 +1,26 @@
+{
+  "title": "AI Adoption in Finance: a human-verified corpus of institutional investor AI adoption, with its disagreement record",
+  "upload_type": "dataset",
+  "access_right": "open",
+  "license": "cc-by-4.0",
+  "creators": [
+    {
+      "name": "Ma, Jiajun",
+      "affiliation": "Independent researcher",
+      "orcid": "0000-0000-0000-0000"
+    }
+  ],
+  "keywords": [
+    "AI adoption",
+    "institutional investors",
+    "asset owners",
+    "pension funds",
+    "sovereign wealth funds",
+    "asset management",
+    "AI governance",
+    "inter-rater agreement",
+    "human-AI collaboration",
+    "open data"
+  ],
+  "description": "<p>A public, sourced classification of where institutional investors sit on AI adoption &mdash; pensions, sovereign-wealth funds, endowments, asset managers and hedge funds &mdash; placed on a four-stage bar (exploring / piloting / scaling / embedded) from public evidence alone.</p><p><strong>An AI research agent drafts every row and proposes a stage; a human verifies every row against its cited sources before it publishes.</strong> Because each review decision is recorded, the rate at which the human and the agent disagree is published as data rather than asserted: see <code>data/agreement.json</code>. Those figures are <em>anchored</em> agreement and an upper bound on reproducibility, never an inter-rater reliability coefficient &mdash; the reviewer saw the proposed stage before deciding.</p><p>Institutions assessed against the methodology whose public record did not support a stage are published by name with reasons in <code>data/not_classified.json</code>, so the corpus can be read as a rate rather than a highlight reel. Evidence in Chinese, Japanese and Korean is stored verbatim and rendered in English at display time.</p><p><strong>Licensing:</strong> the data files in <code>data/</code> are CC BY 4.0; the code in this repository is MIT. This record is registered under CC BY 4.0 because the corpus is the citable artifact.</p><p>Coverage is not a sample of any defined population &mdash; institutions enter through research passes, not a sampling frame &mdash; so every figure describes this corpus and none is an industry rate.</p>"
+}
