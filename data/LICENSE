@@ -1,0 +1,16 @@
+The data files in this directory — institutions.json, not_classified.json,
+agreement.json, transitions.jsonl, stage_definitions.json, translations.json,
+summaries.json, homepages.json, feed.json and seen_urls.json — are licensed
+under the Creative Commons Attribution 4.0 International licence (CC BY 4.0).
+
+    https://creativecommons.org/licenses/by/4.0/
+
+You may share and adapt this corpus for any purpose, including commercially,
+provided you give appropriate credit, link to the licence, and indicate whether
+changes were made.
+
+If you use the corpus, please keep the assessed-but-not-classified appendix
+(not_classified.json) with it. The negative record is what makes the positive
+record readable as a rate rather than a highlight reel.
+
+The code in this repository remains under the MIT licence — see ../LICENSE.

@@ -22,9 +22,14 @@ the decision discipline you'll be held to.
 - **Improve the engine or front end** — `monitor.py`, `alerts.py`, the React
   site in `src/`, build config: PRs welcome. For anything beyond a small fix,
   open an issue first so we don't both build the same thing.
-- **Build the screener eval set** — a labeled set of GDELT articles (signal vs.
-  noise, stage-relevant vs. not) to measure and tune the screener. High-value;
-  open an issue to coordinate.
+- **Challenge a classification** — the highest-value contribution. Open an
+  issue with the public sources you think change the call. Rows are published
+  with their rationale, their confidence flag and every source, precisely so
+  they can be argued with.
+- **Add to the negative record** — an institution you researched against
+  METHODOLOGY whose public record does not support a stage is a finding, not a
+  gap. Open an issue; entries in `data/not_classified.json` are filed by a
+  human through the local review tool and never by a PR.
 
 ---
 
@@ -52,8 +57,16 @@ npm run build                    # builds to docs/ and copies data/ → docs/dat
 ```
 
 The site reads `data/*.json` at runtime. `data/` at the repo root is the single
-source of truth; `npm run build` copies it into `docs/data/` so GitHub Pages
-serves current files. Never hand-edit `docs/data/` — edit root `data/`.
+source of truth; `npm run build` copies every `data/*.json` into `docs/data/` so
+GitHub Pages serves current files. Never hand-edit `docs/data/` — edit root
+`data/` and rebuild.
+
+Evidence in Chinese, Japanese and Korean is stored verbatim and rendered in
+English at display time from `data/translations.json`, which maps each exact CJK
+run to an English string. If you edit a rationale containing CJK, the old
+translation key is orphaned and the text falls back to the raw original with no
+error — run `python3 local/check_translations.py --check` if you have the local
+tooling, or say so in the PR so the maintainer can.
 
 ---
 
@@ -70,10 +83,11 @@ literal). Row schema:
   "aliases": ["CalSTRS", "California State Teachers' Retirement System"],
                                            // every name the engine should match on
   "type": "pension",                       // asset-manager | pension | sovereign-wealth | hedge-fund | endowment
-  "aum": "~$390B",                         // string, as publicly reported
+  "region": "US",                          // US | Canada | Europe | Middle East | Asia | Other — HQ of the managing entity
+  "aum": "~$390B",                         // string, in the DISCLOSED currency, as publicly reported
   "stage": "piloting",                     // exploring | piloting | scaling | embedded  ← HUMAN judgment
-  "as_of_reviewed": "2026-06-01",          // OPTIONAL — date a human last reviewed the stage (if present)
-  "rationale": "Why this stage, citing public evidence. State confidence.",
+  "confidence": "med",                     // high | med | low — strength of the public evidence
+  "rationale": "Why this stage, citing public evidence, ending in an explicit \"stops short of <next stage>\" clause.",
   "footnote": "OPTIONAL — a caveat/clarification shown in the drill-down (e.g. why a sold AI product is excluded).",
   "use_cases": ["manager due diligence", "cash-flow forecasting"],
   "events": [                              // dated public adoption arc, oldest→newest in the UI
@@ -83,22 +97,32 @@ literal). Row schema:
       "source_url": "https://…"            // public source for THIS event
     }
   ],
-  "latest_signal": "",                      // AUTO — engine only
-  "latest_date": "",                        // AUTO — engine only (YYYY-MM-DD)
-  "source_url": ""                          // AUTO — engine only (source of latest_signal)
+  "latest_signal": "",                      // AUTO — monitor.py only
+  "latest_date": "",                        // AUTO — monitor.py only (YYYY-MM-DD)
+  "source_url": ""                          // AUTO — monitor.py only (source of latest_signal)
+  // NOT SHOWN, and never written by a contributor: as_of_reviewed,
+  // label_provenance, agent_proposed_stage. See "Reviewer-only fields" below.
 }
 ```
 
-### Hand-curated vs. auto fields
+### Three kinds of field
 
-| Hand-curated (you edit) | Auto (engine writes — leave blank/untouched) |
-|---|---|
-| `name`, `aliases`, `type`, `aum`, `stage`, `as_of_reviewed`, `rationale`, `footnote`, `use_cases`, `events` | `latest_signal`, `latest_date`, `source_url` |
+| Curated — you may edit | Auto — `monitor.py` only | Reviewer-only — never in a PR |
+|---|---|---|
+| `name`, `aliases`, `type`, `region`, `aum`, `stage`, `confidence`, `rationale`, `footnote`, `use_cases`, `events` | `latest_signal`, `latest_date`, `source_url` | `as_of_reviewed`, `label_provenance`, `agent_proposed_stage` |
 
 `monitor.py` writes **only** `latest_signal` / `latest_date` / `source_url`, and
 only when a matched signal is strictly newer. It never touches a curated field
-and never adds a row. Don't fill the auto fields by hand in a PR — leave them
-empty for a new institution; the engine populates them.
+and never adds a row. Leave those three empty on a new institution.
+
+The **reviewer-only** fields are the audit trail behind
+[`data/agreement.json`](data/agreement.json) — they record whether the published
+stage was proposed by the research agent and accepted, revised, or written by a
+human outright. They are written once, by the maintainer's local review tool, on
+a row's first review. A PR that sets them is a PR that marks its own homework,
+so they are rejected on sight. The same applies to
+[`data/not_classified.json`](data/not_classified.json) and
+[`data/transitions.jsonl`](data/transitions.jsonl).
 
 **Every curated claim needs a public source.** `rationale` must be defensible
 from the cited `events`; `aum` and `stage` must trace to public evidence. For
@@ -109,18 +133,30 @@ follow [METHODOLOGY.md](METHODOLOGY.md).
 
 ## 4. The non-negotiable rule
 
-**Humans set `stage`. Full stop.**
+**No stage is published without a human verifying it against its sources.**
 
-- A stage is assigned only by a person reading public evidence and exercising
-  judgment.
-- **Never submit an auto-generated classification** — no "I asked a model what
-  stage this is." The model screens and notifies; it does not classify.
-- The engine flags signals that *may* warrant re-classification and emails a
-  human digest. That is the entire extent of automation's role in the stage. It
-  flags and notifies; it never assigns.
+Be clear about how this project actually works, because it is unusual and it is
+the point. **An AI research agent drafts every row in this corpus and proposes a
+stage.** A human then opens that draft against its cited sources and accepts,
+revises, or removes it, and the outcome of that decision is recorded on the row
+and published in [`data/agreement.json`](data/agreement.json). The protocol is
+described in full in [README](README.md#how-a-row-is-built) and
+[METHODOLOGY §5](METHODOLOGY.md).
 
-A PR that moves a `stage` without a human-written, publicly-sourced rationale
-will be asked to add one before review.
+What that does **not** license is an unverified model output arriving by PR:
+
+- **Don't submit a stage you have not checked against the sources yourself** —
+  "I asked a model what stage this is" is not a contribution, because the thing
+  that makes an agent-drafted row publishable is the verification step, and a
+  drive-by PR has not been through one.
+- Use whatever tools you like to *find* evidence. Every URL you cite must be one
+  you actually opened, and the claim must appear in the page you read.
+- `monitor.py` flags signals that *may* warrant re-classification and emails a
+  human. It never assigns a stage.
+
+A PR that moves a `stage` without a publicly-sourced rationale — including the
+explicit "stops short of…" clause that says what caps it — will be asked to add
+one before review.
 
 ---
 

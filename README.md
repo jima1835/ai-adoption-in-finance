@@ -148,7 +148,9 @@ Row construction happens in a gitignored `local/` directory that never leaves th
 
 ## License
 
-MIT — see [LICENSE](LICENSE). The data files are part of the repo and carry the same licence; if you use the corpus, please cite it and keep the not-classified appendix with it — the negative record is what makes the positive record readable.
+**Code** — MIT, see [LICENSE](LICENSE).
+
+**Data** — CC BY 4.0, see [data/LICENSE](data/LICENSE). Use the corpus for anything, including commercially; give credit and say what you changed. Please keep the assessed-but-not-classified appendix with it — the negative record is what makes the positive record readable as a rate rather than a highlight reel.
 
 ---
 
