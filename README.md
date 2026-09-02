@@ -1,5 +1,7 @@
 # AI Adoption in Finance
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22247885.svg)](https://doi.org/10.5281/zenodo.22247885)
+
 **A public, sourced classification of where major institutional investors sit on AI adoption right now** — pensions, sovereign-wealth funds, endowments, asset managers and hedge funds. Every row is drafted by an AI research agent from public evidence, and **every row is verified by a human before it publishes**. The rate at which those two disagree is published too.
 
 ### → [**View the live dashboard**](https://jima1835.github.io/ai-adoption-in-finance/) ←
