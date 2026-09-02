@@ -1,0 +1,213 @@
+{
+ "_readme": "Firm homepages, derived mechanically from the registrable domain of an own-domain evidence URL already verified during human review. No URL here was researched separately. A row with no own-domain evidence gets no link rather than a guessed one. `derived_from` is the evidence URL it came from. A domain claimed by more than one institution is treated as press coverage rather than an own domain and is dropped, since a homepage belongs to exactly one firm.",
+ "homepages": {
+  "CalSTRS": {
+   "url": "https://calstrs.com/",
+   "derived_from": "https://www.calstrs.com/files/fe584f412/TRB+2024-09+Item+11+Pres+01+-+AI+Journey+NEW+COMMS+OK.pdf"
+  },
+  "CalPERS": {
+   "url": "https://calpers.ca.gov/",
+   "derived_from": "https://www.calpers.ca.gov/documents/board-member-education-program-schedule-2025/download"
+  },
+  "NBIM (Norges Bank Investment Management)": {
+   "url": "https://nbim.no/",
+   "derived_from": "https://www.nbim.no/en/news-and-insights/our-views/2023/responsible-artificial-intelligence/"
+  },
+  "CPP Investments": {
+   "url": "https://cppinvestments.com/",
+   "derived_from": "https://www.cppinvestments.com/insight-institute/from-experiment-to-workflow-cpp-investments-and-the-challenge-of-turning-ai-into-value/"
+  },
+  "Temasek": {
+   "url": "https://marketing-interactive.com/",
+   "derived_from": "https://www.marketing-interactive.com/temasek-bets-on-human-ai-collaboration-to-transform-investment-decisions"
+  },
+  "Vanguard": {
+   "url": "https://corporate.vanguard.com/",
+   "derived_from": "https://corporate.vanguard.com/content/corporatesite/us/en/corp/who-we-are/pressroom/press-release-vanguard-launches-expert-insights-equipping-advisors-with-ai-powered-portfolio-analysis-expertise-04092026.html"
+  },
+  "Bridgewater Associates": {
+   "url": "https://thinkingmachines.ai/",
+   "derived_from": "https://thinkingmachines.ai/news/learning-to-replicate-expert-judgment-in-financial-tasks/"
+  },
+  "Man Group": {
+   "url": "https://man.com/",
+   "derived_from": "https://www.man.com/insights/AI-asset-management-lightbulb-moment"
+  },
+  "AQR Capital Management": {
+   "url": "https://fa-mag.com/",
+   "derived_from": "https://www.fa-mag.com/news/aqr-bets-on-machine-learning-as-cliff-asness-becomes-ai-believer-82224.html"
+  },
+  "Schroders": {
+   "url": "https://schroders.com/",
+   "derived_from": "https://www.schroders.com/en-us/us/institutional/media-center/schroders-capital-launches-ai-analyst-for-private-equity/"
+  },
+  "T. Rowe Price": {
+   "url": "https://troweprice.com/",
+   "derived_from": "https://www.troweprice.com/institutional/uk/en/insights/articles/2023/q3/using-artificial-intelligence-to-enhance-our-investment-processes.html"
+  },
+  "Balyasny Asset Management": {
+   "url": "https://bamfunds.com/",
+   "derived_from": "https://www.bamfunds.com/news-and-insights/balyasny-openai-feature"
+  },
+  "MacArthur Foundation": {
+   "url": "https://macfound.org/",
+   "derived_from": "https://www.macfound.org/press/perspectives/creativity-and-learning-with-ai"
+  },
+  "PGGM": {
+   "url": "https://pggm.nl/",
+   "derived_from": "https://pggm.nl/en/blogs/innovations-director-mladen-sancanin-on-the-ai-accelerator-and-the-future-of-ai-within-pggm"
+  },
+  "OMERS": {
+   "url": "https://omers.com/",
+   "derived_from": "https://www.omers.com/meeting-summaries"
+  },
+  "BCI (British Columbia Investment Management Corporation)": {
+   "url": "https://bci.ca/",
+   "derived_from": "https://www.bci.ca/tony-payne-bcis-ai-adoption-fueling-investment-innovation/"
+  },
+  "HOOPP (Healthcare of Ontario Pension Plan)": {
+   "url": "https://hoopp.com/",
+   "derived_from": "https://hoopp.com/news-and-insights/newsroom/newsroom-details/advancing-technology-a-q-a-with-hoopp-s-chief-technology-officer"
+  },
+  "National Pension Service (NPS)": {
+   "url": "https://nps.or.kr/",
+   "derived_from": "https://www.nps.or.kr/pnsgdnc/nscvrgdata/getOHAE0002M1.do?menuId=MN24000898&pstId=ZZ202500000000001186&hmpgCd=01&hmpgBbsCd=BS20240145&sortSe=FR&pageIndex=1&searchText=&searchGbu="
+  },
+  "ATP (Arbejdsmarkedets Tillægspension)": {
+   "url": "https://atp.dk/",
+   "derived_from": "https://www.atp.dk/atp-er-ny-stiftende-partner-i-ai-kompetencepagten"
+  },
+  "MassPRIM (Massachusetts Pension Reserves Investment Management Board)": {
+   "url": "https://mapension.com/",
+   "derived_from": "https://www.mapension.com/wp-content/uploads/2024/12/AA-Website-Package-02132025.pdf"
+  },
+  "Franklin Templeton": {
+   "url": "https://investors.franklintempleton.com/",
+   "derived_from": "https://investors.franklintempleton.com/news-center/press-releases/press-release-details/2025/Franklin-Templeton-and-Wand-AI-Forge-Multi-Year-Strategic-Partnership-to-Advance-Agentic-AI-in-Asset-Management/default.aspx"
+  },
+  "EQT": {
+   "url": "https://eqtgroup.com/",
+   "derived_from": "https://eqtgroup.com/thinq/technology/how-exactly-is-eqt-using-ai"
+  },
+  "Amundi": {
+   "url": "https://about.amundi.com/",
+   "derived_from": "https://about.amundi.com/article/am-tech-day-2024-amundi-technology-awarded"
+  },
+  "Two Sigma": {
+   "url": "https://twosigma.com/",
+   "derived_from": "https://www.twosigma.com/articles/two-sigma-announces-leadership-changes/"
+  },
+  "State Street Investment Management (SSGA)": {
+   "url": "https://ssga.com/",
+   "derived_from": "https://www.ssga.com/us/en/intermediary/insights/how-ai-is-transforming-investment-management-state-street-strategic-approach"
+  },
+  "Millennium Management": {
+   "url": "https://mlp.com/",
+   "derived_from": "https://www.mlp.com/life-at-millennium/mchats-with-gideon-mann/"
+  },
+  "PGIM": {
+   "url": "https://news.prudential.com/",
+   "derived_from": "https://news.prudential.com/us-en/latest-news/prudential-news/2026/q2/AI-at-Prudential-Amplifying-human-potential-to-better-serve-our-customers"
+  },
+  "Ares Management": {
+   "url": "https://fool.com/",
+   "derived_from": "https://www.fool.com/earnings/call-transcripts/2026/08/03/ares-ares-q2-2026-earnings-call-transcript/"
+  },
+  "Aberdeen Group (abrdn)": {
+   "url": "https://aberdeenplc.com/",
+   "derived_from": "https://www.aberdeenplc.com/en-gb/news/all-news/abrdn-and-university-of-edinburgh-join-forces-to-develop-ai-investment-tool"
+  },
+  "Legal & General": {
+   "url": "https://group.legalandgeneral.com/",
+   "derived_from": "https://group.legalandgeneral.com/en/newsroom/press-releases/l-g-launches-new-ai-for-business-value-programme-in-partnership-with-multiverse"
+  },
+  "Victory Capital": {
+   "url": "https://ir.vcm.com/",
+   "derived_from": "https://ir.vcm.com/news/news-details/2026/Molly-Weiss-Named-Chief-Technology-Officer-and-Head-of-Digital-Innovation/default.aspx"
+  },
+  "TPG Inc.": {
+   "url": "https://tpg.com/",
+   "derived_from": "https://www.tpg.com/news-and-insights/flywheel-in-focus-from-data-to-diligence-building-ai-enabled-edge-across-private-markets"
+  },
+  "PFA Pension": {
+   "url": "https://pfa.dk/",
+   "derived_from": "https://www.pfa.dk/news-archive/2023/12/06/13/03/kunstig-intelligens-saenker-risiko/"
+  },
+  "AP Pension": {
+   "url": "https://appension.dk/",
+   "derived_from": "https://appension.dk/nyheder/2025/ap-pension-er-i-luften-med-nyt-forretningssystem-i-taet-samarbejde-med-festina-finance"
+  },
+  "Colonial First State": {
+   "url": "https://cfs.com.au/",
+   "derived_from": "https://www.cfs.com.au/about-us/media/cfs-signs-five-year-agreement-with-microsoft"
+  },
+  "Liontrust Asset Management": {
+   "url": "https://investegate.co.uk/",
+   "derived_from": "https://www.investegate.co.uk/announcement/rns/liontrust-asset-management--lio/half-year-financial-report/9245327"
+  },
+  "Azimut Holding": {
+   "url": "https://milanofinanza.it/",
+   "derived_from": "https://www.milanofinanza.it/news/azimut-nel-2024-nuovi-prodotti-tra-eltif-e-ia-202401111132206406"
+  },
+  "Ilmarinen": {
+   "url": "https://ilmarinen.fi/",
+   "derived_from": "https://www.ilmarinen.fi/ajankohtaista/blogit-ja-artikkelit/blogikirjoitukset/mikko-lantto/teknologiaosasto-ei-synnyta-tekoalykasta-yritysta/"
+  },
+  "ADIA (Abu Dhabi Investment Authority)": {
+   "url": "https://adia.ae/",
+   "derived_from": "https://www.adia.ae/en/pr/2023/operational-review.html"
+  },
+  "Investcorp": {
+   "url": "https://investcorp.com/",
+   "derived_from": "https://www.investcorp.com/investcorps-strategic-capital-group-announces-partnership-with-diligentiq/"
+  },
+  "Lynx Asset Management": {
+   "url": "https://lynxhedge.se/",
+   "derived_from": "https://www.lynxhedge.se/en/navigating-the-challenges-of-a-rapidly-evolving-landscape/"
+  },
+  "Sumitomo Mitsui DS Asset Management": {
+   "url": "https://smd-am.co.jp/",
+   "derived_from": "https://www.smd-am.co.jp/news/news/2025/NewsRelease_20251022/"
+  },
+  "Nissay Asset Management": {
+   "url": "https://nam.co.jp/",
+   "derived_from": "https://www.nam.co.jp/news/info/240731.html"
+  },
+  "Korea Teachers Pension": {
+   "url": "https://tp.or.kr/",
+   "derived_from": "https://www.tp.or.kr/tp-kr/bbs/i-152/detail.do?ntt_sn=1085"
+  },
+  "XTX Markets": {
+   "url": "https://files.xtxmarkets.com/",
+   "derived_from": "https://files.xtxmarkets.com/publications/kajaani/index.html"
+  },
+  "Jane Street": {
+   "url": "https://blog.janestreet.com/",
+   "derived_from": "https://blog.janestreet.com/i-design-with-claude-code-more-than-figma-now-index/"
+  },
+  "Flow Traders": {
+   "url": "https://flowtraders.com/",
+   "derived_from": "https://www.flowtraders.com/news/flow-traders-4q-fy-2025-results/"
+  },
+  "Optiver": {
+   "url": "https://optiver.com/",
+   "derived_from": "https://www.optiver.com/working-at-optiver/career-hub/why-devex-matters/"
+  },
+  "Hg": {
+   "url": "https://hgcapital.com/",
+   "derived_from": "https://hgcapital.com/ai-data-source"
+  },
+  "Quilter": {
+   "url": "https://aveni.ai/",
+   "derived_from": "https://aveni.ai/blog/aveni-selected-by-quilter-for-deployment-of-ai-powered-support-across-adviser-network/"
+  },
+  "Pictet Asset Management": {
+   "url": "https://am.pictet.com/",
+   "derived_from": "https://am.pictet.com/ch/en/investment-views/active-equity/2026/evolving-ai-model"
+  },
+  "High-Flyer (幻方量化)": {
+   "url": "https://high-flyer.cn/",
+   "derived_from": "https://www.high-flyer.cn/blog/hai-llm/"
+  }
+ }
+}

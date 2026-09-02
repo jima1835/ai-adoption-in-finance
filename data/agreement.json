@@ -1,0 +1,129 @@
+{
+ "_readme": "Human-vs-agent disagreement record for the corpus. A research agent drafts each row from public sources and proposes an adoption stage; a human reviewer then checks the row against those sources and accepts, revises, or removes it. This file counts what the reviewer did. IMPORTANT: the reviewer saw the agent's proposed stage and its written reasoning before deciding, so these figures are ANCHORED agreement — an upper bound on reproducibility, not an inter-rater reliability coefficient. No kappa is reported here and none should be inferred. Derived from data/institutions.json and data/not_classified.json; rebuild with local/build_agreement.py.",
+ "as_of": "2026-09-01",
+ "corpus": {
+  "rows": 84,
+  "reviewed": 84,
+  "not_yet_reviewed": 0
+ },
+ "provenance": {
+  "agent_proposed_accepted": 69,
+  "human_originated": 8,
+  "human_revised": 5,
+  "unknown_pre_capture": 2
+ },
+ "stage_agreement": {
+  "n": 74,
+  "unchanged": 69,
+  "revised": 5,
+  "rate": 0.9324,
+  "by_distance": {
+   "0": 69,
+   "1": 5
+  }
+ },
+ "proposal_accepted": {
+  "n": 79,
+  "accepted_unchanged": 69,
+  "stage_revised": 5,
+  "withdrawn_on_review": 5,
+  "rate": 0.8734
+ },
+ "matrix": [
+  {
+   "proposed": "exploring",
+   "final": "exploring",
+   "n": 12
+  },
+  {
+   "proposed": "piloting",
+   "final": "exploring",
+   "n": 1
+  },
+  {
+   "proposed": "piloting",
+   "final": "piloting",
+   "n": 35
+  },
+  {
+   "proposed": "piloting",
+   "final": "scaling",
+   "n": 4
+  },
+  {
+   "proposed": "scaling",
+   "final": "scaling",
+   "n": 22
+  }
+ ],
+ "revisions": [
+  {
+   "institution": "Daiwa Asset Management",
+   "proposed": "piloting",
+   "final": "scaling",
+   "direction": "up",
+   "distance": 1,
+   "as_of_reviewed": "2026-08-31"
+  },
+  {
+   "institution": "E Fund Management",
+   "proposed": "piloting",
+   "final": "scaling",
+   "direction": "up",
+   "distance": 1,
+   "as_of_reviewed": "2026-08-31"
+  },
+  {
+   "institution": "MacArthur Foundation",
+   "proposed": "piloting",
+   "final": "exploring",
+   "direction": "down",
+   "distance": 1,
+   "as_of_reviewed": "2026-08-26"
+  },
+  {
+   "institution": "Manulife Investment Management",
+   "proposed": "piloting",
+   "final": "scaling",
+   "direction": "up",
+   "distance": 1,
+   "as_of_reviewed": "2026-09-01"
+  },
+  {
+   "institution": "Quilter",
+   "proposed": "piloting",
+   "final": "scaling",
+   "direction": "up",
+   "distance": 1,
+   "as_of_reviewed": "2026-09-01"
+  }
+ ],
+ "withdrawals": [
+  {
+   "institution": "APG",
+   "as_of": "2026-08-31",
+   "reason": "Initially listed, withdrawn on human review: a single usable source, limited to one business line, could not support a firm-level stage classification."
+  },
+  {
+   "institution": "Hg",
+   "as_of": "2026-08-31",
+   "reason": "Not enough data, only one internal post claiming 100+ agents running"
+  },
+  {
+   "institution": "PFA Pension",
+   "as_of": "2026-09-01",
+   "reason": "Production signal does not come from investments decision. all news are out of date thus no staging."
+  },
+  {
+   "institution": "Point72",
+   "as_of": "2026-08-26",
+   "reason": "Initially listed, withdrawn on human review: available reporting was dated or described support of external businesses rather than current internal adoption."
+  },
+  {
+   "institution": "Robeco",
+   "as_of": "2026-08-31",
+   "reason": "Initially listed, withdrawn on human review: the public record covers AI governance and AI in client-facing products rather than adoption inside the firm's own investment process."
+  }
+ ],
+ "limitation": "Anchored, not blind: the reviewer saw the agent's proposed stage and its rationale before deciding, and is also the author of the classification rules. Read these as an upper bound on agreement, never as a reliability coefficient."
+}

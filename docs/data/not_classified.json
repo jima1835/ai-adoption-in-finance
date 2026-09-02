@@ -1,0 +1,122 @@
+[
+  {
+    "name": "Wellington Management",
+    "type": "asset-manager",
+    "region": "US",
+    "outcome": "no-qualifying-evidence",
+    "reason": "Public AI content is investment commentary — AI as a theme to invest in — not internal adoption. The only substantive public account of its internal quantitative platform predates 2023, outside this dashboard's evidence window.",
+    "as_of": "2026-08-26"
+  },
+  {
+    "name": "Point72",
+    "type": "hedge-fund",
+    "region": "US",
+    "outcome": "withdrawn-on-review",
+    "reason": "Initially listed, withdrawn on human review: available reporting was dated or described support of external businesses rather than current internal adoption.",
+    "as_of": "2026-08-26"
+  },
+  {
+    "name": "New York State Common Retirement Fund",
+    "type": "pension",
+    "region": "US",
+    "outcome": "no-qualifying-evidence",
+    "reason": "Public AI activity is stewardship engagement with portfolio companies and the Comptroller's audits of other state agencies — not the Fund's own investment operations.",
+    "as_of": "2026-08-26"
+  },
+  {
+    "name": "Apollo Global Management",
+    "type": "asset-manager",
+    "region": "US",
+    "outcome": "no-qualifying-evidence",
+    "reason": "The public AI record is AI-infrastructure financing, portfolio-company AI programs, and an AI-services venture — all excluded by scope. No public evidence of AI inside Apollo's own investment process.",
+    "as_of": "2026-08-26"
+  },
+  {
+    "name": "Marshall Wace",
+    "type": "hedge-fund",
+    "region": "Europe",
+    "outcome": "no-qualifying-evidence",
+    "reason": "The 2023+ public record shows adoption of an ML-priced vendor data feed and disclosures about AI-related costs — neither is an internal AI use case. Pre-2023 quantitative heritage is outside the evidence window.",
+    "as_of": "2026-08-26"
+  },
+  {
+    "name": "D. E. Shaw & Co.",
+    "type": "hedge-fund",
+    "region": "US",
+    "outcome": "no-qualifying-evidence",
+    "reason": "One qualifying dated event (a generative-AI human-capital function, 2025). The would-be second event rests solely on an outlet outside the accepted source list — below the two-event minimum.",
+    "as_of": "2026-08-26"
+  },
+  {
+    "name": "Baillie Gifford",
+    "type": "asset-manager",
+    "region": "Europe",
+    "outcome": "no-qualifying-evidence",
+    "reason": "The only public internal-adoption account is a sponsored, firm-authored article, which the sourcing rules exclude as a sole source. Own-domain AI content is investment-thesis commentary.",
+    "as_of": "2026-08-26"
+  },
+  {
+    "name": "Walleye Capital",
+    "type": "hedge-fund",
+    "region": "US",
+    "outcome": "no-qualifying-evidence",
+    "reason": "A single strong 2026 vendor-published event (firm-wide AI coding-assistant adoption) with no independent second source — below the two-event minimum. Revisited if independent coverage lands.",
+    "as_of": "2026-08-26"
+  },
+  {
+    "name": "QIA (Qatar Investment Authority)",
+    "type": "sovereign-wealth",
+    "region": "Middle East",
+    "outcome": "no-qualifying-evidence",
+    "reason": "Extensive public AI activity — stakes in AI companies and AI-infrastructure ventures — is investment exposure, which scope excludes. No public evidence of AI inside QIA's own investment process.",
+    "as_of": "2026-08-31"
+  },
+  {
+    "name": "Khazanah Nasional",
+    "type": "sovereign-wealth",
+    "region": "Asia",
+    "outcome": "no-qualifying-evidence",
+    "reason": "Public AI signals are AI-sector investments and national AI-policy research; the fund's own disclosures contain no internal-adoption claim.",
+    "as_of": "2026-08-31"
+  },
+  {
+    "name": "Robeco",
+    "type": "asset-manager",
+    "region": "Europe",
+    "outcome": "withdrawn-on-review",
+    "reason": "Initially listed, withdrawn on human review: the public record covers AI governance and AI in client-facing products rather than adoption inside the firm's own investment process.",
+    "as_of": "2026-08-31"
+  },
+  {
+    "name": "Industriens Pension",
+    "type": "pension",
+    "region": "Europe",
+    "outcome": "no-qualifying-evidence",
+    "reason": "A complete, dated public newsroom (~80 items since 2023) contains no AI items; the only AI story in its archive is a pre-2023 support chatbot.",
+    "as_of": "2026-08-31"
+  },
+  {
+    "name": "APG",
+    "type": "pension",
+    "region": "Europe",
+    "outcome": "withdrawn-on-review",
+    "reason": "Initially listed, withdrawn on human review: a single usable source, limited to one business line, could not support a firm-level stage classification.",
+    "as_of": "2026-08-31"
+  },
+  {
+    "name": "Hg",
+    "type": "asset-manager",
+    "region": "Europe",
+    "outcome": "withdrawn-on-review",
+    "reason": "Not enough data, only one internal post claiming 100+ agents running",
+    "as_of": "2026-08-31"
+  },
+  {
+    "name": "PFA Pension",
+    "type": "pension",
+    "region": "Europe",
+    "outcome": "withdrawn-on-review",
+    "reason": "Production signal does not come from investments decision. all news are out of date thus no staging.",
+    "as_of": "2026-09-01"
+  }
+]

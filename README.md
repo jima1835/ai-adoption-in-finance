@@ -1,6 +1,6 @@
 # AI Adoption in Finance
 
-**A public dashboard classifying where major institutional investors sit on AI adoption right now** — asset managers, pensions, sovereign wealth funds, hedge funds, endowments. Every classification rests strictly on public sources (news, official disclosures, board materials) and is curated by hand; a monitoring engine — run on demand today — surfaces fresh public signals to keep each institution's *latest signal* current.
+**A public, sourced classification of where major institutional investors sit on AI adoption right now** — pensions, sovereign-wealth funds, endowments, asset managers and hedge funds. Every row is drafted by an AI research agent from public evidence, and **every row is verified by a human before it publishes**. The rate at which those two disagree is published too.
 
 ### → [**View the live dashboard**](https://jima1835.github.io/ai-adoption-in-finance/) ←
 
@@ -8,22 +8,56 @@
 
 ## What it is
 
-Most "AI in finance" coverage is vendor hype and listicles. This project answers a sharper question for each institution: **where are they actually on the adoption curve — exploring, piloting, scaling, or embedded?** Each placement is hand-curated from public evidence and carries a one-line rationale. A monitoring engine then screens public news and keeps each institution's "latest signal" fresh, so the classifications stay backed by a current, dated public record.
+Most "AI in finance" coverage is vendor hype, listicles, or self-reported surveys. This project answers a sharper question for each named institution: **where are they actually on the adoption curve — exploring, piloting, scaling, or embedded?** Each placement carries a written rationale, a dated timeline, a confidence flag, and links to the public sources behind it.
+
+Three things make it different from a bigger tracker:
+
+1. **It covers asset owners.** Pensions, sovereign-wealth funds and endowments, not just the managers that commercial benchmarks rank.
+2. **It publishes what it could not classify.** Institutions assessed against the methodology whose public record fell short are listed by name, with the reason. A tracker that publishes only its hits cannot be read as a rate of anything.
+3. **It publishes its own error rate.** See [the disagreement record](#the-disagreement-record).
 
 The whole thing runs on GitHub — no servers, no database, no backend.
 
-## Design principle — humans hold the stage
+## How a row is built
 
-**AI surfaces signals; humans decide what they mean.** This is the project's core principle, and it is enforced in code, not merely stated:
+**An AI research agent drafts every row and proposes a stage. A human verifies every row before it publishes.** Neither half is decorative, and the division is enforced in code rather than promised in prose.
 
-- The automated engine refreshes an institution's *latest signal* line, and when a daily signal looks materially stage-relevant — a firm-wide rollout, a first autonomous decision, an org restructure around AI, a pullback — it **emails a human a digest** titled _"may warrant re-classification,"_ annotated with each institution's current stage.
-- It **never changes the `stage`.** No model assigns, scores, or moves a classification. A stage changes only when a **human reads the public evidence and decides** — the same human judgment that keeps the `embedded` column [deliberately empty](#the-classification).
+```
+  ┌── agent ──────────────────┐   ┌── human ────────────┐   ┌── public ────────┐
+  research the public record  │   │ read the row        │   │ institutions.json│
+  fetch every cited URL       ├──►│ against its sources ├──►│ + not_classified │
+  draft rationale + timeline  │   │ accept / revise /   │   │ + agreement.json │
+  PROPOSE a stage             │   │ remove              │   │ → static React   │
+  └───────────────────────────┘   └──────────┬──────────┘   └──────────────────┘
+                                             │
+                              every decision is logged: proposed stage,
+                              final stage, and which of the three it was
+```
 
-So the pipeline is a **notifier, not a classifier**: `monitor.py` flags and emails (via [`alerts.py`](alerts.py)); a human reviews and hand-edits [`data/institutions.json`](data/institutions.json). The split is structural — automation writes only `latest_signal` / `latest_date` / `source_url`, while everything that embodies a judgment (`stage`, `rationale`, `use_cases`, `events`, `footnote`) is curated by hand and never touched by the engine. The alert email can never act on its own; it can only put a decision in front of a person.
+The agent's standing constraints: public sources only, no encyclopedias or aggregators as evidence, nothing dated before 2023, and **no citation to a page it did not actually fetch** — a search-result snippet is not a source. Where the record does not support a stage, it says so rather than reaching.
+
+The reviewer works from the cited evidence rather than re-researching the firm. That is deliberate: the agent's job is to find and assemble the record; the reviewer's job is to check that the record says what the draft claims and that the stage follows from it.
+
+**Fields an agent may never write** — enforced in the review tool, not left to convention: the final `stage` once reviewed, the review date, the provenance fields, the assessed-but-not-classified appendix, and the stage-transition log. A reviewed stage is a published measurement; rewriting it would destroy the before/after pair that makes change observable.
+
+Separately, a monitoring pass (`monitor.py`) screens public news and refreshes each institution's *latest signal*, emailing a human when something looks stage-relevant. It is a **notifier, not a classifier** — it writes only `latest_signal` / `latest_date` / `source_url` and can never move a stage.
+
+## The disagreement record
+
+Because every review decision is logged, the human-vs-agent disagreement rate is a measurement rather than an assurance. It is published in [`data/agreement.json`](data/agreement.json), rebuilt from `data/institutions.json` and `data/not_classified.json` (both in this repo, so the figures are reproducible without trusting the page), and rendered on the methodology page.
+
+Two figures, because one alone would flatter the pipeline:
+
+| | What it answers |
+|---|---|
+| **Stage agreement** | Of the reviewed rows carrying an agent proposal, how often did the proposed stage stand? |
+| **Proposals accepted as-is** | Of every proposal adjudicated, how often was it taken unchanged — counting rows **withdrawn on review**, which are disagreements too? |
+
+**This is anchored agreement, and it is an upper bound — not a reliability coefficient.** The reviewer saw the proposed stage and the agent's written reasoning before deciding, and there is one reviewer who also wrote the classification rules. No kappa is computed from this file and none should be quoted from it; establishing reliability needs a blind re-code against stripped evidence, which is a separate exercise. See [METHODOLOGY §6](METHODOLOGY.md#6-the-disagreement-record).
 
 ## The classification
 
-Four stages, applied as a strict bar:
+Four stages, applied as a strict bar — each higher stage requires everything the lower one does, plus more:
 
 | Stage | Bar |
 |---|---|
@@ -32,100 +66,89 @@ Four stages, applied as a strict bar:
 | **scaling** | Multiple use cases in production, firm-wide rollout, AI as a strategic pillar with deployment evidence. |
 | **embedded** | AI is core infrastructure across the business. **Intentionally empty** — no institution qualifies yet. A deliberate editorial position. |
 
-Institution types: `asset-manager` · `pension` · `sovereign-wealth` · `hedge-fund` · `endowment`.
+Institution types: `asset-manager` · `pension` · `sovereign-wealth` · `hedge-fund` · `endowment`. Regions: US · Canada · Europe · Middle East · Asia · Other.
 
-## How it works
+Full rules — scope exclusions, the sourcing bar, decision discipline, and how this differs from commercial indices and self-assessment questionnaires — are in [METHODOLOGY.md](METHODOLOGY.md).
 
-```
-GDELT DOC 2.0 API        Claude (claude-haiku-4-5)       data/*.json              GitHub Pages
-  global news, 24h   ──►   screens for real signal   ──►   institutions.json  ──►   static React
-  (monitor.py)             (drops the hype)                 feed.json               dashboard
-        ▲                                                   (committed)             (one page, no API)
-        └──────────── run on demand today · daily GitHub Actions schedule is planned, not built ──────────┘
-```
+## What's published
 
-When a screened signal looks like it could move an institution's stage, the engine **notifies instead of acting** — it never edits the stage itself (see [Design principle](#design-principle--humans-hold-the-stage)):
+Everything the dashboard runs on is tracked in this repo:
 
-```
-monitor.py  ──flags stage-relevant──►  email digest        ──►  human reviews   ──►  hand-edits `stage`
- (collect_flagged)                      (alerts.py / Resend)     public evidence      in institutions.json
-```
+| File | What it holds |
+|---|---|
+| `data/institutions.json` | **The state.** One row per institution: stage, rationale, use cases, dated events, confidence, region, AUM — plus `as_of_reviewed`, `label_provenance` and `agent_proposed_stage`, the audit trail behind the disagreement record. |
+| `data/not_classified.json` | **The negative record.** Assessed, not classified — with the reason and the outcome (`no-qualifying-evidence` or `withdrawn-on-review`). |
+| `data/agreement.json` | **The disagreement record.** Derived; rebuild with `local/build_agreement.py`. |
+| `data/stage_definitions.json` | The shared stage reference, so the site and the docs cannot drift apart. |
+| `data/translations.json` | English renderings of the CJK evidence runs, consulted at render time. The stored evidence is never rewritten. |
+| `data/summaries.json`, `data/homepages.json` | Presentation-layer derivations: bulleted digests of reviewed rationales, and firm homepages taken from own-domain evidence URLs that already passed review. |
+| `data/feed.json`, `data/seen_urls.json` | The monitoring stream and its dedup ledger. |
 
-The pipeline produces two datasets from one run:
+Stage **transitions** are appended to `data/transitions.jsonl` when a reviewer approves a stage change — dated by the *triggering evidence*, never by the review date. The log starts empty and fills prospectively; a panel dated by review sessions would measure the reviewer's calendar rather than the sector.
 
-1. **State** — `data/institutions.json`: one row per institution. The stage, rationale, and use-cases are **hand-curated** from public evidence; the engine only refreshes each institution's `latest_signal` / `latest_date` / `source_url` (and emails a human when a signal may warrant re-classification) — it never touches the curated fields. This is the dashboard.
-2. **Stream** — `data/feed.json`: the latest screened news (newest first, capped at 200), each item tagged with its institution. Backs the "Recent Signals" panel and the per-institution drill-down.
+## A note on sourcing
 
-`monitor.py` queries [GDELT DOC 2.0](https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/) for the last 24h, dedupes against `data/seen_urls.json`, sends new candidates to Claude in one batched call, prepends the accepted items to the feed, and updates the matching institution rows. The static React site reads both JSON files from the same repo (no CORS, no API).
+Every classification rests **only on public information** — reported news, official disclosures, regulatory filings, board materials, earnings calls, and institutions' own published positions. Stages reflect a reading of the public record, not inside knowledge.
 
-## Running the engine locally
+Absence of evidence **caps** a stage; it never infers one. A firm may well be further along privately; this dashboard reports only what the public record can defend. Where an institution's own claims cannot be independently verified, they are labeled as company claims rather than treated as fact.
 
-The engine is a [uv](https://docs.astral.sh/uv/) project.
+Evidence in Chinese, Japanese and Korean is quoted **verbatim in the original** — the difference between 完成部署 (deployment completed) and 将应用 (will be applied) is the difference between two stages. An English rendering is shown alongside; the original is always the record.
+
+**This corpus is not a sample of any defined population.** Institutions enter through research passes, not a sampling frame. Every figure describes *this corpus* and none of them is an industry rate.
+
+## Running it
+
+The engine is a [uv](https://docs.astral.sh/uv/) project; the site is Vite + React.
 
 ```bash
-# 1. Install dependencies into a managed virtualenv
+# monitoring engine
 uv sync
-
-# 2. Add your Anthropic API key
-cp .env.example .env        # then edit .env and paste your key
-
-# 3. Run a collection pass
+cp .env.example .env        # then paste your Anthropic API key
 uv run --env-file .env python monitor.py
+uv run pytest
+
+# site
+npm install
+npm run dev                 # serves the live data/ directory
+npm run build               # builds to docs/, copying data/*.json → docs/data/
 ```
 
-The run prints a per-stage summary (articles fetched → new candidates → accepted → feed written → institution rows updated). Run the tests with `uv run pytest`.
-
-Tune the GDELT search by editing the `QUERY` constant at the top of [`monitor.py`](monitor.py) — it's deliberately tight to favor signal over noise. Add institutions by hand-editing [`data/institutions.json`](data/institutions.json) (see [CLAUDE.md](CLAUDE.md) for the schema and the curated-vs-auto field split).
+`monitor.py` queries [GDELT DOC 2.0](https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/) for the last 24h, dedupes against `data/seen_urls.json`, screens candidates through Claude, and updates the auto-only fields. Tune the search with the `QUERY` constant at the top of the file. See [CLAUDE.md](CLAUDE.md) for the row schema and the curated-vs-auto field split.
 
 ## Project structure
 
 ```
 ai-adoption-in-finance/
-├── monitor.py             # the engine: GDELT → Claude → institutions.json + feed.json
-├── alerts.py              # notify-only email digest (Resend) for stage-relevant signals
-├── pyproject.toml         # uv project + dependencies
-├── CLAUDE.md              # architecture & context
-├── METHODOLOGY.md         # how institutions are classified (the credibility spine)
+├── monitor.py             # freshness engine: GDELT → Claude → latest_signal
+├── alerts.py              # notify-only email digest for stage-relevant signals
+├── METHODOLOGY.md         # the classification rules + construction protocol
+├── CLAUDE.md              # architecture & row schema
 ├── CONTRIBUTING.md        # how to contribute
 ├── tests/                 # pytest suite for the engine
-├── data/                  # source of truth (root) — monitor.py writes here
-│   ├── institutions.json  # the STATE — hand-curated classification grid
-│   ├── feed.json          # the STREAM — screened signals (newest first, ≤200)
-│   ├── seen_urls.json     # dedup ledger
-│   └── stage_definitions.json  # shared stage reference (defs, scope, notes)
-├── index.html             # Vite entry
-├── vite.config.js         # build config; copies data/ → docs/data/ on build
+├── data/                  # source of truth — see "What's published" above
 ├── src/                   # static React site (Vite) — components + plain CSS
-└── docs/                  # built site served by GitHub Pages (includes docs/data/)
+├── vite.config.js         # build config; copies data/*.json → docs/data/
+└── docs/                  # built site served by GitHub Pages
 ```
 
 ### Local working area (not in this repo)
 
-Curation happens in a gitignored `local/` directory that never leaves the
-maintainer's machine: the ranked research queue, the per-institution evidence
-ledger behind each classification, progress and rejection logs, and the
-overnight research supervisor. Only its *outputs* are committed — hand-reviewed
-rows in `data/institutions.json`. `CLAUDE.local.md` (also gitignored) carries
-local agent context. If you fork this repo you need neither: everything the
-dashboard runs on is tracked.
+Row construction happens in a gitignored `local/` directory that never leaves the maintainer's machine: the research queue and prompts, the per-institution evidence ledger behind each classification, the review tool, and the decision log. Only its *outputs* are committed — human-verified rows and the derived files above. If you fork this repo you need none of it; everything the dashboard runs on is tracked.
 
 ## Tech stack
 
-- **Engine** — Python + [uv](https://docs.astral.sh/uv/), [GDELT DOC 2.0](https://www.gdeltproject.org/), [Claude API](https://docs.claude.com/) (`claude-haiku-4-5-20251001`)
+- **Engine** — Python + [uv](https://docs.astral.sh/uv/), [GDELT DOC 2.0](https://www.gdeltproject.org/), [Claude API](https://docs.claude.com/)
+- **Research + review** — Claude Code agents for drafting; a local human review tool as the publish gate
 - **Site** — Vite + React, plain CSS, static (built to `docs/`)
-- **Infra** — [GitHub Pages](https://jima1835.github.io/ai-adoption-in-finance/) (hosting, live) + GitHub Actions CI (runs the test suite on PRs). Scheduled automation of the engine is planned, not yet built. One repo, no backend.
-
-## A note on sourcing
-
-Every classification is based **only on public information** — reported news, official disclosures, and board materials. Stages reflect a reading of public evidence, not inside knowledge, and are updated as the public record changes.
+- **Infra** — [GitHub Pages](https://jima1835.github.io/ai-adoption-in-finance/) + GitHub Actions CI. One repo, no backend.
 
 ## Status
 
-🚧 Early — the dashboard is **live** on GitHub Pages, and the engine works locally (unit-tested, run on demand). **Not yet built:** scheduled daily automation of the engine, and the in-UI "Recent Signals" feed panel (the `feed.json` stream exists; it isn't rendered on the page yet).
+🚧 Active. The dashboard is **live**; the corpus is under human review row by row, and the review queue is drained before each release. **Not yet built:** scheduled automation of the monitoring engine, and the in-UI "Recent Signals" feed panel (`feed.json` exists; it isn't rendered yet).
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT — see [LICENSE](LICENSE). The data files are part of the repo and carry the same licence; if you use the corpus, please cite it and keep the not-classified appendix with it — the negative record is what makes the positive record readable.
 
 ---
 

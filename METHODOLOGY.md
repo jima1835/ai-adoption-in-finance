@@ -115,14 +115,194 @@ The rules that keep classifications honest and consistent:
 - **When between two stages, pick the lower.** If the public evidence genuinely
   supports either of two adjacent stages, classify at the lower one and say why
   in the rationale. The bar is "clearly cleared," not "arguably reached."
-- **State confidence.** The rationale should make the strength of the evidence
-  legible — strong and well-sourced, or thin and provisional. A defensible
+- **State confidence.** Every row carries a `high` / `med` / `low` flag, and the
+  rationale should make the strength of the evidence legible. A defensible
   low-confidence call is fine; an unstated one is not.
-- **Re-classify only on new public evidence.** The automated monitor can flag a
-  signal that *may* warrant re-classification and email a human, but a stage
-  moves only when a person reviews the public record and decides. The engine
-  never assigns a stage. (See the "humans hold the stage" principle in the
-  [README](README.md).)
+- **Capability claims are not usage claims.** "Can process 10,000 reports a
+  night" describes a design capacity, not a measured rate. Vendor-voiced claims
+  about a client firm are weaker than the firm's own, and are labeled as such.
+- **Re-classify only on new public evidence.** A stage moves when a person
+  reviews the public record and decides — never because a model, a monitor, or a
+  research agent proposed it.
+
+---
+
+## 5. How a row is built
+
+This section describes the construction protocol, in full, because it is as much
+the contribution as the data is. **An AI research agent drafts every row and
+proposes a stage; a human verifies every row before it publishes.**
+
+### 5.1 The agent drafts
+
+A research agent works one institution at a time. It searches the public record,
+**fetches every URL it intends to cite** — a search-result snippet is not a
+source — writes the rationale and the dated timeline, and proposes an adoption
+stage against the bar in §3. Its standing constraints:
+
+- public sources only, per §2;
+- no encyclopedias or aggregators as evidence;
+- evidence dated 2023 or later;
+- the verbatim wording that carries the call is quoted, in its original
+  language;
+- when the record does not support a stage, it says so rather than reaching.
+
+### 5.2 A human verifies, row by row
+
+Every drafted row goes through a local review tool where a person reads it
+against its cited sources and does one of three things: **accepts** the proposed
+stage, **revises** it, or **removes** the row entirely. Nothing publishes without
+that pass.
+
+The reviewer works from the cited evidence rather than re-researching the firm.
+That is a deliberate division of labour — the agent's job is to find and
+assemble the record; the reviewer's job is to check that the record says what
+the draft claims and that the stage follows from it.
+
+### 5.3 What an agent may never write
+
+These fields are reviewer-only, enforced in the review tool rather than left to
+convention:
+
+| Field | Why |
+|---|---|
+| `stage` (after first review) | A reviewed stage is a published measurement. Rewriting it destroys the before/after pair. |
+| `as_of_reviewed` | The claim that a human checked this row. |
+| `label_provenance`, `agent_proposed_stage` | The audit trail in §6. Self-reported provenance would be worthless. |
+| the not-classified appendix (§7) | A negative record is a finding, and findings are human-gated. |
+| the stage-transition log | A dated transition is the panel's spine; see §8. |
+
+### 5.4 Freshness monitoring is separate, and is a notifier
+
+A monitoring pass screens public news and refreshes each institution's *latest
+signal* line. When a signal looks stage-relevant it **emails a human**. It never
+edits a stage. The split is structural: automation writes only
+`latest_signal` / `latest_date` / `source_url`.
+
+---
+
+## 6. The disagreement record
+
+Because §5 logs what the reviewer did with each proposal, the rate at which the
+human and the agent disagree is a **published measurement**, not an assurance.
+It lives in [`data/agreement.json`](data/agreement.json), is rebuilt from
+`data/institutions.json` and `data/not_classified.json` — both in this repo — and
+is rendered on the dashboard's methodology page.
+
+Two figures are reported, because one alone would flatter the pipeline:
+
+- **Stage agreement** — of the reviewed rows that carried an agent proposal, how
+  often did the proposed stage stand unchanged?
+- **Proposals accepted as-is** — of every proposal the reviewer adjudicated, how
+  often was it taken unchanged? This denominator includes rows that were
+  **withdrawn on review**. A withdrawal is a disagreement, and excluding it
+  inflates the rate.
+
+Each row also carries its own provenance: whether the label was the agent's
+proposal accepted, the agent's proposal revised, or written by the human
+outright (as the earliest rows were, before the pipeline existed).
+
+### The limitation, stated plainly
+
+**This is anchored agreement, and it is an upper bound — not a reliability
+coefficient.**
+
+The reviewer saw the agent's proposed stage, and the agent-written rationale
+states the stage reasoning, *before* deciding. Agreement measured under those
+conditions is systematically higher than agreement between independent coders.
+On top of that there is one reviewer, and he is also the author of the
+classification rules in §3 and §4.
+
+So: **no inter-rater reliability coefficient is computed from this file, and
+none should be quoted from it.** Establishing reliability requires a blind
+re-code — the same evidence stripped of the proposed stage and its reasoning,
+coded cold, against an independent coder. That is a separate exercise, and its
+result will be reported separately. The gap between the anchored figure here and
+a blind figure is itself the quantity of interest.
+
+---
+
+## 7. Assessed, not classified
+
+Institutions researched against this methodology whose public record did not
+support a stage are **published**, with a reason, in
+[`data/not_classified.json`](data/not_classified.json) and in the appendix on the
+methodology page. Two outcomes:
+
+- **No qualifying evidence** — the public record, after searching, contained
+  nothing in scope that met the sourcing rules in §2.
+- **Withdrawn on review** — the institution was listed, and human review then
+  found the evidence insufficient to carry a stage.
+
+Absence from the dashboard is a finding, not an omission. A tracker that
+publishes only its hits cannot be read as a rate of anything.
+
+---
+
+## 8. Coverage, and what these numbers are not
+
+**This corpus is not a sample of any defined population.** Institutions enter it
+through research passes, not through a sampling frame — there is no register of
+"all institutional investors" to draw from, and no weighting scheme could repair
+its absence. Every figure on this site describes *this corpus*. None of them is
+an industry rate, and none should be reported as one.
+
+Coverage is also uneven by design and by circumstance: endowments are thinly
+represented because their public disclosure is thin, which is itself a
+disclosure finding rather than a gap to be filled by inference.
+
+Stage **transitions** are recorded prospectively — when a reviewed row moves,
+the change is logged against the date of the *triggering evidence*, never the
+date of the review. A panel dated by review sessions would measure the
+reviewer's calendar rather than the sector.
+
+**The panel's baseline is the v1.0 release.** Every stage in the tagged,
+DOI-archived corpus is position zero; every record in
+[`data/transitions.jsonl`](data/transitions.jsonl) is a move away from it. The
+file is therefore empty at v1.0 and fills forward, one approved change at a time.
+It is **not** backfilled, and the series should not be reconstructed from the
+event timelines in this corpus: those rows were researched to establish each
+firm's *current* stage, so their early-period evidence is thin and collected
+non-systematically, and any retrospective crossing date would be assigned with
+knowledge of the outcome. A backfilled panel would look like data and behave like
+hindsight.
+
+---
+
+## 9. Language
+
+Evidence in Chinese, Japanese and Korean is quoted **verbatim in the original**,
+because the exact wording is what carries the classification — the difference
+between 完成部署 (deployment completed) and 将应用 (will be applied) is the
+difference between two stages. An English rendering is displayed alongside it at
+render time, from a separate translation map; the stored evidence is never
+rewritten, and the original is always the record.
+
+---
+
+## 10. How this differs from the alternatives
+
+A staged reading of AI adoption is not a new idea, and this project does not
+claim to have originated one. Where it sits:
+
+- **Commercial AI indices** — chiefly the [Evident AI
+  Index](https://evidentinsights.com/), which ranks banks, insurers and payments
+  firms on 60+ indicators and has announced an asset-management edition — score
+  and rank large public *companies*. This is not a ranking and assigns no score.
+  It places each institution on a stage, it covers **asset owners** (pensions,
+  sovereign-wealth funds, endowments) that commercial benchmarks do not, and it
+  publishes the assessments that failed.
+- **Staged self-assessment questionnaires**, including the one shipped with the
+  US financial-services AI risk management framework published in February 2026,
+  ask a firm to place *itself*. This dashboard adapts the staged form for
+  **external observation**: no institution is asked anything, and no institution
+  can move its own row. *(The stage vocabulary of that questionnaire has not yet
+  been compared line by line against §3; where they overlap, this project is the
+  later work and says so.)*
+- **Industry surveys** (central-bank and consultant surveys of AI use) report
+  self-declared adoption in aggregate and anonymized. Every row here is named,
+  dated and sourced — which makes it checkable, and makes it wrong in public
+  when it is wrong.
 
 ---
 

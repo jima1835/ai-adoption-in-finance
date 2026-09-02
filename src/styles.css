@@ -17,7 +17,7 @@
   /* text */
   --text: #e7e9ec;
   --text-dim: #9aa0a8;
-  --text-faint: #61656d;
+  --text-faint: #7e838c; /* was #61656d — 2.95:1 on --panel-2, failed WCAG 1.4.3 */
 
   /* the one accent + its stage TEMPERATURE ramp: cool/dim → warm/bright,
      so "further right = further along" is felt before it's read. embedded is
@@ -26,7 +26,7 @@
   --stage-exploring: #9a9177; /* dim grey-amber, lowest intensity (cool) */
   --stage-piloting: #e0a338; /* standard amber */
   --stage-scaling: #ffc24d; /* brighter, warmer amber (highest intensity) */
-  --stage-embedded: #71737b; /* neutral, outline-only, reserved */
+  --stage-embedded: #80828a; /* was #71737b — 3.65:1 on --panel-2, failed 1.4.3 */
   --human: #5b9bd1; /* cool counterpoint: human-curated marker */
 
   --radius: 6px;
@@ -273,6 +273,160 @@ code {
   font-size: 14px;
   color: var(--text-faint);
 }
+/* Multiple pill groups (type / region / confidence / AUM), wrapping row */
+.filter-groups {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  align-items: flex-end;
+}
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.filter-group-label {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-faint);
+}
+.filter-group .filter-pill {
+  padding: 6px 11px;
+  font-size: 13.5px;
+}
+/* Date-stamp legend — sits parallel to the filter groups */
+.date-legend .legend-body {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--panel);
+  padding: 7px 12px;
+}
+.legend-item {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  white-space: nowrap;
+  cursor: help;
+}
+.legend-news {
+  color: var(--accent, #e6b450);
+}
+.legend-reviewed {
+  color: var(--text-faint);
+}
+
+/* NOT CLASSIFIED strip — dashboard, below the stage grid. Dashed border =
+   deliberately outside the four-stage ladder. */
+.nc-strip {
+  background: var(--panel);
+  border: 1px dashed var(--border-bright);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin: -26px 0 40px;
+}
+.nc-strip-head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.nc-strip-head .section-title {
+  margin: 0;
+}
+.nc-strip-count {
+  font-family: var(--mono);
+  font-size: 14.5px;
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+}
+.nc-strip-note {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text-faint);
+}
+.nc-strip-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.nc-chip {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  background: var(--panel-2, var(--bg-2));
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 11px;
+  cursor: help;
+}
+.nc-chip-name {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text);
+}
+.nc-chip-meta {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+}
+.nc-chip .nc-outcome {
+  align-self: flex-start;
+  margin-top: 2px;
+}
+
+/* Appendix — assessed, not classified (Methodology page) */
+.nc-table .nc-reason {
+  max-width: 420px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--text-dim);
+  white-space: normal;
+}
+.nc-outcome {
+  font-family: var(--mono);
+  font-size: 12px;
+  white-space: nowrap;
+  padding: 2px 7px;
+  border: 1px solid var(--border-bright);
+  border-radius: 4px;
+  color: var(--text-dim);
+}
+.nc-outcome[data-outcome="withdrawn-on-review"] {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Non-USD AUM: verbatim disclosure is ground truth; ≈USD companion is dim */
+.aum-approx {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--text-faint);
+  white-space: nowrap;
+  cursor: help;
+}
+
+/* Evidence-confidence dot: green high / amber med / gray low */
+.conf-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.conf-dot[data-conf="high"] {
+  background: #4ade80;
+}
+.conf-dot[data-conf="med"] {
+  background: #e6b450;
+}
+.conf-dot[data-conf="low"] {
+  background: #6b7280;
+}
 
 /* ---------------- Phase grid ---------------- */
 .phase-grid {
@@ -310,6 +464,13 @@ code {
   gap: 8px;
   cursor: help;
   outline: none;
+}
+/* .phase-head is focusable, so it needs its own visible indicator — the tooltip
+   alone is not one (WCAG 2.4.7). */
+.phase-head:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 /* subtle "there's more here" affordance — no icon, just a dotted underline */
 .phase-title {
@@ -372,6 +533,30 @@ code {
   margin: 8px 0 12px;
   line-height: 1.4;
   min-height: 2.4em;
+}
+/* Per-column sort toggles (AUM · ⚡ last news): data order → ▼ → ▲ */
+.phase-sorts {
+  display: flex;
+  gap: 6px;
+  margin: -6px 0 10px;
+}
+.phase-sort {
+  padding: 3px 8px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-faint);
+  letter-spacing: 0.04em;
+}
+.phase-sort:hover {
+  color: var(--text);
+  border-color: var(--border-bright);
+}
+.phase-sort[data-active="true"] {
+  color: var(--col-accent, var(--accent));
+  border-color: var(--col-accent, var(--accent));
 }
 .phase-cards {
   display: flex;
@@ -717,6 +902,15 @@ code {
   color: var(--text);
   font-size: 16px;
   line-height: 1.6;
+}
+/* Derived ~50-word executive summary — leads the modal, reads as a deck line */
+.modal-summary {
+  margin: 0;
+  color: var(--text);
+  font-size: 16.5px;
+  line-height: 1.6;
+  border-left: 2px solid var(--accent);
+  padding-left: 12px;
 }
 .modal-footnote {
   display: flex;
@@ -1078,7 +1272,888 @@ code {
   white-space: nowrap;
   font-size: 11.5px;
 }
-.card-reviewed {
+/* Date stamps: ⚡ last pipeline-reported news (yellow, the live signal) ·
+   ✓ human review (grey, the stable audit fact). Legend sits in the controls. */
+.card-news {
   color: var(--accent, #e6b450);
+  opacity: 0.9;
+}
+.card-reviewed {
+  color: var(--text-faint);
   opacity: 0.85;
+}
+
+
+/* ==========================================================================
+   Accessibility — added 2026-09-01 after a WCAG 2.1 audit.
+   Every rule here answers a specific failing success criterion, named inline.
+   ========================================================================== */
+
+/* Screen-reader-only text. Used to give meaning to glyph-only and colour-only
+   controls (1.1.1 Non-text Content, 1.4.1 Use of Colour). */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 2.4.1 Bypass Blocks — 19 filter pills sit between the header and the data. */
+.skip-link {
+  position: absolute;
+  left: 8px;
+  top: -60px;
+  z-index: 100;
+  padding: 10px 16px;
+  background: var(--accent);
+  color: #0a0b0d;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: var(--radius);
+  text-decoration: none;
+  transition: top 0.12s;
+}
+.skip-link:focus {
+  top: 8px;
+}
+
+/* 2.4.7 Focus Visible — a consistent, high-contrast ring instead of relying on
+   the UA default, which is a 1px hairline on these dark surfaces. */
+:where(a, button, [tabindex="0"], summary):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* 2.1.1 Keyboard — the sortable column labels are real buttons now. */
+.th-btn {
+  all: unset;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+}
+th[data-align="right"] .th-btn {
+  justify-content: flex-end;
+}
+.th-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* 2.1.1 / 2.1.3 — a horizontally scrollable region must be keyboard-reachable
+   (axe: scrollable-region-focusable). */
+.table-wrap:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+/* 1.4.1 Use of Colour — the inline appendix link was distinguished by hue only. */
+.nc-strip-note a,
+.state-msg a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* 1.4.1 — the confidence dot carried its meaning entirely in colour and a
+   title attribute. It keeps the colour and gains a shape difference plus
+   .sr-only text in the markup. */
+.conf-dot[data-conf="low"] {
+  border-style: dotted;
+}
+.conf-dot[data-conf="med"] {
+  border-style: dashed;
+}
+
+/* 1.4.10 Reflow — at 320px the filter rail forced the document to 585px wide,
+   so the page scrolled in two dimensions. */
+@media (max-width: 560px) {
+  .filter-groups {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .filter-group {
+    flex-wrap: wrap;
+  }
+  .type-filter {
+    flex-wrap: wrap;
+  }
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .header-stamps {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .modal {
+    padding: 18px 14px 22px;
+  }
+}
+@media (max-width: 400px) {
+  .brand-title {
+    font-size: 20px;
+  }
+}
+
+/* 2.3.3 / best practice — respect a stated preference for less motion.
+   The loading spinner keeps a slow rotation so it still reads as "working". */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .spinner {
+    animation: spin 2s linear infinite !important;
+  }
+}
+
+/* 1.4.11 Non-text Contrast — lock the modal background so the page behind a
+   dialog cannot be scrolled or read past. */
+body.modal-open {
+  overflow: hidden;
+}
+
+/* 1.4.3 Contrast (Minimum) — three rules dimmed text with `opacity`, which
+   multiplies against the surface and defeats any fix made at the token level.
+   Opacity is dropped and the intended dimness is expressed as a colour that
+   already clears 4.5:1 on the darkest surface it sits on (--panel-2 #181b20).
+     .filter-count  #72767d -> 4.00:1   now --text-dim          6.55:1
+     .card-reviewed #6f737c -> 3.63:1   now --text-faint        4.55:1
+     .embedded-tag  #65676e -> 3.23:1   now --stage-embedded    4.54:1 */
+.filter-count {
+  opacity: 1;
+}
+.filter-pill[data-active="true"] .filter-count {
+  opacity: 1;
+}
+.card-news {
+  opacity: 1;
+}
+.card-reviewed {
+  opacity: 1;
+}
+.embedded-tag {
+  opacity: 1;
+}
+
+/* 1.4.10 Reflow — a grid item defaults to min-width:auto, so the single-column
+   layout below 720px still could not shrink past its content and the document
+   stayed 398px wide inside a 320px viewport. */
+.phase-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.phase-col,
+.phase-cards {
+  min-width: 0;
+}
+/* Only below the 2-column breakpoint does the card itself need to collapse;
+   above it the cards have room and forcing min-width:0 squeezed the name
+   column against the date stamps. */
+@media (max-width: 720px) {
+  .inst-card,
+  .card-body {
+    min-width: 0;
+  }
+}
+/* `anywhere` also shrinks min-content width, which let the card columns break
+   real words mid-token at desktop widths ("Endowme/nt"). `break-word` only
+   breaks a word that genuinely cannot fit, and leaves sizing alone. */
+.card-name,
+.card-meta {
+  overflow-wrap: break-word;
+}
+@media (max-width: 980px) {
+  .phase-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 720px) {
+  .phase-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .card-date {
+    position: static;
+  }
+}
+
+/* 1.4.1 Use of Colour — a link inside a block of prose must be distinguishable
+   without relying on hue alone. */
+p a,
+li a,
+.scope-note a,
+.nc-strip-note a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* DESIGN BUG (pre-existing, not an accessibility issue): on cards whose meta
+   row carries a non-USD AUM plus its ≈USD companion — PGGM "~€271B ≈$298B",
+   OMERS "~C$152B ≈$110B" — the row overflowed its column and painted
+   underneath the date stamps, so both were unreadable. `.card-meta` is a flex
+   row whose `.aum-approx` child is `white-space: nowrap` and therefore cannot
+   shrink, and the row had no wrapping. Let it wrap to a second line instead. */
+.card-meta {
+  flex-wrap: wrap;
+  row-gap: 2px;
+  min-width: 0;
+}
+
+/* The original-script text kept beside each translation. Visible for the
+   record, aria-hidden so a screen reader voices only the English. It is still
+   real visible text, so it still has to clear 4.5:1 — --text-faint is 4.55:1
+   on --panel-2, the darkest surface it appears on. */
+.orig {
+  color: var(--text-faint);
+  font-size: 0.94em;
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+
+/* ==========================================================================
+   Drill-down restructure + firm links — 2026-09-01
+   ========================================================================== */
+
+/* Use cases lead the panel now, so they get a real treatment rather than a
+   bare list: a responsive card grid that reads at a glance. */
+.use-cases {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+  gap: 8px;
+}
+.use-cases li {
+  position: relative;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 10px 12px 10px 13px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--text);
+}
+
+/* The derived digest. Bullets for scanning; the reviewed rationale itself sits
+   behind the disclosure below, never discarded. */
+.why-bullets {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.why-bullets li {
+  position: relative;
+  padding-left: 18px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--text);
+}
+.why-bullets li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0.62em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.why-full {
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+}
+.why-full > summary {
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 3px 2px;
+}
+.why-full > summary::-webkit-details-marker {
+  display: none;
+}
+.why-full > summary::before {
+  content: "▸";
+  color: var(--accent);
+  transition: transform 0.12s;
+  display: inline-block;
+}
+.why-full[open] > summary::before {
+  transform: rotate(90deg);
+}
+.why-full > summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.why-full .modal-rationale {
+  margin-top: 10px;
+}
+
+/* Firm name → homepage. Underlined so it is not colour-only (1.4.1). */
+.firm-link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  text-underline-offset: 3px;
+}
+.firm-link:hover {
+  text-decoration-color: var(--accent);
+}
+.firm-link-mark {
+  font-size: 0.78em;
+  margin-left: 3px;
+  color: var(--accent);
+}
+
+/* The methodology page is a 680px prose column, which squeezed the appendix
+   table into one word per line. This section alone breaks out to the page
+   width, staying inside the gutters. */
+.prose-bleed {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(var(--maxw), calc(100vw - 48px));
+  max-width: none;
+}
+.prose-bleed > p {
+  max-width: 68ch;
+}
+.nc-table .nc-reason {
+  max-width: 52ch;
+}
+@media (max-width: 720px) {
+  .prose-bleed {
+    left: auto;
+    transform: none;
+    width: 100%;
+  }
+}
+
+/* ==========================================================================
+   WCAG 2.2 AA — 2.5.8 Target Size (Minimum), 24x24 CSS px.
+   Standalone controls are sized up. Links sitting inside a sentence or a table
+   cell of running text are covered by the criterion's own INLINE exception
+   ("the target is in a sentence, or its size is otherwise constrained by the
+   line-height of non-target text") and are deliberately left at text size —
+   inflating them would break the prose. axe flags them anyway; it cannot tell
+   an inline link from a standalone one.
+   ========================================================================== */
+.th-btn,
+.phase-sort,
+.phase-head,
+.filter-pill,
+.nav-link,
+.modal-close,
+.row-open,
+.why-full > summary,
+.skip-link {
+  min-height: 24px;
+}
+.th-btn {
+  padding-block: 3px;
+}
+.phase-sort {
+  min-width: 40px;
+  padding-block: 3px;
+}
+.phase-head {
+  padding-block: 2px;
+}
+
+/* Keyboard path to the drill-down, now that the row is no longer a button. */
+.td-open {
+  width: 1%;
+  white-space: nowrap;
+}
+.row-open {
+  all: unset;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 5px;
+  cursor: pointer;
+  color: var(--text-dim);
+  font-size: 17px;
+  line-height: 1;
+  border: 1px solid transparent;
+}
+.row-open:hover {
+  color: var(--accent);
+  border-color: var(--border-bright);
+  background: var(--panel-2);
+}
+.row-open:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   Executive band — terminal readout + region raster (2026-09-01)
+   Aesthetic: instrument panel. Mono labels, tabular figures, hairline frames,
+   HUD corner ticks. The amber ramp is the existing stage ramp, unchanged.
+   ========================================================================== */
+.exec-band {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.stage-strip,
+.region-map {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px 14px;
+  min-width: 0;
+}
+.strip-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 11px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.strip-title {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+.strip-sub {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  color: var(--text-faint);
+}
+
+/* ---- the four stage panels ---- */
+.stage-panels {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+.stage-panel {
+  all: unset;
+  box-sizing: border-box;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+  padding: 10px 11px 11px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--stage, var(--border-bright));
+  border-radius: 4px;
+  transition: background 0.12s, border-color 0.12s;
+}
+.stage-panel[data-stage='exploring'] { --stage: var(--stage-exploring); }
+.stage-panel[data-stage='piloting']  { --stage: var(--stage-piloting); }
+.stage-panel[data-stage='scaling']   { --stage: var(--stage-scaling); }
+.stage-panel[data-stage='embedded']  { --stage: var(--stage-embedded); }
+.stage-panel:hover { background: var(--panel-2); }
+.stage-panel[aria-pressed='true'] {
+  background: var(--panel-2);
+  border-color: var(--stage);
+}
+.stage-panel:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+/* HUD ticks — two corners only; four reads as a frame and fights the border. */
+.sp-corner {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--stage);
+  opacity: 0.55;
+}
+.sp-tl { top: 3px; left: 3px; border-right: 0; border-bottom: 0; }
+.sp-br { bottom: 3px; right: 3px; border-left: 0; border-top: 0; }
+
+.sp-top { display: flex; align-items: baseline; gap: 6px; min-width: 0; }
+.sp-idx {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--text-faint);
+  letter-spacing: 0.06em;
+}
+.sp-name {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--stage);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sp-readout { display: flex; align-items: baseline; gap: 7px; }
+.sp-n {
+  font-family: var(--mono);
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+.sp-share {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+.stage-panel[data-empty='true'] .sp-n { color: var(--text-faint); }
+
+.sp-meter {
+  display: block;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--panel-hover);
+  overflow: hidden;
+}
+.sp-meter-fill {
+  display: block;
+  height: 100%;
+  background: var(--stage);
+  border-radius: 2px;
+}
+.sp-foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.05em;
+  color: var(--text-faint);
+  text-transform: uppercase;
+}
+.sp-foot b { color: var(--text-dim); font-weight: 400; }
+
+/* ---- region raster ---- */
+.map-body { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: center; }
+.map-svg { width: 100%; height: auto; display: block; }
+/* Categorical now: the fill is set per rect from REGION_COLORS, so no fill is
+   declared here — a CSS rule would beat the presentation attribute and repaint
+   the whole map one colour, which is exactly what it did the first time. */
+.map-svg rect { transition: opacity 0.12s; }
+
+.map-legend { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.map-key {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: 10px 1fr auto;
+  align-items: center;
+  gap: 8px;
+  min-height: 24px;
+  padding: 2px 6px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+.map-key:hover { background: var(--panel); color: var(--text); }
+.map-key[aria-pressed='true'] { background: var(--panel-2); border-color: var(--accent); color: var(--text); }
+.map-key:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.mk-swatch { width: 9px; height: 9px; border-radius: 2px; }
+.mk-n { font-variant-numeric: tabular-nums; color: var(--text); }
+
+@media (max-width: 980px) {
+  .exec-band { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 560px) {
+  .stage-panels { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .map-body { grid-template-columns: minmax(0, 1fr); }
+  .map-legend { flex-direction: row; flex-wrap: wrap; }
+}
+
+/* The panel footer put AUM and HI-CONF on one justified row; a wide figure like
+   $41.7T pushed the pair into a collision. Let it wrap as a pair of stacked
+   key/value cells instead of fighting for one line. */
+.sp-foot {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, auto));
+  justify-content: space-between;
+  gap: 4px 10px;
+  align-items: baseline;
+}
+.sp-foot > span {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+/* .main is a flex item, so its default min-width:auto meant it could not shrink
+   below the widest thing inside it — the institutions table. That defeated
+   .table-wrap's own overflow-x and pushed the whole document wide at small
+   viewports (WCAG 1.4.10). Adding the detail column is what tipped it over. */
+.main,
+.table-section,
+.table-wrap {
+  min-width: 0;
+}
+
+/* An absolutely positioned element is only clipped by an ancestor that is in its
+   CONTAINING-BLOCK chain. The .sr-only spans I added inside the table cells and
+   the sort buttons had no positioned ancestor, so their containing block was the
+   page itself: they escaped .table-wrap's overflow and sat at their static x —
+   up to 1178px on a 320px viewport, which dragged the whole document sideways
+   (WCAG 1.4.10). Making the scroll container positioned brings them back inside
+   it, where its overflow can clip them. */
+.table-wrap {
+  position: relative;
+}
+
+/* ==========================================================================
+   Region colour-coding + multi-select + timeline latest-signal (2026-09-01)
+   ========================================================================== */
+
+/* One hue per region, carried identically by the map, its legend and the pills,
+   so a colour means the same thing everywhere the reader meets it. Every place
+   it appears, the region is also named in text — colour never carries identity
+   on its own. */
+.map-key .mk-swatch,
+.region-pill .rp-swatch {
+  background: var(--region, var(--text-faint));
+}
+.rp-swatch {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.region-pill {
+  gap: 7px;
+}
+.region-pill[data-active='true'] {
+  color: var(--bg);
+  background: var(--region);
+}
+.region-pill[data-active='true'] .rp-swatch {
+  background: var(--bg);
+  opacity: 0.55;
+}
+.region-pill[data-active='true'] .filter-count {
+  color: var(--bg);
+}
+
+.map-key[aria-pressed='true'] {
+  border-color: var(--region);
+}
+.map-clear {
+  color: var(--text-faint);
+  grid-template-columns: 10px 1fr;
+}
+.mk-clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  background: transparent !important;
+  color: var(--text-faint);
+}
+
+/* The most recent entry in every timeline is marked, and it is the only place
+   the latest signal appears — the standalone section under the timeline was
+   printing the same event a second time. */
+.tl-item[data-latest='true'] .tl-dot {
+  background: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+.tl-item[data-latest='true'] .tl-content {
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
+  border-radius: 5px;
+  margin: -4px -8px;
+  padding: 4px 8px;
+}
+.tl-item[data-latest='true'] .tl-event {
+  color: var(--text);
+}
+.tl-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 8px;
+  padding: 1px 6px;
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+/* ============================================================
+   The disagreement record (Methodology page)
+   Magnitude on a near-diagonal 4x4 is a table, not a heatmap:
+   one amber tint for count, plus a border on the diagonal so
+   agreement is never encoded by colour alone. Numbers wear text
+   tokens; the accent stays on the marks.
+   ============================================================ */
+.agreement {
+  margin-top: 2.5rem;
+}
+
+.agree-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 0.75rem;
+  margin: 1.25rem 0;
+}
+
+.agree-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.9rem 1rem;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--human);
+  border-radius: var(--radius);
+}
+
+.agree-num {
+  font-family: var(--mono);
+  font-size: 1.6rem;
+  line-height: 1.1;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.agree-den {
+  font-size: 1rem;
+  color: var(--text-faint);
+}
+
+.agree-label {
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.agree-sub {
+  font-size: 0.8rem;
+  color: var(--text-faint);
+  font-family: var(--mono);
+}
+
+.agree-caveat {
+  border-left-color: var(--human);
+}
+
+.agree-caption {
+  caption-side: top;
+  text-align: left;
+  padding: 0 0 0.5rem;
+  font-size: 0.82rem;
+  color: var(--text-dim);
+}
+
+.agree-matrix th[scope='row'] {
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.agree-matrix .stage-swatch {
+  margin-right: 0.4rem;
+}
+
+.agree-cell {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+
+.agree-cell[data-diagonal='true'] {
+  box-shadow: inset 0 0 0 1px var(--border-bright);
+}
+
+.agree-h3 {
+  margin: 1.5rem 0 0.4rem;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.agree-list li {
+  font-size: 0.9rem;
+}
+
+.agree-dir {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  padding: 0.05rem 0.35rem;
+  border-radius: 3px;
+  border: 1px solid var(--border-bright);
+  color: var(--text-dim);
+}
+
+.agree-dir[data-direction='up'] {
+  border-color: var(--stage-scaling);
+  color: var(--stage-scaling);
+}
+
+.agree-note {
+  font-size: 0.82rem;
+  color: var(--text-faint);
+}
+
+.agree-note code {
+  font-family: var(--mono);
+  font-size: 0.95em;
+}
+
+/* The map is a control, not only a picture: each region group toggles the same
+   selection the legend key does. The legend keeps the keyboard and screen-reader
+   path, so the groups are aria-hidden and only need a pointer affordance. */
+.map-svg g[data-region] {
+  cursor: pointer;
+  transition: opacity 120ms ease;
 }

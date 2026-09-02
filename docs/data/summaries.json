@@ -1,0 +1,526 @@
+{
+ "_readme": "Derived bulleted summaries of each row's human-reviewed rationale. Presentation layer only — institutions.json is never modified. Each bullet is compressed from that row's rationale text and introduces no new facts. The full reviewed rationale remains available in the drill-down.",
+ "summaries": {
+  "CalSTRS": [
+   "Most governance-advanced public pension per its own peer research",
+   "GenAI policy, cost-benefit analysis and a prioritized pipeline of 25 scoped scalable use cases in place",
+   "Explicitly following a governance-first, deploy-later approach",
+   "Stops short of scaling: preconditions for scaling met, but no firm-wide production yet"
+  ],
+  "CalPERS": [
+   "Board-level AI education only",
+   "January 2026 board education day featured a Jefferies macro briefing, 'AI: What We Need to Know', covering AI fundamentals, economics and geopolitics",
+   "AI treated as an investment and market topic, not internal use",
+   "Stops short of piloting: no public GenAI policy, use-case pipeline, pilot or deployment as of early 2026, roughly a stage behind CalSTRS"
+  ],
+  "NBIM (Norges Bank Investment Management)": [
+   "Most AI-advanced LP publicly",
+   "About 50% of 700 staff build their own Claude-based tools in production for screening, ESG and risk monitoring across 7,000 holdings, and meeting prep",
+   "Three-year firm-wide push with AI teams, ambassadors and mandatory training",
+   "Stops short of embedded: AI cannot make autonomous investment decisions, and human oversight is non-negotiable"
+  ],
+  "CPP Investments": [
+   "ChatGPT Enterprise deployed to about 1,800 of 2,000 eligible staff: 83% activation, 84% sustained weekly use in 90 days",
+   "528 custom GPTs built, 99th percentile against an industry median of 18",
+   "Agent-versus-human experiments on real tasks including portfolio reconciliation, attribution and tariff scenarios, under a five-gate governance framework",
+   "Stops short of embedded: humans still frame and verify every output, and org structure is not yet redesigned"
+  ],
+  "GIC": [
+   "Enterprise-wide ChatGIC, a secure ChatGPT, since 2023",
+   "Production AI in trading: LLMs processing Bloomberg broker-commentary streams cross-referenced with PM positions, AI-processed broker quotes and ECM deal emails, semi-automated OTC RFQs, global algo wheels, and trader 'vibe coding' in a secure environment",
+   "Self-describes as an 'early adopter' embedding AI 'across operations'",
+   "Strongest evidence is trading-desk-specific and firm-wide penetration metrics are absent, so the scaling call rests on depth in the core investment function rather than disclosed org-wide adoption rates"
+  ],
+  "BlackRock": [
+   "Asimov (2024), an agentic investment-research platform autonomously monitoring theses from filings, earnings and research, used by about 150 fundamental-equity staff and scaling to other divisions",
+   "RockAI no-code agent platform rolled out to 5,000 in-house developers with firm-wide 'citizen developer' intent, and 50-plus internal teams contributing agents",
+   "Production AI in client intelligence, legal and HR; AI Labs unit since 2018 and a named executive AI sponsor",
+   "Stops short of embedded: an executive says the reimagined-workflow future 'isn't quite here yet' and 'no one has cracked the nut'"
+  ],
+  "Temasek": [
+   "'Winnow' investment super-app built ground-up with investment teams, aggregating internal and external data and ESG intelligence on prospective investments",
+   "Knowledge Graph mapping portfolio relationships, and a firm-wide 'AI and digital fluency' program spanning investment, O&P, risk, audit, legal and cyber",
+   "Governed via a 'thin layer' over OpenAI and Google models; the CDO frames AI as augmentation, spotting pitfalls and reducing human bias, not automating decisions",
+   "Stops short of scaling: no public penetration metrics, and more augmentation-framed and less quantified than NBIM, CPP and GIC"
+  ],
+  "Vanguard": [
+   "Decade-plus of AI use, deliberately shifted from 'experimentation to impact' after GenAI",
+   "Production tools across functions: Crew Assist for contact centers on Azure OpenAI, Client-Ready Article Summaries, and Stress Testing",
+   "Documented return of about $500M, per MIT SMR",
+   "Firm-wide structure of top-down 'AI champions' across client-facing, HR, legal and compliance, plus bottom-up 'digital ambassadors'",
+   "Stops short of embedded: the CIO's own assist-augment-action framework places Vanguard at 'augment', with autonomous 'action' explicitly still ahead"
+  ],
+  "Bridgewater Associates": [
+   "AIA Labs, formed early 2023 and led by Co-CIO Greg Jensen, runs AI as production infrastructure inside the investment process",
+   "AIA macro strategy went live late 2023 on a roughly $100M Pure Alpha sleeve, launched as a standalone roughly $2B fund in July 2024 using OpenAI, Anthropic and Perplexity models alongside proprietary systems, and managed about $4.5B at 11.3% annualized since inception as of July 2026",
+   "Own site adds an AIA Forecaster and Pocket Analyst Tool (undated company claim); a fine-tuned Qwen3-235B document-triage model is published but its production deployment is not publicly confirmed",
+   "Stops short of embedded: humans retain risk management, data acquisition and trade execution, so AI decides inside human guardrails, and no public evidence shows the org redesigned around AI"
+  ],
+  "Man Group": [
+   "AlphaGPT, Man Numeric's agentic system for generating, coding and backtesting quant signals, had produced several dozen signals approved for live trading by July 2025, running inside the same Investment Committee validation as human-generated strategies",
+   "CIO put generative-AI adoption above 70% of employees in July 2024 (company claim), with GitHub Copilot for prototyping, ChatGPT being tested for document data extraction and hypothesis generation, and internal chatbots over Man's own codebase",
+   "February 2026 Anthropic partnership named AI a firm-wide priority, putting Claude and Claude Code in front of portfolio-management teams globally",
+   "Stops short of embedded: Man states the system operates with substantial human oversight and 'we can't leave it unsupervised just yet', humans keep strategic direction and final decision-making, and no public evidence shows an org redesign"
+  ],
+  "AQR Capital Management": [
+   "Two dedicated ML strategies, Turing Equities and Turing Macro, launched 2023 and opened to outside capital in 2025",
+   "Bloomberg reported April 2025 that machine learning powers about a fifth of trading signals in the flagship multi-strategy fund (company claim, not independently audited), alongside ML parsing of earnings-call transcripts and AI-assisted internal coding",
+   "Co-founder Cliff Asness says on the record that AQR lets the machine decide more and that AI took over combining and weighting factors, 'annoyingly better than me'",
+   "Form ADV brochure filed 2026-03-31 states the firm uses machine learning, NLP and other AI tools in support of investment management, giving T1 regulatory corroboration",
+   "Stops short of embedded: no public source shows the org redesigned around AI or decisions with no human in the loop, and a March 2026 Forbes profile has insiders calling AI 'evolutionary, not revolutionary'"
+  ],
+  "Schroders": [
+   "Genie, its first proprietary GenAI assistant, rolled out April 2023 and used daily by over 1,000 colleagues (company claim)",
+   "First Cut, a custom GPT producing first-pass company analysis, above 80% adoption across investment desks and saving an average 50 minutes per investor per day as of June 2025 (company claim)",
+   "ContextAI screens company reports against roughly 200 sustainability questions; GAiiA, an internal-only GenAI investment analyst, in production since June 2024 for Schroders Capital private-equity due diligence and draft memos",
+   "Stops short of embedded: GAiiA runs under 'continual and extensive human oversight', investors must check First Cut and ContextAI results, the one agentic system disclosed was a labelled prototype in June 2025, and no source shows an org redesign"
+  ],
+  "T. Rowe Price": [
+   "Investment professionals use Chat TRP, rolled out as 'Investor Copilot' within months of late-2022 LLMs, plus predictive analytics and NLP on tasks such as analyzing earnings calls",
+   "Chief data office has an LLM in live use structuring metadata to about 80% before a human finishes, atop 1,000-plus net-new data quality rules and board-approved data quality scorecards (2024)",
+   "August 2026 announcement created an Investment AI Solutions organization, T. Rowe Price Labs, and an enterprise AI and model risk governance function reporting to the chief risk officer",
+   "Stops short of embedded: the firm's published position requires 'clear boundaries between full automation and human sign-off', and agentic work is described as experimentation and as something that 'should occur this year'",
+   "Confidence held at med: the only penetration figures, 130-plus AI solutions and associate adoption above 70%, came from the Q2 2026 earnings call, with no retrievable transcript"
+  ],
+  "Balyasny Asset Management": [
+   "Dedicated Applied AI team under Chief AI Officer Charlie Flanagan, staffed with researchers hired out of Google",
+   "BAM ChatGPT, a proprietary assistant that proactively pushes information to portfolio managers, available to employees June 2023; BAM Embeddings, published November 2024, reported beating OpenAI on FinanceBench, 55% versus 47% (company claim)",
+   "Firm names 'firm-wide deployment' among four AI principles, with tools embedded in team-level workflows; OpenAI's March 2026 customer story reports roughly 95% of about 180 investment teams actively using the platform, with a Central Bank Speech Analyst cutting scenario analysis from about two days to roughly 30 minutes",
+   "Stops short of embedded: every public description is augmentation, with no source showing AI making investment decisions without a human in the loop, or the organisation rebuilt around AI rather than an Applied AI team bolted on"
+  ],
+  "MacArthur Foundation": [
+   "First internal policy for the Use of Artificial Intelligence established 2023 and published, standing up a presidentially appointed AI Tool Recommendation and Use Committee (AIRUC) that approves proposed AI uses and maintains a use library",
+   "Staff usage stays pocketed: analysing standard operating procedures for bottlenecks, reformatting data, identifying patterns, reviewing archives, chatbots to pressure-test strategy, and scenario planning",
+   "Reports 'most respondents have saved time using AI tools' in a staff survey (company claim, with no penetration figure, no daily-use claim and no named tool)",
+   "Stops short of piloting: its February 2026 account frames the past two years as 'guardrails, pilots, and exploration' and puts 'connecting governance and operations' in the next two, and the policy prohibits AI for grantmaking and hiring decisions"
+  ],
+  "PGGM": [
+   "Customer-contact operation runs a live pipeline converting calls to text with one AI model, summarising with a second and quality-checking with an automated 'LLM judge'",
+   "Firm-wide tooling under a named 'AI Accelerator' programme: over 70% of colleagues have worked with Microsoft Copilot, 20% use one or more of 90-plus internal AI assistants, and around 700 colleagues use the PGGM Intelligent Agent monthly (company claim)",
+   "IPE reported October 2024 that PGGM uses LLMs in ESG, generative AI in forecasting and ChatGPT for coding, without deployment detail; governance is still being built, with EU AI Act integration a future objective",
+   "Stops short of scaling: customer service is the only department publicly named in production, penetration figures are cumulative or monthly rather than daily, and PGGM places itself in a first phase where AI is a smart assistant"
+  ],
+  "OMERS": [
+   "Own board and committee summaries record a Trusted AI Policy approved by the Member Services Committee in Q4 2024 and revised twice through May 2025, establishing the AI Governance Program",
+   "At the Canadian Investment Review's 2026 Global Investment Conference, Mo Mirza disclosed an internally built AI platform, launched 'last May', now running up to 39 applications in production with more than 1,300 users and developers (company claim)",
+   "Adoption managed through stakeholder feedback loops and technical controls",
+   "Stops short of scaling: the figures rest on a single conference account characterizing the platform as seeing 'early adoption', no source discloses investment-team penetration, a named investment use case or firm-wide rollout, and the most recent automation case study still described embedding AI as exploratory"
+  ],
+  "BCI (British Columbia Investment Management Corporation)": [
+   "Multiple AI use cases in daily production across investment and operations, named a strategic priority by its own executives",
+   "Microsoft customer story records Copilot licences rotated from 300 to more than 570 users including the C-suite, with CTO Tony Payne citing over 22 solutions, over 2,300 person-hours saved, a 30% cut in audit-report writing effort, and an internal survey where 84% of respondents reported a 10-20% productivity increase (BCI's own survey in a vendor story)",
+   "Own site describes AI agents in portfolio data software, a natural language interface over an infrastructure and renewable-resources dataset, forecasting models, bottom-up valuation and drafting deal alerts and memos, GenAI accessible to all global employees, and an in-house platform automating the full invoice lifecycle",
+   "Stops short of embedded: every source frames the tools as augmenting named human professionals, with no autonomous investment decision or org redesign described"
+  ],
+  "HOOPP (Healthcare of Ontario Pension Plan)": [
+   "Own CTO Q&A (2024) states AI is 'infused in some of our systems and processes', such as robotic process automation and information security tools, with Microsoft Copilot 'recently launched' and a HOOPP AI Lab also confirmed by the 2024 annual-results release",
+   "Appointed Damien Steel Chief Technology, Data and AI Officer in mid-2026, the only Maple 8 institution with AI in a top-level title",
+   "The Logic reports roughly 1,100 staff can choose ChatGPT, Claude or Microsoft Copilot, a live AI sandbox, and deal teams tracing downstream effects of major events, including a tool built with AI code generation used to monitor the Iran war's market impacts (company claims; Steel states humans make all capital-allocation decisions)",
+   "Stops short of scaling: the same profile makes adoption the current project rather than the accomplished state, with soft adoption metrics and forward-looking flagship initiatives"
+  ],
+  "National Pension Service (NPS)": [
+   "Own September 2025 release announces an AI and Innovation Task Force led by its planning director, organized into four divisions: pension and welfare, fund management, institutional operations, and systems",
+   "The task force is to establish a top decision-making body and designate a Chief AI Officer, building the framework for an AI transformation",
+   "A June 2026 release reports NPS was the first public institution to establish an AI technology cooperation framework with Kakao and secure high-performance GPUs, which is compute and partnership build-out rather than a deployed use case",
+   "Stops short of piloting: no public source names a single pilot or limited deployment running inside the investment process, fund management appears only as one task-force workstream, and both releases' forward-looking framing counts as intent",
+   "Confidence held at med: both supporting sources are NPS's own releases, with no independent corroboration obtainable"
+  ],
+  "ATP (Arbejdsmarkedets Tillægspension)": [
+   "Only confirmed operational deployment is a generative-AI assistant that drafts call-summary notes for customer advisors",
+   "Own 2025-11-25 release reports it live about six months across roughly 300 advisors in the Pensions and Family Benefits divisions, expanding to about 600, with every note reviewed and corrected by a human",
+   "Projects savings of more than 16,000 staff hours a year (ATP's own projection, no independent corroboration found)",
+   "In June 2025, on becoming a founding partner of Denmark's AI Competence Pact, ATP stated AI already plays a significant role across all customer service and case processing, and committed to upskill employees",
+   "Stops short of scaling: one production use case confirmed, confined to two administrative divisions rather than the firm as a whole, and no public source shows AI in daily production inside the investment process at all"
+  ],
+  "MassPRIM (Massachusetts Pension Reserves Investment Management Board)": [
+   "Public AI record is intent, not deployment",
+   "2024 objectives were to explore 'incorporating AI into PRIM's business processes and evaluate potential solutions' and to examine applications of large language models in investment analysis and monitoring, with staffers calling the work 'baby steps'",
+   "Coverage of the February 2025 annual board meeting states only that PRIM began exploring uses for AI and wants to continue exploring applications in 2025; fiscal-2026 results coverage from 4 August 2026 carries no operational AI update",
+   "Stops short of piloting: no source names a shipped pilot, a limited deployment in any team, an AI use policy or a governance committee, so neither half of the piloting bar is met",
+   "Confidence held at med: both supporting articles come from the same outlet and author, and PRIM's own board materials could not be read"
+  ],
+  "Franklin Templeton": [
+   "November 2025 Wand AI partnership release states the firm spent the past year 'evolving from pilot programs to production deployments of intelligent agents across multiple departments', with initial implementation focused on priority use cases within investment teams (first-party, uncorroborated)",
+   "Head of AI Platform Vasundhara Chetluru says the partnership 'brings agentic AI out of the lab and into live production'",
+   "January 2026 launch of Intelligence Hub, an AI-driven distribution platform on Microsoft Azure, to U.S. Distribution teams, described as production-ready after a multi-month pilot with reduced daily preparation time",
+   "Stops short of embedded: no source shows AI making investment decisions without a human in the loop or the organisation redesigned around AI, agents are framed as supporting research and efficiency, and the firm-wide ambition is future tense, with agents 'expected to be used' in key enterprise workflows by 2026"
+  ],
+  "EQT": [
+   "Own domain documents Motherbrain as firm-wide production tooling: a May 2024 post names deal management workflow, market analysis and monitoring, and talent sourcing, and says it lets anyone manage pipelines, add assessments and track advisors",
+   "A July 2025 post says 'AI is already embedded in much of our infrastructure', naming automated due diligence and modeling, and describes a roadmap requiring AI literacy across investment professionals (first-party, uncorroborated)",
+   "The same post caps the call: 20% of investment-professional users represent the lion's share of AI-connected prompts in Q1 2025, so daily generative-AI use is concentrated and the row rests on Motherbrain's deployment",
+   "Stops short of embedded: EQT states it is 'still unlikely that machines will fully automate investment decisions', Motherbrain ranks opportunities for a human to decide on, and the roughly 35-person AI transformation team Reuters reported in May 2026 is additive headcount, not structural redesign"
+  ],
+  "Amundi": [
+   "COO Guillaume Lesage states all employees have access to the ALTO Studio platform, half use it weekly, and the firm has 20 real applications to asset management (first-party, uncorroborated)",
+   "The single named example is compliance software letting a marketer check that a proposal is compliant",
+   "Amundi's Compliance Assistance tool, built on ALTO Studio, won 'The Most Promising Project Using Gen AI' at the AM Tech Day Awards on 8 October 2024, and WatersTechnology reported in March 2025 that ALTO Studio has 500 users among researchers, quants and financial analysts",
+   "Stops short of scaling: the only penetration figure is weekly rather than daily use by about half of staff, exactly one of the claimed 20 applications is named, the agentic layer is 'the latest development to come', and no source names AI a formal strategic priority"
+  ],
+  "Citadel": [
+   "Citadel LLC, the multi-strategy hedge fund, distinct from the separately run market maker Citadel Securities, has at least two named AI systems in production for investment staff",
+   "The internally built Citadel AI Assistant, trained on licensed transcripts, regulatory filings, brokerage research and the firm's own strategies, was reported in December 2025 to surface risks and generate tailored research, with regular use across almost all equities investors (company claim via CTO Umesh Subramanian)",
+   "By May 2026 Head of Core Engineering Atte Lahtiranta described analysts using Claude for Excel to build and update coverage models and pressure-test their work (company claim)",
+   "Stops short of embedded: Subramanian cautioned that investment decisions remain for humans, no public evidence shows decisions taken without a human or the organisation redesigned; confidence held at med as the penetration figure is scoped to equities investors and citadel.com returned 403"
+  ],
+  "Two Sigma": [
+   "February 2025 Q&A has AI Core Team head Mike Schuster describing scientists prompting LLMs to pull twenty years of Fed speeches and earnings-call transcripts and map them onto subsequent interest-rate moves; generative AI used for well over five years, NLP over a decade (company claim)",
+   "By January 2026 CTO Jeff Wecker wrote that 'everyone at Two Sigma is expected to use LLMs to accelerate their work'",
+   "A dedicated AI and machine learning team was created in May 2024 to define and implement firm-wide AI/ML strategy, and its leader was promoted that August to Chief Investment Officer of Two Sigma Investments",
+   "Stops short of embedded: human scientists still frame the question and verify the output, with no evidence of decisions without a human or of restructuring; confidence held at med as claims are self-published with no penetration metric"
+  ],
+  "CSOP Asset Management": [
+   "Two Microsoft releases sixteen months apart document daily production across functions: by May 2024 a bespoke Azure OpenAI chatbot and email pre-classification were live for sales, senior management, HR and the operations middle office, credited with 20% better information retrieval and filtering out 80% of non-essential correspondence (company claims)",
+   "By September 2025 an 'Intelligence Hub' on Azure AI Foundry and GitHub Copilot carried three named production tools: an ETF reporting portal (10 minutes to 30 seconds), trade-data extraction, and an analytics tool built by Deputy CEO and CIO Yi Wang generating trading ideas for internal reference",
+   "Governance is a deployment gate rather than a published policy: IT review for security, compliance and core AI principles",
+   "Stops short of embedded: humans make the call on the investment tool's ideas, with no autonomous decisions or org redesign shown; confidence held at med as every fact rests on Microsoft-authored vendor pages"
+  ],
+  "State Street Investment Management (SSGA)": [
+   "Own January 2026 article by the Global Head of Research and Head of Data and Analytics states ML and AI are integral to the investment process, from trading to forecasting",
+   "AI-powered chatbot available to investment teams as a research assistant; Systematic Equity runs NLP factors, including neural-network embeddings, over earnings-call transcripts and filings",
+   "Corporation-level earnings calls report a centralized AI hub with over 200 use cases and 70 live, near-universal employee access, and agentic copilot delivered to all eligible employees, never broken out by division",
+   "Confidence med: the investment-process evidence rests on one first-party article with no corroboration and no disclosed adoption metric",
+   "Stops short of embedded: firm says AI amplifies rather than replaces human judgement, is not yet comfortable using generative AI for direct investment modeling, and its XGBoost fundamentals forecaster is not implemented in live portfolios"
+  ],
+  "Millennium Management": [
+   "Anthropic's August 2026 announcement says Claude and Claude Code are used broadly across Millennium today, spanning trading desks, engineering and core functions across the firm's 340+ investment teams",
+   "Millennium's own February 2026 interview names a second system in service: an internally built search platform for proprietary content that developers can integrate into their applications",
+   "Structure behind the priority: a Global Head of AI, Technology since October 2023, centralized and federated AI teams, and a global AI lab announced June 2026",
+   "Confidence med: every adoption claim is first-party, with no independent reporting of penetration, daily use or a named investment-process use case",
+   "Stops short of embedded: the digital risk analyst co-developed with Anthropic is still being built and piloted, logs its reasoning, tests actions in sandboxes, and requires human experts to approve decisions"
+  ],
+  "Fidelity Investments": [
+   "Chief Investment Officer reported October 2023 that Saifr, introduced by Fidelity Labs, is used by portfolio managers, sales and other staff to flag brand, reputational and regulatory risk in communications as they are drafted",
+   "Fidelity also runs materials for funds it is launching through the same tool",
+   "AWS's re:Invent 2025 write-up records an enterprise-scale text-to-SQL system, 93-95% execution accuracy and about 28-second responses, letting non-technical staff query internal databases in natural language",
+   "Stops short of scaling: AWS describes a capability showcased at a conference rather than stated in production, the trade piece is framed around what staff can do with no user count or deployment date, no source puts AI inside the investment process, and the governance leg is unevidenced"
+  ],
+  "PGIM": [
+   "Prudential's newsroom reports a shipped sales chatbot for PGIM Global Wealth wholesalers that had handled nearly 5,000 queries as of May 2026, returning fund placement, performance, fee and commission data in seconds",
+   "Same first-party page states a Responsible AI framework governing deployment across Prudential, per-use-case regulatory evaluation, and humans at the helm for consequential decisions",
+   "WatersTechnology reported December 2023 that PGIM Quantitative Solutions was building an NLP-based physical climate risk index; described as being built and never confirmed shipped, so read as intent",
+   "Stops short of scaling: the only production-confirmed tool is sales support contained to one team, no source shows multiple use cases in daily firm-wide production across research, portfolio construction, risk or trading, and none names AI a firm-wide priority with deployment evidence"
+  ],
+  "Permodalan Nasional Berhad (PNB)": [
+   "Microsoft's customer story documents two shipped systems: Microsoft 365 Copilot deployed to staff with prompt-engineering training workshops, PNB among the first Copilot deployments in Malaysia",
+   "SuperApp, an Azure OpenAI knowledge advisor integrated with Teams, answers employees' HR-policy questions across departments, replacing lookups of 15 to 30 minutes; vendor-carried company claim",
+   "Microsoft Asia's July 2025 feature shows the rollout still live roughly eight months on, profiling a Technology Department employee drafting documents, building slides and summarising meetings",
+   "Governance thin: the Group CFO describes permissioned access only, with no AI use policy or governance committee publicly disclosed",
+   "Stops short of scaling: no headcount, adoption percentage or firm-wide scope disclosed, both use cases sit in enterprise productivity and HR rather than the investment process, and the CTO and CFO investment-side language is conditional, read as intent"
+  ],
+  "M&G": [
+   "Microsoft customer story dated June 2025 records Microsoft 365 Copilot going from 300 licensed pilot users to 600 staff, and GitHub Copilot credited with 11% of a 22% development-time reduction",
+   "PRAI, an AI code-review tool, scanned over 2 million lines of code and flagged 3,500 issues in five months; Head of Performance Oversight reports 25% less touch time on customer inquiries",
+   "WatersTechnology reports M&G Investments moving equity research to Bloomberg Research Management Solutions, an AI research engine over more than 400 million company documents, after building a data lake",
+   "M&G's own site describes a standing cross-functional AI Governance Forum that reviews and evaluates AI use cases",
+   "Stops short of scaling: 600 Copilot users is a pocket, the vendor page frames the rollout as still expanding, Bloomberg RMS augments research rather than making live decisions, and three fetched results announcements mention no AI at all"
+  ],
+  "AllianceBernstein": [
+   "WatersTechnology reported December 2023 that AB had boosted the accuracy of its generative AI models to 95%, fine-tuning that implies deployed models being measured",
+   "July 2024 firm-wide Chief Artificial Intelligence Officer role for Andrew Chin, an operating-committee member placed under the COO rather than a technology executive",
+   "COO Karl Sprules framed the appointment around AI enhancing investment-research, operational and business procedures; a company claim naming no underlying use cases or their reach",
+   "Fortune's September 2025 profile corroborates the reporting line and deliberate placement, but its most concrete statement is forward-looking about reimagining workflows",
+   "Stops short of scaling: no source names multiple production use cases, gives a user or penetration figure, or shows daily firm-wide use"
+  ],
+  "Ares Management": [
+   "February 2026 conference transcript: CEO Michael Arougheti says Ares looked at about 160 viable use cases and is actively deploying about 25 across front, middle and back office",
+   "Named work includes almost fully automated NDA review, AML and KYC, Salesforce optimisation, investment teams using AI for committee memos and models, and ChatGPT, Copilot and Gemini rolled out systematically to desktops",
+   "Arougheti ties this to 2025 being the slowest organic headcount growth in over ten years; the July 2026 call repeats present-tense productivity AI and automation of RFPs, DDQs, AML and KYC",
+   "Confidence med: both sources are Ares executives speaking first-party, with no corroboration and no penetration or daily-use figure",
+   "Stops short of embedded: every named use case augments people who still own the work, and no source shows an investment decision without a human in the loop or the organisation redesigned around AI"
+  ],
+  "Aberdeen Group (abrdn)": [
+   "Half-year 2026 report, July 2026, says AI is emerging as a meaningful enabler across the Group and that Copilot is being rolled out with strong adoption to date",
+   "CEO Jason Windsor says Copilot Premium is being rolled out and colleagues report meaningful time savings; every internal-adoption statement is first-party and uncorroborated",
+   "Governance documented earlier: the July 2024 University of Edinburgh research companion project sits under abrdn's AI Governance Framework",
+   "Stops short of scaling: the investment-process tool is still pre-production, an alpha test model and later prototype with no evidence of live research use, the assistant is described as rolling out rather than deployed, the two prior results announcements carried no internal-AI content, and Windsor's framing is forward-looking"
+  ],
+  "Legal & General": [
+   "H1 2026 call, August 2026: group CEO Antonio Simoes says L&G launched an AI-driven agent desktop in the retail business that is now driving efficiency improvements",
+   "L&G reported being the first large UK provider approved for the FCA targeted support regime, launched with AI-driven nudges supporting customer decisions",
+   "October 2025 Microsoft announcement documents Dynamics 365 Contact Center with Copilot transcription and case summaries, first phase covering workplace savings, retail protection and annuities across 12.4 million customers",
+   "June 2026 three-year expansion states L&G will continue to deploy Microsoft 365 Copilot to all 10,000 employees globally",
+   "Stops short of scaling: production use cases sit inside Retail, the Copilot deployment is described as continuing with no penetration figure, no AI appears in the asset-management investment process, and no policy, committee or responsible-AI framework was found"
+  ],
+  "Ameriprise Financial": [
+   "Q2 2026 call: CEO Jim Cracchiolo says e-meeting automation saves advisors 10 to 20 hours weekly, meeting summarization five to 10, Copilot Premium two and a half, with about 6,000 advisors already using them",
+   "Q1 2026 call describes AI deployed into everyday workflows across advice, operations and service on an integrated platform with a data foundation and governance",
+   "Q4 2025 call adds AI and intelligent automation in service, underwriting and asset-management transformation; all three sources are first-party, so confidence is med",
+   "Stops short of scaling: metricked deployments are advisor-facing and reported as an absolute count with no total or penetration rate, cross-segment mentions name no tool, governance is one passing reference, no AI is placed in Columbia Threadneedle's process, and further agents are future tense"
+  ],
+  "DWS Group": [
+   "Own quarterly results calls are the only public record, and describe readiness and experimentation rather than a shipped use case",
+   "FY2025 call, January 2026: CFO Markus Kobler says DWS exited its own cloud and migrated into Deutsche Bank's environment, freeing resources for automation and AI, a resourcing statement",
+   "Three months later CEO Stefan Hoops frames the firm as only now ready to apply AI to investment management after years ordering data and processes; Kobler cites a range of initiatives naming no tool, team, vendor or metric",
+   "Stops short of piloting: across four quarterly calls checked no named pilot, limited deployment, AI use policy or governance committee appears, and progressing a range of initiatives reads as intent"
+  ],
+  "Victory Capital": [
+   "Public AI record is organizational intent rather than deployment",
+   "March 2026 appointment of Molly Weiss as Chief Technology Officer and Head of Digital Innovation, an Executive Committee seat carrying responsibility for the AI framework and the data and analytics platform",
+   "Q2 2026 results call: Chairman and CEO David Brown lists AI among spending priorities alongside product development and technology",
+   "Stops short of piloting: no named pilot, internal tool, AI use policy or governance committee in any source read, no adoption figure, the AI framework is a responsibility being assigned, and the Q4 2025 and Q1 2026 calls mention AI not at all"
+  ],
+  "J.P. Morgan Asset Management": [
+   "January 2026: the firm cut ties with proxy advisers ISS and Glass Lewis to rely solely on Proxy IQ, an internal AI-driven voting platform for US shareholder voting, reported as the first such move by a major asset manager and set to handle data collection, research and recommendations",
+   "Two tools inside the investment process remain pilots by executives' own account: SpectrumGPT, a GPT-4 research-note drafter still being tested in October 2023, and Moneyball, a behavioural-bias tool still being developed in June 2024",
+   "Human authority explicit: the global head of data science says she remains the decision maker and accountable person",
+   "Stops short of scaling: neither SpectrumGPT nor Moneyball is shown reaching production, no penetration or daily-use figure exists for any of the three tools, no AM-specific policy or committee surfaced, and the current-tense platform claim sits on an undated own-domain page"
+  ],
+  "TPG Inc.": [
+   "Q1 2026 call: CEO Jon Winkelried says engineers in TPG's own tech group built LLM-based tools rolled out systematically to the firm",
+   "Winkelried claims approaching 80% of the firm now uses these tools on an active daily basis; a first-party figure that could not be corroborated externally",
+   "Lab 39, TPG's in-house AI team since 2019, built Samantha, an agentic platform used to interrogate the firm's own research and diligence data",
+   "TPG says the investment decision ultimately remains with the humans in the room, with AI a supplement to the discussion",
+   "Stops short of embedded: no autonomous decisions and no org redesign are claimed, and the assistant meant to give the investment committee a weekly risk and opportunity report is described in future tense, counted as intent"
+  ],
+  "Manulife Investment Management": [
+   "October 2025 release: the AI Research Assistant Platform is live in the public-markets investment process, synthesizing financials, sell-side commentary, internal notes, earnings transcripts and news into daily workflows",
+   "First-party metrics: 65% of public markets investment team members had incorporated it as of 31 August 2025, with document-mining time cut 70-80%; no independent corroboration",
+   "Governance published alongside: Responsible AI Principles covering responsible development, investment-led solutions and integrated risk and compliance oversight, with investment decisions reserved to the portfolio management team",
+   "Stops short of scaling: one production use case in the investment process, the three further tools shipped by May 2026 sit in advisor-compliance, retirement-distribution and retail-sales businesses, and the 75% GenAI engagement figure is parent-level across the insurer"
+  ],
+  "AP Pension": [
+   "Public AI record from 2023 onward is intent and enablement rather than deployment",
+   "Enterprise data foundation live on Microsoft Fabric per Microsoft's May 2024 customer story, which puts AI itself in the future as capabilities the organisation is keen to explore",
+   "Own newsroom announced a Festina Finance core system live from 1 May 2025 that the CIO says enables automated processes using AI, a platform making AI possible rather than a shipped use case",
+   "Stops short of piloting: no source names an AI system in production, a pilot in a named team, or a dated AI policy or committee, and the 2026 annual results make no AI claim while listing data use and automation among future priorities; confidence low"
+  ],
+  "Colonial First State": [
+   "Copilot went from 300 licences in January 2024 to 75% of employees having access by July 2024, per Microsoft's own account",
+   "CFS self-reported through Microsoft's newsroom that all pilot programme users believe Copilot saves them time, with 40% saving more than 30 minutes a day; no independent measurement",
+   "A five-year Microsoft agreement signed July 2024 names cloud and generative AI as strategic and itemises Azure OpenAI work: a FirstTech service trained on superannuation legislation documents, member-feedback analysis and contact-centre agent assistance",
+   "Stops short of scaling: only the enterprise assistant is evidenced as broadly used, the FirstTech service is confined to one team, remaining use cases are framed as working on and exploring, no AI sits in the investment process, and no policy or committee is disclosed"
+  ],
+  "Liontrust Asset Management": [
+   "Annual financial report announcement, June 2026, says the firm has scaled the use of AI across Liontrust as a key Technology, Data and Digital objective",
+   "Claims AI is now embedded in a range of investment, operational and client reporting processes, enabled by data platform investment and supported by a formal governance framework",
+   "The entire deployment account is one paragraph of the Chair's statement; the November 2025 half-year report described teams merely reviewing how to apply AI",
+   "Stops short of scaling: no use case, tool or system is named anywhere in the public record, no penetration, headcount or daily-use figure is disclosed, and no independent source corroborates it, so the asserted range of processes cannot be tested against the scaling bar"
+  ],
+  "Azimut Holding": [
+   "Goal Based Plan launched October 2024, a named AI platform built with Wealthype that Azimut's own financial advisers use to combine client data with instrument characteristics and produce goal-based allocations",
+   "A January 2024 roadmap promised three tools across investment, commercial and operational processes; only the Wealthype portfolio-construction tool has public evidence of shipping, the other two read as intent",
+   "Evidence rests on two Milano Finanza staff reports with no obtainable first-party corroboration, so confidence is low",
+   "Stops short of scaling: exactly one use case is publicly confirmed in production, no penetration, usage-frequency or headcount figure is disclosed, no AI use policy or governance body appears in public governance material, and no source after October 2024 confirms it is still live"
+  ],
+  "Ilmarinen": [
+   "Entire public AI record is governance and strategy, published in a two-week burst in February 2024 and not advanced since",
+   "February 2024: five principles for responsible AI use covering humans leading AI, transparency and explainability, equal customer service, good governance and trustworthy secure systems, with Maija Nikula named the director responsible for enterprise architecture, information security and AI development",
+   "Seventeen days earlier a strategy piece by technology and development director Mikko Lantto argued organisational readiness rather than the technology function determines adoption, naming no tool, team or deployment",
+   "Stops short of piloting: neither page nor the FY2025 results, H1 2026 interim report or news archive names a tool, a team pilot, a user count or AI inside a named process, so the governance half has no deployment half; confidence low"
+  ],
+  "ADIA (Abu Dhabi Investment Authority)": [
+   "2023 Review describes a Quantitative Research & Development team of about 100 experts spanning quantitative analysis, data science and AI, developing investment strategies through a peer-reviewed scientific process",
+   "Data analytics and quantitative capabilities significantly deepened across the organisation, particularly in the Core Portfolio and Fixed Income Departments",
+   "2024 Review puts QRD past 125 professionals, records AI, machine learning and systematic investing roles as more than half of new hires, and reports new systematic market-neutral and directional strategies plus data platform unification",
+   "Stops short of piloting: every AI disclosure is hiring, skills and academic partnership, shipped strategies are described as systematic and never as AI- or ML-driven, and no internal tool, named pilot, user count, policy or committee appears"
+  ],
+  "Investcorp": [
+   "Only named shipped deployment sits at Investcorp Strategic Capital Group, the roughly $1.5B GP-stakes arm, which announced a partnership with generative-AI diligence platform DiligentIQ in September 2024",
+   "Investment Partner Tim Osnabrug calls ISCG early adopters who have seen the transformative power of AI in operations; a limited deployment in one team rather than firm-wide production",
+   "June 2026 AI Investment Framework is a scoped position across Private Equity, Real Assets and Credit, with CIO Rishi Kapoor claiming AI is being embedded from sourcing and diligence through portfolio management",
+   "Stops short of scaling: that claim names no internal tool, user or penetration metric and no evidence of daily use, the framework's use-case material is an unreadable image-only PDF, and the one verifiable use case covers about $1.5B of a $62B platform"
+  ],
+  "ExodusPoint Capital Management": [
+   "Entire public AI record is two senior hires and their mandates, with no shipped internal use case disclosed anywhere",
+   "Hedgeweek, October 2023: Shen Xu, previously Head of NLP at Balyasny, appointed Head of Artificial Intelligence to enhance the data science platform and make AI infrastructure world class",
+   "Hedgeweek, August 2025: Sridhar Nimmagadda, formerly Head of Generative AI Technology at Point72, appointed Head of AI Transformation, expected to spearhead work on research, trading efficiency and internal processes",
+   "Confidence med: both items rest on a single carrier crediting the same upstream trade outlet, with no first-party statement reachable",
+   "Stops short of piloting: both mandates are forward-looking and read as intent, and no source names a tool, team pilot, user count, AI use policy or governance committee, so neither half of the bar is met"
+  ],
+  "Lynx Asset Management": [
+   "May 2026 paper: the research department has built a centralized knowledge base consolidating thousands of sources, with an automated pipeline continuously processing new documents and keeping facts searchable",
+   "Researchers can run multiple AI agents in parallel so tasks that took days are often completed in hours, and the firm states AI is central to how it conducts research",
+   "April 2026 paper covers governance: legal, compliance and technology pre-approve providers, each agent runs in a contained environment with access limited to its task, and the researcher leads the process",
+   "Stops short of scaling: deployment is scoped to the research department, no adoption or daily-use metric is disclosed, the agentic pipeline of planning, coding and evaluation agents is still under construction, and the record is Lynx's own publication series"
+  ],
+  "Sumitomo Mitsui DS Asset Management": [
+   "Own 22 October 2025 release: full-scale business use of the in-house-built research assistant AIR began that day inside the investment division",
+   "The macro research group gathers macro-economic news and prepares internal summaries and the credit bond group builds market analysis and issue evaluation, drawing on Azure, AWS and Google Cloud models over secure internal networks",
+   "Firm projects roughly 50,000 hours a year of efficiency gains in the investment division; Nikkei reported about 20 use cases, about 14 hours saved per person monthly, and later that past investment decisions are being fed to AI agents",
+   "Stops short of scaling: the same release places company-wide use in the future, production is confined to two named groups in one division, no user-count or daily-use figure exists, the July 2026 neoAI project is written as work under way, and no AI policy or committee was found"
+  ],
+  "Daiwa Asset Management": [
+   "Two named AI systems built for its own compliance and document-review work, both co-developed with LegalOn Technologies",
+   "July 2025 release announces a document-review AI for advertising review of the monthly fund reports it produces under Investment Trusts Association rules; the January 2026 release states it has been in place since October 2025",
+   "The second system screens records of analysts' interviews with listed companies for material facts before internal circulation, work Nikkei reports legal and compliance staff previously checked by eye",
+   "Stops short of scaling: both sit in named review functions rather than the investment process or the firm at large, neither has a user count or penetration figure, no AI policy or committee appears publicly, and the only source placing the insider system in live operation is undated, leaving both dated sources describing its go-live as planned"
+  ],
+  "Nissay Asset Management": [
+   "Named firm-wide generative-AI platform NAM-GPT, co-developed with an external partner, announced in the firm's own 19 June 2025 release, which won Celent's model buy-side award 2025",
+   "Nikkei corroborates breadth twice: the president said on 11 May 2025 that 70% of employees now use AI, against 763 officers and staff; a 27 November 2025 report has AI investigating investee greenhouse-gas reduction targets",
+   "Shipped rather than planned: its 31 July 2024 release says internal generative-AI applications were developed and released internally, naming chat, ESG interview assist and NAVIS search, on Azure OpenAI and Amazon Bedrock retrieval",
+   "Stops short of embedded: the firm says it wanted to extend human analysis rather than automate it, every documented use is analyst-assistive with a human deciding, no autonomous decision-making is claimed, and no usage-frequency figure is disclosed"
+  ],
+  "E Fund Management": [
+   "Trade press, 15 February 2025: completed private full-parameter DeepSeek deployment internally, and self-developed large model EFundGPT in use across research support, copy generation, coding, meeting minutes, data queries and intelligent trading",
+   "Central bank 2023 financial technology awards, reported October 2024: first prize for an AI-based one-stop active-equity research platform, second prize for the EFundGPT platform",
+   "A March 2025 report that the DeepSeek-upgraded EFundGPT can cover over 70% of business departments is stated capability, not a measured adoption rate (company claim)",
+   "Stops short of scaling: no source discloses daily use or an actual firm-wide adoption figure, EWork launched in 2026 frames scaled application as objective rather than achievement, and the firm's own active-equity page describes that division as exploring"
+  ],
+  "China Europe Fund Management": [
+   "Named systems shipped, per 25 August 2024 press relaying the firm's account: an intelligent counterparty-management system using BERT, Siamese networks and OCR in trade risk control, plus an intelligent IVR system in client service",
+   "Private DeepSeek deployment completed by 7 February 2025, though the firm placed office, investment-research and client-service application in the future",
+   "By 16 August 2026 an investment-research Agent integrating over 100 Skills across data scraping, industry analysis, financial modelling and report writing, with researcher retrieval efficiency up over 60% (company claims)",
+   "Stops short of scaling: no penetration or daily-use figure is public, the headline 10,000 research reports nightly is design capability rather than a measured rate, and in December 2025 an equity committee chair placed material change three years out"
+  ],
+  "China Merchants Fund Management": [
+   "Press, 4 March 2025: completed local deployment of the DeepSeek open-source family, validated in internal scenarios, plus an R1 quantized build to cut compute cost",
+   "By 16 August 2026, multiple AI applications live with roughly 30 interview write-ups per day and earnings commentary across 31 industries, a measured rate rather than stated capability (company claims relayed by press)",
+   "Governance explicit: compliance and risk rules take priority over model judgement, enforced by a rules engine over concentration, liquidity, fair-dealing, scope and authorisation limits, atop multi-layer defences and 60-plus in-house risk dimensions",
+   "Stops short of scaling: both production use cases sit inside research support rather than across the firm, no adoption rate, user count or tool name is public, and neither carrier corroborates the other"
+  ],
+  "Guotai Fund Management": [
+   "Press, 4 March 2025: private deployment of the DeepSeek model family completed at end-January 2025, with an in-house AI application development platform built",
+   "That platform is live across brand marketing, risk control, product operations and document and office work, described only as decent performance, an unquantified company claim",
+   "By 16 August 2026 a completed three-tier research stack: a structured data base covering A-shares and funds, an unstructured knowledge base of research reports and roadshow notes with semantic retrieval, and an Agent capability layer",
+   "Stops short of scaling: no adoption rate, user count, daily output figure or production tool name, the stack is described as built infrastructure rather than daily use across the firm, and the firm's framing of standardising researcher methodology into reusable Skills is future-tense"
+  ],
+  "China Universal Asset Management": [
+   "Press, 4 March 2025: private DeepSeek deployment completed after the 2025 Spring Festival and already applied to information extraction, a code assistant and general question answering",
+   "Hardest extraction metrics of any Chinese manager reviewed: full parsing of bond ledger records at over 96% recognition accuracy, 77% on certificate-of-deposit quote parsing",
+   "Code assistant generated over 50,000 code suggestions in a month, acceptance rising from 3% to 10%",
+   "In a 16 August 2026 survey of 17 managers it appears once, with no AI vocabulary, describing conventional valuation and position-tracking systems",
+   "Stops short of scaling: the firm's own February 2025 release is future-tense about investment research, sales, risk and compliance and client service, with testing still under way before large-scale rollout, no production platform is named, and 10% acceptance is not firm-wide daily use"
+  ],
+  "Maxwealth Fund Management": [
+   "One well-documented deployment, reported by two trade outlets within a month, both relaying the firm's own description rather than independent verification, which holds confidence at med",
+   "Reported 7 February 2025: a completed but explicitly preliminary private deployment of DeepSeek models, applied to policy question answering, chat-log organisation, unstructured data reconciliation and code development",
+   "Reported 4 March 2025: three scenarios launched, with document optimisation, an AI document assistant, an intelligent knowledge base, investment-research data organisation and internal data analysis still in test",
+   "Stops short of scaling: every shipped use case is back-office or developer productivity, the investment-process application is in testing on the firm's own account, no user count, adoption rate or tool name is public, and its August 2026 disclosure uses no large-model vocabulary"
+  ],
+  "China Asset Management (ChinaAMC)": [
+   "Two named internal systems in a 22 June 2026 interview with the deputy general manager and CIO: Lingxi for active research and Feiyi for fixed income, built over three years across pre-, in- and post-trade",
+   "The fixed-income platform is said to have raised portfolio-analysis and execution efficiency and improved allocation logic, the firm's account relayed by press with no metric",
+   "Governance: proactive threat detection built, firm-wide data-asset grading completed, and a stated boundary leaving trend judgement, value choices and industry contact to researchers",
+   "Stops short of scaling: no user count, adoption rate, daily-use claim or output metric for either system, the only firm-wide completed action is data classification, a security measure, and the firm is absent from both industry censuses of fund-manager AI adoption"
+  ],
+  "Harvest Fund Management": [
+   "An unnamed intelligent investment-research platform built on data, models and tools, disclosed to a single trade outlet across two 2026 articles (company claims)",
+   "Reported 7 July 2026: knowledge bases completed across more than 100 secondary sub-industries, with knowledge graphs turning unstructured data into investment leads over more than 5,000 listed companies",
+   "The firm says it has pursued research digitisation since 2018 and splits AI into production, interaction and decision stages, with production and interaction already delivering value",
+   "Stops short of scaling: it leaves the decision stage outside value-delivering use, no user count, adoption rate or daily-use claim exists, the tooling has no product name, and it is absent from the 4 March 2025 census of completed private DeepSeek deployments"
+  ],
+  "Fullgoal Fund Management": [
+   "Named in a 4 March 2025 census of nearly 30 managers among the roughly 20 that had completed private deployment of the DeepSeek open-source series",
+   "Its own application claims there are future-tense, that open-source models will play a key role in digital transformation, investment-strategy optimisation and risk-control build-out, and it calls validating business-scenario deployment a prerequisite of exploration",
+   "The 16 August 2026 roundup adds self-developed equity, fixed-income and quant systems and a distributed compliance and risk engine covering pre-trade simulation, intraday alerts and post-trade supervision",
+   "Stops short of piloting: no enumerated source names a shipped AI use case, those roundup paragraphs carry no AI vocabulary, no AI use policy, governance committee or use-case pipeline appears, and the only source naming internal applications is non-enumerated and says they reached usability"
+  ],
+  "Bosera Asset Management": [
+   "The 4 March 2025 census reports DeepSeek-v1 on the firm's own Huawei Ascend servers as early as start-2024 as base model for development tooling, v2 in August 2024 and R1 internally at start-2025, after which it began exploring research, advisory and software applications",
+   "Chief digital officer, March 2026: some teams use OpenClaw on public cloud gated on compliance, with domestic alternatives under internal security review",
+   "Chairman, 31 May 2026: an AI lab stood up in 2023, and self-built enterprise agent platform BSBox in scaled application from early April 2026 (company claims)",
+   "Stops short of scaling: no user count, adoption rate or daily-use figure at any tier, the only scale word is the firm's own with no metric behind it, and the chief digital officer's description a month before the BSBox launch was team-level"
+  ],
+  "Tianhong Asset Management": [
+   "Press, 7 July 2025: integrated research platform TIRD live since 2024 and now the base layer of industrialised equity research, running closed-loop research-task management and an intelligent investment cockpit",
+   "Press, 23 December 2025: the quant research system iterated fully to an AI stage, with over 70% of excess-return factors from AI learning across 19 index-enhancement funds totalling over RMB 12.084bn at end-Q3 2025 (company claims)",
+   "A production use case putting AI-derived factors behind live investment decisions on material capital; separately named in the 4 March 2025 census of completed private DeepSeek deployments",
+   "Stops short of embedded: industry and style deviation is clamped very tightly around the AI factors rather than models running unsupervised, no source describes decisions taken without a human or an organisation redesigned around AI, and no daily-usage rate for TIRD is disclosed"
+  ],
+  "Ping An Fund Management": [
+   "A 31 May 2026 report has the IT head describe a large-model platform extracting report key points and comparing logic within seconds, giving research staff individualised Agent tools for stock, industry and advisory analysis (company claims)",
+   "Also described as live: a meeting tool producing minutes without the user attending, a robot digesting on a daily schedule the hundred-odd messaging groups investment staff sit in, and an AI review platform in compliance and risk control",
+   "The 4 March 2025 census independently names the firm among managers completing private DeepSeek deployment",
+   "Stops short of scaling: no admissible source gives a user count, adoption rate or capital behind an AI-derived decision, the research platform is gradually forming rather than complete, the marketing platform is under construction, and the review platform's extension to prospectuses and contracts is future"
+  ],
+  "Dacheng Fund Management": [
+   "Named as a list entry only in a 5 March 2025 census of nearly 30 managers, among the roughly 20 that had completed private DeepSeek deployment, with no firm-specific paragraph in the piece",
+   "The 16 August 2026 roundup places it among managers reporting year-on-year increases in research system spend, with breadth and depth of function continually strengthened",
+   "The firm's own view is that the biggest technical breakthrough point is an enterprise-grade financial agent (company claims)",
+   "Stops short of piloting: that agent architecture, which would make the research process an autonomous, compliance-embedded digital production line, is explicitly future, no admissible source names a shipped AI use case, tool, AI use policy or governance committee, and its closed-loop control paragraph carries no AI vocabulary"
+  ],
+  "Penghua Fund Management": [
+   "A 24 December 2025 report, carrier tier unresolved, says the firm and a listed vendor jointly brought live the Alpha version of what they call the industry's first AI-native new-generation TA fund-clearing system",
+   "It deeply integrates the firm's self-developed large model to move settlement from after-the-fact accounting to prediction and in-flight control (company claim)",
+   "The 16 August 2026 roundup carries the firm's account of a self-developed intelligent research platform giving portfolio managers real-time decision support, but that passage uses no AI, large-model or generative vocabulary",
+   "Stops short of piloting: the one named model deployment is an Alpha version inside a single back-office settlement system rather than a pilot across investment teams, no AI use policy, governance committee or use-case pipeline is disclosed, and the firm is verifiably absent from the 5 March 2025 census"
+  ],
+  "Korea Teachers Pension": [
+   "A 7 April 2026 management-innovation plan on its own newsroom sets the goal of becoming an AI- and digital-based intelligent pension and welfare service institution, a destination rather than a shipped use case",
+   "Three days later it announced an AI innovation advisor, called a first for a Korean public institution, with a human-AI cooperative governance model to be built (company claim); the innovation body launched 27 May 2026",
+   "Confidence low: all three events rest on the fund's own releases, unreadable past their titles, with no independent outlet reporting on its internal AI",
+   "Stops short of piloting: no source names an AI system, model or vendor running inside the fund's own work, the advisor announcement discloses no tool, user population or scope, and the investment-process AI it wants, AI-assisted allocation and early-warning risk indicators, is future-tense"
+  ],
+  "Invesco Great Wall Fund Management": [
+   "Completed private on-premise deployment of the open-weight DeepSeek-R1 model, confirmed February 2025 by the firm's own IT head and corroborated a month later by press naming it among roughly twenty managers",
+   "That account says the model shows application value across investment research, risk management, product operations, software development and knowledge-base management: where the firm sees value, not that each function runs on it",
+   "By August 2026 press reported an investment research platform built on AI and cloud-native technology, supporting fixed income, ETF, pension FOF, active and quantitative businesses",
+   "Stops short of scaling: the February 2025 source itself puts deeper business integration and use-case expansion in the future tense, no source states daily or firm-wide production use, an AI use policy or a governance committee, and the firm's own domain corroborates none of it"
+  ],
+  "ICBC Credit Suisse Fund Management": [
+   "A 23 February 2024 report says FundGPT, launched by the firm, achieved technical breakthroughs in digital-human question answering, retrieval-augmented large models, a data-analyst companion and AI assistants",
+   "The 4 March 2025 census records completed deployment of the DeepSeek-V3/R1 671B version",
+   "Governance met structurally: an AI application engineering department established with a dedicated flexible team for intelligent research, and the research platform interfaced with the risk platform so compliance precedes trial-calculation and portfolio construction",
+   "Stops short of scaling: no source at any tier gives a user count, adoption rate or daily-usage figure for FundGPT or anything else, the 2024 predicate is a capability claim rather than usage, and the passage describing a live investment workflow attributes it to no AI, model or agent"
+  ],
+  "XTX Markets": [
+   "Deep-learning models run as the production trading system; the 22 February 2024 release launching machine learning division XTY Labs sets its mission as integrating successful models into the market to enhance trading strategies",
+   "First-party compute: 100,000 cores and 20,000 A/V100 GPUs at launch, over 25,000 GPUs and 650 petabytes of usable storage by January 2025, and over EUR 1bn committed that month to a first owned data centre",
+   "A September 2025 post on in-house filesystem TernFS reports more than 500PB across three data centres, with all machine learning driven out of it by mid-2024",
+   "Stops short of embedded: no source states XTX trades without a human in the loop or that the organisation was redesigned around AI, and the XTY Labs release frames the residency as a route into the core quant team"
+  ],
+  "Hudson River Trading": [
+   "Its own undated machine learning page claims a deep, sustained commitment over more than a decade and that deep learning is core to its trading, with models robust to adversarial actors: live models with the firm's own capital (company claim)",
+   "Dated outside accounts corroborate compute, not use cases: a July 2024 Google Cloud partnership letting quant researchers test strategies faster, a May 2026 vendor statement on training and simulation at scale, and an August 2026 release quoting its head of research and development",
+   "Confidence med: the production claim is first-party and undated, corroboration covers procurement, and two staff-written pieces on actual AI use were unfetchable",
+   "Stops short of embedded: no fetchable source states HRT trades without a human framing and verifying the models, or that the firm was reorganised around AI"
+  ],
+  "Jane Street": [
+   "Its own undated machine learning page states that its team creates the neural network models driving trading strategies and that the firm runs tens of thousands of high-end GPUs against 400 billion daily filled dollars (company claim)",
+   "Two dated vendor releases corroborate: an approximately $6 billion AI cloud agreement in April 2026, and a May 2026 post saying Jane Street has relied on that vendor since 2024 to train its next generation of trading models",
+   "A second use case in engineering: its own blog reports an in-house Claude Code-like tool, AIDE, in May 2026, and a designer iterating on internal apps with Claude instead of Figma",
+   "Stops short of embedded: no fetchable source states Jane Street trades without a human framing and verifying the models, or that the firm was reorganised around AI"
+  ],
+  "Flow Traders": [
+   "Own 4Q and FY 2025 results, 12 February 2026: expanded investment in intelligent system management, deploying a dedicated deep learning initiative applied to trading strategies, and accelerating deployment of AI-supported analytics, with no named tool, team or penetration figure",
+   "A 28 July 2026 vendor release names a co-head of the recently announced AI and deep learning division and confirms dedicated compute for training foundation models, while saying the firm is only now preparing to go live with that division",
+   "Stops short of piloting: the most recent own disclosure, 2Q 2026 results of 30 July 2026, contains no present-tense AI deployment, only talent attraction and a Horizon 2030 ambition with a progress update intended at full-year results, and no source names a shipped use case, pilot, AI policy or governance body"
+  ],
+  "Optiver": [
+   "Own 9 September 2025 post: already invested in Cursor and GitHub Copilot to explore how AI can support writing and reviewing code, and calls it still early days",
+   "An 18 December 2025 post describes an in-house research engine running thousands of parallel experiments across decades of market data for systematic trading, with named component GraphRunner",
+   "A May 2026 interview says bots are integrated, making changes in the environment; the CTO said in July 2026 the firm invested heavily in tooling, education and LLM access (own-domain sources)",
+   "Stops short of scaling: its 27 April 2026 post says LLM systems are already widely used for analysis, prototyping and education but argues current AI trading models fall short, and no source names an AI use case in production trading, an adoption figure, or an AI use policy"
+  ],
+  "Quilter": [
+   "A 15 May 2025 vendor customer story has the group CIO describe a phased Microsoft 365 Copilot rollout begun in technology and extended to marketing, investment, legal, HR and finance, with audit reviewing unstructured data in ten minutes rather than days",
+   "A 24 March 2026 vendor release documents a wider deployment: Aveni Assist live across appointed representative firms and deployed to all advisers on the network to record, transcribe and summarise client meetings",
+   "Confidence med: each event rests on a single vendor-side source, and Quilter's own disclosure channels could not be read",
+   "Stops short of scaling: the Copilot evidence describes a pilot phase with licences swapped frequently, the investment-commentary use case is explicitly a test, the headline saving is what Copilot will or could save rather than measured, and no source places AI in Quilter Cheviot's investment process"
+  ],
+  "Pictet Asset Management": [
+   "Runs client money on an in-house AI stock-selection model: Quest AI live since July 2023, with USD 1.7bn raised over 18 months behind a boosted-tree model on roughly 400 engineered features, retrained quarterly (own site, October 2025)",
+   "A February 2026 article by its Quest technology team documents deployment: features roughly doubled from about 200, observations rose more than tenfold, compute from under 100 CPUs to over 3,000, and the model reached US-listed AI-enhanced equity ETFs",
+   "Group-level One.Chat, a GPT-powered internal assistant on Azure OpenAI, in production since December 2023 with 3,000 users and 1,200 weekly at go-live, is corroborating context covering the private bank too",
+   "Stops short of embedded: investment managers must validate recommended trades before execution and portfolio managers oversee the optimiser, no source shows the organisation restructured around AI, and confidence is med since load-bearing Quest AI statements are own-domain"
+  ],
+  "High-Flyer (幻方量化)": [
+   "Its own undated site describes a hedge fund that uses AI to invest, with the first deep-learning-generated trading position live on 21 October 2016 and deep learning applied across trading from 2017 (company claims)",
+   "A 14 January 2026 trade report restates both dates as fact and puts AUM above RMB 70bn and a 2025 mean return of 56.55% behind them: live decisions and material capital behind the models",
+   "First-party and dated: HAI-LLM, an in-house large-model training framework published 27 June 2023, custom-developed for the firm's own GPU cluster and scaling to thousands of GPUs",
+   "Stops short of embedded: its own fund page keeps strategy researchers in frame, and no source states capital is committed without researchers setting and verifying models, or that the organisation was redesigned around AI; confidence med, the adoption arc predating the 2023 event floor"
+  ],
+  "KB Asset Management": [
+   "AI in production on two fronts, both from enumerated Korean trade reporting rather than the firm's own voice, its site being unreadable this session",
+   "A 1 October 2025 report states the firm currently runs two public EMP funds on ANDERSON, the deep-learning portfolio system it built independently from 2016; a September 2025 interview places the work in a named AI Quant and DI investment division",
+   "A 6 March 2026 report describes a generative-AI announcer producing the firm's ETF and fund explainers, market briefings, webinars and event video, claimed as an industry first (company claim)",
+   "Stops short of scaling: no admissible source quantifies the capital ANDERSON runs, so the material-capital limb cannot be tested, nothing shows AI used daily across the firm, and no AI policy, governance body or use-case pipeline is disclosed"
+  ],
+  "Elo (Työeläkeyhtiö Elo)": [
+   "AI is running in named functions with a published use policy, but nothing firm-wide",
+   "Own March 2024 article reports a customer-service chatbot that handled 26,000 conversations in 2023 and resolved 77% of them without a human, 60% positive feedback, and states AI already supports the pension-granting decision process while a person always makes the decision",
+   "By June 2026 the CEO described a further production use — AI analysis of population-level phenomena weakening employees' work ability — and said AI supports investment operations in analysis preparation and scenario modelling without making investment decisions (company claims)",
+   "Governance prong met by Elo's own AI principles page, which commits that a human always supervises AI, though the page carries no visible date and so supports only that the policy exists",
+   "Stops short of scaling: no penetration, user-count or daily-use figure for any tool, the only dated deployment metrics are from 2023 and cover one channel, and Elo's own August 2026 interim report makes no internal-AI claim at all"
+  ],
+  "KLP (Kommunal Landspensjonskasse)": [
+   "Named internal tools in use — Microsoft Copilot with M365, GitHub Copilot for software development, domain assistants BankingGPT and PropertyGPT, and Pythia, a KLP-built assistant that finds and uses internal knowledge across systems",
+   "The EVP of technology describes KLP as in the early stages of adopting AI and gradually scaling its use across the organisation, reporting improved individual productivity and efficiency gains in development (company claims)",
+   "Customer-facing use is explicitly not started: the firm says it is just beginning to explore how AI could improve customer-facing services",
+   "Confidence is low because KLP's own disclosure does not corroborate any of it: the 2025 annual report contains no mention of AI, and the Q2 2026 report mentions artificial intelligence only as a driver of global economic activity",
+   "Stops short of scaling: no user count, adoption rate or daily-use figure for any tool, nothing places AI in the investment process, and the full automation of pension applications recorded in the annual report is rule-based process automation rather than AI"
+  ]
+ }
+}
