@@ -146,6 +146,16 @@ Row construction happens in a gitignored `local/` directory that never leaves th
 
 🚧 Active. The dashboard is **live**; the corpus is under human review row by row, and the review queue is drained before each release. **Not yet built:** scheduled automation of the monitoring engine, and the in-UI "Recent Signals" feed panel (`feed.json` exists; it isn't rendered yet).
 
+## Independence
+
+This is an independent personal project, produced entirely in the author's personal
+capacity. It is **not affiliated with, sponsored by, funded by, or endorsed by any
+employer or institution**, and every view and classification here is the author's alone.
+
+No non-public information from the author's professional work informs any classification,
+and institutions where the author has a professional affiliation are **excluded from
+coverage entirely**. Nothing in this repository is investment advice.
+
 ## License
 
 **Code** — MIT, see [LICENSE](LICENSE).
