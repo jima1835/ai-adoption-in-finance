@@ -422,7 +422,7 @@ export const REGION_COLORS = {
 // ---------------------------------------------------------------------------
 // data/agreement.json — the human-vs-agent disagreement record.
 //
-// Built by local/build_agreement.py from institutions.json + not_classified.json
+// Built by tools/build_agreement.py from institutions.json + not_classified.json
 // (both public, so the figures are reproducible from this repo alone). The panel
 // that renders it MUST carry the anchoring caveat: the reviewer saw the agent's
 // proposed stage before deciding, so this is an upper bound on agreement, not a

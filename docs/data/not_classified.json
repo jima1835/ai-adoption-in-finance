@@ -118,5 +118,13 @@
     "outcome": "withdrawn-on-review",
     "reason": "Production signal does not come from investments decision. all news are out of date thus no staging.",
     "as_of": "2026-09-01"
+  },
+  {
+    "name": "IMC Trading",
+    "type": "hedge-fund",
+    "region": "Europe",
+    "outcome": "withdrawn-on-review",
+    "reason": "Unclear about use cases from public domain. All present tense production claim is undated.",
+    "as_of": "2026-08-31"
   }
 ]

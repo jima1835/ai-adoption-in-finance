@@ -1,0 +1,594 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>institutions.json — review</title>
+<style>
+  :root {
+    --bg:#0b0e12; --panel:#12161c; --panel2:#171c24; --line:#232a35;
+    --text:#d7dde6; --dim:#8b96a5; --accent:#5eead4; --amber:#fbbf24;
+    --red:#f87171; --blue:#60a5fa; --green:#4ade80; --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  * { box-sizing:border-box; margin:0; }
+  body { background:var(--bg); color:var(--text); font:16px/1.55 var(--mono); padding:20px; }
+  a { color:var(--blue); text-decoration:none; } a:hover { text-decoration:underline; }
+  header { display:flex; flex-wrap:wrap; gap:16px; align-items:baseline; margin-bottom:6px; }
+  h1 { font-size:20px; color:var(--accent); }
+  .counts { color:var(--dim); font-size:14px; }
+  .banner { color:var(--amber); font-size:14px; margin:4px 0 14px;
+            border-left:3px solid var(--amber); padding-left:8px; }
+  #toast { position:fixed; top:12px; right:12px; background:#7f1d1d; color:#fecaca;
+           padding:8px 14px; border-radius:6px; display:none; z-index:9; max-width:46ch; }
+  #commit { background:var(--panel); border:1px solid var(--line); border-radius:8px;
+            padding:10px 14px; margin-bottom:18px; font-size:14px; display:none; }
+  #commit code { color:var(--green); user-select:all; word-break:break-all; }
+  #commit button { margin-left:10px; }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:10px;
+          padding:14px 16px; margin-bottom:14px; }
+  .card.dirty { border-color:var(--amber); }
+  .rowhead { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:8px; }
+  .rowhead b { font-size:19px; }
+  .tag { font-size:13px; padding:2px 9px; border-radius:10px; border:1px solid var(--line);
+         color:var(--dim); }
+  .tag.stage-scaling { color:var(--amber); border-color:var(--amber); }
+  .tag.stage-piloting { color:var(--blue); border-color:var(--blue); }
+  .tag.stage-exploring { color:var(--dim); }
+  .tag.stage-embedded { color:var(--green); border-color:var(--green); }
+  .tag.pause { color:var(--red); border-color:var(--red); }
+  .tag.fresh { color:var(--green); border-color:var(--green); }
+  .tag.due { color:var(--amber); border-color:var(--amber); }
+  select, input[type=text], textarea {
+    background:var(--panel2); color:var(--text); border:1px solid var(--line);
+    border-radius:6px; font:14px var(--mono); padding:5px 8px; }
+  textarea { width:100%; resize:vertical; }
+  label { color:var(--dim); font-size:13px; display:block; margin:10px 0 3px; }
+  .grid { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:16px; }
+  @media (max-width:1000px){ .grid { grid-template-columns:1fr; } }
+  .evidence { background:var(--panel2); border:1px solid var(--line); border-radius:8px;
+              padding:12px 14px; font-size:14px; max-height:560px; overflow:auto;
+              white-space:pre-wrap; word-break:break-word; }
+  .evidence .h { color:var(--accent); font-weight:bold; }
+  .evitem { display:flex; gap:6px; margin-bottom:5px; align-items:center; }
+  .evitem input { font-size:13px; }
+  .evitem .ev-date { width:13ch; }
+  .evitem .ev-desc { flex:2; min-width:120px; }
+  .evitem .ev-url { flex:1; min-width:90px; }
+  .evitem a { font-size:15px; }
+  .evrow { display:flex; gap:6px; margin-top:6px; flex-wrap:wrap; }
+  .evrow input { flex:1; min-width:80px; }
+  button { background:var(--panel2); color:var(--text); border:1px solid var(--line);
+           border-radius:6px; font:14px var(--mono); padding:7px 14px; cursor:pointer; }
+  button:hover { border-color:var(--accent); }
+  button.approve { color:var(--green); border-color:var(--green); }
+  button.pull { color:var(--red); }
+  .actions { display:flex; gap:8px; margin-top:12px; align-items:center; flex-wrap:wrap; }
+  .note { color:var(--dim); font-size:13px; }
+  #done { margin-top:26px; color:var(--dim); font-size:14px; }
+  #done li { margin-bottom:2px; }
+</style>
+</head>
+<body>
+<header><h1>institutions.json — review</h1><span class="counts" id="counts"></span></header>
+<div class="banner">METHODOLOGY §4: plans are not stages · between two stages, pick the LOWER · unverifiable firm claims stay "(company claim)"</div>
+<div id="commit"></div>
+<div id="toast"></div>
+<div id="changes"></div>
+<div id="cards"></div>
+<div id="nc"></div>
+<div id="done"></div>
+
+<script>
+'use strict';
+const STAGES = ['exploring','piloting','scaling','embedded'];
+const CONFS = ['high','med','low'];
+const TYPES = ['asset-manager','pension','sovereign-wealth','hedge-fund','endowment'];
+const REGIONS = ['US','Canada','Europe','Middle East','Asia','Other'];
+const OUTCOMES = ['no-qualifying-evidence','withdrawn-on-review'];
+const ORDER = { scaling:0, embedded:1, piloting:2, exploring:3 };
+let S = null;                       // server state
+const approvedThisSession = [];     // {name,type} for the commit helper
+const ncFiledThisSession = [];      // names filed to the public appendix
+const transitionsThisSession = []; // names whose stage moved this sweep
+const esc = s => String(s ?? '').replace(/[&<>"]/g,
+  c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.style.display = 'block';
+  setTimeout(() => t.style.display = 'none', 6000);
+}
+
+function renderEvidence(text){
+  if (!text) return '<span class="note">No REVIEW.md section found — baseline row or evidence lives elsewhere. Confirm against the row’s own event links.</span>';
+  let h = esc(text);
+  h = h.replace(/(https?:\/\/[^\s|<)"]+)/g, '<a href="$1" target="_blank" rel="noreferrer">$1</a>');
+  h = h.replace(/^(#{2,3} .*)$/gm, '<span class="h">$1</span>');
+  h = h.replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>');
+  return h;
+}
+
+function card(row){
+  const d = document.createElement('div');
+  d.className = 'card';
+  d.dataset.name = row.name;
+  const pauseTag = row.type === 'endowment'
+    ? '<span class="tag pause">ENDOWMENT PAUSED — decide keep or pull</span>' : '';
+  const dueTag = row.as_of_reviewed
+    ? `<span class="tag due">re-review due — last reviewed ${esc(row.as_of_reviewed)}</span>`
+    : '<span class="tag fresh">new</span>';
+  d.innerHTML = `
+    <div class="rowhead">
+      <b>${esc(row.name)}</b>
+      ${dueTag}
+      <span class="tag">${esc(row.type)}</span>
+      <span class="tag">${esc(row.aum || 'AUM —')}</span>
+      <span class="tag stage-${esc(row.stage)}">proposed: ${esc(row.stage)}</span>
+      <span class="tag">conf: ${esc(row.confidence || '—')}</span>
+      ${pauseTag}
+    </div>
+    <div class="grid">
+      <div>
+        <label>stage</label><select class="f-stage">${STAGES.map(s =>
+          `<option ${s===row.stage?'selected':''}>${s}</option>`).join('')}</select>
+        <select class="f-conf" title="confidence">${CONFS.map(c =>
+          `<option ${c===(row.confidence||'med')?'selected':''}>${c}</option>`).join('')}</select>
+        <input type="text" class="f-aum" title="AUM" placeholder="~$92B" style="width:9ch">
+        <label>rationale <span class="note">(changing the stage requires touching this — the "stops short of…" clause must match)</span></label>
+        <textarea class="f-rationale" rows="6"></textarea>
+        <label>footnote (scope calls)</label>
+        <textarea class="f-footnote" rows="2"></textarea>
+        <label>events <span class="note">(all editable — fix broken links here, ↗ tests the URL, × removes; min 2 per row)</span></label>
+        <div class="events"></div>
+        <div class="evrow">
+          <input type="text" class="e-date" placeholder="date (verbatim precision: 2023 / 2026-03 / 2026-03-24)">
+          <input type="text" class="e-desc" placeholder="one-line event">
+          <input type="text" class="e-url" placeholder="source_url">
+          <button class="addev">+ event</button>
+        </div>
+        <div class="actions">
+          <button class="approve">Approve → as_of_reviewed = ${esc(S.today)}</button>
+          <button class="pull">Pull row…</button>
+          <input type="text" class="pull-reason" placeholder="reason → REJECTED.md" style="display:none;flex:1">
+          <button class="pull-go" style="display:none">confirm pull</button>
+        </div>
+      </div>
+      <div><label>evidence — local/REVIEW.md</label>
+        <div class="evidence">${renderEvidence(S.sections[row.name])}</div></div>
+    </div>`;
+  // set text via value (no HTML-escaping pitfalls in textareas)
+  d.querySelector('.f-rationale').value = row.rationale || '';
+  d.querySelector('.f-footnote').value = row.footnote || '';
+  d.querySelector('.f-aum').value = row.aum || '';
+  const markDirty = () => d.classList.add('dirty');
+  const evWrap = d.querySelector('.events');
+  const addEventRow = (e) => {
+    const r = document.createElement('div');
+    r.className = 'evitem';
+    r.innerHTML = `<input type="text" class="ev-date" title="date — verbatim precision">
+      <input type="text" class="ev-desc" title="event">
+      <input type="text" class="ev-url" title="source_url">
+      <a class="ev-test" target="_blank" rel="noreferrer" title="open link">↗</a>
+      <button class="ev-up" title="move up">↑</button>
+      <button class="ev-down" title="move down">↓</button>
+      <button class="ev-del" title="remove event">×</button>`;
+    r.querySelector('.ev-date').value = e.date || '';
+    r.querySelector('.ev-desc').value = e.event || '';
+    const urlIn = r.querySelector('.ev-url');
+    urlIn.value = e.source_url || '';
+    const test = r.querySelector('.ev-test');
+    const syncLink = () => { test.href = urlIn.value || '#'; };
+    syncLink();
+    urlIn.addEventListener('input', syncLink);
+    r.querySelector('.ev-up').onclick = () => {
+      const prev = r.previousElementSibling;
+      if (prev) { evWrap.insertBefore(r, prev); markDirty(); }
+    };
+    r.querySelector('.ev-down').onclick = () => {
+      const next = r.nextElementSibling;
+      if (next) { evWrap.insertBefore(next, r); markDirty(); }
+    };
+    r.querySelector('.ev-del').onclick = () => { r.remove(); markDirty(); };
+    r.querySelectorAll('input').forEach(el => el.addEventListener('input', markDirty));
+    evWrap.appendChild(r);
+  };
+  (row.events || []).forEach(addEventRow);
+  const collectEvents = () => [...d.querySelectorAll('.evitem')].map(r => ({
+    date: r.querySelector('.ev-date').value.trim(),
+    event: r.querySelector('.ev-desc').value.trim(),
+    source_url: r.querySelector('.ev-url').value.trim(),
+  }));
+  d.querySelectorAll('select,textarea,input').forEach(el => el.addEventListener('input', markDirty));
+  d.querySelector('.addev').onclick = () => {
+    const date = d.querySelector('.e-date').value.trim();
+    const desc = d.querySelector('.e-desc').value.trim();
+    const url = d.querySelector('.e-url').value.trim();
+    if (!date || !desc || !/^https?:\/\//.test(url))
+      return toast('event needs date, description, and an http(s) source_url');
+    addEventRow({ date, event: desc, source_url: url });
+    ['e-date','e-desc','e-url'].forEach(c => d.querySelector('.'+c).value = '');
+    markDirty();
+  };
+  d.querySelector('.pull').onclick = () => {
+    d.querySelector('.pull-reason').style.display = 'inline-block';
+    d.querySelector('.pull-go').style.display = 'inline-block';
+  };
+  d.querySelector('.pull-go').onclick = () =>
+    apply({ action:'pull', name: row.name,
+            reason: d.querySelector('.pull-reason').value.trim() || 'pulled in human review' });
+  d.querySelector('.approve').onclick = () => {
+    const stage = d.querySelector('.f-stage').value;
+    const rationale = d.querySelector('.f-rationale').value;
+    if (stage !== row.stage && rationale === (row.rationale || ''))
+      return toast(`stage changed ${row.stage} → ${stage}: edit the rationale so its "stops short of…" clause matches, then approve.`);
+    const evs = collectEvents();
+    if (evs.length < 2)
+      return toast('METHODOLOGY minimum is 2 events per row — add evidence or Pull the row instead.');
+    if (evs.some(e => !e.date || !e.event || !/^https?:\/\//.test(e.source_url)))
+      return toast('every event needs a date, a description, and an http(s) source_url.');
+    apply({ action:'approve', name: row.name, fields: {
+      stage, confidence: d.querySelector('.f-conf').value,
+      rationale, footnote: d.querySelector('.f-footnote').value,
+      aum: d.querySelector('.f-aum').value.trim(),
+      events: evs,
+    }});
+  };
+  return d;
+}
+
+// Monthly REFRESH sweep. Agents write proposals into local/CHANGES_QUEUE.json and
+// never move a stage themselves. Approving here is the only path, and a stage move
+// demands the date of the evidence that caused it — that date, not today's, is what
+// data/transitions.jsonl records, so the panel measures the sector's calendar and
+// not the reviewer's.
+//
+// The card carries the SAME editors as a first review — events, AUM, rationale,
+// footnote — because a proposal that brings new evidence is worthless if the row's
+// prose cannot be updated to cite it. Before this, a sweep approval could append
+// events but left the rationale untouched, which is how a row ends up asserting
+// facts no source_url on it supports.
+//
+// Two independent controls per proposed event, deliberately:
+//   [x] include  — a CHECKBOX, so any subset (or all) of the proposed events can be
+//                  taken. This used to be a radio group, which made it look like the
+//                  reviewer was choosing events when in fact every event was appended
+//                  regardless and the choice only set the transition date.
+//   ( ) dates it — a RADIO, because a transition has exactly one effective date.
+//                  Only an included event may hold it.
+function changeCard(entry){
+  const d = document.createElement('div');
+  d.className = 'card';
+  const row = (S.institutions || []).find(x => x.name === entry.name) || {};
+  const moves = entry.proposed_stage && entry.proposed_stage !== entry.current_stage;
+  const evs = (Array.isArray(entry.new_events) ? entry.new_events : [])
+    .filter(e => e && (e.date || e.event || e.source_url));
+  d.innerHTML = `
+    <div class="rowhead">
+      <b>${esc(entry.name)}</b>
+      <span class="tag">${moves
+        ? `sweep ${esc(entry.sweep || '?')} — proposes ${esc(entry.current_stage)} → <b>${esc(entry.proposed_stage)}</b>`
+        : `sweep ${esc(entry.sweep || '?')} — ${evs.length ? 'new evidence' : 're-look'}, stage held at ${esc(entry.current_stage)}`}</span>
+    </div>
+    <div class="note">agent reason: ${esc(entry.reason || '(none given)')}</div>
+    <div><label>proposed new events — tick the ones to add, pick the one that dates a stage move</label>
+      <div class="cvents"></div>
+      <div class="evrow">
+        <input type="text" class="e-date" placeholder="YYYY-MM-DD" style="flex:0 0 13ch">
+        <input type="text" class="e-desc" placeholder="event — what the source actually says" style="flex:2">
+        <input type="text" class="e-url" placeholder="https://source" style="flex:1">
+        <button class="addcv">add event</button>
+        <button class="cv-all">tick all</button>
+        <button class="cv-none">untick all</button>
+      </div>
+      <div class="note cv-count"></div>
+    </div>
+    <div class="evrow" style="margin-top:10px">
+      <label>final stage</label>
+      <select class="c-stage">${STAGES.map(t =>
+        `<option ${t===(entry.proposed_stage||entry.current_stage)?'selected':''}>${t}</option>`).join('')}</select>
+      <label>confidence</label>
+      <select class="c-conf">${CONFS.map(t =>
+        `<option ${t===(entry.proposed_confidence||entry.current_confidence)?'selected':''}>${t}</option>`).join('')}</select>
+      <label>AUM</label><input type="text" class="c-aum" style="flex:0 0 16ch">
+    </div>
+    <div><label>rationale — edit it to cite the evidence you are adding</label>
+      <textarea class="c-rationale" rows="7"></textarea></div>
+    <div><label>footnote</label><textarea class="c-footnote" rows="4"></textarea></div>
+    <div class="evrow" style="margin-top:8px">
+      <label>date_effective</label><input type="text" class="c-date" placeholder="YYYY-MM-DD" style="flex:0 0 14ch">
+      <label>evidence_url</label><input type="text" class="c-url" style="flex:1" placeholder="https://…">
+    </div>
+    <div class="note">required only when the stage actually moves — the date of the evidence, never today</div>
+    <div class="actions">
+      <button class="approve c-approve">Approve change</button>
+      <button class="pull c-reject">Hold row as-is</button>
+    </div>`;
+
+  // Textareas/inputs set by value, never by innerHTML — no escaping pitfalls.
+  d.querySelector('.c-aum').value = entry.proposed_aum ?? row.aum ?? '';
+  d.querySelector('.c-rationale').value = entry.proposed_rationale ?? row.rationale ?? '';
+  d.querySelector('.c-footnote').value = entry.proposed_footnote ?? row.footnote ?? '';
+
+  const wrap = d.querySelector('.cvents');
+  const dateIn = d.querySelector('.c-date'), urlIn = d.querySelector('.c-url');
+  const countEl = d.querySelector('.cv-count');
+  const effName = 'eff-' + Math.random().toString(36).slice(2);
+
+  const addCvRow = (e, checked) => {
+    const r = document.createElement('div');
+    r.className = 'evitem cvitem';
+    r.innerHTML = `<input type="checkbox" class="cv-inc" title="include this event">
+      <input type="radio" name="${effName}" class="cv-eff" title="this event dates a stage move">
+      <input type="text" class="ev-date" title="date — verbatim precision">
+      <input type="text" class="ev-desc" title="event" style="flex:2">
+      <input type="text" class="ev-url" title="source_url" style="flex:1">
+      <a class="ev-test" target="_blank" rel="noreferrer" title="open link">↗</a>
+      <button class="ev-del" title="remove from this proposal">×</button>`;
+    r.querySelector('.cv-inc').checked = checked !== false;
+    r.querySelector('.ev-date').value = e.date || '';
+    r.querySelector('.ev-desc').value = e.event || '';
+    const u = r.querySelector('.ev-url');
+    u.value = e.source_url || '';
+    const test = r.querySelector('.ev-test');
+    const syncLink = () => { test.href = u.value || '#'; };
+    syncLink();
+    u.addEventListener('input', syncLink);
+    r.querySelector('.ev-del').onclick = () => { r.remove(); refresh(); };
+    r.querySelector('.cv-inc').onchange = refresh;
+    r.querySelector('.cv-eff').onchange = syncEffective;
+    r.querySelectorAll('input[type=text]').forEach(el => el.addEventListener('input', syncEffective));
+    wrap.appendChild(r);
+    return r;
+  };
+
+  // Included rows only may carry the transition radio; if the current holder is
+  // unticked or deleted, the radio moves to the first row still included.
+  function refresh(){
+    const rows = [...wrap.querySelectorAll('.cvitem')];
+    let held = null;
+    rows.forEach(r => {
+      const inc = r.querySelector('.cv-inc').checked;
+      const eff = r.querySelector('.cv-eff');
+      eff.disabled = !inc;
+      if (!inc) eff.checked = false;
+      if (eff.checked) held = r;
+    });
+    if (!held) {
+      const first = rows.find(r => r.querySelector('.cv-inc').checked);
+      if (first) first.querySelector('.cv-eff').checked = true;
+    }
+    const n = rows.filter(r => r.querySelector('.cv-inc').checked).length;
+    countEl.textContent = rows.length
+      ? `${n} of ${rows.length} proposed events will be added, on top of the ${(row.events || []).length} already on the row`
+      : `no events proposed — add one above, or set the effective date by hand if you move the stage`;
+    syncEffective();
+  }
+
+  // The server demands a full YYYY-MM-DD for a transition, but an event date is
+  // kept at the precision its source supports and is often just "2025". Copying a
+  // partial date into the box would hand the reviewer a value the server rejects,
+  // so a partial date fills the URL only and says why the date is still blank.
+  function syncEffective(){
+    const held = [...wrap.querySelectorAll('.cvitem')]
+      .find(r => r.querySelector('.cv-eff').checked && r.querySelector('.cv-inc').checked);
+    if (!held) return;
+    const dv = held.querySelector('.ev-date').value.trim();
+    urlIn.value = held.querySelector('.ev-url').value.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(dv)) {
+      dateIn.value = dv;
+      dateIn.placeholder = 'YYYY-MM-DD';
+    } else {
+      dateIn.value = '';
+      dateIn.placeholder = dv ? `${dv} — needs a full date` : 'YYYY-MM-DD';
+    }
+  }
+
+  evs.forEach(e => addCvRow(e, true));
+  refresh();
+
+  d.querySelector('.addcv').onclick = () => {
+    const date = d.querySelector('.e-date').value.trim();
+    const desc = d.querySelector('.e-desc').value.trim();
+    const url = d.querySelector('.e-url').value.trim();
+    if (!date || !desc || !/^https?:\/\//.test(url))
+      return toast('event needs date, description, and an http(s) source_url');
+    addCvRow({ date, event: desc, source_url: url }, true);
+    ['e-date','e-desc','e-url'].forEach(c => d.querySelector('.'+c).value = '');
+    refresh();
+  };
+  d.querySelector('.cv-all').onclick = () => {
+    wrap.querySelectorAll('.cv-inc').forEach(c => c.checked = true); refresh();
+  };
+  d.querySelector('.cv-none').onclick = () => {
+    wrap.querySelectorAll('.cv-inc').forEach(c => c.checked = false); refresh();
+  };
+
+  const included = () => [...wrap.querySelectorAll('.cvitem')]
+    .filter(r => r.querySelector('.cv-inc').checked)
+    .map(r => ({ date: r.querySelector('.ev-date').value.trim(),
+                 event: r.querySelector('.ev-desc').value.trim(),
+                 source_url: r.querySelector('.ev-url').value.trim() }));
+
+  d.querySelector('.c-approve').onclick = () => {
+    const stage = d.querySelector('.c-stage').value;
+    const rationale = d.querySelector('.c-rationale').value;
+    const picked = included();
+    if (picked.some(e => !e.date || !e.event || !/^https?:\/\//.test(e.source_url)))
+      return toast('every included event needs a date, a description, and an http(s) source_url.');
+    // Same guard as a first review: a stage that moves without its rationale moving
+    // leaves the row asserting a "stops short of…" clause for the stage it just left.
+    if (stage !== entry.current_stage && rationale === (row.rationale || ''))
+      return toast(`stage ${entry.current_stage} → ${stage}: edit the rationale so its "stops short of…" clause matches, then approve.`);
+    const merged = (row.events || []).concat(picked)
+      .filter((e,i,a) => a.findIndex(x => x.date===e.date && x.source_url===e.source_url) === i);
+    if (merged.length < 2)
+      return toast('METHODOLOGY minimum is 2 events per row.');
+    apply({ action:'ch_approve', name: entry.name,
+            fields: { stage, confidence: d.querySelector('.c-conf').value,
+                      aum: d.querySelector('.c-aum').value.trim(),
+                      rationale, footnote: d.querySelector('.c-footnote').value,
+                      events: merged },
+            date_effective: dateIn.value.trim(), evidence_url: urlIn.value.trim() });
+  };
+  d.querySelector('.c-reject').onclick = () => {
+    const reason = prompt(`Hold ${entry.name} at ${entry.current_stage}. Why?`, '');
+    if (reason === null) return;
+    apply({ action:'ch_reject', name: entry.name, reason });
+  };
+  return d;
+}
+
+function renderChanges(){
+  const el = document.getElementById('changes');
+  el.innerHTML = '';
+  const queue = S.changes_queue || [];
+  if (!queue.length) return;
+  const moves = queue.filter(e => e.proposed_stage && e.proposed_stage !== e.current_stage).length;
+  const h = document.createElement('div');
+  h.className = 'banner';
+  h.textContent = `SWEEP PROPOSALS — ${queue.length} staged (${moves} would move a stage) · review these first`;
+  el.appendChild(h);
+  queue.forEach(e => el.appendChild(changeCard(e)));
+}
+
+// "Assessed, not classified" gate: drafts staged in local/NOT_CLASSIFIED_QUEUE.json
+// (agent/assistant suggestions) are filed to the PUBLIC data/not_classified.json
+// only here, on explicit human action. Every field is editable before filing.
+function ncCard(entry){
+  const d = document.createElement('div');
+  d.className = 'card';
+  d.innerHTML = `
+    <div class="rowhead">
+      <b>${esc(entry.name)}</b>
+      <span class="tag">staged draft — not public until filed</span>
+    </div>
+    <label>name</label><input type="text" class="n-name" style="width:100%">
+    <div class="evrow" style="margin-top:8px">
+      <select class="n-type">${TYPES.map(t =>
+        `<option ${t===entry.type?'selected':''}>${t}</option>`).join('')}</select>
+      <select class="n-region">${REGIONS.map(r =>
+        `<option ${r===entry.region?'selected':''}>${r}</option>`).join('')}</select>
+      <select class="n-outcome">${OUTCOMES.map(o =>
+        `<option ${o===entry.outcome?'selected':''}>${o}</option>`).join('')}</select>
+    </div>
+    <label>public reason <span class="note">(this text ships on the site — must stand alone, no local/ references)</span></label>
+    <textarea class="n-reason" rows="3"></textarea>
+    <div class="actions">
+      <button class="approve nc-file">File → public appendix (as_of = ${esc(S.today)})</button>
+      <button class="pull nc-discard">Discard draft</button>
+    </div>`;
+  d.querySelector('.n-name').value = entry.name || '';
+  d.querySelector('.n-reason').value = entry.reason || '';
+  d.querySelector('.nc-file').onclick = () =>
+    apply({ action:'nc_file', name: entry.name, fields: {
+      name: d.querySelector('.n-name').value.trim(),
+      type: d.querySelector('.n-type').value,
+      region: d.querySelector('.n-region').value,
+      outcome: d.querySelector('.n-outcome').value,
+      reason: d.querySelector('.n-reason').value.trim(),
+    }});
+  d.querySelector('.nc-discard').onclick = () =>
+    apply({ action:'nc_discard', name: entry.name });
+  return d;
+}
+
+function renderNc(){
+  const el = document.getElementById('nc');
+  el.innerHTML = '';
+  const queue = S.nc_queue || [], pub = S.nc_public || [];
+  if (!queue.length && !pub.length) return;
+  const h = document.createElement('div');
+  h.className = 'banner';
+  h.textContent = `NOT CLASSIFIED — ${queue.length} staged draft${queue.length===1?'':'s'} awaiting your call · ${pub.length} filed publicly`;
+  el.appendChild(h);
+  queue.forEach(e => el.appendChild(ncCard(e)));
+  if (pub.length){
+    const list = document.createElement('div');
+    list.innerHTML = `<b class="note">public appendix (data/not_classified.json)</b><ul>${
+      pub.map(e => `<li class="note">${esc(e.name)} — ${esc(e.outcome)} — ${esc(e.as_of)}</li>`).join('')}</ul>`;
+    el.appendChild(list);
+  }
+}
+
+async function apply(body){
+  const r = await fetch('/apply', { method:'POST',
+    headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
+  const j = await r.json();
+  if (j.error) return toast('WRITE FAILED: ' + j.error);
+  if (j.approved){
+    const row = S.institutions.find(x => x.name === j.approved);
+    approvedThisSession.push({ name: j.approved, type: row ? row.type : '?' });
+  }
+  if (j.pulled) toast(j.nc_staged
+    ? `pulled ${j.pulled} → REJECTED.md + staged as withdrawn-on-review in the NOT CLASSIFIED panel below`
+    : `pulled ${j.pulled} → logged in local/REJECTED.md`);
+  if (j.nc_filed){
+    ncFiledThisSession.push(j.nc_filed);
+    toast(`${j.nc_filed} filed → data/not_classified.json (public on next build+push)`);
+  }
+  if (j.nc_discarded) toast(`draft discarded: ${j.nc_discarded}`);
+  if (j.ch_approved){
+    if (j.transition) transitionsThisSession.push(j.ch_approved);
+    toast(j.transition
+      ? `${j.ch_approved} moved — transition appended to data/transitions.jsonl`
+      : `${j.ch_approved} updated, stage unchanged — no transition logged`);
+  }
+  if (j.ch_rejected) toast(`${j.ch_rejected} held as-is; 30-day clock reset`);
+  S = j.state;
+  render();
+}
+
+function commitHelper(){
+  const el = document.getElementById('commit');
+  if (!approvedThisSession.length && !ncFiledThisSession.length
+      && !transitionsThisSession.length){ el.style.display = 'none'; return; }
+  const byType = {};
+  approvedThisSession.forEach(a => byType[a.type] = (byType[a.type]||0)+1);
+  const parts = Object.entries(byType).map(([t,n]) => `${n} ${t}`).join(', ');
+  const bits = [];
+  if (approvedThisSession.length) bits.push(`add ${approvedThisSession.length} institutions (${parts})`);
+  if (ncFiledThisSession.length) bits.push(`file ${ncFiledThisSession.length} to not-classified appendix`);
+  if (transitionsThisSession.length) bits.push(`${transitionsThisSession.length} stage transition${transitionsThisSession.length===1?'':'s'}`);
+  const msg = `feat: ${bits.join(' + ')} — human-reviewed`;
+  const files = ['data/institutions.json']
+    .concat(ncFiledThisSession.length ? ['data/not_classified.json'] : [])
+    .concat(transitionsThisSession.length ? ['data/transitions.jsonl'] : []).join(' ');
+  const cmd = `git add ${files} && git commit -m "${msg}"`;
+  el.style.display = 'block';
+  el.innerHTML = `this session: ${approvedThisSession.map(a => esc(a.name))
+      .concat(ncFiledThisSession.map(n => esc(n) + ' (appendix)')).join(' · ')}<br><code id="cmd">${esc(cmd)}</code><button id="copycmd">copy</button>
+    <span class="note">edit the message freely — batching resets after you commit</span>`;
+  document.getElementById('copycmd').onclick = () =>
+    navigator.clipboard.writeText(cmd).then(() => {
+      approvedThisSession.length = 0; ncFiledThisSession.length = 0;
+      transitionsThisSession.length = 0; render(); });
+}
+
+function render(){
+  const rows = S.institutions;
+  // Queue = never reviewed, plus rows whose last review is 30+ days old.
+  const pending = rows.filter(r => !r.as_of_reviewed || r.as_of_reviewed <= S.cutoff)
+    .sort((a,b) => ((a.as_of_reviewed?1:0)-(b.as_of_reviewed?1:0))
+      || (ORDER[a.stage]-ORDER[b.stage]) || a.name.localeCompare(b.name));
+  const done = rows.filter(r => r.as_of_reviewed && r.as_of_reviewed > S.cutoff);
+  const nNew = pending.filter(r => !r.as_of_reviewed).length;
+  const byStage = {};
+  pending.forEach(r => byStage[r.stage] = (byStage[r.stage]||0)+1);
+  document.getElementById('counts').textContent =
+    `${pending.length} in queue (${nNew} new · ${pending.length-nNew} due re-review) (${STAGES.filter(s=>byStage[s]).map(s=>`${byStage[s]} ${s}`).join(' · ')}) — ${done.length} current — ${rows.length} total`;
+  const cards = document.getElementById('cards');
+  cards.innerHTML = '';
+  pending.forEach(r => cards.appendChild(card(r)));
+  document.getElementById('done').innerHTML = done.length
+    ? `<b>reviewed within 30 days</b><ul>${done.map(r =>
+        `<li>${esc(r.name)} — ${esc(r.stage)} — ${esc(r.as_of_reviewed)}</li>`).join('')}</ul>` : '';
+  renderChanges();
+  renderNc();
+  commitHelper();
+}
+
+fetch('/state').then(r => r.json()).then(j => { S = j; render(); })
+  .catch(e => toast('cannot reach review.py: ' + e));
+</script>
+</body>
+</html>

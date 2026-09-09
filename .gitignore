@@ -4,6 +4,10 @@
 !.env.example
 
 # --- Local working area (gitignored by design — see README "Project structure") ---
+# local/ is a nested private repo, so nothing inside it can be tracked here. The
+# review tool and the agreement builder are PUBLIC in tools/ (review.py, review.html,
+# build_agreement.py); local/review.py, local/review.html and local/build_agreement.py
+# are symlinks to them. Everything else under local/ stays private.
 local/
 CLAUDE.local.md
 data/*.bak

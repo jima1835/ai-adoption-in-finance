@@ -80,7 +80,7 @@ Everything the dashboard runs on is tracked in this repo:
 |---|---|
 | `data/institutions.json` | **The state.** One row per institution: stage, rationale, use cases, dated events, confidence, region, AUM — plus `as_of_reviewed`, `label_provenance` and `agent_proposed_stage`, the audit trail behind the disagreement record. |
 | `data/not_classified.json` | **The negative record.** Assessed, not classified — with the reason and the outcome (`no-qualifying-evidence` or `withdrawn-on-review`). |
-| `data/agreement.json` | **The disagreement record.** Derived; rebuild with `local/build_agreement.py`. |
+| `data/agreement.json` | **The disagreement record.** Derived; rebuild with `tools/build_agreement.py`. |
 | `data/stage_definitions.json` | The shared stage reference, so the site and the docs cannot drift apart. |
 | `data/translations.json` | English renderings of the CJK evidence runs, consulted at render time. The stored evidence is never rewritten. |
 | `data/summaries.json`, `data/homepages.json` | Presentation-layer derivations: bulleted digests of reviewed rationales, and firm homepages taken from own-domain evidence URLs that already passed review. |
@@ -135,7 +135,7 @@ ai-adoption-in-finance/
 
 ### Local working area (not in this repo)
 
-Row construction happens in a gitignored `local/` directory that never leaves the maintainer's machine: the research queue and prompts, the per-institution evidence ledger behind each classification, the review tool, and the decision log. Only its *outputs* are committed — human-verified rows and the derived files above. If you fork this repo you need none of it; everything the dashboard runs on is tracked.
+Row construction happens in a gitignored `local/` directory that never leaves the maintainer's machine: the research queue and prompts, the per-institution evidence ledger behind each classification, and the decision log. Only its *outputs* are committed — human-verified rows and the derived files above. The review tool itself (`tools/review.py` + `tools/review.html`) and the agreement builder (`tools/build_agreement.py`) are public as of v1.0.2. If you fork this repo you need none of `local/`; everything the dashboard runs on is tracked.
 
 ## Tech stack
 

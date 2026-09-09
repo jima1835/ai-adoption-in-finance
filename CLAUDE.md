@@ -92,7 +92,7 @@ filed ONLY by a human through the local review tool; agents and `monitor.py`
 never write this file. `reason` text is public — it must stand alone.
 
 `data/agreement.json` — the DISAGREEMENT RECORD, public and derived. Built by
-`local/build_agreement.py` from `institutions.json` + `not_classified.json` only, so
+`tools/build_agreement.py` from `institutions.json` + `not_classified.json` only, so
 anyone can reproduce it from this repo. Reports two rates — `stage_agreement` (of
 reviewed rows carrying an agent proposal, how often the proposed stage stood) and
 `proposal_accepted` (of every proposal adjudicated, how often it was taken unchanged,
@@ -221,8 +221,14 @@ Key from env (`ANTHROPIC_API_KEY`); repo secret in CI. Never hardcoded.
 - `data/` — `institutions.json` (STATE) · `feed.json` (STREAM) · `seen_urls.json` (dedup) · `stage_definitions.json` · `not_classified.json` (APPENDIX, human-gated)
 - `src/` — React dashboard: `App.jsx`, `main.jsx`, `data.js`, `useInstitutions.js`, `styles.css`;
   `components/`: Header, Footer, InstitutionTable, PhaseGrid, StageBadge, FilterPills, DrillDown, Methodology
-- `tests/` — `test_monitor.py` (unit) · `test_gdelt_live.py` (live)
+- `tests/` — `test_monitor.py` (unit) · `test_review.py` (review-tool panel guard) · `test_gdelt_live.py` (live)
+- `tools/` — PUBLIC review tooling: `review.py` + `review.html` (the human audit UI) and
+  `build_agreement.py` (rebuilds `data/agreement.json`). `local/review.py`, `local/review.html`
+  and `local/build_agreement.py` are symlinks to these, so `python3 local/review.py` still works;
+  edit the `tools/` copies. Published in v1.0.2 because the ATRACC submission and
+  METHODOLOGY §5–6 describe them.
 - `docs/` — built site served by GitHub Pages; `vite.config.js` copies `data/` → `docs/data/`
 - `local/` + `CLAUDE.local.md` — gitignored working area (research queue, evidence
-  ledger, overnight supervisor). Never committed. When present, read
+  ledger, overnight supervisor). Never committed, except that the three tool files
+  above live in `tools/` and are symlinked from here. When present, read
   `CLAUDE.local.md` for current state before exploring `local/`.
