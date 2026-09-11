@@ -169,5 +169,5 @@ coverage entirely**. Nothing in this repository is investment advice.
 Built by Jiajun Ma — [github.com/jima1835](https://github.com/jima1835).
 
 ## Public comments and submissions
-- **2026-09-10** — Comment on NIST AI 300-1 ipd, *Guidance and Templates for Public-Facing AI Documentation* (AI Standards Zero Draft). Proposes Annex A subfields 1.3.2.1 *Production Method* and 8.2.1.1 *Verification Condition* and a typed-absence convention, using this corpus's provenance record as the worked example. [PDF](comments/2026-09-10_NIST_AI_300-1_ipd_comment_Jiajun_Ma.pdf)
+- **2026-09-10** — Comment on NIST AI 300-1 ipd, *Guidance and Templates for Public-Facing AI Documentation* (AI Standards Zero Draft). Proposes Annex A subfields 1.3.2.1 *Production Method* and 8.2.1.1 *Verification Condition* and a typed-absence convention, using this corpus's provenance record as the worked example. [PDF](comments/2026-09-10_NIST_AI_300-1_ipd_comment_Jiajun_Ma.pdf) · [doi:10.5281/zenodo.22701607](https://doi.org/10.5281/zenodo.22701607)
 - **2026-07-22** — Response to the FSB consultation *Sound Practices for Responsible Adoption of AI*, published on [fsb.org](https://www.fsb.org/uploads/Jiajun-M-independent-response.pdf).
