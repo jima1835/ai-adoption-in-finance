@@ -1,5 +1,7 @@
 """Unit tests for the monitor engine. No network, no API key required."""
 
+from pathlib import Path
+
 import pytest
 
 import monitor
@@ -377,3 +379,20 @@ def test_save_json_keeps_non_ascii_raw(tmp_path):
     assert "—" in raw and "£" in raw and "café" in raw  # not \uXXXX-escaped
     assert "\\u" not in raw
     assert monitor.load_json(path, None) == [{"text": "preconditions — £390B, café"}]
+
+
+def test_json_io_pins_utf8_and_lf_regardless_of_platform(tmp_path, monkeypatch):
+    # Windows opens text files in the ANSI code page (cp1252, cp936, ...) and
+    # writes CRLF by default; the first cannot decode institutions.json, the
+    # second would churn every line of it. Both must be pinned, not left to
+    # the locale.
+    kwargs = []
+    real_read, real_write = Path.read_text, Path.write_text
+    monkeypatch.setattr(Path, "read_text", lambda self, **kw: kwargs.append(kw) or real_read(self, **kw))
+    monkeypatch.setattr(Path, "write_text", lambda self, data, **kw: kwargs.append(kw) or real_write(self, data, **kw))
+
+    p = tmp_path / "x.json"
+    monitor.save_json(p, [{"text": "完成部署 — £390B"}])
+    assert monitor.load_json(p, None) == [{"text": "完成部署 — £390B"}]
+    assert len(kwargs) == 2 and all(kw.get("encoding") == "utf-8" for kw in kwargs)
+    assert b"\r" not in p.read_bytes()  # LF-only on every platform

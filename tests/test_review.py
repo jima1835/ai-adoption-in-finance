@@ -128,3 +128,15 @@ def test_first_review_stage_change_is_provenance_not_transition(sandbox):
     assert row["stage"] == "scaling"
     assert row["label_provenance"] == "human_originated"  # no REVIEW.md section in the sandbox
     assert _transitions(sandbox) == []
+
+
+def test_try_lock_is_exclusive_across_handles(tmp_path):
+    # flock on POSIX, msvcrt.locking on Windows: a second handle on the lock
+    # file is refused while the first holds it, and succeeds once it is closed.
+    lock = tmp_path / "institutions.lock"
+    with lock.open("w") as a:
+        assert review._try_lock(a) is True
+        with lock.open("w") as b:
+            assert review._try_lock(b) is False
+    with lock.open("w") as c:
+        assert review._try_lock(c) is True

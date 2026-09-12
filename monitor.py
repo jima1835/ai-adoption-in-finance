@@ -81,12 +81,17 @@ preamble, no commentary."""
 def load_json(path, default):
     if not path.exists():
         return default
-    return json.loads(path.read_text())
+    # Explicit utf-8: Windows defaults to the ANSI code page (cp1252, cp936, ...),
+    # which cannot decode the CJK evidence in institutions.json.
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
 def save_json(path, value):
     # ensure_ascii=False keeps curated text (em-dashes, accents, £/€) human-readable.
-    path.write_text(json.dumps(value, indent=2, ensure_ascii=False) + "\n")
+    # utf-8 + LF-only so the on-disk format is identical on every platform: text
+    # mode on Windows would otherwise write CRLF and churn every line of data/.
+    path.write_text(json.dumps(value, indent=2, ensure_ascii=False) + "\n",
+                    encoding="utf-8", newline="\n")
 
 
 def normalize_date(seendate):

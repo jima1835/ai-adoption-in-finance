@@ -6,7 +6,6 @@ Run:  python3 tools/review.py   → opens http://127.0.0.1:7788
 Writes institutions.json in monitor.py's exact format (indent=2, ensure_ascii=False,
 trailing newline), .bak before every write. Localhost only. Never touches git.
 """
-import fcntl
 import json
 import re
 import shutil
@@ -15,6 +14,12 @@ import webbrowser
 from datetime import date, datetime, timedelta
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+
+try:
+    import fcntl  # POSIX: flock
+except ImportError:  # Windows: msvcrt.locking
+    fcntl = None
+    import msvcrt
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data" / "institutions.json"
@@ -202,18 +207,30 @@ def apply_nc(req):
     return {"error": f"unknown action {action!r}"}
 
 
+def _try_lock(lockf):
+    """Non-blocking exclusive lock on an open file handle; True if acquired.
+    flock on POSIX, msvcrt.locking on Windows (fcntl does not exist there).
+    Either lock is released when the handle is closed."""
+    try:
+        if fcntl:
+            fcntl.flock(lockf, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        else:
+            msvcrt.locking(lockf.fileno(), msvcrt.LK_NBLCK, 1)
+        return True
+    except OSError:
+        return False
+
+
 def apply_action(req):
-    """Serialize writes against the overnight agent via flock on data/.institutions.lock."""
+    """Serialize writes against the overnight agent via a lock on data/.institutions.lock."""
     if str(req.get("action", "")).startswith("nc_"):
         return apply_nc(req)  # different file, human-only writer — no lock needed
     lock_path = ROOT / "data" / ".institutions.lock"
     with lock_path.open("w") as lockf:
         for _ in range(150):  # wait up to ~15s
-            try:
-                fcntl.flock(lockf, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            if _try_lock(lockf):
                 break
-            except OSError:
-                time.sleep(0.1)
+            time.sleep(0.1)
         else:
             return {"error": "institutions.json is locked by another writer "
                              "(overnight agent mid-insert?) — wait a moment and retry"}
