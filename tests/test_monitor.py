@@ -6,7 +6,6 @@ import pytest
 
 import monitor
 
-
 # --- JSON helpers ---------------------------------------------------------
 
 def test_load_json_missing_returns_default(tmp_path):
@@ -44,8 +43,10 @@ def test_fetch_articles_empty_body(monkeypatch):
 
 
 def test_fetch_articles_parses_and_normalizes_date(monkeypatch):
-    payload = {"articles": [{"url": "u1", "title": "t", "domain": "d", "seendate": "20260603T140000Z"}]}
-    monkeypatch.setattr(monitor.requests, "get", lambda *a, **k: FakeResp(text="{}", payload=payload))
+    payload = {"articles": [{"url": "u1", "title": "t", "domain": "d",
+                             "seendate": "20260603T140000Z"}]}
+    monkeypatch.setattr(monitor.requests, "get",
+                        lambda *a, **k: FakeResp(text="{}", payload=payload))
     arts = monitor.fetch_articles()
     assert [a["url"] for a in arts] == ["u1"]
     assert arts[0]["seendate"] == "2026-06-03"  # normalized before reaching Claude
@@ -184,7 +185,8 @@ def test_main_caps_feed_at_limit(tmp_path, monkeypatch):
     monitor.save_json(feed_path, [{"url": f"old-{i}"} for i in range(monitor.FEED_LIMIT)])
     monitor.save_json(seen_path, [])
     monkeypatch.setattr(monitor, "fetch_articles",
-                        lambda: [{"url": "new", "title": "t", "domain": "d", "seendate": "20260101T000000Z"}])
+                        lambda: [{"url": "new", "title": "t", "domain": "d",
+                                  "seendate": "20260101T000000Z"}])
     monkeypatch.setattr(monitor, "screen",
                         lambda c, cand: [{"url": "new", "why_it_matters": "w", "date": "2026-01-01",
                                           "institution_normalized": "Z"}])
@@ -227,7 +229,8 @@ def test_update_institutions_missing_file_warns_and_no_create(tmp_path, monkeypa
     assert "not found" in capsys.readouterr().out
 
 
-def test_update_institutions_matches_alias_case_insensitive_preserves_curated(tmp_path, monkeypatch):
+def test_update_institutions_matches_alias_case_insensitive_preserves_curated(
+        tmp_path, monkeypatch):
     path = tmp_path / "institutions.json"
     monitor.save_json(path, [_row()])
     monkeypatch.setattr(monitor, "INSTITUTIONS_PATH", path)
@@ -266,7 +269,7 @@ def test_update_institutions_never_touches_events(tmp_path, monkeypatch):
     }])
     out = monitor.load_json(path, None)[0]
     assert out["latest_signal"] == "newer signal"   # auto field changed
-    assert out["events"] == events                  # curated events untouched, order/precision preserved
+    assert out["events"] == events  # curated events untouched, order/precision preserved
 
 
 def test_update_institutions_skips_older_or_equal_date(tmp_path, monkeypatch):
@@ -364,8 +367,10 @@ def test_update_institutions_multiple_rows(tmp_path, monkeypatch):
     ])
     monkeypatch.setattr(monitor, "INSTITUTIONS_PATH", path)
     n = monitor.update_institutions([
-        {"institution_normalized": "blk", "why_it_matters": "a", "date": "2026-01-01", "url": "a"},
-        {"institution_normalized": "vanguard", "why_it_matters": "b", "date": "2026-01-02", "url": "b"},
+        {"institution_normalized": "blk", "why_it_matters": "a",
+         "date": "2026-01-01", "url": "a"},
+        {"institution_normalized": "vanguard", "why_it_matters": "b",
+         "date": "2026-01-02", "url": "b"},
     ])
     assert n == 2
 
@@ -388,8 +393,10 @@ def test_json_io_pins_utf8_and_lf_regardless_of_platform(tmp_path, monkeypatch):
     # the locale.
     kwargs = []
     real_read, real_write = Path.read_text, Path.write_text
-    monkeypatch.setattr(Path, "read_text", lambda self, **kw: kwargs.append(kw) or real_read(self, **kw))
-    monkeypatch.setattr(Path, "write_text", lambda self, data, **kw: kwargs.append(kw) or real_write(self, data, **kw))
+    monkeypatch.setattr(Path, "read_text",
+                        lambda self, **kw: kwargs.append(kw) or real_read(self, **kw))
+    monkeypatch.setattr(Path, "write_text",
+                        lambda self, data, **kw: kwargs.append(kw) or real_write(self, data, **kw))
 
     p = tmp_path / "x.json"
     monitor.save_json(p, [{"text": "完成部署 — £390B"}])

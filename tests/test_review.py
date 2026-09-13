@@ -16,7 +16,6 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
 import review  # noqa: E402
 
-
 ROW = {
     "name": "Example Fund",
     "aliases": ["Example Fund"],
@@ -61,7 +60,8 @@ def _transitions(sandbox):
     p = sandbox / "transitions.jsonl"
     if not p.exists():
         return []
-    return [json.loads(l) for l in p.read_text(encoding="utf-8").splitlines() if l.strip()]
+    lines = p.read_text(encoding="utf-8").splitlines()
+    return [json.loads(line) for line in lines if line.strip()]
 
 
 def test_reviewed_row_stage_change_refused_without_evidence(sandbox):

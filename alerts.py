@@ -93,7 +93,9 @@ if __name__ == "__main__":
             "institution_normalized": "CalSTRS",
             "current_stage": "piloting",
             "headline": "CalSTRS moves AI manager-selection system into firm-wide production",
-            "stage_relevant_reason": "Describes a firm-wide production rollout, not a single pilot.",
+            "stage_relevant_reason": (
+                "Describes a firm-wide production rollout, not a single pilot."
+            ),
             "url": "https://example.com/calstrs-ai-production",
         }
     ])

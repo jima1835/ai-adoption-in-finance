@@ -11,6 +11,7 @@ dependencies = [
 [dependency-groups]
 dev = [
     "pytest>=9.0.3",
+    "ruff>=0.16",
 ]
 
 [tool.pytest.ini_options]
@@ -20,3 +21,9 @@ addopts = "-m 'not live'"
 markers = [
     "live: exercises the real GDELT API over the network (deselected by default; run with -m live)",
 ]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
