@@ -108,12 +108,18 @@ uv sync
 cp .env.example .env        # then paste your Anthropic API key
 uv run --env-file .env python monitor.py
 uv run pytest
+uv run ruff check .
 
 # site
 npm install
 npm run dev                 # serves the live data/ directory
 npm run build               # builds to docs/, copying data/*.json → docs/data/
+npm run lint                # eslint
+npm run format:check        # prettier
 ```
+
+CI runs all four checks on every pull request, and the test suite on Linux and
+Windows.
 
 `monitor.py` queries [GDELT DOC 2.0](https://blog.gdeltproject.org/gdelt-doc-2-0-api-debuts/) for the last 24h, dedupes against `data/seen_urls.json`, screens candidates through Claude, and updates the auto-only fields. Tune the search with the `QUERY` constant at the top of the file. See [CLAUDE.md](CLAUDE.md) for the row schema and the curated-vs-auto field split.
 
@@ -126,7 +132,9 @@ ai-adoption-in-finance/
 ├── METHODOLOGY.md         # the classification rules + construction protocol
 ├── CLAUDE.md              # architecture & row schema
 ├── CONTRIBUTING.md        # how to contribute
-├── tests/                 # pytest suite for the engine
+├── CHANGELOG.md           # what changed in each release
+├── tests/                 # pytest suite: engine, review tool, data schema, version
+├── tools/                 # human review tool + the agreement builder
 ├── data/                  # source of truth — see "What's published" above
 ├── src/                   # static React site (Vite) — components + plain CSS
 ├── vite.config.js         # build config; copies data/*.json → docs/data/
@@ -142,11 +150,11 @@ Row construction happens in a gitignored `local/` directory that never leaves th
 - **Engine** — Python + [uv](https://docs.astral.sh/uv/), [GDELT DOC 2.0](https://www.gdeltproject.org/), [Claude API](https://docs.claude.com/)
 - **Research + review** — Claude Code agents for drafting; a local human review tool as the publish gate
 - **Site** — Vite + React, plain CSS, static (built to `docs/`)
-- **Infra** — [GitHub Pages](https://jima1835.github.io/ai-adoption-in-finance/) + GitHub Actions CI. One repo, no backend.
+- **Infra** — [GitHub Pages](https://jima1835.github.io/ai-adoption-in-finance/) + GitHub Actions CI (tests on Linux and Windows, linters, site build). One repo, no backend.
 
 ## Status
 
-🚧 Active. The dashboard is **live**; the corpus is under human review row by row, and the review queue is drained before each release. **Not yet built:** scheduled automation of the monitoring engine, and the in-UI "Recent Signals" feed panel (`feed.json` exists; it isn't rendered yet).
+🚧 Active. The dashboard is **live**; the corpus is under human review row by row, and the review queue is drained before each release. **Not yet built:** scheduled automation of the monitoring engine, and the in-UI "Recent Signals" feed panel (`data/feed.json` exists; it isn't rendered yet).
 
 ## Independence
 
@@ -157,6 +165,16 @@ employer or institution**, and every view and classification here is the author'
 No non-public information from the author's professional work informs any classification,
 and institutions where the author has a professional affiliation are **excluded from
 coverage entirely**. Nothing in this repository is investment advice.
+
+## Contributors
+
+The corpus and its methodology are the author's; the code is not only his.
+
+- **Haochen Jiang** ([@incisors](https://github.com/incisors)) — Windows portability
+  of the monitoring engine and the review tool
+  ([#3](https://github.com/jima1835/ai-adoption-in-finance/pull/3)).
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) to add to this list.
 
 ## License
 
