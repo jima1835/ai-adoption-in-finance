@@ -1,8 +1,9 @@
 name: tests
 
-# Test runner only — runs the pytest suite so PRs show a green check.
-# No cron, no secrets, no monitor.py scheduling, no auto-commit. The daily
-# automation of the engine is intentionally NOT set up here.
+# Test runner only — runs the pytest suite (Linux + Windows), the linters and
+# the site build so PRs show a green check. No cron, no secrets, no monitor.py
+# scheduling, no auto-commit, no deploy. The daily automation of the engine is
+# intentionally NOT set up here.
 on:
   push:
     branches: [main]
@@ -10,7 +11,11 @@ on:
 
 jobs:
   pytest:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
 
@@ -22,7 +27,32 @@ jobs:
       - name: Install dependencies
         run: uv sync
 
+      - name: Lint
+        run: uv run ruff check .
+
       # Network/live tests are deselected by default (addopts = -m 'not live'),
       # so no API keys are needed.
       - name: Run tests
         run: uv run pytest
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Check formatting
+        run: npm run format:check
+
+      - name: Build site
+        run: npm run build
