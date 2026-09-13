@@ -29,7 +29,9 @@ function Card({ inst, onSelect }) {
         {initials(inst.name)}
       </span>
       <span className="card-body">
-        <span className="card-name"><Lang>{inst.name}</Lang></span>
+        <span className="card-name">
+          <Lang>{inst.name}</Lang>
+        </span>
         <span className="card-meta">
           <span>{TYPE_LABELS[inst.type] || inst.type}</span>
           <span className="card-dot">·</span>
@@ -38,7 +40,8 @@ function Card({ inst, onSelect }) {
             <span className="aum-approx">
               {approx}
               <span className="sr-only">
-                {' '}approximate USD at static FX; the original disclosure is the
+                {' '}
+                approximate USD at static FX; the original disclosure is the
                 ground truth
               </span>
             </span>
@@ -60,8 +63,7 @@ function Card({ inst, onSelect }) {
       {(activity || inst.as_of_reviewed) && (
         <span className="card-dates">
           {activity && (
-            <span className="card-date card-news"
-              >
+            <span className="card-date card-news">
               <span aria-hidden="true">⚡</span>
               <span className="sr-only">Latest activity </span>
               {activity.date}
@@ -105,7 +107,8 @@ export default function PhaseGrid({ institutions, onSelect, defs }) {
     setSorts((s) => {
       const cur = s[stage]
       const next =
-        cur?.key === key ? SORT_NEXT[cur.dir] && { key, dir: SORT_NEXT[cur.dir] }
+        cur?.key === key
+          ? SORT_NEXT[cur.dir] && { key, dir: SORT_NEXT[cur.dir] }
           : { key, dir: 'desc' }
       return { ...s, [stage]: next || undefined }
     })
@@ -139,7 +142,11 @@ export default function PhaseGrid({ institutions, onSelect, defs }) {
                 <span className="sr-only"> institutions</span>
               </span>
               {fullDef && (
-                <span className="phase-tooltip" role="tooltip" id={`stagedef-${stage}`}>
+                <span
+                  className="phase-tooltip"
+                  role="tooltip"
+                  id={`stagedef-${stage}`}
+                >
                   {fullDef}
                 </span>
               )}

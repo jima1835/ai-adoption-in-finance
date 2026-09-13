@@ -12,7 +12,10 @@ const FOCUSABLE =
 // Use cases lead because they are the concrete, scannable answer to "what does
 // this firm actually do with AI". The dated record follows. The stage argument
 // comes last, once the reader has seen what it is arguing from — a short derived
-// digest, with the complete human-reviewed rationale one disclosure away.
+// digest, with the complete human-reviewed rationale one disclosure away. The
+// row's footnote — the scope call: what was seen but NOT counted toward the
+// stage, and why — closes that section as a scope note, so the argument and its
+// boundary are read together.
 //
 // There is no separate "latest signal" section. Across the corpus every row that
 // has a latest_signal duplicates an event that is already in the timeline (all of
@@ -35,9 +38,9 @@ export default function DrillDown({ inst, onClose }) {
     const onKey = (e) => {
       if (e.key === 'Escape') return onClose()
       if (e.key !== 'Tab') return
-      const nodes = [...(panelRef.current?.querySelectorAll(FOCUSABLE) || [])].filter(
-        (el) => el.offsetParent !== null,
-      )
+      const nodes = [
+        ...(panelRef.current?.querySelectorAll(FOCUSABLE) || []),
+      ].filter((el) => el.offsetParent !== null)
       if (!nodes.length) return
       const first = nodes[0]
       const last = nodes[nodes.length - 1]
@@ -118,9 +121,7 @@ export default function DrillDown({ inst, onClose }) {
                 <span className="aum-approx">
                   {' '}
                   {aumUsdApprox(inst.aum)}
-                  <span className="sr-only">
-                    {' '}approximate USD at static FX
-                  </span>
+                  <span className="sr-only"> approximate USD at static FX</span>
                 </span>
               )}
             </span>
@@ -135,7 +136,8 @@ export default function DrillDown({ inst, onClose }) {
                   />{' '}
                   {inst.confidence} confidence
                   <span className="sr-only">
-                    {' '}in the public evidence for this stage
+                    {' '}
+                    in the public evidence for this stage
                   </span>
                 </span>
               </>
@@ -144,7 +146,8 @@ export default function DrillDown({ inst, onClose }) {
             <span>
               Reviewed {inst.as_of_reviewed || '—'}
               <span className="sr-only">
-                {' '}— date a human last reviewed this classification
+                {' '}
+                — date a human last reviewed this classification
               </span>
             </span>
           </div>
@@ -189,7 +192,9 @@ export default function DrillDown({ inst, onClose }) {
                         </span>
                       )}
                     </span>
-                    <span className="tl-event"><Lang>{ev.event}</Lang></span>
+                    <span className="tl-event">
+                      <Lang>{ev.event}</Lang>
+                    </span>
                     {ev.source_url && (
                       <a
                         className="tl-source"
@@ -231,8 +236,15 @@ export default function DrillDown({ inst, onClose }) {
               <Lang>{inst.rationale}</Lang>
             </p>
           )}
+          {inst.footnote && (
+            <div className="modal-footnote">
+              <span className="footnote-label">Scope note</span>
+              <p>
+                <Lang>{inst.footnote}</Lang>
+              </p>
+            </div>
+          )}
         </section>
-
       </div>
     </div>
   )

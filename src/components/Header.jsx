@@ -44,14 +44,16 @@ export default function Header({ route, onNavigate, refreshed, reviewed }) {
           <span className="stamp-dot" data-kind="auto" aria-hidden="true" />
           Evidence through <span className="stamp-val">{refreshed || '—'}</span>
           <span className="sr-only">
-            {' '}— date of the newest dated public source across all rows
+            {' '}
+            — date of the newest dated public source across all rows
           </span>
         </span>
         <span className="stamp">
           <span className="stamp-dot" data-kind="human" aria-hidden="true" />
           Last reviewed <span className="stamp-val">{reviewed || '—'}</span>
           <span className="sr-only">
-            {' '}— newest human review date across all rows
+            {' '}
+            — newest human review date across all rows
           </span>
         </span>
         <span className="stamp">

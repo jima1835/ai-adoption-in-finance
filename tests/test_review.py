@@ -16,7 +16,6 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
 import review  # noqa: E402
 
-
 ROW = {
     "name": "Example Fund",
     "aliases": ["Example Fund"],
@@ -61,7 +60,8 @@ def _transitions(sandbox):
     p = sandbox / "transitions.jsonl"
     if not p.exists():
         return []
-    return [json.loads(l) for l in p.read_text(encoding="utf-8").splitlines() if l.strip()]
+    lines = p.read_text(encoding="utf-8").splitlines()
+    return [json.loads(line) for line in lines if line.strip()]
 
 
 def test_reviewed_row_stage_change_refused_without_evidence(sandbox):
@@ -140,3 +140,36 @@ def test_try_lock_is_exclusive_across_handles(tmp_path):
             assert review._try_lock(b) is False
     with lock.open("w") as c:
         assert review._try_lock(c) is True
+
+
+def test_review_io_pins_utf8_and_lf_regardless_of_platform(sandbox, monkeypatch):
+    # The review tool writes the same public files monitor.py does, so it gets
+    # the same guarantee (tests/test_monitor.py): utf-8 and LF pinned on every
+    # writer, or a Windows reviewer re-encodes institutions.json in the ANSI
+    # code page and churns every line of it to CRLF.
+    kwargs = []
+    real_write, real_open = Path.write_text, Path.open
+
+    def spy_write(self, data, **kw):
+        kwargs.append(kw)
+        return real_write(self, data, **kw)
+
+    def spy_open(self, mode="r", *args, **kw):
+        if "a" in mode:  # append_transition; write_text is captured above
+            kwargs.append(kw)
+        return real_open(self, mode, *args, **kw)
+
+    monkeypatch.setattr(Path, "write_text", spy_write)
+    monkeypatch.setattr(Path, "open", spy_open)
+
+    rows = _rows(sandbox)
+    rows[0]["rationale"] = "完成部署 — £390B"
+    review.save_rows(rows)
+    review.save_nc(sandbox / "not_classified.json", [{"name": "Example", "reason": "£ — 完成"}])
+    review.append_transition({"name": "Example Fund", "from": "piloting", "to": "scaling"})
+
+    assert len(kwargs) == 3
+    assert all(kw.get("encoding") == "utf-8" and kw.get("newline") == "\n" for kw in kwargs)
+    for name in ("institutions.json", "not_classified.json", "transitions.jsonl"):
+        assert b"\r" not in (sandbox / name).read_bytes()  # LF-only on every platform
+    assert _rows(sandbox)[0]["rationale"] == "完成部署 — £390B"

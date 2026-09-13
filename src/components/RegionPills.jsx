@@ -44,7 +44,9 @@ export default function RegionPills({ value, counts, onToggle }) {
               </span>
               <span className="sr-only">
                 , {counts[r] || 0} institutions
-                {on ? '. Selected. Activate to remove.' : '. Activate to add to the selection.'}
+                {on
+                  ? '. Selected. Activate to remove.'
+                  : '. Activate to add to the selection.'}
               </span>
             </button>
           )

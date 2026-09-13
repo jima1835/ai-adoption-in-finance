@@ -47,7 +47,10 @@ export default function Lang({ children }) {
         // produced "NAVISsearch system"; add the space the English needs.
         const prev = parts[i - 1]
         const glue =
-          prev && !prev.lang && /[A-Za-z0-9)\]]$/.test(prev.text) && /^[A-Za-z0-9"“(]/.test(en)
+          prev &&
+          !prev.lang &&
+          /[A-Za-z0-9)\]]$/.test(prev.text) &&
+          /^[A-Za-z0-9"“(]/.test(en)
             ? ' '
             : ''
         const nested = insideParens[i]

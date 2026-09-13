@@ -131,7 +131,9 @@ def main():
         },
         "matrix": [
             {"proposed": p, "final": f, "n": n}
-            for (p, f), n in sorted(matrix.items(), key=lambda kv: (STAGES.index(kv[0][0]), STAGES.index(kv[0][1])))
+            for (p, f), n in sorted(
+                matrix.items(), key=lambda kv: (STAGES.index(kv[0][0]), STAGES.index(kv[0][1]))
+            )
         ],
         "revisions": sorted(revised, key=lambda r: r["institution"]),
         "withdrawals": sorted(withdrawn, key=lambda w: w["institution"]),
@@ -148,7 +150,8 @@ def main():
     json.loads(OUT.read_text(encoding="utf-8"))
     a, b = doc["stage_agreement"], doc["proposal_accepted"]
     print(f"wrote {OUT.relative_to(ROOT)}")
-    print(f"  stage agreement   {a['unchanged']}/{a['n']} = {a['rate']:.1%} (anchored — upper bound)")
+    print(f"  stage agreement   {a['unchanged']}/{a['n']} = {a['rate']:.1%} "
+          "(anchored — upper bound)")
     print(f"  proposals as-is   {b['accepted_unchanged']}/{b['n']} = {b['rate']:.1%} "
           f"({b['stage_revised']} revised, {b['withdrawn_on_review']} withdrawn)")
     return 0

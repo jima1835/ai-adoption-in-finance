@@ -138,7 +138,10 @@ export default function App() {
     return {
       type: facet('type', TYPE_GROUPS),
       region: Object.fromEntries(
-        REGION_LABELS.map((r) => [r, regionBase.filter((i) => i.region === r).length]),
+        REGION_LABELS.map((r) => [
+          r,
+          regionBase.filter((i) => i.region === r).length,
+        ]),
       ),
       confidence: facet('confidence', CONFIDENCE_GROUPS),
       aum: facet('aum', AUM_BANDS),
@@ -152,18 +155,22 @@ export default function App() {
   // clears it, so there is always a way back to everything without hunting for
   // a reset control.
   const toggleFilter = (criterion) => (key) =>
-    setFilters((f) => ({ ...f, [criterion]: f[criterion] === key ? 'all' : key }))
+    setFilters((f) => ({
+      ...f,
+      [criterion]: f[criterion] === key ? 'all' : key,
+    }))
 
   // Regions accumulate: clicking Asia then Europe shows both. Clicking a
   // selected region removes it; the All pill clears the set.
   const toggleRegion = (label) =>
     setFilters((f) => ({
       ...f,
-      region: label === null
-        ? []
-        : f.region.includes(label)
-          ? f.region.filter((r) => r !== label)
-          : [...f.region, label],
+      region:
+        label === null
+          ? []
+          : f.region.includes(label)
+            ? f.region.filter((r) => r !== label)
+            : [...f.region, label],
     }))
 
   // The exec band follows the same faceting philosophy as the pills: each
@@ -203,6 +210,15 @@ export default function App() {
     [institutions],
   )
 
+  // ⚡ is a pipeline date only where monitor.py has matched a signal (a
+  // non-empty latest_date); everywhere else latestActivity() falls back to the
+  // newest curated event. The legend says how many rows the monitor actually
+  // covers so the feed is not read as wider than it is.
+  const monitored = useMemo(
+    () => institutions.filter((i) => i.latest_date).length,
+    [institutions],
+  )
+
   return (
     <div className="app">
       {/* WCAG 2.4.1 Bypass Blocks — 19 filter pills sit between the header and
@@ -210,7 +226,12 @@ export default function App() {
       <a className="skip-link" href="#main">
         Skip to content
       </a>
-      <Header route={route} onNavigate={navigate} refreshed={refreshed} reviewed={reviewed} />
+      <Header
+        route={route}
+        onNavigate={navigate}
+        refreshed={refreshed}
+        reviewed={reviewed}
+      />
 
       <main className="main" id="main" tabIndex={-1}>
         {route === 'methodology' ? (
@@ -238,7 +259,10 @@ export default function App() {
         ) : (
           <>
             {scopeNote(stageDefs) && (
-              <aside className="scope-note" aria-label="Scope of this dashboard">
+              <aside
+                className="scope-note"
+                aria-label="Scope of this dashboard"
+              >
                 <span className="scope-label">Scope</span>
                 <p>{scopeNote(stageDefs)}</p>
               </aside>
@@ -272,7 +296,11 @@ export default function App() {
                   onToggle={toggleRegion}
                 />
                 {filters.stage !== 'all' && (
-                  <div className="filter-group" role="group" aria-label="Stage filter">
+                  <div
+                    className="filter-group"
+                    role="group"
+                    aria-label="Stage filter"
+                  >
                     <span className="filter-group-label">Stage</span>
                     <div className="type-filter">
                       <button
@@ -284,7 +312,9 @@ export default function App() {
                       >
                         {filters.stage}
                         <span aria-hidden="true"> ✕</span>
-                        <span className="sr-only">, clear the stage filter</span>
+                        <span className="sr-only">
+                          , clear the stage filter
+                        </span>
                       </button>
                     </div>
                   </div>
@@ -303,19 +333,33 @@ export default function App() {
                   onChange={setFilter('aum')}
                   counts={counts.aum}
                 />
-                <div className="filter-group date-legend" aria-label="Date stamp legend">
+                <div
+                  className="filter-group date-legend"
+                  aria-label="Date stamp legend"
+                >
                   <span className="filter-group-label">Dates</span>
                   <div className="legend-body">
                     <span className="legend-item legend-news">
                       <span aria-hidden="true">⚡</span> latest activity
                       <span className="sr-only">
-                        {' '}— newest dated public item for an institution
+                        {' '}
+                        — newest dated public item for an institution
+                      </span>
+                    </span>
+                    <span className="legend-item legend-coverage">
+                      monitoring covers {monitored} of {institutions.length}{' '}
+                      rows
+                      <span className="sr-only">
+                        {' '}
+                        — rows where the news monitor has matched a signal;
+                        every other row shows its newest curated event
                       </span>
                     </span>
                     <span className="legend-item legend-reviewed">
                       <span aria-hidden="true">✓</span> reviewed
                       <span className="sr-only">
-                        {' '}— date a human last reviewed the classification
+                        {' '}
+                        — date a human last reviewed the classification
                       </span>
                     </span>
                   </div>
@@ -336,7 +380,10 @@ export default function App() {
             />
 
             {notClassified.length > 0 && (
-              <section className="nc-strip" aria-label="Assessed, not classified">
+              <section
+                className="nc-strip"
+                aria-label="Assessed, not classified"
+              >
                 <header className="nc-strip-head">
                   <h2 className="section-title">Not classified</h2>
                   <span className="nc-strip-count">{notClassified.length}</span>
@@ -356,7 +403,9 @@ export default function App() {
                       <span className="nc-outcome" data-outcome={n.outcome}>
                         {OUTCOME_LABELS[n.outcome] || n.outcome}
                       </span>
-                      {n.reason && <span className="sr-only">. {n.reason}</span>}
+                      {n.reason && (
+                        <span className="sr-only">. {n.reason}</span>
+                      )}
                     </div>
                   ))}
                 </div>

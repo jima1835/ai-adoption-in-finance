@@ -1,8 +1,18 @@
 // Generic pill-group filter — one group per criterion (type, region,
 // confidence, AUM band). Client-side, defaults to the group's 'all' key.
-export default function FilterPills({ label, groups, value, onChange, counts }) {
+export default function FilterPills({
+  label,
+  groups,
+  value,
+  onChange,
+  counts,
+}) {
   return (
-    <div className="filter-group" role="group" aria-label={`Filter by ${label}`}>
+    <div
+      className="filter-group"
+      role="group"
+      aria-label={`Filter by ${label}`}
+    >
       <span className="filter-group-label">{label}</span>
       <div className="type-filter">
         {/* WCAG 4.1.2 — data-active is invisible to assistive tech; these are

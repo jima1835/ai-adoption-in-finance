@@ -61,8 +61,8 @@ export default function Methodology({ defs }) {
       <section>
         <h3 className="prose-h2">What we measure: operational adoption</h3>
         <p>
-          The stage measures <strong>operational, internal AI adoption</strong> —
-          how a firm uses AI inside its own investment process and operations.
+          The stage measures <strong>operational, internal AI adoption</strong>{' '}
+          — how a firm uses AI inside its own investment process and operations.
           Two things that often get counted as “AI adoption” are deliberately{' '}
           <em>out of scope</em>: AI products a firm <strong>sells</strong> to
           clients, and AI as an <strong>investment thesis</strong> or portfolio
@@ -77,9 +77,12 @@ export default function Methodology({ defs }) {
         <h3 className="prose-h2">How a row is built</h3>
         <p>
           Stated plainly, because the construction protocol is as much the
-          contribution as the data: <strong>an AI research agent drafts every
-          row and proposes a stage; a human verifies every row before it
-          publishes.</strong> Neither half is decorative.
+          contribution as the data:{' '}
+          <strong>
+            an AI research agent drafts every row and proposes a stage; a human
+            verifies every row before it publishes.
+          </strong>{' '}
+          Neither half is decorative.
         </p>
         <ol className="prose-list">
           <li>
@@ -156,7 +159,11 @@ export default function Methodology({ defs }) {
         <ul className="prose-list">
           <li>
             <strong>Commercial AI indices</strong> — chiefly the{' '}
-            <a href="https://evidentinsights.com/" target="_blank" rel="noreferrer">
+            <a
+              href="https://evidentinsights.com/"
+              target="_blank"
+              rel="noreferrer"
+            >
               Evident AI Index
             </a>
             , which ranks banks, insurers and payments firms on 60+ indicators
@@ -167,18 +174,17 @@ export default function Methodology({ defs }) {
             it publishes the assessments that failed.
           </li>
           <li>
-            <strong>Staged self-assessment questionnaires</strong>, including the
-            one shipped with the US financial-services AI risk framework
-            published in 2026, ask a firm to place itself. This dashboard
-            adapts the staged form for <em>external observation</em>: no
-            institution is asked anything, and no institution can move its own
-            row.
+            <strong>Staged self-assessment questionnaires</strong>, including
+            the one shipped with the US financial-services AI risk framework
+            published in 2026, ask a firm to place itself. This dashboard adapts
+            the staged form for <em>external observation</em>: no institution is
+            asked anything, and no institution can move its own row.
           </li>
           <li>
             <strong>Industry surveys</strong> report self-declared adoption in
-            aggregate and anonymized. Every row here is named, dated and sourced,
-            which makes it checkable and makes it wrong in public when it is
-            wrong.
+            aggregate and anonymized. Every row here is named, dated and
+            sourced, which makes it checkable and makes it wrong in public when
+            it is wrong.
           </li>
         </ul>
       </section>
@@ -186,8 +192,8 @@ export default function Methodology({ defs }) {
       <section>
         <h3 className="prose-h2">Sources &amp; limits</h3>
         <p>
-          Classifications rest only on public sources. Where an institution’s own
-          claims (e.g. realized benefits “in the billions”) cannot be
+          Classifications rest only on public sources. Where an institution’s
+          own claims (e.g. realized benefits “in the billions”) cannot be
           independently verified, they are labeled as company claims. Absence of
           a public signal is not proof of inaction — it is simply the limit of
           what can be sourced.
@@ -200,9 +206,9 @@ export default function Methodology({ defs }) {
         </p>
         <p>
           Evidence in Chinese, Japanese and Korean is quoted verbatim in the
-          original, because the exact wording is what carries the classification.
-          An English rendering is shown alongside it; the original is always the
-          record.
+          original, because the exact wording is what carries the
+          classification. An English rendering is shown alongside it; the
+          original is always the record.
         </p>
       </section>
 
@@ -211,16 +217,16 @@ export default function Methodology({ defs }) {
         <p>
           Built and maintained by <strong>Jiajun Ma</strong>, an investment
           professional working in institutional asset management. This is an
-          independent personal project: it is not affiliated with, sponsored
-          by, or endorsed by any employer, and every view and classification
-          here is the author’s alone.
+          independent personal project: it is not affiliated with, sponsored by,
+          or endorsed by any employer, and every view and classification here is
+          the author’s alone.
         </p>
         <p>
           Consistent with the public-sources-only rule above, no non-public
           information from the author’s professional work informs any
           classification, and institutions where the author has a professional
-          affiliation are excluded from coverage entirely. Nothing on this
-          site is investment advice.
+          affiliation are excluded from coverage entirely. Nothing on this site
+          is investment advice.
         </p>
         <p>
           Corrections and challenges are welcome —{' '}
@@ -240,13 +246,18 @@ export default function Methodology({ defs }) {
           <p>
             Institutions researched against this methodology whose public record
             did not support a stage. Absence from the dashboard is a finding,
-            not an omission: each entry names why the record fell short.
-            “No qualifying evidence” means the public record — after searching —
+            not an omission: each entry names why the record fell short. “No
+            qualifying evidence” means the public record — after searching —
             contained nothing in scope that met the sourcing rules. “Withdrawn
             on review” entries were listed and then removed when human review
             found the evidence insufficient.
           </p>
-          <div className="table-wrap" tabIndex={0} role="region" aria-label="Assessed but not classified, scrollable table">
+          <div
+            className="table-wrap"
+            tabIndex={0}
+            role="region"
+            aria-label="Assessed but not classified, scrollable table"
+          >
             <table className="inst-table nc-table">
               <thead>
                 <tr>
@@ -262,7 +273,9 @@ export default function Methodology({ defs }) {
                 {notClassified.map((n) => (
                   <tr key={n.name}>
                     <td className="td-name">{n.name}</td>
-                    <td className="td-muted">{TYPE_LABELS[n.type] || n.type}</td>
+                    <td className="td-muted">
+                      {TYPE_LABELS[n.type] || n.type}
+                    </td>
                     <td className="td-muted">{n.region}</td>
                     <td>
                       <span className="nc-outcome" data-outcome={n.outcome}>
@@ -280,7 +293,6 @@ export default function Methodology({ defs }) {
           </div>
         </section>
       )}
-
     </article>
   )
 }

@@ -25,7 +25,8 @@ export default function RegionMap({ institutions, selected, onToggle }) {
   const [hover, setHover] = useState(null)
 
   const counts = Object.fromEntries(REGION_LABELS.map((r) => [r, 0]))
-  for (const i of institutions) if (counts[i.region] !== undefined) counts[i.region]++
+  for (const i of institutions)
+    if (counts[i.region] !== undefined) counts[i.region]++
 
   const anySelected = selected.length > 0
   // Hover previews one region; otherwise the selection is what stands out.
@@ -42,7 +43,14 @@ export default function RegionMap({ institutions, selected, onToggle }) {
       const region = MAP_CODE_TO_REGION[code]
       if (!byRegion[region]) continue
       byRegion[region].push(
-        <rect key={`${r}-${c}`} x={c * 3} y={r * 3} width={2} height={2} rx={0.4} />,
+        <rect
+          key={`${r}-${c}`}
+          x={c * 3}
+          y={r * 3}
+          width={2}
+          height={2}
+          rx={0.4}
+        />,
       )
     }
   }
@@ -119,8 +127,14 @@ export default function RegionMap({ institutions, selected, onToggle }) {
           ))}
           {anySelected && (
             <li>
-              <button type="button" className="map-key map-clear" onClick={() => onToggle(null)}>
-                <span className="mk-swatch mk-clear" aria-hidden="true">✕</span>
+              <button
+                type="button"
+                className="map-key map-clear"
+                onClick={() => onToggle(null)}
+              >
+                <span className="mk-swatch mk-clear" aria-hidden="true">
+                  ✕
+                </span>
                 <span className="mk-name">Clear</span>
                 <span className="sr-only">the region selection</span>
               </button>

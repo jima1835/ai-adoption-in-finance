@@ -163,7 +163,9 @@ one before review.
 ## 5. PR expectations
 
 - **Conventional commits** — `feat:`, `fix:`, `docs:`, `chore:`, `test:` …
-- **Tests pass** — `uv run pytest` is green (CI runs it on every PR).
+- **Tests and linters pass** — `uv run pytest`, `uv run ruff check .`,
+  `npm run lint` and `npm run format:check` are green. CI runs all four on
+  every PR, the tests on Linux and Windows.
 - **One logical change per PR** — a data correction, a feature, or a doc fix —
   not a bundle. Small, reviewable, single-purpose.
 - **Cite your sources** — link the public evidence in the PR description for any
