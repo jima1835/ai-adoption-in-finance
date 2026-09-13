@@ -4,7 +4,7 @@ requires-python = ">=3.10"
 
 [[package]]
 name = "ai-adoption-in-finance"
-version = "0.1.0"
+version = "1.0.3"
 source = { virtual = "." }
 dependencies = [
     { name = "anthropic" },
