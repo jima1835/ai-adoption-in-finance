@@ -1,5 +1,12 @@
 import { useState } from 'react'
-import { STAGES, TYPE_LABELS, aumUsd, aumUsdApprox, dateSortKey, latestActivity } from '../data.js'
+import {
+  STAGES,
+  TYPE_LABELS,
+  aumUsd,
+  aumUsdApprox,
+  dateSortKey,
+  latestActivity,
+} from '../data.js'
 import StageBadge from './StageBadge.jsx'
 import Lang from './Lang.jsx'
 import FirmLink from './FirmLink.jsx'
@@ -10,9 +17,24 @@ const COLUMNS = [
   { key: 'region', label: 'Region', sortable: true, align: 'left' },
   { key: 'aum', label: 'AUM', sortable: true, align: 'right' },
   { key: 'stage', label: 'Stage', sortable: true, align: 'left' },
-  { key: 'latest_signal', label: 'Latest signal', sortable: false, align: 'left' },
-  { key: 'latest_date', label: 'Latest evidence', sortable: true, align: 'right' },
-  { key: 'as_of_reviewed', label: 'Last reviewed', sortable: true, align: 'right' },
+  {
+    key: 'latest_signal',
+    label: 'Latest signal',
+    sortable: false,
+    align: 'left',
+  },
+  {
+    key: 'latest_date',
+    label: 'Latest evidence',
+    sortable: true,
+    align: 'right',
+  },
+  {
+    key: 'as_of_reviewed',
+    label: 'Last reviewed',
+    sortable: true,
+    align: 'right',
+  },
 ]
 
 function compare(a, b, key) {
@@ -25,7 +47,8 @@ function compare(a, b, key) {
       // Sort on the same value the cell shows, not on the raw pipeline field —
       // 76 of 84 rows have no latest_date, so sorting by it bunched them at zero.
       return (
-        dateSortKey(latestActivity(a)?.date) - dateSortKey(latestActivity(b)?.date)
+        dateSortKey(latestActivity(a)?.date) -
+        dateSortKey(latestActivity(b)?.date)
       )
     default:
       return String(a[key] || '').localeCompare(String(b[key] || ''))
@@ -86,7 +109,11 @@ export default function InstitutionTable({ institutions, onSelect }) {
                     onClick={() => toggle(col.key)}
                   >
                     {col.label}
-                    <span className="th-arrow" data-active={sort.key === col.key} aria-hidden="true">
+                    <span
+                      className="th-arrow"
+                      data-active={sort.key === col.key}
+                      aria-hidden="true"
+                    >
                       {sort.key === col.key
                         ? sort.dir === 'asc'
                           ? '▲'
@@ -119,7 +146,9 @@ export default function InstitutionTable({ institutions, onSelect }) {
               <td className="td-name">
                 <FirmLink name={inst.name} />
               </td>
-              <td className="td-muted">{TYPE_LABELS[inst.type] || inst.type}</td>
+              <td className="td-muted">
+                {TYPE_LABELS[inst.type] || inst.type}
+              </td>
               <td className="td-muted">{inst.region || '—'}</td>
               <td data-align="right" className="td-num">
                 {inst.aum}
@@ -137,7 +166,11 @@ export default function InstitutionTable({ institutions, onSelect }) {
                 <StageBadge stage={inst.stage} />
               </td>
               <td className="td-signal">
-                {inst.latest_signal ? <Lang>{inst.latest_signal}</Lang> : <span className="td-empty">—</span>}
+                {inst.latest_signal ? (
+                  <Lang>{inst.latest_signal}</Lang>
+                ) : (
+                  <span className="td-empty">—</span>
+                )}
               </td>
               <td
                 data-align="right"

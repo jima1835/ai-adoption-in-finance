@@ -98,7 +98,9 @@ export default function StageStrip({ institutions, active, onToggle }) {
                     )} percent of the corpus, ${fmtAum(s.aum)} combined AUM, ${
                       s.high
                     } rated high confidence. `}
-                {on ? 'Filtering by this stage. Activate to clear.' : 'Activate to filter by this stage.'}
+                {on
+                  ? 'Filtering by this stage. Activate to clear.'
+                  : 'Activate to filter by this stage.'}
               </span>
             </button>
           )

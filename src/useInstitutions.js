@@ -43,7 +43,9 @@ export function useInstitutions({ pollMs = 0 } = {}) {
     }
     window.addEventListener('focus', onFocus)
     document.addEventListener('visibilitychange', onVisible)
-    const id = pollMs ? setInterval(() => refresh({ background: true }), pollMs) : null
+    const id = pollMs
+      ? setInterval(() => refresh({ background: true }), pollMs)
+      : null
 
     return () => {
       alive.current = false

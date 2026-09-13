@@ -130,7 +130,10 @@ export function dateSortKey(raw) {
 
 // Newest event/latest_date wins. Empty treated as oldest.
 export function maxDate(dates) {
-  return dates.filter(Boolean).sort((a, b) => dateSortKey(b) - dateSortKey(a))[0] || ''
+  return (
+    dates.filter(Boolean).sort((a, b) => dateSortKey(b) - dateSortKey(a))[0] ||
+    ''
+  )
 }
 
 // ~50-word executive summary, derived at render time from the hand-written
@@ -197,7 +200,9 @@ export async function loadStageDefinitions() {
     )
     if (!res.ok) return null
     const data = await res.json()
-    return data && typeof data === 'object' && !Array.isArray(data) ? data : null
+    return data && typeof data === 'object' && !Array.isArray(data)
+      ? data
+      : null
   } catch {
     return null
   }
@@ -238,7 +243,6 @@ export function embeddedNote(defs) {
 export function scopeNote(defs) {
   return defs?._scope_note || ''
 }
-
 
 // ---------------------------------------------------------------------------
 // Multilingual rendering.
@@ -288,9 +292,12 @@ export function translationFor(run) {
 
 export async function loadTranslations() {
   try {
-    const res = await fetch(`${import.meta.env.BASE_URL}data/translations.json`, {
-      cache: 'no-store',
-    })
+    const res = await fetch(
+      `${import.meta.env.BASE_URL}data/translations.json`,
+      {
+        cache: 'no-store',
+      },
+    )
     if (!res.ok) return {}
     const json = await res.json()
     TRANSLATIONS = json && json.runs ? json.runs : {}
@@ -315,13 +322,15 @@ export function segmentCjk(text) {
   // Pass 2 — CJK runs in the remainder, with the quoted spans blanked out so
   // indices still line up.
   let masked = str
-  for (const [a, b] of marks) masked = masked.slice(0, a) + ' '.repeat(b - a) + masked.slice(b)
+  for (const [a, b] of marks)
+    masked = masked.slice(0, a) + ' '.repeat(b - a) + masked.slice(b)
   CJK_RUN.lastIndex = 0
   for (const m of masked.matchAll(CJK_RUN)) {
     const raw = m[0]
     const lead = raw.length - raw.replace(/^[\u3000 ・]+/, '').length
     const key = raw.replace(EDGE, '')
-    if (key && CJK_CHAR.test(key)) marks.push([m.index + lead, m.index + lead + key.length, key])
+    if (key && CJK_CHAR.test(key))
+      marks.push([m.index + lead, m.index + lead + key.length, key])
   }
 
   marks.sort((x, y) => x[0] - y[0])
@@ -336,7 +345,6 @@ export function segmentCjk(text) {
   if (cursor < str.length) out.push({ text: str.slice(cursor), lang: null })
   return out.length ? out : [{ text: str, lang: null }]
 }
-
 
 // ---------------------------------------------------------------------------
 // Presentation-layer lookups. Neither file modifies institutions.json.
@@ -359,7 +367,9 @@ export function homepageFor(name) {
 
 export async function loadSummaries() {
   try {
-    const res = await fetch(`${import.meta.env.BASE_URL}data/summaries.json`, { cache: 'no-store' })
+    const res = await fetch(`${import.meta.env.BASE_URL}data/summaries.json`, {
+      cache: 'no-store',
+    })
     if (res.ok) {
       const j = await res.json()
       SUMMARIES = j && j.summaries ? j.summaries : {}
@@ -372,7 +382,9 @@ export async function loadSummaries() {
 
 export async function loadHomepages() {
   try {
-    const res = await fetch(`${import.meta.env.BASE_URL}data/homepages.json`, { cache: 'no-store' })
+    const res = await fetch(`${import.meta.env.BASE_URL}data/homepages.json`, {
+      cache: 'no-store',
+    })
     if (res.ok) {
       const j = await res.json()
       HOMEPAGES = j && j.homepages ? j.homepages : {}
@@ -382,7 +394,6 @@ export async function loadHomepages() {
   }
   return HOMEPAGES
 }
-
 
 // The region filter is keyed by group id ('middle-east'), while the map and its
 // legend work in region labels ('Middle East'). These two translate between them
@@ -398,10 +409,16 @@ export function regionLabelFromKey(key) {
   return g && g.regions && g.regions.length === 1 ? g.regions[0] : null
 }
 
-
 // The six region buckets, in a fixed order. Both the map and the region pills
 // read this, so a colour always means the same region wherever it appears.
-export const REGION_LABELS = ['US', 'Canada', 'Europe', 'Asia', 'Middle East', 'Other']
+export const REGION_LABELS = [
+  'US',
+  'Canada',
+  'Europe',
+  'Asia',
+  'Middle East',
+  'Other',
+]
 
 // Categorical palette — identity, not magnitude, so one hue per region rather
 // than steps of one hue. Chosen by search against the dataviz validator on the
@@ -418,7 +435,6 @@ export const REGION_COLORS = {
   'Middle East': '#a07ee0',
   Other: '#00ac94',
 }
-
 
 // ---------------------------------------------------------------------------
 // data/agreement.json — the human-vs-agent disagreement record.

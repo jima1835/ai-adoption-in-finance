@@ -30,9 +30,9 @@
   --human: #5b9bd1; /* cool counterpoint: human-curated marker */
 
   --radius: 6px;
-  --mono: ui-monospace, "SF Mono", "JetBrains Mono", "Menlo", "Consolas",
-    monospace;
-  --sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono:
+    ui-monospace, 'SF Mono', 'JetBrains Mono', 'Menlo', 'Consolas', monospace;
+  --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 
   --maxw: 1320px;
 }
@@ -151,7 +151,7 @@ code {
   color: var(--text);
   background: var(--panel);
 }
-.nav-link[data-active="true"] {
+.nav-link[data-active='true'] {
   color: var(--bg);
   background: var(--accent);
   border-color: var(--accent);
@@ -185,11 +185,11 @@ code {
   border-radius: 50%;
   flex-shrink: 0;
 }
-.stamp-dot[data-kind="auto"] {
+.stamp-dot[data-kind='auto'] {
   background: var(--accent);
   box-shadow: 0 0 8px var(--accent);
 }
-.stamp-dot[data-kind="human"] {
+.stamp-dot[data-kind='human'] {
   background: var(--human);
 }
 
@@ -256,7 +256,7 @@ code {
   color: var(--text);
   background: var(--panel-hover);
 }
-.filter-pill[data-active="true"] {
+.filter-pill[data-active='true'] {
   color: var(--bg);
   background: var(--accent);
 }
@@ -265,7 +265,7 @@ code {
   opacity: 0.7;
   font-variant-numeric: tabular-nums;
 }
-.filter-pill[data-active="true"] .filter-count {
+.filter-pill[data-active='true'] .filter-count {
   opacity: 0.85;
 }
 .controls-hint {
@@ -396,7 +396,7 @@ code {
   border-radius: 4px;
   color: var(--text-dim);
 }
-.nc-outcome[data-outcome="withdrawn-on-review"] {
+.nc-outcome[data-outcome='withdrawn-on-review'] {
   border-color: var(--accent);
   color: var(--accent);
 }
@@ -418,13 +418,13 @@ code {
   border-radius: 50%;
   flex-shrink: 0;
 }
-.conf-dot[data-conf="high"] {
+.conf-dot[data-conf='high'] {
   background: #4ade80;
 }
-.conf-dot[data-conf="med"] {
+.conf-dot[data-conf='med'] {
   background: #e6b450;
 }
-.conf-dot[data-conf="low"] {
+.conf-dot[data-conf='low'] {
   background: #6b7280;
 }
 
@@ -445,16 +445,16 @@ code {
   flex-direction: column;
   min-height: 220px;
 }
-.phase-col[data-stage="exploring"] {
+.phase-col[data-stage='exploring'] {
   --col-accent: var(--stage-exploring);
 }
-.phase-col[data-stage="piloting"] {
+.phase-col[data-stage='piloting'] {
   --col-accent: var(--stage-piloting);
 }
-.phase-col[data-stage="scaling"] {
+.phase-col[data-stage='scaling'] {
   --col-accent: var(--stage-scaling);
 }
-.phase-col[data-stage="embedded"] {
+.phase-col[data-stage='embedded'] {
   --col-accent: var(--stage-embedded);
 }
 .phase-head {
@@ -498,7 +498,9 @@ code {
   opacity: 0;
   transform: translateY(-3px);
   pointer-events: none;
-  transition: opacity 0.12s, transform 0.12s;
+  transition:
+    opacity 0.12s,
+    transform 0.12s;
 }
 .phase-head:hover .phase-tooltip,
 .phase-head:focus-visible .phase-tooltip,
@@ -554,7 +556,7 @@ code {
   color: var(--text);
   border-color: var(--border-bright);
 }
-.phase-sort[data-active="true"] {
+.phase-sort[data-active='true'] {
   color: var(--col-accent, var(--accent));
   border-color: var(--col-accent, var(--accent));
 }
@@ -583,15 +585,18 @@ code {
   border-left: 2px solid var(--card-accent, var(--border));
   border-radius: 5px;
   padding: 9px 10px;
-  transition: background 0.12s, border-color 0.12s, transform 0.12s;
+  transition:
+    background 0.12s,
+    border-color 0.12s,
+    transform 0.12s;
 }
-.inst-card[data-stage="exploring"] {
+.inst-card[data-stage='exploring'] {
   --card-accent: var(--stage-exploring);
 }
-.inst-card[data-stage="piloting"] {
+.inst-card[data-stage='piloting'] {
   --card-accent: var(--stage-piloting);
 }
-.inst-card[data-stage="scaling"] {
+.inst-card[data-stage='scaling'] {
   --card-accent: var(--stage-scaling);
 }
 .inst-card:hover {
@@ -696,23 +701,24 @@ code {
   border-radius: 3px;
   color: var(--badge-c, var(--text));
   background: color-mix(in srgb, var(--badge-c, var(--text)) 14%, transparent);
-  border: 1px solid color-mix(in srgb, var(--badge-c, var(--text)) 35%, transparent);
+  border: 1px solid
+    color-mix(in srgb, var(--badge-c, var(--text)) 35%, transparent);
   white-space: nowrap;
 }
-.badge[data-size="lg"] {
+.badge[data-size='lg'] {
   font-size: 14.5px;
   padding: 4px 11px;
 }
-.badge[data-stage="exploring"] {
+.badge[data-stage='exploring'] {
   --badge-c: var(--stage-exploring);
 }
-.badge[data-stage="piloting"] {
+.badge[data-stage='piloting'] {
   --badge-c: var(--stage-piloting);
 }
-.badge[data-stage="scaling"] {
+.badge[data-stage='scaling'] {
   --badge-c: var(--stage-scaling);
 }
-.badge[data-stage="embedded"] {
+.badge[data-stage='embedded'] {
   --badge-c: var(--stage-embedded);
   background: transparent; /* reserved/unreached: outline only, no fill */
 }
@@ -761,14 +767,14 @@ code {
   white-space: nowrap;
   user-select: none;
 }
-.inst-table th[data-sortable="true"] {
+.inst-table th[data-sortable='true'] {
   cursor: pointer;
 }
-.inst-table th[data-sortable="true"]:hover {
+.inst-table th[data-sortable='true']:hover {
   color: var(--text);
 }
-.inst-table th[data-align="right"],
-.inst-table td[data-align="right"] {
+.inst-table th[data-align='right'],
+.inst-table td[data-align='right'] {
   text-align: right;
 }
 .th-inner {
@@ -780,7 +786,7 @@ code {
   font-size: 9.5px;
   color: var(--text-faint);
 }
-.th-arrow[data-active="true"] {
+.th-arrow[data-active='true'] {
   color: var(--accent);
 }
 .inst-table tbody tr {
@@ -975,7 +981,7 @@ code {
   justify-content: center;
 }
 .tl-rail::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   bottom: 0;
@@ -1167,16 +1173,16 @@ code {
   font-weight: 600;
   color: var(--row-c, var(--text));
 }
-.stage-def-row[data-stage="exploring"] {
+.stage-def-row[data-stage='exploring'] {
   --row-c: var(--stage-exploring);
 }
-.stage-def-row[data-stage="piloting"] {
+.stage-def-row[data-stage='piloting'] {
   --row-c: var(--stage-piloting);
 }
-.stage-def-row[data-stage="scaling"] {
+.stage-def-row[data-stage='scaling'] {
   --row-c: var(--stage-scaling);
 }
-.stage-def-row[data-stage="embedded"] {
+.stage-def-row[data-stage='embedded'] {
   --row-c: var(--stage-embedded);
 }
 .stage-def-row dd {
@@ -1283,7 +1289,6 @@ code {
   opacity: 0.85;
 }
 
-
 /* ==========================================================================
    Accessibility — added 2026-09-01 after a WCAG 2.1 audit.
    Every rule here answers a specific failing success criterion, named inline.
@@ -1325,7 +1330,7 @@ code {
 
 /* 2.4.7 Focus Visible — a consistent, high-contrast ring instead of relying on
    the UA default, which is a 1px hairline on these dark surfaces. */
-:where(a, button, [tabindex="0"], summary):focus-visible {
+:where(a, button, [tabindex='0'], summary):focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
   border-radius: 4px;
@@ -1345,7 +1350,7 @@ code {
   letter-spacing: inherit;
   text-transform: inherit;
 }
-th[data-align="right"] .th-btn {
+th[data-align='right'] .th-btn {
   justify-content: flex-end;
 }
 .th-btn:focus-visible {
@@ -1370,10 +1375,10 @@ th[data-align="right"] .th-btn {
 /* 1.4.1 — the confidence dot carried its meaning entirely in colour and a
    title attribute. It keeps the colour and gains a shape difference plus
    .sr-only text in the markup. */
-.conf-dot[data-conf="low"] {
+.conf-dot[data-conf='low'] {
   border-style: dotted;
 }
-.conf-dot[data-conf="med"] {
+.conf-dot[data-conf='med'] {
   border-style: dashed;
 }
 
@@ -1443,7 +1448,7 @@ body.modal-open {
 .filter-count {
   opacity: 1;
 }
-.filter-pill[data-active="true"] .filter-count {
+.filter-pill[data-active='true'] .filter-count {
   opacity: 1;
 }
 .card-news {
@@ -1573,7 +1578,7 @@ li a,
   color: var(--text);
 }
 .why-bullets li::before {
-  content: "";
+  content: '';
   position: absolute;
   left: 2px;
   top: 0.62em;
@@ -1603,7 +1608,7 @@ li a,
   display: none;
 }
 .why-full > summary::before {
-  content: "▸";
+  content: '▸';
   color: var(--accent);
   transition: transform 0.12s;
   display: inline-block;
@@ -1784,13 +1789,25 @@ li a,
   border: 1px solid var(--border);
   border-top: 2px solid var(--stage, var(--border-bright));
   border-radius: 4px;
-  transition: background 0.12s, border-color 0.12s;
+  transition:
+    background 0.12s,
+    border-color 0.12s;
 }
-.stage-panel[data-stage='exploring'] { --stage: var(--stage-exploring); }
-.stage-panel[data-stage='piloting']  { --stage: var(--stage-piloting); }
-.stage-panel[data-stage='scaling']   { --stage: var(--stage-scaling); }
-.stage-panel[data-stage='embedded']  { --stage: var(--stage-embedded); }
-.stage-panel:hover { background: var(--panel-2); }
+.stage-panel[data-stage='exploring'] {
+  --stage: var(--stage-exploring);
+}
+.stage-panel[data-stage='piloting'] {
+  --stage: var(--stage-piloting);
+}
+.stage-panel[data-stage='scaling'] {
+  --stage: var(--stage-scaling);
+}
+.stage-panel[data-stage='embedded'] {
+  --stage: var(--stage-embedded);
+}
+.stage-panel:hover {
+  background: var(--panel-2);
+}
 .stage-panel[aria-pressed='true'] {
   background: var(--panel-2);
   border-color: var(--stage);
@@ -1807,10 +1824,25 @@ li a,
   border: 1px solid var(--stage);
   opacity: 0.55;
 }
-.sp-tl { top: 3px; left: 3px; border-right: 0; border-bottom: 0; }
-.sp-br { bottom: 3px; right: 3px; border-left: 0; border-top: 0; }
+.sp-tl {
+  top: 3px;
+  left: 3px;
+  border-right: 0;
+  border-bottom: 0;
+}
+.sp-br {
+  bottom: 3px;
+  right: 3px;
+  border-left: 0;
+  border-top: 0;
+}
 
-.sp-top { display: flex; align-items: baseline; gap: 6px; min-width: 0; }
+.sp-top {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+}
 .sp-idx {
   font-family: var(--mono);
   font-size: 10.5px;
@@ -1827,7 +1859,11 @@ li a,
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.sp-readout { display: flex; align-items: baseline; gap: 7px; }
+.sp-readout {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+}
 .sp-n {
   font-family: var(--mono);
   font-size: 30px;
@@ -1842,7 +1878,9 @@ li a,
   color: var(--text-dim);
   font-variant-numeric: tabular-nums;
 }
-.stage-panel[data-empty='true'] .sp-n { color: var(--text-faint); }
+.stage-panel[data-empty='true'] .sp-n {
+  color: var(--text-faint);
+}
 
 .sp-meter {
   display: block;
@@ -1867,17 +1905,38 @@ li a,
   color: var(--text-faint);
   text-transform: uppercase;
 }
-.sp-foot b { color: var(--text-dim); font-weight: 400; }
+.sp-foot b {
+  color: var(--text-dim);
+  font-weight: 400;
+}
 
 /* ---- region raster ---- */
-.map-body { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: center; }
-.map-svg { width: 100%; height: auto; display: block; }
+.map-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+}
+.map-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
 /* Categorical now: the fill is set per rect from REGION_COLORS, so no fill is
    declared here — a CSS rule would beat the presentation attribute and repaint
    the whole map one colour, which is exactly what it did the first time. */
-.map-svg rect { transition: opacity 0.12s; }
+.map-svg rect {
+  transition: opacity 0.12s;
+}
 
-.map-legend { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.map-legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
 .map-key {
   all: unset;
   box-sizing: border-box;
@@ -1895,19 +1954,45 @@ li a,
   color: var(--text-dim);
   white-space: nowrap;
 }
-.map-key:hover { background: var(--panel); color: var(--text); }
-.map-key[aria-pressed='true'] { background: var(--panel-2); border-color: var(--accent); color: var(--text); }
-.map-key:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.mk-swatch { width: 9px; height: 9px; border-radius: 2px; }
-.mk-n { font-variant-numeric: tabular-nums; color: var(--text); }
+.map-key:hover {
+  background: var(--panel);
+  color: var(--text);
+}
+.map-key[aria-pressed='true'] {
+  background: var(--panel-2);
+  border-color: var(--accent);
+  color: var(--text);
+}
+.map-key:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.mk-swatch {
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+}
+.mk-n {
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
 
 @media (max-width: 980px) {
-  .exec-band { grid-template-columns: minmax(0, 1fr); }
+  .exec-band {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 @media (max-width: 560px) {
-  .stage-panels { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .map-body { grid-template-columns: minmax(0, 1fr); }
-  .map-legend { flex-direction: row; flex-wrap: wrap; }
+  .stage-panels {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .map-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .map-legend {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
 }
 
 /* The panel footer put AUM and HI-CONF on one justified row; a wide figure like

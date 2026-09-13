@@ -26,7 +26,9 @@ export default function FirmLink({ name, className }) {
       onClick={(e) => e.stopPropagation()}
     >
       <Lang>{name}</Lang>
-      <span className="firm-link-mark" aria-hidden="true">↗</span>
+      <span className="firm-link-mark" aria-hidden="true">
+        ↗
+      </span>
       <span className="sr-only"> — homepage, opens in a new tab</span>
     </a>
   )

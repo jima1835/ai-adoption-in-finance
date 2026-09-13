@@ -25,7 +25,8 @@ export default function AgreementPanel({ data }) {
   // Only render stages that actually appear on either axis.
   const proposed = STAGES.filter((s) => matrix.some((m) => m.proposed === s))
   const finals = STAGES.filter((s) => matrix.some((m) => m.final === s))
-  const at = (p, f) => matrix.find((m) => m.proposed === p && m.final === f)?.n || 0
+  const at = (p, f) =>
+    matrix.find((m) => m.proposed === p && m.final === f)?.n || 0
   const max = matrix.reduce((a, m) => Math.max(a, m.n), 0) || 1
   const pct = (v) => (v == null ? '—' : `${(v * 100).toFixed(1)}%`)
 
@@ -35,9 +36,9 @@ export default function AgreementPanel({ data }) {
       <p>
         Every row in this corpus was drafted by a research agent that also
         proposed an adoption stage; a human reviewer then checked the row
-        against its sources and accepted, revised, or removed it. That review
-        is logged, so the rate at which the human and the agent disagree is
-        itself a published measurement rather than an assurance.
+        against its sources and accepted, revised, or removed it. That review is
+        logged, so the rate at which the human and the agent disagree is itself
+        a published measurement rather than an assurance.
       </p>
 
       <div className="agree-tiles">
@@ -75,7 +76,12 @@ export default function AgreementPanel({ data }) {
         and only that produces a reliability coefficient. None is reported here.
       </p>
 
-      <div className="table-wrap" tabIndex={0} role="region" aria-label="Proposed versus final stage, scrollable table">
+      <div
+        className="table-wrap"
+        tabIndex={0}
+        role="region"
+        aria-label="Proposed versus final stage, scrollable table"
+      >
         <table className="inst-table agree-matrix">
           <caption className="agree-caption">
             Agent-proposed stage (rows) against the human&rsquo;s final stage
@@ -106,7 +112,13 @@ export default function AgreementPanel({ data }) {
                       data-align="right"
                       className="agree-cell"
                       data-diagonal={p === f ? 'true' : undefined}
-                      style={n ? { background: `rgba(240, 168, 48, ${(0.06 + 0.34 * (n / max)).toFixed(3)})` } : undefined}
+                      style={
+                        n
+                          ? {
+                              background: `rgba(240, 168, 48, ${(0.06 + 0.34 * (n / max)).toFixed(3)})`,
+                            }
+                          : undefined
+                      }
                     >
                       {n || <span className="td-empty">·</span>}
                     </td>
