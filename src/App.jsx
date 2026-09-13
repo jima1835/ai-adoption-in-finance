@@ -210,6 +210,15 @@ export default function App() {
     [institutions],
   )
 
+  // ⚡ is a pipeline date only where monitor.py has matched a signal (a
+  // non-empty latest_date); everywhere else latestActivity() falls back to the
+  // newest curated event. The legend says how many rows the monitor actually
+  // covers so the feed is not read as wider than it is.
+  const monitored = useMemo(
+    () => institutions.filter((i) => i.latest_date).length,
+    [institutions],
+  )
+
   return (
     <div className="app">
       {/* WCAG 2.4.1 Bypass Blocks — 19 filter pills sit between the header and
@@ -335,6 +344,15 @@ export default function App() {
                       <span className="sr-only">
                         {' '}
                         — newest dated public item for an institution
+                      </span>
+                    </span>
+                    <span className="legend-item legend-coverage">
+                      monitoring covers {monitored} of {institutions.length}{' '}
+                      rows
+                      <span className="sr-only">
+                        {' '}
+                        — rows where the news monitor has matched a signal;
+                        every other row shows its newest curated event
                       </span>
                     </span>
                     <span className="legend-item legend-reviewed">

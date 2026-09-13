@@ -318,6 +318,9 @@ code {
 .legend-reviewed {
   color: var(--text-faint);
 }
+.legend-coverage {
+  color: var(--text-faint);
+}
 
 /* NOT CLASSIFIED strip — dashboard, below the stage grid. Dashed border =
    deliberately outside the four-stage ladder. */
