@@ -12,7 +12,10 @@ const FOCUSABLE =
 // Use cases lead because they are the concrete, scannable answer to "what does
 // this firm actually do with AI". The dated record follows. The stage argument
 // comes last, once the reader has seen what it is arguing from — a short derived
-// digest, with the complete human-reviewed rationale one disclosure away.
+// digest, with the complete human-reviewed rationale one disclosure away. The
+// row's footnote — the scope call: what was seen but NOT counted toward the
+// stage, and why — closes that section as a scope note, so the argument and its
+// boundary are read together.
 //
 // There is no separate "latest signal" section. Across the corpus every row that
 // has a latest_signal duplicates an event that is already in the timeline (all of
@@ -232,6 +235,14 @@ export default function DrillDown({ inst, onClose }) {
             <p className="modal-rationale">
               <Lang>{inst.rationale}</Lang>
             </p>
+          )}
+          {inst.footnote && (
+            <div className="modal-footnote">
+              <span className="footnote-label">Scope note</span>
+              <p>
+                <Lang>{inst.footnote}</Lang>
+              </p>
+            </div>
           )}
         </section>
       </div>

@@ -918,12 +918,12 @@ code {
   border-left: 2px solid var(--accent);
   padding-left: 12px;
 }
+/* Scope note — the row's footnote, closing "Why this stage" */
 .modal-footnote {
   display: flex;
   gap: 10px;
   align-items: baseline;
-  margin-top: -4px;
-  margin-bottom: 4px;
+  margin-top: 12px;
   padding: 9px 12px;
   background: var(--panel-2);
   border: 1px dashed var(--border-bright);
