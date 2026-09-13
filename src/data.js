@@ -264,10 +264,11 @@ const CJK_CHAR = /[぀-ヿ㐀-䶿一-鿿가-힯]/
 const KANA = /[぀-ヿ]/
 const HANGUL = /[가-힯]/
 // 「…」 and 『…』, non-nesting, capped so a stray opening bracket cannot swallow
-// the rest of a long rationale.
+// the rest of a long rationale. \u3000 is the ideographic space, written as an
+// escape so the character is visible in the source.
 const QUOTE_SPAN = /[「『][^」』]{1,400}[」』]/g
-const CJK_RUN = /[　-〻぀-ヿ㐀-䶿一-鿿가-힯]+/g
-const EDGE = /^[　 ・]+|[　 ・]+$/g
+const CJK_RUN = /[\u3000-〻぀-ヿ㐀-䶿一-鿿가-힯]+/g
+const EDGE = /^[\u3000 ・]+|[\u3000 ・]+$/g
 
 export function cjkLang(run) {
   if (KANA.test(run)) return 'ja'
@@ -318,7 +319,7 @@ export function segmentCjk(text) {
   CJK_RUN.lastIndex = 0
   for (const m of masked.matchAll(CJK_RUN)) {
     const raw = m[0]
-    const lead = raw.length - raw.replace(/^[　 ・]+/, '').length
+    const lead = raw.length - raw.replace(/^[\u3000 ・]+/, '').length
     const key = raw.replace(EDGE, '')
     if (key && CJK_CHAR.test(key)) marks.push([m.index + lead, m.index + lead + key.length, key])
   }
