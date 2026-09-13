@@ -58,7 +58,8 @@ def save_rows(rows):
     out = json.dumps(rows, indent=2, ensure_ascii=False) + "\n"
     json.loads(out)  # round-trip guard: never write unparseable JSON
     shutil.copy(DATA, DATA.with_suffix(".json.bak"))
-    DATA.write_text(out, encoding="utf-8")
+    # utf-8 + LF-only, as monitor.py:save_json: identical bytes on every platform.
+    DATA.write_text(out, encoding="utf-8", newline="\n")
 
 
 def log_decision(entry):
@@ -78,7 +79,7 @@ def append_transition(rec):
     append-only: this file is the panel. Never rewritten in place."""
     line = json.dumps(rec, ensure_ascii=False)
     json.loads(line)  # round-trip guard
-    with TRANSITIONS.open("a", encoding="utf-8") as f:
+    with TRANSITIONS.open("a", encoding="utf-8", newline="\n") as f:
         f.write(line + "\n")
 
 
@@ -132,7 +133,7 @@ def save_nc(path, entries):
     json.loads(out)  # round-trip guard
     if path.exists():
         shutil.copy(path, path.with_suffix(".json.bak"))
-    path.write_text(out, encoding="utf-8")
+    path.write_text(out, encoding="utf-8", newline="\n")
 
 
 def state():
