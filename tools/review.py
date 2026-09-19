@@ -371,7 +371,7 @@ def _apply(req):
         #
         # These two fields make the corpus usable as Paper 2 evidence despite
         # anchoring: agreement measured here is ANCHORED (the reviewer saw the
-        # proposal), so it is an upper bound on blind kappa, not kappa itself.
+        # proposal), so it is not independent agreement and it is not kappa.
         #
         # `label_provenance` is also checked, not just as_of_reviewed, because
         # as_of_reviewed is NOT a reliable first-review test on its own: PROMPT.md

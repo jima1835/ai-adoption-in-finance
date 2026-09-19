@@ -442,8 +442,8 @@ export const REGION_COLORS = {
 // Built by tools/build_agreement.py from institutions.json + not_classified.json
 // (both public, so the figures are reproducible from this repo alone). The panel
 // that renders it MUST carry the anchoring caveat: the reviewer saw the agent's
-// proposed stage before deciding, so this is an upper bound on agreement, not a
-// reliability coefficient. Never present a kappa from this file.
+// proposed stage before deciding, so this is anchored, non-independent agreement,
+// not a reliability coefficient. Never present a kappa from this file.
 // ---------------------------------------------------------------------------
 let AGREEMENT = null
 

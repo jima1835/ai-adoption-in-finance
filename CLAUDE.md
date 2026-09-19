@@ -97,7 +97,7 @@ anyone can reproduce it from this repo. Reports two rates — `stage_agreement` 
 reviewed rows carrying an agent proposal, how often the proposed stage stood) and
 `proposal_accepted` (of every proposal adjudicated, how often it was taken unchanged,
 counting rows withdrawn on review) — plus a proposed-vs-final matrix, the revisions and
-the withdrawals. **It is ANCHORED agreement and an upper bound, never a reliability
+the withdrawals. **It is ANCHORED, non-independent agreement, never a reliability
 coefficient**: the reviewer saw the proposed stage and its reasoning before deciding, and
 is also the author of the rules. No kappa is computed here and none may be quoted from
 it. Rebuild after every review session. Rendered on the Methodology page.

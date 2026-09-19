@@ -55,7 +55,7 @@ Two figures, because one alone would flatter the pipeline:
 | **Stage agreement** | Of the reviewed rows carrying an agent proposal, how often did the proposed stage stand? |
 | **Proposals accepted as-is** | Of every proposal adjudicated, how often was it taken unchanged — counting rows **withdrawn on review**, which are disagreements too? |
 
-**This is anchored agreement, and it is an upper bound — not a reliability coefficient.** The reviewer saw the proposed stage and the agent's written reasoning before deciding, and there is one reviewer who also wrote the classification rules. No kappa is computed from this file and none should be quoted from it; establishing reliability needs a blind re-code against stripped evidence, which is a separate exercise. See [METHODOLOGY §6](METHODOLOGY.md#6-the-disagreement-record).
+**This is anchored, non-independent agreement, and it should not be read as an inter-rater reliability estimate.** The reviewer saw the proposed stage and the agent's written reasoning before deciding, and there is one reviewer who also wrote the classification rules. No kappa is computed from this file and none should be quoted from it; establishing reliability needs a blind re-code against stripped evidence, which is a separate exercise. See [METHODOLOGY §6](METHODOLOGY.md#6-the-disagreement-record).
 
 ## The classification
 

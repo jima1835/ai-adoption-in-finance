@@ -204,12 +204,13 @@ outright (as the earliest rows were, before the pipeline existed).
 
 ### The limitation, stated plainly
 
-**This is anchored agreement, and it is an upper bound — not a reliability
-coefficient.**
+**This is anchored, non-independent agreement. It should not be read as an
+inter-rater reliability estimate.**
 
 The reviewer saw the agent's proposed stage, and the agent-written rationale
 states the stage reasoning, *before* deciding. Agreement measured under those
-conditions is systematically higher than agreement between independent coders.
+conditions is not independent of the proposal. How it compares with agreement
+between independent coders has not been measured here, in either direction.
 On top of that there is one reviewer, and he is also the author of the
 classification rules in §3 and §4.
 

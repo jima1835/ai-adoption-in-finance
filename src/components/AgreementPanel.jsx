@@ -70,7 +70,7 @@ export default function AgreementPanel({ data }) {
       </div>
 
       <p className="prose-callout agree-caveat">
-        <strong>This is an upper bound, not a reliability coefficient.</strong>{' '}
+        <strong>This is anchored agreement, not a reliability estimate.</strong>{' '}
         {data.limitation} A blind re-code — the same evidence stripped of the
         agent&rsquo;s stage and reasoning, coded cold — is a separate exercise,
         and only that produces a reliability coefficient. None is reported here.
