@@ -66,6 +66,11 @@ agreement figures are those of the release they sit under, not industry rates.
   `transitions.jsonl` keep their whole-file pins.
 
 ### Fixed
+- `.gitattributes` pins `*.json` and `*.jsonl` to LF on checkout. The corpus freeze
+  hashes `data/not_classified.json` byte for byte, and a Windows checkout with
+  `core.autocrlf` rewrote it to CRLF, so the pin failed on the Windows CI job while
+  passing on Linux. The tools already write LF on every platform (1.0.3); now the
+  checkout matches. No file content changed.
 - The GIC row carried an undocumented `as_of_latest_signal` key, deferred from
   1.0.3 as "left for a data release". It is removed. The strict xfail that held
   it in `tests/test_schemas.py` is retired with it, and `tools/validate_data.py`
