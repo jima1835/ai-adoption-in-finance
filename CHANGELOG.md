@@ -40,6 +40,12 @@ agreement figures are those of the release they sit under, not industry rates.
   sufficient to classify. Tiers are criteria, not a roster of named outlets.
   METHODOLOGY §2 remains the classification bar.
 - A roles view on the dashboard, and `prompts/roles_screen.md`.
+- `.claude/settings.json` — the agent-harness rules that keep the drafting agent
+  from publishing are now tracked, so they have a history and can be inspected:
+  deny rules for `git commit`, `git push`, `gh` and the rest, and a network
+  sandbox whose allowlist excludes the remote. They were previously only in the
+  gitignored `settings.local.json`, which is unchanged. The commit rule matches
+  the literal command only; the push block also holds at the network layer.
 
 ### Changed
 - Wording: anchored agreement is no longer described as an "upper bound". The
