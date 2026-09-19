@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Local reviewer for data/institutions.json — approve / change-stage / add-evidence / pull.
 
-Run:  python3 tools/review.py   → opens http://127.0.0.1:7788
+Run:  python3 tools/review.py            → opens http://127.0.0.1:7788
+      python3 tools/review.py --roles    → CLI review of the AI-leadership
+                                           roles queue (METHODOLOGY §11)
 (local/review.py is a symlink to this file; local/ holds the private review state.)
 Writes institutions.json in monitor.py's exact format (indent=2, ensure_ascii=False,
 trailing newline), .bak before every write. Localhost only. Never touches git.
@@ -9,6 +11,7 @@ trailing newline), .bak before every write. Localhost only. Never touches git.
 import json
 import re
 import shutil
+import sys
 import time
 import webbrowser
 from datetime import date, datetime, timedelta
@@ -22,6 +25,13 @@ except ImportError:  # Windows: msvcrt.locking
     import msvcrt
 
 ROOT = Path(__file__).resolve().parent.parent
+# Running this file directly puts tools/ on sys.path, not the repo root — where
+# the shared roles helpers live beside monitor.py. Add it explicitly rather than
+# duplicating the population and denylist logic in two places.
+sys.path.insert(0, str(ROOT))
+
+import roles as roles_mod  # noqa: E402  (needs the sys.path line above)
+
 DATA = ROOT / "data" / "institutions.json"
 REVIEW = ROOT / "local" / "REVIEW.md"
 REJECTED = ROOT / "local" / "REJECTED.md"
@@ -456,6 +466,245 @@ def _apply(req):
     return {"error": f"unknown action {action!r}"}
 
 
+# ---------------------------------------------------------------------------
+# Roles review — CLI (METHODOLOGY §11)
+#
+# Deliberately not a pane in review.html. That page is built around one row of
+# institutions.json at a time; a role event is a different unit with a different
+# shape, and bolting it on would duplicate the whole card for no gain. The
+# review itself is a short, ordered set of questions, which a terminal does
+# better than a form.
+#
+# The gate is the same as everywhere else in this repo: an agent proposes into
+# local/roles_queue.jsonl, and NOTHING reaches data/roles.jsonl or
+# data/roles_not_found.jsonl except through a human answering these questions.
+# ---------------------------------------------------------------------------
+
+ROLES_LOCK = ROOT / "data" / ".roles.lock"
+# Variable precision, exactly like an institutions event date.
+ROLE_DATE = re.compile(r"^\d{4}(-\d{2}(-\d{2})?)?$")
+
+
+def _prompt(label, default=None, choices=None, required=True, allow_null=False):
+    """Ask once, validate, repeat until valid. Enter takes the default.
+
+    `allow_null` distinguishes "leave it empty" from "no answer yet": an unnamed
+    person is a complete record, not a missing one.
+    """
+    hint = ""
+    if choices:
+        hint = "\n    " + "  ".join(f"[{i + 1}] {c}" for i, c in enumerate(choices))
+    suffix = f" ({default})" if default not in (None, "") else ""
+    while True:
+        raw = input(f"  {label}{suffix}{hint}\n  > ").strip()
+        if not raw and default is not None:
+            return default
+        if not raw:
+            if allow_null:
+                return None
+            if not required:
+                return ""
+            print("    required.")
+            continue
+        if choices:
+            if raw.isdigit() and 1 <= int(raw) <= len(choices):
+                return choices[int(raw) - 1]
+            if raw in choices:
+                return raw
+            print(f"    one of: {', '.join(choices)}")
+            continue
+        return raw
+
+
+def _queue():
+    return roles_mod.read_jsonl(roles_mod.QUEUE_PATH)
+
+
+def _rewrite_queue(items):
+    out = "".join(json.dumps(i, ensure_ascii=False) + "\n" for i in items)
+    roles_mod.QUEUE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    roles_mod.QUEUE_PATH.write_text(out, encoding="utf-8", newline="\n")
+
+
+def build_role_event(item, index):
+    """Interview the reviewer for one queued candidate; return the record.
+
+    Returns None if the reviewer aborts. Every field that carries a claim is
+    typed by the human against the source they just read — the screener's
+    guesses are offered as defaults and nothing more.
+    """
+    institution = roles_mod.resolve_institution(item.get("institution", ""), index)
+    if not institution:
+        print(f"  ! {item.get('institution')!r} is not in the population "
+              f"(or is excluded) — nothing can be filed for it.")
+        return None
+
+    proposed = item.get("event_type_guess") or None
+    print("\n  Fill the record from the source you just read. Enter takes the default.")
+    title_verbatim = _prompt("title_verbatim (as the source prints it)")
+    record = {
+        "id": roles_mod.new_ulid(),
+        "institution": institution,
+        "title_verbatim": title_verbatim,
+        "title_normalized": _prompt("title_normalized",
+                                    choices=list(roles_mod.TITLES_NORMALIZED)),
+        "person": _prompt("person (Enter = not named)", default=item.get("person_guess"),
+                          required=False, allow_null=True) or None,
+        "event_type": _prompt("event_type", default=proposed,
+                              choices=list(roles_mod.EVENT_TYPES)),
+        "date": _prompt("date (YYYY, YYYY-MM or YYYY-MM-DD)", default=item.get("date")),
+        "reporting_line": _prompt("reporting_line", default="unknown",
+                                  choices=list(roles_mod.REPORTING_LINES)),
+        "scope": _prompt("scope", default="unknown", choices=list(roles_mod.SCOPES)),
+        "source_url": _prompt("source_url", default=item.get("url")),
+        "source_tier": _prompt("source_tier", choices=list(roles_mod.TIERS)),
+        "quote_verbatim": _prompt("quote_verbatim (original language, verbatim)"),
+        "language": _prompt("language (BCP-47)", default="en"),
+        "confidence": _prompt("confidence", choices=list(roles_mod.CONFIDENCES)),
+        "rationale": _prompt("rationale (what it shows, and what it stops short of)"),
+    }
+    if not ROLE_DATE.match(record["date"]):
+        print("    ! date must be YYYY, YYYY-MM or YYYY-MM-DD — not filed.")
+        return None
+
+    # Provenance, written once, exactly as the institutions path does it. The
+    # anchored-agreement caveat in METHODOLOGY §6 applies here unchanged: the
+    # reviewer saw the screener's guess before answering.
+    record["as_of_reviewed"] = date.today().isoformat()
+    record["agent_proposed_event_type"] = proposed
+    record["label_provenance"] = (
+        "human_originated" if not proposed
+        else "agent_proposed_accepted" if record["event_type"] == proposed
+        else "human_revised"
+    )
+    return record
+
+
+
+def file_role_event(record):
+    with ROLES_LOCK.open("w") as lockf:
+        if not _try_lock(lockf):
+            print("  ! roles.jsonl is locked by another writer — try again.")
+            return False
+        roles_mod.append_jsonl(roles_mod.ROLES_PATH, record)
+    log_decision({"action": "roles_file", "institution": record["institution"],
+                  "id": record["id"], "event_type": record["event_type"],
+                  "agent_proposed_event_type": record["agent_proposed_event_type"],
+                  "label_provenance": record["label_provenance"],
+                  "person_named": bool(record["person"]),
+                  "source_tier": record["source_tier"]})
+    return True
+
+
+def file_roles_not_found(institution, outcome, reason):
+    record = {
+        "institution": institution,
+        # This date IS the reviewer's calendar, and the field name says so: it
+        # dates the LOOKING, not any evidence. Unlike a stage transition, a
+        # negative result has no evidence date to take.
+        "searched_on": date.today().isoformat(),
+        "outcome": outcome,
+        "reason": reason,
+    }
+    with ROLES_LOCK.open("w") as lockf:
+        if not _try_lock(lockf):
+            print("  ! roles_not_found.jsonl is locked by another writer — try again.")
+            return False
+        roles_mod.append_jsonl(roles_mod.ROLES_NOT_FOUND_PATH, record)
+    log_decision({"action": "roles_not_found", "institution": institution,
+                  "outcome": outcome, "reason": reason})
+    return True
+
+
+def remove_role_event(event_id, reason):
+    """Withdraw a filed event: drop it from roles.jsonl and record WHY in the
+    negative record. A removal that leaves no trace would make the corpus look
+    like the event was never filed."""
+    events = roles_mod.read_jsonl(roles_mod.ROLES_PATH)
+    target = next((e for e in events if e.get("id") == event_id), None)
+    if not target:
+        print(f"  ! no filed event with id {event_id!r}")
+        return False
+    with ROLES_LOCK.open("w") as lockf:
+        if not _try_lock(lockf):
+            print("  ! roles.jsonl is locked by another writer — try again.")
+            return False
+        roles_mod.rewrite_jsonl(roles_mod.ROLES_PATH,
+                                [e for e in events if e.get("id") != event_id])
+    file_roles_not_found(target["institution"], "withdrawn-on-review", reason)
+    log_decision({"action": "roles_remove", "institution": target["institution"],
+                  "id": event_id, "reason": reason})
+    print(f"  removed {event_id} ({target['institution']}) and recorded the withdrawal.")
+    return True
+
+
+def roles_cli(argv=()):
+    """Walk the queue. Returns the number of records filed."""
+    if "--remove" in argv:
+        pos = list(argv).index("--remove")
+        if pos + 1 >= len(argv):
+            print("usage: review.py --roles --remove <ULID>")
+            return 0
+        reason = _prompt("reason for withdrawal (public text)")
+        remove_role_event(argv[pos + 1], reason)
+        return 0
+
+    queue = _queue()
+    if not queue:
+        print(f"Roles queue is empty ({roles_mod.QUEUE_PATH}).")
+        print("Populate it with:  uv run --env-file .env python monitor.py --roles --limit 5")
+        return 0
+
+    index = roles_mod.alias_index()
+    filed = 0
+    remaining = []
+    for n, item in enumerate(queue, 1):
+        print("\n" + "─" * 72)
+        print(f"[{n}/{len(queue)}] {item.get('institution')} — "
+              f"{item.get('event_type_guess')} (screener guess)   {item.get('date')}")
+        if item.get("person_guess"):
+            print(f"  person guess : {item['person_guess']}")
+        print(f"  why queued   : {item.get('reason')}")
+        print(f"  source       : {item.get('url')}")
+        print("  Open the source and read it before answering.")
+        choice = _prompt("[f]ile  [n]ot-found  [s]kip  [d]iscard  [q]uit",
+                         default="s", choices=["f", "n", "s", "d", "q"])
+
+        if choice == "q":
+            remaining += queue[n - 1:]
+            break
+        if choice == "s":
+            remaining.append(item)
+            continue
+        if choice == "d":
+            log_decision({"action": "roles_discard",
+                          "institution": item.get("institution"),
+                          "url": item.get("url"),
+                          "reason": _prompt("reason (private note)", required=False)})
+            continue
+        if choice == "n":
+            institution = roles_mod.resolve_institution(item.get("institution", ""), index)
+            if not institution:
+                print("  ! outside the population — discarded instead.")
+                continue
+            file_roles_not_found(
+                institution, "no-qualifying-evidence",
+                _prompt("reason (PUBLIC text — it must stand alone)"))
+            continue
+
+        record = build_role_event(item, index)
+        if record and file_role_event(record):
+            filed += 1
+            print(f"  filed {record['id']} — {record['institution']} / "
+                  f"{record['event_type']} ({record['label_provenance']})")
+        else:
+            remaining.append(item)
+
+    _rewrite_queue(remaining)
+    print(f"\nFiled {filed}; {len(remaining)} left in the queue.")
+    return filed
+
+
 class Handler(BaseHTTPRequestHandler):
     def _send(self, code, body, ctype="application/json; charset=utf-8"):
         data = body if isinstance(body, bytes) else json.dumps(body, ensure_ascii=False).encode()
@@ -502,6 +751,11 @@ class Handler(BaseHTTPRequestHandler):
 
 
 if __name__ == "__main__":
+    if "--roles" in sys.argv[1:]:
+        # CLI mode: no server, no browser. The web reviewer is untouched.
+        roles_cli(sys.argv[1:])
+        sys.exit(0)
+
     server = ThreadingHTTPServer(("127.0.0.1", PORT), Handler)
     url = f"http://127.0.0.1:{PORT}/"
     _st = state()

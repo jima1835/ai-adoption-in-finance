@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jima1835/ai-adoption-in-finance/schemas/not_classified.schema.json",
+  "title": "Assessed, not classified",
+  "description": "The public appendix (METHODOLOGY §7): institutions researched against the methodology whose public record did not support a stage. Human-gated — tools/review.py is the only writer.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["name", "type", "region", "outcome", "reason", "as_of"],
+    "properties": {
+      "name": { "type": "string", "minLength": 1 },
+      "type": {
+        "type": "string",
+        "enum": ["asset-manager", "pension", "sovereign-wealth", "hedge-fund", "endowment"]
+      },
+      "region": {
+        "type": "string",
+        "enum": ["US", "Canada", "Europe", "Middle East", "Asia", "Other"]
+      },
+      "outcome": {
+        "type": "string",
+        "enum": ["no-qualifying-evidence", "withdrawn-on-review"]
+      },
+      "reason": {
+        "description": "Public text — it must stand alone.",
+        "type": "string",
+        "minLength": 1
+      },
+      "as_of": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" }
+    }
+  }
+}

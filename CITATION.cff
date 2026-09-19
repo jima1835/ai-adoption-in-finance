@@ -2,8 +2,8 @@ cff-version: 1.2.0
 message: "If you use this corpus, please cite it as below."
 title: "AI Adoption in Finance: a human-verified, stage-classified corpus of institutional investors and its human-AI disagreement record"
 type: dataset
-version: 1.0.3
-date-released: "2026-09-12"
+version: 1.1.0
+date-released: "2026-09-19"
 authors:
   - family-names: Ma
     given-names: Jiajun

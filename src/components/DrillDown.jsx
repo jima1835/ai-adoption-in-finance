@@ -1,5 +1,13 @@
 import { useEffect, useRef } from 'react'
-import { TYPE_LABELS, aumUsdApprox, dateSortKey, summaryFor } from '../data.js'
+import {
+  TYPE_LABELS,
+  EVENT_TYPE_LABELS,
+  TITLE_LABELS,
+  aumUsdApprox,
+  dateSortKey,
+  rolesForInstitution,
+  summaryFor,
+} from '../data.js'
 import StageBadge from './StageBadge.jsx'
 import Lang from './Lang.jsx'
 import FirmLink from './FirmLink.jsx'
@@ -22,7 +30,7 @@ const FOCUSABLE =
 // them matched on source URL), so it was printing the same thing twice. Instead
 // the timeline marks its most recent entry — preferring the one the latest_signal
 // points at — as the latest signal.
-export default function DrillDown({ inst, onClose }) {
+export default function DrillDown({ inst, roles = [], onClose }) {
   const panelRef = useRef(null)
   const closeRef = useRef(null)
 
@@ -68,6 +76,12 @@ export default function DrillDown({ inst, onClose }) {
   const events = [...(inst.events || [])].sort(
     (a, b) => dateSortKey(a.date) - dateSortKey(b.date),
   )
+
+  // Role events are a separate record on a separate unit (METHODOLOGY §11).
+  // The section is hidden when there are none: an empty "Leadership" heading
+  // would read as "this firm has no AI leadership", which is a claim this
+  // corpus has not made.
+  const roleEvents = rolesForInstitution(roles, inst)
 
   // The latest signal is the most recent dated event, full stop — exactly one per
   // timeline, and a claim that is always true.
@@ -214,6 +228,53 @@ export default function DrillDown({ inst, onClose }) {
             </ol>
           )}
         </section>
+
+        {roleEvents.length > 0 && (
+          <section className="modal-section">
+            <h3 className="modal-label">
+              Leadership{' '}
+              <span className="modal-label-count">{roleEvents.length}</span>
+            </h3>
+            <p className="modal-note">
+              Dated AI-leadership role events, recorded separately from the
+              stage. A hire is an input to adoption, not evidence of it — none
+              of these moved the classification above.
+            </p>
+            <ul className="role-list">
+              {roleEvents.map((r) => (
+                <li key={r.id} className="role-item">
+                  <span className="role-date">{r.date}</span>
+                  <span className="role-body">
+                    <span className="role-title">
+                      {TITLE_LABELS[r.title_normalized] || r.title_normalized}
+                      {r.person ? ` — ${r.person}` : ''}
+                    </span>
+                    <span className="role-meta">
+                      {EVENT_TYPE_LABELS[r.event_type] || r.event_type}
+                      {r.scope !== 'unknown' &&
+                        ` · ${r.scope.replace('_', ' ')}`}
+                      {r.reporting_line !== 'unknown' &&
+                        ` · reports to ${r.reporting_line.toUpperCase()}`}
+                    </span>
+                    {r.source_url && (
+                      <a
+                        className="tl-source"
+                        href={r.source_url}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        source <span aria-hidden="true">↗</span>
+                        <span className="sr-only">
+                          for the {r.date} role event — opens in a new tab
+                        </span>
+                      </a>
+                    )}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
         <section className="modal-section">
           <h3 className="modal-label">Why this stage</h3>

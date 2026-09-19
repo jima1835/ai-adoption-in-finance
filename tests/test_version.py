@@ -1,8 +1,13 @@
-"""The release version is written in four places; they must agree.
+"""The release version is written in six places; they must agree.
 
 pyproject.toml and package.json are what the tooling reads. CITATION.cff and
 .zenodo.json are what a citation and the Zenodo record carry. A release that
 bumps one and not the others is drift a reader cannot see.
+
+The lockfiles carry it too, which is easy to forget: package-lock.json repeats
+it twice (root and the `packages[""]` self-entry) and uv.lock once. Leaving them
+behind does not fail a build loudly — `npm ci` and `uv sync` just rewrite them,
+so CI goes green on a dirty tree and the drift ships.
 """
 
 import json
@@ -30,6 +35,12 @@ def test_versions_agree():
         "package.json": json.loads(_read("package.json"))["version"],
         "CITATION.cff": _first(r'^version: "?([^"\s]+)"?$', "CITATION.cff"),
         ".zenodo.json": json.loads(_read(".zenodo.json"))["version"],
+        "package-lock.json": json.loads(_read("package-lock.json"))["version"],
+        'package-lock.json packages[""]':
+            json.loads(_read("package-lock.json"))["packages"][""]["version"],
+        "uv.lock": _first(
+            r'^name = "ai-adoption-in-finance"\nversion = "([^"]+)"$', "uv.lock"
+        ),
     }
     assert len(set(versions.values())) == 1, versions
     assert all(SEMVER.match(v) for v in versions.values()), versions

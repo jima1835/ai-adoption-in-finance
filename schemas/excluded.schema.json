@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jima1835/ai-adoption-in-finance/schemas/excluded.schema.json",
+  "title": "Exclusion denylist",
+  "description": "Institutions the pipeline must never classify, propose, or write. An exclusion is a recusal, not an assessment. Merged at load time with an optional untracked local/excluded.json of the same shape, so an exclusion whose reason would disclose a private affiliation can be enforced without publishing the reason.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["rule", "excluded"],
+  "properties": {
+    "rule": { "type": "string", "minLength": 1 },
+    "overlay": { "type": "string", "minLength": 1 },
+    "excluded": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "aliases", "reason"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1 },
+          "aliases": {
+            "description": "Every spelling the denylist must catch. Matched exactly, case-insensitively, against any institution string entering the pipeline.",
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "reason": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

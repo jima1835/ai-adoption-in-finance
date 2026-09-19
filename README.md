@@ -88,6 +88,26 @@ Everything the dashboard runs on is tracked in this repo:
 
 Stage **transitions** are appended to `data/transitions.jsonl` when a reviewer approves a stage change — dated by the *triggering evidence*, never by the review date. The log starts empty and fills prospectively; a panel dated by review sessions would measure the reviewer's calendar rather than the sector.
 
+## Roles module (v1.1.0, pre-release)
+
+A second record, on a different unit of observation: the **AI-leadership role event** — one dated, publicly sourced thing that happened to an AI-leadership role (a role created, someone hired into it, a leader retitled, a departure, a remit expanded). It lives in `data/roles.jsonl`, one record per line, and the full rules are [METHODOLOGY §11](METHODOLOGY.md).
+
+It ships **published and empty**. The schema, the review gate, the collection sweep and the rules are in place before any data is, so the first record enters against rules written in advance rather than rules fitted to it.
+
+**What it records:** the institution, the title verbatim in its own language plus a normalized comparison key, the person *where a qualifying source names one*, the event type, a variable-precision date, reporting line and scope where the source states them, one source URL with its tier, the verbatim quote that carries the claim, and a rationale.
+
+**What it refuses to record:**
+
+- **Any effect on an adoption stage.** A hire is an input to adoption, not evidence of it. Nothing in this module reads or writes `stage`, and a test enforces that.
+- **Anything LinkedIn-derived**, at any point — not as evidence, not as corroboration, not as a search surface. A person is named only from a firm press release, a firm leadership page, a regulatory filing, or an outlet meeting the T1 or T2 criteria in [SOURCES.md](SOURCES.md). `person: null` is a complete record.
+- **Compensation, and job postings.** Neither is collected and no such file exists.
+- **A retitle as a new role.** "Chief Data Officer becomes Chief Data & AI Officer" is one person and one job.
+- **Anything about an excluded institution** (`data/excluded.json`). An exclusion is a recusal and implies nothing about that institution.
+
+Institutions searched with no qualifying result are published in `data/roles_not_found.jsonl` — without that, a firm searched and found empty is indistinguishable from one nobody looked at.
+
+**To submit a correction or ask for a removal:** open an issue with the public sources, or use the channels under [Public comments and submissions](#public-comments-and-submissions). Anyone named in this record can ask for a correction or removal. A withdrawn event is deleted from `data/roles.jsonl` and recorded as `withdrawn-on-review` in the negative record, so the correction itself stays visible.
+
 ## A note on sourcing
 
 Every classification rests **only on public information** — reported news, official disclosures, regulatory filings, board materials, earnings calls, and institutions' own published positions. Stages reflect a reading of the public record, not inside knowledge.
@@ -109,11 +129,16 @@ cp .env.example .env        # then paste your Anthropic API key
 uv run --env-file .env python monitor.py
 uv run pytest
 uv run ruff check .
+python3 tools/validate_data.py     # every data file against schemas/
+
+# roles module (METHODOLOGY §11) — proposes into local/, files nothing
+uv run --env-file .env python monitor.py --roles --limit 5
+python3 tools/review.py --roles    # the human gate on data/roles.jsonl
 
 # site
 npm install
 npm run dev                 # serves the live data/ directory
-npm run build               # builds to docs/, copying data/*.json → docs/data/
+npm run build               # builds to docs/, copying data/*.json(l) → docs/data/
 npm run lint                # eslint
 npm run format:check        # prettier
 ```
@@ -130,14 +155,17 @@ ai-adoption-in-finance/
 ├── monitor.py             # freshness engine: GDELT → Claude → latest_signal
 ├── alerts.py              # notify-only email digest for stage-relevant signals
 ├── METHODOLOGY.md         # the classification rules + construction protocol
+├── SOURCES.md             # source tiers, the tier floor, and how they apply
 ├── CLAUDE.md              # architecture & row schema
 ├── CONTRIBUTING.md        # how to contribute
 ├── CHANGELOG.md           # what changed in each release
 ├── tests/                 # pytest suite: engine, review tool, data schema, version
-├── tools/                 # human review tool + the agreement builder
+├── tools/                 # human review tool, agreement builder, data validator
+├── schemas/               # JSON Schema for every public data file
+├── prompts/               # screener prompts, versioned as the instruments they are
 ├── data/                  # source of truth — see "What's published" above
 ├── src/                   # static React site (Vite) — components + plain CSS
-├── vite.config.js         # build config; copies data/*.json → docs/data/
+├── vite.config.js         # build config; copies data/*.json(l) → docs/data/
 └── docs/                  # built site served by GitHub Pages
 ```
 

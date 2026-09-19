@@ -14,7 +14,12 @@ const dataDir = join(rootDir, 'data')
 //     deployed site always serves fresh, real files (symlinks don't survive
 //     reliably into docs/ — that was the old fragility).
 function syncData() {
-  const jsonFiles = () => readdirSync(dataDir).filter((f) => f.endsWith('.json'))
+  // .jsonl as well as .json: the roles record is an append-only log, so it
+  // ships one-record-per-line. Note the order — '.json' would also match
+  // 'roles.jsonl' if tested first, so both suffixes are listed explicitly.
+  const DATA_SUFFIXES = ['.json', '.jsonl']
+  const jsonFiles = () =>
+    readdirSync(dataDir).filter((f) => DATA_SUFFIXES.some((s) => f.endsWith(s)))
   let resolvedOutDir
   return {
     name: 'sync-data',
@@ -23,9 +28,13 @@ function syncData() {
     },
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
-        const match = req.url && req.url.match(/\/data\/([\w.-]+\.json)$/)
+        const match = req.url && req.url.match(/\/data\/([\w.-]+\.jsonl?)$/)
         if (match && jsonFiles().includes(match[1])) {
-          res.setHeader('Content-Type', 'application/json')
+          // JSON Lines is not application/json — it is a stream of them.
+          res.setHeader(
+            'Content-Type',
+            match[1].endsWith('.jsonl') ? 'text/plain' : 'application/json',
+          )
           res.end(readFileSync(join(dataDir, match[1])))
           return
         }

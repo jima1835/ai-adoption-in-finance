@@ -1,11 +1,17 @@
 // Generic pill-group filter — one group per criterion (type, region,
-// confidence, AUM band). Client-side, defaults to the group's 'all' key.
+// confidence, AUM band, and on the roles page event type and source tier).
+// Client-side, defaults to the group's 'all' key.
+//
+// `unit` names what is being counted, for the screen-reader label only: the
+// roles page filters role events, not institutions, and a pill that announces
+// the wrong noun is worse than one that announces none.
 export default function FilterPills({
   label,
   groups,
   value,
   onChange,
-  counts,
+  counts = {},
+  unit = 'institutions',
 }) {
   return (
     <div
@@ -30,7 +36,9 @@ export default function FilterPills({
             <span className="filter-count" aria-hidden="true">
               {counts[key] ?? 0}
             </span>
-            <span className="sr-only">, {counts[key] ?? 0} institutions</span>
+            <span className="sr-only">
+              , {counts[key] ?? 0} {unit}
+            </span>
           </button>
         ))}
       </div>

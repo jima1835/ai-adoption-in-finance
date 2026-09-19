@@ -55,6 +55,13 @@ Where an institution's own claims can't be independently verified (e.g.
 "benefits already in the billions"), they are labeled as **company claims** in
 the rationale, not treated as established fact.
 
+The source tiers this project works in — what counts as T1, T2 or T3 — are
+published in [SOURCES.md](SOURCES.md), along with the tier floor beneath which a
+rationale may not rest. Tiers are defined by criteria, not by a roster of named
+outlets: where the §7 appendix says "accepted source list", read those criteria.
+This section remains the sourcing bar; SOURCES.md states how it is applied and
+loosens nothing in it.
+
 ---
 
 ## 3. The four stages
@@ -304,6 +311,136 @@ claim to have originated one. Where it sits:
   self-declared adoption in aggregate and anonymized. Every row here is named,
   dated and sourced — which makes it checkable, and makes it wrong in public
   when it is wrong.
+
+---
+
+## 11. AI leadership roles
+
+A second record, on a **different unit of observation**, published alongside the
+stage classification and deliberately kept apart from it.
+
+The unit is a **role event**: one dated, publicly sourced thing that happened to
+an AI-leadership role at an institution in the population. It lives in
+[`data/roles.jsonl`](data/roles.jsonl), one record per line, append-only. Its
+shape is [`schemas/role_event.schema.json`](schemas/role_event.schema.json).
+
+### 11.1 Relation to the stages: none
+
+**A role event never moves an adoption stage, in either direction.** Hiring is an
+input to adoption, not evidence of it: §3 places `exploring` at "stated intent,
+hiring, task forces" precisely because an appointment says what an institution
+intends, not what it runs. A firm that appoints a Chief AI Officer and ships
+nothing stays where the shipped evidence puts it.
+
+The roles pipeline enforces this rather than trusting it — the module never
+reads or writes `stage`, and a test asserts that a roles pass leaves
+`data/institutions.json` byte-identical.
+
+### 11.2 The population
+
+Role events are recorded only for institutions in the population, which is the
+union of three published files:
+
+1. [`data/institutions.json`](data/institutions.json) — the dashboard;
+2. [`data/not_classified.json`](data/not_classified.json) — the appendix (§7).
+   These entries carry no aliases, so they match on name alone;
+3. [`data/roles_expansion.json`](data/roles_expansion.json) — a hand-written
+   list for institutions in neither of the above.
+
+An institution qualifies for the expansion list only if it is **an asset owner
+or asset manager, with disclosed AUM of US$10B or more, carrying at least one
+public AI-leadership signal dated 2023-01-01 or later from a T1 or T2 source**
+(see [SOURCES.md](SOURCES.md)). The list is written by the maintainer and never
+by an agent, and it ships empty: an expanded population is a decision, not a
+side effect of a search.
+
+Institutions on the denylist in [`data/excluded.json`](data/excluded.json) are
+never searched, never proposed and never recorded. **An exclusion is a recusal,
+not an assessment** — it implies nothing about that institution's AI adoption in
+either direction.
+
+### 11.3 Event types
+
+| `event_type` | Means |
+|---|---|
+| `created` | The role itself is newly established. |
+| `hired` | A person is appointed into the role. |
+| `retitled` | The **same person** takes a new AI-inclusive title. |
+| `departed` | A person leaves the role. |
+| `expanded_remit` | An existing leader's remit is extended to cover AI. |
+
+**A retitle is not a new role**, and is never counted as one. It is the single
+most likely way to overstate this record: "Chief Data Officer becomes Chief Data
+& AI Officer" is one person and one job, and counting it as an appointment would
+manufacture a hiring wave out of a press-release convention.
+
+### 11.4 Title normalization
+
+Every record keeps `title_verbatim` — the title exactly as the source prints it,
+in the source's own language, never translated or tidied. `title_normalized` is a
+separate comparison key, drawn from a closed vocabulary: `chief_ai_officer`,
+`head_of_ai`, `chief_data_and_ai_officer`, `head_of_ai_implementation`,
+`ai_lead_other`.
+
+The rule is **map, never promote**: a title is normalized to the bucket it
+already states, and seniority the title does not state is never inferred. A
+"Head of AI Implementation" is not a Head of AI; a divisional AI lead is not a
+firm-wide one. Anything that does not clearly sit in the first four buckets is
+`ai_lead_other`, which is a real answer and not a residue. `reporting_line` and
+`scope` are `unknown` unless the source says otherwise — they are never deduced
+from the title.
+
+### 11.5 Naming a person
+
+These records can name a living individual, so the sourcing bar is narrower than
+elsewhere in this project. **A name is recorded only from a firm press release, a
+firm leadership page, a regulatory filing, or an outlet meeting the T1 or T2
+criteria in [SOURCES.md](SOURCES.md).** No LinkedIn-derived data enters this pipeline
+at any point — not as evidence, not as corroboration, not as a search surface.
+
+`person: null` is a **complete record**, not a missing one: the unit is the
+event, and an unnamed appointment is fully observed for this corpus's purposes.
+No compensation data is collected and no job-postings corpus is built.
+
+**Corrections and removals.** Anyone named in this record can ask for a
+correction or removal, and so can anyone else who can show the record is wrong.
+Use the channels in [README, "Public comments and
+submissions"](README.md#public-comments-and-submissions), or open an issue. A
+withdrawn event is deleted from `data/roles.jsonl` and a `withdrawn-on-review`
+entry is written to the negative record below — a removal that left no trace
+would make the corpus look as though the event had never been filed.
+
+### 11.6 The negative record
+
+Institutions searched whose public record yielded no qualifying role event are
+published in [`data/roles_not_found.jsonl`](data/roles_not_found.jsonl), with the
+same two outcomes as §7 (`no-qualifying-evidence`, `withdrawn-on-review`) and a
+public reason. Without it, a firm that was searched and came up empty is
+indistinguishable from one nobody looked at.
+
+Its `searched_on` field dates the **looking**, not any evidence, and is named so
+that it cannot be mistaken for one. That is the opposite of the rule for stage
+transitions in §8, and for the opposite reason: a negative result has no evidence
+date to take.
+
+### 11.7 Provenance, and the same caveat as §6
+
+A screener proposes candidates into a local queue; a human opens each source and
+files the record, exactly as §5 describes for a stage. Each filed event carries
+`agent_proposed_event_type` and `label_provenance`, written once, at filing.
+
+**This is anchored, non-independent agreement, precisely as in §6.** The
+reviewer sees the screener's proposed event type before deciding, and the
+reviewer is also the author of these rules. No reliability coefficient is
+computed from it and none may be quoted from it.
+
+### 11.8 Status
+
+The module is **published and unpopulated**: the schema, the review gate, the
+collection sweep and this section ship before any data does, so the first record
+enters against rules written in advance rather than rules fitted to it. The
+`embedded` column of §3 is empty for a different reason — nothing qualifies —
+and the two emptinesses should not be read as the same claim.
 
 ---
 

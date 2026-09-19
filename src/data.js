@@ -465,3 +465,95 @@ export async function loadAgreement() {
   }
   return AGREEMENT
 }
+
+// ---------------------------------------------------------------------------
+// AI leadership roles (METHODOLOGY §11).
+//
+// data/roles.jsonl and data/roles_not_found.jsonl are JSONL, not JSON: they are
+// append-only public logs, and one record per line keeps a filing a one-line
+// diff. That costs a hand-written parse here, which is the right trade — the
+// alternative is rewriting the whole file on every filing.
+//
+// The unit is a ROLE EVENT. A role event never moves an adoption stage, so
+// nothing in this section reads `stage`.
+// ---------------------------------------------------------------------------
+
+export const EVENT_TYPE_LABELS = {
+  created: 'Role created',
+  hired: 'Hired',
+  retitled: 'Retitled',
+  departed: 'Departed',
+  expanded_remit: 'Remit expanded',
+}
+
+export const TITLE_LABELS = {
+  chief_ai_officer: 'Chief AI Officer',
+  head_of_ai: 'Head of AI',
+  chief_data_and_ai_officer: 'Chief Data & AI Officer',
+  head_of_ai_implementation: 'Head of AI Implementation',
+  ai_lead_other: 'Other AI lead',
+}
+
+export const REPORTING_LINE_LABELS = {
+  ceo: 'CEO',
+  cio: 'CIO',
+  cto: 'CTO',
+  coo: 'COO',
+  cdo: 'CDO',
+  other: 'Other',
+  unknown: 'Unknown',
+}
+
+// Parse JSONL leniently at the LINE level and strictly at nothing else: a blank
+// line is skipped, a malformed one is dropped rather than taking the page down
+// with it. The file is public and append-only, so a bad line is a data bug to
+// fix, not a reason for a reader to see an error screen.
+function parseJsonl(text) {
+  return text
+    .split('\n')
+    .filter((line) => line.trim())
+    .map((line) => {
+      try {
+        return JSON.parse(line)
+      } catch {
+        return null
+      }
+    })
+    .filter(Boolean)
+}
+
+async function loadJsonl(file) {
+  try {
+    const res = await fetch(`${import.meta.env.BASE_URL}data/${file}`, {
+      cache: 'no-store',
+    })
+    if (!res.ok) return []
+    return parseJsonl(await res.text())
+  } catch {
+    return []
+  }
+}
+
+export const loadRoles = () => loadJsonl('roles.jsonl')
+export const loadRolesNotFound = () => loadJsonl('roles_not_found.jsonl')
+
+// Role events for one institution row, newest first. Matched on name and
+// aliases, case-insensitively — the same exact-match discipline the engine uses,
+// with no fuzzy fallback.
+export function rolesForInstitution(roles, inst) {
+  if (!inst) return []
+  const keys = new Set(
+    [inst.name, ...(inst.aliases || [])]
+      .filter(Boolean)
+      .map((k) => k.trim().toLowerCase()),
+  )
+  return roles
+    .filter((r) =>
+      keys.has(
+        String(r.institution || '')
+          .trim()
+          .toLowerCase(),
+      ),
+    )
+    .sort((a, b) => dateSortKey(b.date) - dateSortKey(a.date))
+}
