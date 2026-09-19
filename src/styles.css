@@ -2245,3 +2245,95 @@ li a,
   cursor: pointer;
   transition: opacity 120ms ease;
 }
+
+/* ============================================================
+   AI leadership roles (#/roles + the drill-down's Leadership
+   section). Deliberately quiet: no stage colour anywhere, so
+   the eye never links a hire to a classification.
+   ============================================================ */
+.roles-view {
+  max-width: var(--maxw);
+  margin: 12px auto 0;
+}
+.roles-view .prose-lede {
+  max-width: 680px;
+}
+.roles-caveat {
+  max-width: 680px;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--text-dim);
+  border-left: 2px solid var(--border-bright);
+  padding-left: 14px;
+  margin: 0 0 28px;
+}
+.roles-caveat a {
+  color: var(--text);
+}
+.roles-caveat a:hover {
+  color: var(--accent);
+}
+
+.roles-table td {
+  vertical-align: top;
+}
+/* Normalized label on top, the source's own wording underneath — the verbatim
+   title is the record, so it is always on screen, never behind a tooltip. */
+.roles-sub {
+  display: block;
+  font-size: 12px;
+  color: var(--text-faint);
+  margin-top: 3px;
+}
+.roles-null {
+  color: var(--text-faint);
+  font-style: italic;
+}
+
+.modal-note {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-faint);
+  margin: 0 0 12px;
+}
+.role-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.role-item {
+  display: flex;
+  gap: 14px;
+  align-items: baseline;
+}
+.role-date {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text-faint);
+  min-width: 88px;
+  flex-shrink: 0;
+}
+.role-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.role-title {
+  color: var(--text);
+  font-size: 15px;
+}
+.role-meta {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+@media (max-width: 640px) {
+  .role-item {
+    flex-direction: column;
+    gap: 4px;
+  }
+}

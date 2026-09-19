@@ -124,6 +124,17 @@ so they are rejected on sight. The same applies to
 [`data/not_classified.json`](data/not_classified.json) and
 [`data/transitions.jsonl`](data/transitions.jsonl).
 
+The **AI leadership roles** record ([METHODOLOGY §11](METHODOLOGY.md)) works the
+same way and is rejected in a PR on the same grounds:
+[`data/roles.jsonl`](data/roles.jsonl) and
+[`data/roles_not_found.jsonl`](data/roles_not_found.jsonl) are written only by
+`tools/review.py --roles`, along with the reviewer-only fields
+`as_of_reviewed`, `label_provenance` and `agent_proposed_event_type`.
+[`data/roles_expansion.json`](data/roles_expansion.json) and
+[`data/excluded.json`](data/excluded.json) are maintainer-written too. What a PR
+*can* do here is correct a filed record, or ask for one to be removed — see
+METHODOLOGY §11.5.
+
 **Every curated claim needs a public source.** `rationale` must be defensible
 from the cited `events`; `aum` and `stage` must trace to public evidence. For
 *how* to choose the stage (strict bars, decision discipline, scope exclusions),

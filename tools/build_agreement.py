@@ -12,8 +12,9 @@ No text from local/ ever reaches this file. Rerun after every review session:
 
 WHAT THIS IS NOT. The reviewer saw the agent's proposed stage, and the
 agent-written rationale states the stage reasoning, before deciding. So the
-agreement here is ANCHORED: it is an upper bound on how well an independent
-coder would reproduce these labels, not a reliability coefficient. No kappa is
+agreement here is ANCHORED: the decision is not independent of the proposal, so
+it does not estimate how well an independent coder would reproduce these labels
+and is not a reliability coefficient. No kappa is
 computed here and none should be quoted from this file. A blind re-code against
 stripped evidence bundles is a separate exercise.
 """
@@ -37,8 +38,8 @@ README = (
     "reviewer then checks the row against those sources and accepts, revises, or "
     "removes it. This file counts what the reviewer did. IMPORTANT: the reviewer "
     "saw the agent's proposed stage and its written reasoning before deciding, so "
-    "these figures are ANCHORED agreement — an upper bound on reproducibility, "
-    "not an inter-rater reliability coefficient. No kappa is reported here and "
+    "these figures are ANCHORED, non-independent agreement and should not be "
+    "read as an inter-rater reliability estimate. No kappa is reported here and "
     "none should be inferred. Derived from data/institutions.json and "
     "data/not_classified.json; rebuild with tools/build_agreement.py."
 )
@@ -46,8 +47,8 @@ README = (
 LIMITATION = (
     "Anchored, not blind: the reviewer saw the agent's proposed stage and its "
     "rationale before deciding, and is also the author of the classification "
-    "rules. Read these as an upper bound on agreement, never as a reliability "
-    "coefficient."
+    "rules. The figures are not independent of the proposal; never read them as "
+    "a reliability coefficient."
 )
 
 
@@ -151,7 +152,7 @@ def main():
     a, b = doc["stage_agreement"], doc["proposal_accepted"]
     print(f"wrote {OUT.relative_to(ROOT)}")
     print(f"  stage agreement   {a['unchanged']}/{a['n']} = {a['rate']:.1%} "
-          "(anchored — upper bound)")
+          "(anchored — not a reliability estimate)")
     print(f"  proposals as-is   {b['accepted_unchanged']}/{b['n']} = {b['rate']:.1%} "
           f"({b['stage_revised']} revised, {b['withdrawn_on_review']} withdrawn)")
     return 0

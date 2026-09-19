@@ -13,6 +13,8 @@ import {
   loadTranslations,
   loadSummaries,
   loadHomepages,
+  loadRoles,
+  loadRolesNotFound,
   REGION_LABELS,
   scopeNote,
 } from './data.js'
@@ -27,12 +29,15 @@ import RegionMap from './components/RegionMap.jsx'
 import InstitutionTable from './components/InstitutionTable.jsx'
 import DrillDown from './components/DrillDown.jsx'
 import Methodology from './components/Methodology.jsx'
+import RolesView from './components/RolesView.jsx'
 
-// Minimal hash routing — no router dependency. #/methodology ↔ dashboard.
+// Minimal hash routing — no router dependency.
+// #/methodology and #/roles are pages; anything else is the dashboard.
+const ROUTES = ['methodology', 'roles']
+
 function routeFromHash() {
-  return window.location.hash.replace(/^#\/?/, '') === 'methodology'
-    ? 'methodology'
-    : 'dashboard'
+  const hash = window.location.hash.replace(/^#\/?/, '')
+  return ROUTES.includes(hash) ? hash : 'dashboard'
 }
 
 // One predicate per filter criterion; 'all' (null members) always passes.
@@ -70,6 +75,10 @@ export default function App() {
   const [selected, setSelected] = useState(null)
   const [stageDefs, setStageDefs] = useState(null)
   const [notClassified, setNotClassified] = useState([])
+  // Role events are a separate record with a separate unit of observation
+  // (METHODOLOGY §11); they never feed the stage grid.
+  const [roles, setRoles] = useState([])
+  const [rolesNotFound, setRolesNotFound] = useState([])
   // The translation map lives in a module-level cache in data.js; this counter
   // exists only to re-render the tree once it has loaded.
   const [, setTranslationsReady] = useState(0)
@@ -87,6 +96,8 @@ export default function App() {
     let live = true
     loadStageDefinitions().then((d) => live && setStageDefs(d))
     loadNotClassified().then((d) => live && setNotClassified(d))
+    loadRoles().then((d) => live && setRoles(d))
+    loadRolesNotFound().then((d) => live && setRolesNotFound(d))
     Promise.all([loadTranslations(), loadSummaries(), loadHomepages()]).then(
       ([m]) => live && setTranslationsReady(Object.keys(m).length),
     )
@@ -102,7 +113,7 @@ export default function App() {
   }, [])
 
   function navigate(next) {
-    window.location.hash = next === 'methodology' ? '/methodology' : '/'
+    window.location.hash = ROUTES.includes(next) ? `/${next}` : '/'
     setRoute(next)
   }
 
@@ -236,6 +247,12 @@ export default function App() {
       <main className="main" id="main" tabIndex={-1}>
         {route === 'methodology' ? (
           <Methodology defs={stageDefs} />
+        ) : route === 'roles' ? (
+          <RolesView
+            roles={roles}
+            notFound={rolesNotFound}
+            institutions={institutions}
+          />
         ) : status === 'loading' ? (
           <div className="state-msg" role="status">
             <span className="spinner" aria-hidden="true" /> Loading
@@ -432,6 +449,7 @@ export default function App() {
       {selected && (
         <DrillDown
           inst={institutions.find((i) => i.name === selected.name) || selected}
+          roles={roles}
           onClose={() => setSelected(null)}
         />
       )}

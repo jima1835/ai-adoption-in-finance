@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jima1835/ai-adoption-in-finance/schemas/institution.schema.json",
+  "title": "Institution row",
+  "description": "One row of data/institutions.json — the dashboard state. The three kinds of field are CONTRIBUTING §3: curated (a PR may edit), auto (monitor.py only), reviewer-only (tools/review.py only, rejected in a PR). This schema is the machine-readable copy of that table; keep the two in sync.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "name",
+      "aliases",
+      "type",
+      "region",
+      "aum",
+      "stage",
+      "confidence",
+      "rationale",
+      "use_cases",
+      "events",
+      "latest_signal",
+      "latest_date",
+      "source_url"
+    ],
+    "properties": {
+      "name": { "type": "string", "minLength": 1 },
+      "aliases": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+      "type": {
+        "type": "string",
+        "enum": ["asset-manager", "pension", "sovereign-wealth", "hedge-fund", "endowment"]
+      },
+      "region": {
+        "description": "HQ region of the managing entity.",
+        "type": "string",
+        "enum": ["US", "Canada", "Europe", "Middle East", "Asia", "Other"]
+      },
+      "aum": { "type": "string" },
+      "stage": {
+        "type": "string",
+        "enum": ["exploring", "piloting", "scaling", "embedded"]
+      },
+      "confidence": { "type": "string", "enum": ["high", "med", "low"] },
+      "rationale": { "type": "string", "minLength": 1 },
+      "footnote": {
+        "description": "Optional. Present whenever a scope call was made.",
+        "type": "string"
+      },
+      "use_cases": { "type": "array", "items": { "type": "string" } },
+      "events": {
+        "description": "The dated public adoption arc. date is variable precision and preserved verbatim; exactly one source_url per event.",
+        "type": "array",
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["date", "event", "source_url"],
+          "properties": {
+            "date": { "type": "string", "pattern": "^\\d{4}(-\\d{2}(-\\d{2})?)?$" },
+            "event": { "type": "string", "minLength": 1 },
+            "source_url": { "type": "string" }
+          }
+        }
+      },
+      "latest_signal": { "description": "AUTO — monitor.py only.", "type": "string" },
+      "latest_date": {
+        "description": "AUTO — monitor.py only. Empty, or YYYY-MM-DD.",
+        "type": "string",
+        "pattern": "^(\\d{4}-\\d{2}-\\d{2})?$"
+      },
+      "source_url": { "description": "AUTO — monitor.py only.", "type": "string" },
+      "as_of_reviewed": {
+        "description": "REVIEWER-ONLY.",
+        "type": "string",
+        "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+      },
+      "label_provenance": {
+        "description": "REVIEWER-ONLY.",
+        "type": "string",
+        "enum": [
+          "agent_proposed_accepted",
+          "human_revised",
+          "human_originated",
+          "unknown_pre_capture"
+        ]
+      },
+      "agent_proposed_stage": {
+        "description": "REVIEWER-ONLY.",
+        "type": ["string", "null"],
+        "enum": ["exploring", "piloting", "scaling", "embedded", null]
+      }
+    }
+  }
+}

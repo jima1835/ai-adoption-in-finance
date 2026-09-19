@@ -1,0 +1,5 @@
+# The corpus freeze (tests/test_frozen_corpus.py) pins data files by SHA-256, and
+# the review tool and monitor.py write LF on every platform. Without this, a
+# Windows checkout converts LF to CRLF and the byte pins fail there.
+*.json  text eol=lf
+*.jsonl text eol=lf

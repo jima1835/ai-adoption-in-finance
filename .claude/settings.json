@@ -1,0 +1,43 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(.env)",
+      "Edit(data/feed.json)",
+      "Edit(data/seen_urls.json)",
+      "Bash(git commit*)",
+      "Bash(git push*)",
+      "Bash(git merge*)",
+      "Bash(git switch*)",
+      "Bash(git checkout*)",
+      "Bash(git restore*)",
+      "Bash(git reset*)",
+      "Bash(git stash*)",
+      "Bash(git clean*)",
+      "Bash(git remote*)",
+      "Bash(gh *)",
+      "Bash(python monitor.py*)",
+      "Bash(python3 monitor.py*)",
+      "Bash(.venv/bin/python3 monitor.py*)"
+    ]
+  },
+  "sandbox": {
+    "enabled": true,
+    "allowUnsandboxedCommands": false,
+    "network": {
+      "allowedDomains": [
+        "api.anthropic.com",
+        "pypi.org",
+        "files.pythonhosted.org"
+      ]
+    },
+    "filesystem": {
+      "denyWrite": [
+        "./data/feed.json",
+        "./data/seen_urls.json"
+      ],
+      "denyRead": [
+        "./.env"
+      ]
+    }
+  }
+}

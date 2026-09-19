@@ -97,7 +97,7 @@ anyone can reproduce it from this repo. Reports two rates — `stage_agreement` 
 reviewed rows carrying an agent proposal, how often the proposed stage stood) and
 `proposal_accepted` (of every proposal adjudicated, how often it was taken unchanged,
 counting rows withdrawn on review) — plus a proposed-vs-final matrix, the revisions and
-the withdrawals. **It is ANCHORED agreement and an upper bound, never a reliability
+the withdrawals. **It is ANCHORED, non-independent agreement, never a reliability
 coefficient**: the reviewer saw the proposed stage and its reasoning before deciding, and
 is also the author of the rules. No kappa is computed here and none may be quoted from
 it. Rebuild after every review session. Rendered on the Methodology page.
@@ -219,6 +219,20 @@ Key from env (`ANTHROPIC_API_KEY`); repo secret in CI. Never hardcoded.
 - `monitor.py` — engine: GDELT fetch → dedup → Claude screen → feed/institutions update
 - `alerts.py` — notify-only email digest (Resend) for stage-relevant signals
 - `data/` — `institutions.json` (STATE) · `feed.json` (STREAM) · `seen_urls.json` (dedup) · `stage_definitions.json` · `not_classified.json` (APPENDIX, human-gated)
+- ROLES module (METHODOLOGY §11) — a SECOND record on a different unit: the AI-leadership
+  ROLE EVENT. `roles.py` (shared population/denylist/ULID/JSONL helpers) · `data/roles.jsonl`
+  (append-only, human-filed) · `data/roles_not_found.jsonl` (negative record) ·
+  `data/roles_expansion.json` (maintainer-written population extension) ·
+  `data/excluded.json` (denylist; merged with an untracked `local/excluded.json` overlay) ·
+  `prompts/roles_screen.md` · `schemas/*.schema.json` + `tools/validate_data.py`.
+  `monitor.py --roles` PROPOSES into `local/roles_queue.jsonl` and writes NOTHING under
+  `data/`; `tools/review.py --roles` is the only writer of the two JSONL files.
+  **A role event never touches `stage`** — a hire is an input to adoption, not evidence of
+  it. Reviewer-only there: `as_of_reviewed`, `label_provenance`, `agent_proposed_event_type`.
+- `tests/test_frozen_corpus.py` — the corpus is FROZEN for the blind re-code: pins
+  `not_classified.json` / `agreement.json` / `transitions.jsonl` by SHA-256 and pins
+  institutions' `stage`/`rationale`/`events`. Do not re-pin to go green; delete the file
+  when the re-code publishes.
 - `src/` — React dashboard: `App.jsx`, `main.jsx`, `data.js`, `useInstitutions.js`, `styles.css`;
   `components/`: Header, Footer, InstitutionTable, PhaseGrid, StageBadge, FilterPills, DrillDown, Methodology
 - `tests/` — `test_monitor.py` (unit) · `test_review.py` (review-tool panel guard) · `test_gdelt_live.py` (live)

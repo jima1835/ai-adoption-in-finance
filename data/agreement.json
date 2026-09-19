@@ -1,5 +1,5 @@
 {
- "_readme": "Human-vs-agent disagreement record for the corpus. A research agent drafts each row from public sources and proposes an adoption stage; a human reviewer then checks the row against those sources and accepts, revises, or removes it. This file counts what the reviewer did. IMPORTANT: the reviewer saw the agent's proposed stage and its written reasoning before deciding, so these figures are ANCHORED agreement — an upper bound on reproducibility, not an inter-rater reliability coefficient. No kappa is reported here and none should be inferred. Derived from data/institutions.json and data/not_classified.json; rebuild with tools/build_agreement.py.",
+ "_readme": "Human-vs-agent disagreement record for the corpus. A research agent drafts each row from public sources and proposes an adoption stage; a human reviewer then checks the row against those sources and accepts, revises, or removes it. This file counts what the reviewer did. IMPORTANT: the reviewer saw the agent's proposed stage and its written reasoning before deciding, so these figures are ANCHORED, non-independent agreement and should not be read as an inter-rater reliability estimate. No kappa is reported here and none should be inferred. Derived from data/institutions.json and data/not_classified.json; rebuild with tools/build_agreement.py.",
  "as_of": "2026-09-01",
  "corpus": {
   "rows": 84,
@@ -130,5 +130,5 @@
    "reason": "Initially listed, withdrawn on human review: the public record covers AI governance and AI in client-facing products rather than adoption inside the firm's own investment process."
   }
  ],
- "limitation": "Anchored, not blind: the reviewer saw the agent's proposed stage and its rationale before deciding, and is also the author of the classification rules. Read these as an upper bound on agreement, never as a reliability coefficient."
+ "limitation": "Anchored, not blind: the reviewer saw the agent's proposed stage and its rationale before deciding, and is also the author of the classification rules. The figures are not independent of the proposal; never read them as a reliability coefficient."
 }

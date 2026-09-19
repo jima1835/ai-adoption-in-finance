@@ -9,6 +9,7 @@ CLAUDE.md). These tests read data/ and never write it.
 """
 
 import json
+import sys
 from pathlib import Path
 
 import pytest
@@ -34,11 +35,6 @@ OUTCOMES = {"no-qualifying-evidence", "withdrawn-on-review"}
 PROVENANCE = {"agent_proposed_accepted", "human_revised", "human_originated",
               "unknown_pre_capture"}
 
-# Rows known to carry a key outside the allowlist. Strict xfail: the day the
-# data is corrected this test FAILS, so the entry leaves with the stray key
-# instead of lingering. Data is never edited from a test.
-KNOWN_STRAY_KEYS = {"GIC": {"as_of_latest_signal"}}
-
 
 def _load(name):
     return json.loads((DATA / name).read_text(encoding="utf-8"))
@@ -48,19 +44,7 @@ INSTITUTIONS = _load("institutions.json")
 NOT_CLASSIFIED = _load("not_classified.json")
 
 
-def _with_known_strays(rows):
-    for row in rows:
-        stray = KNOWN_STRAY_KEYS.get(row["name"])
-        marks = (
-            pytest.mark.xfail(strict=True,
-                              reason=f"{row['name']} carries undocumented {sorted(stray)}; "
-                                     "left for a data release")
-            if stray else ()
-        )
-        yield pytest.param(row, id=row["name"], marks=marks)
-
-
-@pytest.mark.parametrize("row", list(_with_known_strays(INSTITUTIONS)))
+@pytest.mark.parametrize("row", INSTITUTIONS, ids=lambda r: r["name"])
 def test_institution_row_keys_match_contributing(row):
     extra, missing = set(row) - INSTITUTION_KEYS, REQUIRED - set(row)
     assert not extra and not missing, {"extra": extra, "missing": missing}
@@ -96,3 +80,70 @@ def test_names_are_unique_and_the_two_files_are_disjoint():
     appendix = [e["name"] for e in NOT_CLASSIFIED]
     assert len(set(names)) == len(names) and len(set(appendix)) == len(appendix)
     assert not set(names) & set(appendix)  # classified or not — never both
+
+
+# ---------------------------------------------------------------------------
+# Schema validation (schemas/*.schema.json, checked by tools/validate_data.py).
+#
+# The tests above encode the row rules as Python sets; the schemas encode them
+# as JSON Schema. Two encodings of one rule drift unless something compares
+# them, so these tests run the published schemas over the real files and assert
+# that the two vocabularies still agree.
+# ---------------------------------------------------------------------------
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import validate_data  # noqa: E402
+
+import roles  # noqa: E402
+
+INSTITUTION_SCHEMA = validate_data._load_schema("institution.schema.json")
+
+
+@pytest.mark.parametrize("row", INSTITUTIONS, ids=lambda r: r["name"])
+def test_institution_row_validates_against_its_schema(row):
+    assert validate_data.validate(row, INSTITUTION_SCHEMA["items"]) == []
+
+
+@pytest.mark.parametrize("data_name,schema_name,kind", [
+    (f, s, k) for f, s, k in validate_data.FILES if f != "institutions.json"
+])
+def test_public_data_file_validates_against_its_schema(data_name, schema_name, kind):
+    assert validate_data.validate_file(data_name, schema_name, kind) == []
+
+
+def test_the_validator_refuses_a_schema_it_cannot_enforce():
+    """A validator that silently ignores an unimplemented keyword reads like a
+    guarantee and is not one. Unknown keywords are an error, not a pass."""
+    with pytest.raises(validate_data.SchemaUnsupported):
+        validate_data.validate({"a": 1}, {"type": "object", "patternProperties": {}})
+
+
+@pytest.mark.parametrize("field,vocabulary", [
+    ("event_type", roles.EVENT_TYPES),
+    ("title_normalized", roles.TITLES_NORMALIZED),
+    ("reporting_line", roles.REPORTING_LINES),
+    ("scope", roles.SCOPES),
+    ("source_tier", roles.TIERS),
+    ("confidence", roles.CONFIDENCES),
+    ("label_provenance", roles.PROVENANCE),
+])
+def test_roles_runtime_vocabulary_matches_the_published_schema(field, vocabulary):
+    schema = validate_data._load_schema("role_event.schema.json")
+    assert schema["properties"][field]["enum"] == list(vocabulary)
+
+
+def test_roles_outcomes_match_the_stage_appendix():
+    """A negative record means the same thing in both appendices, or a reader
+    has to learn two vocabularies for one idea."""
+    schema = validate_data._load_schema("roles_not_found.schema.json")
+    assert schema["properties"]["outcome"]["enum"] == list(roles.OUTCOMES)
+    assert set(roles.OUTCOMES) == OUTCOMES
+
+
+def test_no_row_in_the_population_is_on_the_denylist():
+    """Exclusion is enforced by dropping names at load time, so this asserts the
+    result rather than the mechanism: nothing excluded survives into the
+    population the roles sweep queries."""
+    excluded = roles.load_excluded()
+    assert all(not roles.is_excluded(e["name"], excluded) for e in roles.load_population())

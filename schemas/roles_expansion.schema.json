@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jima1835/ai-adoption-in-finance/schemas/roles_expansion.schema.json",
+  "title": "Roles population expansion list",
+  "description": "Institutions searched for AI-leadership roles that are NOT on the dashboard and NOT in the not-classified appendix. Hand-written by the maintainer, never by an agent. Ships empty; every entry must satisfy the inclusion rule in METHODOLOGY §11.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["name", "aliases", "type", "region", "inclusion_reason", "source_url"],
+    "properties": {
+      "name": { "type": "string", "minLength": 1 },
+      "aliases": {
+        "description": "Match keys, same role as on a dashboard row: exact, case-insensitive.",
+        "type": "array",
+        "minItems": 1,
+        "items": { "type": "string", "minLength": 1 }
+      },
+      "type": {
+        "type": "string",
+        "enum": ["asset-manager", "pension", "sovereign-wealth", "hedge-fund", "endowment"]
+      },
+      "region": {
+        "type": "string",
+        "enum": ["US", "Canada", "Europe", "Middle East", "Asia", "Other"]
+      },
+      "inclusion_reason": {
+        "description": "Why this institution meets the §11 inclusion rule. Public text.",
+        "type": "string",
+        "minLength": 1
+      },
+      "source_url": {
+        "description": "The T1/T2 source carrying the AI-leadership signal that qualified it.",
+        "type": "string",
+        "pattern": "^https?://"
+      }
+    }
+  }
+}

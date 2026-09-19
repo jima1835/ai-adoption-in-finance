@@ -196,7 +196,6 @@
     "aum": "~$936B",
     "stage": "scaling",
     "as_of_reviewed": "2026-08-26",
-    "as_of_latest_signal": "2026-03-17",
     "rationale": "Enterprise-wide ChatGIC (secure ChatGPT) since 2023; production AI in trading — LLMs processing Bloomberg broker-commentary streams cross-referenced with PM positions for market intelligence at scale, AI-processed broker quotes and ECM deal emails, semi-automated OTC RFQs, global algo wheels, and trader 'vibe coding' in a secure environment. Self-describes as 'early adopter' embedding AI 'across operations.' Strongest evidence is trading-desk-specific; lacks firm-wide penetration metrics, so scaling call rests on depth in the core investment function rather than disclosed org-wide adoption rates.",
     "use_cases": [
       "broker-commentary intelligence (Bloomberg chat/email LLM processing)",

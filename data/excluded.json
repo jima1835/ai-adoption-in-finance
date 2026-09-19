@@ -1,0 +1,5 @@
+{
+  "rule": "Institutions listed here are never classified, never proposed by an agent, and never written to any data file by the pipeline. An exclusion is a RECUSAL, not an assessment: nothing on this list implies anything about that institution's AI adoption, in either direction.",
+  "overlay": "tools/validate_data.py and the roles pipeline merge this file with an optional untracked local/excluded.json of the same shape. An exclusion whose reason would disclose a private affiliation is enforced from the overlay instead of published here.",
+  "excluded": []
+}
