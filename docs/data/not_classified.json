@@ -126,5 +126,29 @@
     "outcome": "withdrawn-on-review",
     "reason": "Unclear about use cases from public domain. All present tense production claim is undated.",
     "as_of": "2026-08-31"
+  },
+  {
+    "name": "Harvard Management Company",
+    "type": "endowment",
+    "region": "US",
+    "outcome": "no-qualifying-evidence",
+    "reason": "Its own FY2024 and FY2025 annual reports contain no mention of artificial intelligence, machine learning or data science; its website carries no AI-related news, careers or process content; and Chief Investment Officer's full coverage archive records only returns, allocation, restructuring and governance. The only AI connections found are portfolio holdings and a venture stake, which are out of scope as an investment thesis rather than operational use. No qualifying evidence of internal operational adoption was found. Its own job board is script-rendered and could not be read, so hiring signals remain unchecked.",
+    "as_of": "2026-09-20"
+  },
+  {
+    "name": "Princeton University Investment Company (PRINCO)",
+    "type": "endowment",
+    "region": "US",
+    "outcome": "no-qualifying-evidence",
+    "reason": "Every page of its website was checked — it publishes no news, press or insights section — and none describes AI, machine learning or data science in its investment process; it describes its edge as analytic and judgmental. Chief Investment Officer's full coverage archive back to 2017 carries no AI content. The only AI references on its own domain are a staff member's pre-hire academic thesis and the university's research funding priorities, neither of which is PRINCO's own operations. Trade-press search endpoints could not be reached, so that channel is unchecked.",
+    "as_of": "2026-09-20"
+  },
+  {
+    "name": "William and Flora Hewlett Foundation",
+    "type": "endowment",
+    "region": "US",
+    "outcome": "no-qualifying-evidence",
+    "reason": "Its entire public AI record is grantmaking to outside institutions — the $100 million Emerging Technology and Security Initiative announced in July 2026 and its predecessor cyber programme — which is AI the foundation funds others to build and adopt, not AI in its own operations. No dated evidence of internal adoption was found across its newsroom and reporting on it, and the foundation is not named anywhere in the Center for Effective Philanthropy's sector survey of foundation AI use, including its funder acknowledgements. One staff blog returned an access error and the audited financials did not extract, so both remain unchecked.",
+    "as_of": "2026-09-20"
   }
 ]

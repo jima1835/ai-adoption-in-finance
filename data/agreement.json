@@ -1,39 +1,44 @@
 {
  "_readme": "Human-vs-agent disagreement record for the corpus. A research agent drafts each row from public sources and proposes an adoption stage; a human reviewer then checks the row against those sources and accepts, revises, or removes it. This file counts what the reviewer did. IMPORTANT: the reviewer saw the agent's proposed stage and its written reasoning before deciding, so these figures are ANCHORED, non-independent agreement and should not be read as an inter-rater reliability estimate. No kappa is reported here and none should be inferred. Derived from data/institutions.json and data/not_classified.json; rebuild with tools/build_agreement.py.",
- "as_of": "2026-09-01",
+ "as_of": "2026-09-20",
  "corpus": {
-  "rows": 84,
-  "reviewed": 84,
+  "rows": 85,
+  "reviewed": 85,
   "not_yet_reviewed": 0
  },
  "provenance": {
-  "agent_proposed_accepted": 69,
+  "agent_proposed_accepted": 70,
   "human_originated": 8,
   "human_revised": 5,
   "unknown_pre_capture": 2
  },
  "stage_agreement": {
-  "n": 74,
+  "n": 75,
   "unchanged": 69,
-  "revised": 5,
-  "rate": 0.9324,
+  "revised": 6,
+  "rate": 0.92,
   "by_distance": {
    "0": 69,
-   "1": 5
+   "1": 6
   }
  },
  "proposal_accepted": {
-  "n": 80,
+  "n": 81,
   "accepted_unchanged": 69,
-  "stage_revised": 5,
+  "stage_revised": 6,
   "withdrawn_on_review": 6,
-  "rate": 0.8625
+  "rate": 0.8519
  },
  "matrix": [
   {
    "proposed": "exploring",
    "final": "exploring",
-   "n": 12
+   "n": 11
+  },
+  {
+   "proposed": "exploring",
+   "final": "piloting",
+   "n": 1
   },
   {
    "proposed": "piloting",
@@ -43,7 +48,7 @@
   {
    "proposed": "piloting",
    "final": "piloting",
-   "n": 35
+   "n": 36
   },
   {
    "proposed": "piloting",
@@ -71,7 +76,15 @@
    "final": "scaling",
    "direction": "up",
    "distance": 1,
-   "as_of_reviewed": "2026-08-31"
+   "as_of_reviewed": "2026-09-20"
+  },
+  {
+   "institution": "Fullgoal Fund Management",
+   "proposed": "exploring",
+   "final": "piloting",
+   "direction": "up",
+   "distance": 1,
+   "as_of_reviewed": "2026-09-20"
   },
   {
    "institution": "MacArthur Foundation",

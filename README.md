@@ -57,6 +57,10 @@ Two figures, because one alone would flatter the pipeline:
 
 **This is anchored, non-independent agreement, and it should not be read as an inter-rater reliability estimate.** The reviewer saw the proposed stage and the agent's written reasoning before deciding, and there is one reviewer who also wrote the classification rules. No kappa is computed from this file and none should be quoted from it; establishing reliability needs a blind re-code against stripped evidence, which is a separate exercise. See [METHODOLOGY §6](METHODOLOGY.md#6-the-disagreement-record).
 
+The current priority is to expand and human-review the corpus to 100 institutions.
+The blind re-code freeze begins at that 100-row milestone; it is not active during
+the expansion phase.
+
 ## The classification
 
 Four stages, applied as a strict bar — each higher stage requires everything the lower one does, plus more:

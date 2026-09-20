@@ -7,6 +7,12 @@ agreement figures are those of the release they sit under, not industry rates.
 
 ## [Unreleased]
 
+### Changed
+- The corpus lifecycle is now explicit: the active phase expands the
+  human-reviewed dashboard to 100 institutions. The blind-review freeze and
+  its hash checks begin at that milestone; they are not a current restriction
+  on reviewer approvals or new institution admission.
+
 ## [1.1.0] - 2026-09-19
 
 ### Added

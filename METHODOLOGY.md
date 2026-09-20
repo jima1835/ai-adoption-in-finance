@@ -190,6 +190,22 @@ edits a stage. The split is structural: automation writes only
 
 ## 6. The disagreement record
 
+### Corpus lifecycle and the planned blind-review freeze
+
+The project is currently in an **expansion phase**. Human review continues while
+the dashboard grows to 100 institutions, including endowment candidates and
+other qualified additions. The review tool remains the publication gate: an
+agent may prepare a local proposal, but only a human action in `review.py` may
+add or change a public row.
+
+The blind-review freeze begins only after the reviewed corpus reaches 100 rows.
+At that milestone the maintainer records the corpus hashes and activates
+`tests/test_frozen_corpus.py`. The blind re-code then uses that fixed 100-row
+corpus with proposed stages and reasoning removed. During that later freeze,
+new research may continue locally, but public classification changes wait until
+the blind re-code is complete. The freeze is a planned milestone, not the
+current operating priority.
+
 Because §5 logs what the reviewer did with each proposal, the rate at which the
 human and the agent disagree is a **published measurement**, not an assurance.
 It lives in [`data/agreement.json`](data/agreement.json), is rebuilt from

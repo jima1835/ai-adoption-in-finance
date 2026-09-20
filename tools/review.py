@@ -31,6 +31,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 import roles as roles_mod  # noqa: E402  (needs the sys.path line above)
+import validate_data  # noqa: E402  (same published row schema as the site)
 
 DATA = ROOT / "data" / "institutions.json"
 REVIEW = ROOT / "local" / "REVIEW.md"
@@ -48,6 +49,15 @@ NC_PUBLIC = ROOT / "data" / "not_classified.json"
 # the review date, or the panel measures the reviewer's calendar instead of the
 # sector's.
 CH_QUEUE = ROOT / "local" / "CHANGES_QUEUE.json"
+NEW_QUEUE = ROOT / "local" / "NEW_INSTITUTIONS_QUEUE.json"
+NEW_APPROVED = ROOT / "local" / "NEW_INSTITUTIONS_APPROVED.json"
+FROZEN_TEST = ROOT / "tests" / "test_frozen_corpus.py"
+# The expansion phase stays open until this many reviewed rows exist. Only
+# then does the tracked freeze test become an active blind-recode gate.
+FREEZE_TARGET_ROWS = 100
+# Removing the test alone does not establish that the blind re-code finished.
+# The maintainer records completion here before the post-recode gate is lifted.
+UNFREEZE_RECORD = ROOT / "local" / "RECODE_UNFREEZE.json"
 TRANSITIONS = ROOT / "data" / "transitions.jsonl"
 HTML = Path(__file__).resolve().parent / "review.html"
 PORT = 7788
@@ -146,6 +156,24 @@ def save_nc(path, entries):
     path.write_text(out, encoding="utf-8", newline="\n")
 
 
+def freeze_active():
+    # Before the 100-row milestone this is an expansion corpus. The presence
+    # of the historical test file must not block reviewer approvals or make the
+    # UI claim that the blind review has begun.
+    try:
+        if len(load_rows()) < FREEZE_TARGET_ROWS:
+            return False
+    except (OSError, ValueError, TypeError):
+        return True
+    if FROZEN_TEST.exists():
+        return True
+    try:
+        record = json.loads(UNFREEZE_RECORD.read_text(encoding="utf-8"))
+        return record.get("blind_recode_complete") is not True
+    except (OSError, ValueError, AttributeError):
+        return True
+
+
 def state():
     rows = load_rows()
     unreviewed = sum(1 for r in rows if not r.get("as_of_reviewed"))
@@ -156,6 +184,9 @@ def state():
         "n_unreviewed": unreviewed,
         "nc_queue": load_nc(NC_QUEUE),
         "changes_queue": load_nc(CH_QUEUE),
+        "new_queue": load_nc(NEW_QUEUE),
+        "new_approved": load_nc(NEW_APPROVED),
+        "freeze_active": freeze_active(),
         "nc_public": load_nc(NC_PUBLIC),
         "today": date.today().isoformat(),
         # Rows reviewed on/before this date are due for re-review (30-day cycle).
@@ -233,7 +264,20 @@ def _try_lock(lockf):
 
 
 def apply_action(req):
-    """Serialize writes against the overnight agent via a lock on data/.institutions.lock."""
+    """Serialize human reviewer writes against the overnight agent.
+
+    During expansion this function is the human gate for public writes. Once
+    the reviewed corpus reaches 100 rows, the blind-review freeze pauses those
+    writes until the deliberate recode is complete. In either phase, this
+    function is the only route that writes the public data files.
+    """
+    if freeze_active() and req.get("action") in {
+            "approve", "pull", "ch_approve", "ch_reject", "nc_file", "new_publish",
+            "new_approve", "new_to_appendix", "new_ruling"}:
+        return {"error": (
+            "the 100-row blind-review freeze is active; finish the recode before "
+            "approving more public changes"
+        )}
     if str(req.get("action", "")).startswith("nc_"):
         return apply_nc(req)  # different file, human-only writer — no lock needed
     lock_path = ROOT / "data" / ".institutions.lock"
@@ -245,7 +289,209 @@ def apply_action(req):
         else:
             return {"error": "institutions.json is locked by another writer "
                              "(overnight agent mid-insert?) — wait a moment and retry"}
+        if str(req.get("action", "")).startswith("new_"):
+            return apply_new(req)
         return _apply(req)
+
+
+def _new_row_error(row):
+    if not isinstance(row, dict) or not isinstance(row.get("name"), str) or not row["name"].strip():
+        return "candidate needs a name"
+    if row.get("type") not in TYPES or row.get("region") not in REGIONS:
+        return "candidate type or region is invalid"
+    if row.get("stage") not in STAGES or row.get("confidence") not in CONFS:
+        return "candidate stage or confidence is invalid"
+    if not isinstance(row.get("rationale"), str) or not row["rationale"].strip():
+        return "candidate needs a rationale"
+    if (not isinstance(row.get("aliases"), list) or not row["aliases"]
+            or any(not isinstance(a, str) or not a.strip() for a in row["aliases"])):
+        return "candidate needs documented aliases"
+    if (not isinstance(row.get("use_cases"), list)
+            or any(not isinstance(u, str) or not u.strip() for u in row["use_cases"])):
+        return "candidate needs a use_cases list"
+    events = row.get("events")
+    if not isinstance(events, list) or len(events) < 2:
+        return "candidate needs two dated events"
+    for event in events:
+        if (not isinstance(event, dict) or not isinstance(event.get("date"), str)
+                or not re.fullmatch(r"20\d{2}(?:-\d{2})?(?:-\d{2})?", event["date"])):
+            return "event dates must retain YYYY, YYYY-MM or YYYY-MM-DD precision"
+        when = event["date"]
+        try:
+            date.fromisoformat(when + {4: "-01-01", 7: "-01", 10: ""}[len(when)])
+        except (ValueError, KeyError):
+            return "event date is not a real calendar date"
+        if when < "2023" or when > date.today().isoformat()[:len(when)]:
+            return "event date must be between 2023 and today"
+        if not str(event.get("event", "")).strip() or not str(event.get("source_url", "")).startswith("https://"):
+            return "events need 2023+ dates, descriptions and https source URLs"
+    if len({(e["date"], e["event"], e["source_url"]) for e in events}) < 2:
+        return "candidate needs two distinct dated events"
+    return None
+
+
+def _new_duplicate(row):
+    names = {str(x).casefold().strip() for x in [row["name"], *row.get("aliases", [])]}
+    for existing in load_rows():
+        if names & {str(x).casefold().strip() for x in [existing["name"], *existing.get("aliases", [])]}:
+            return existing["name"]
+    for existing in load_nc(NC_PUBLIC):
+        if existing.get("name", "").casefold().strip() in names:
+            return existing["name"] + " (public appendix; use a promotion workflow)"
+    for path in (ROOT / "data" / "excluded.json", ROOT / "local" / "excluded.json"):
+        if not path.exists():
+            continue
+        for entry in json.loads(path.read_text(encoding="utf-8")).get("excluded", []):
+            if isinstance(entry, dict):
+                excluded_names = [entry.get("name", ""), *entry.get("aliases", [])]
+            else:
+                excluded_names = [entry]
+            if names & {str(x).casefold().strip() for x in excluded_names}:
+                return "excluded institution"
+    return None
+
+
+def apply_new(req):
+    """Review and publish new rows through the human reviewer gate."""
+    action = req.get("action")
+    name = req.get("name", "")
+    queue = load_nc(NEW_QUEUE)
+    approved = load_nc(NEW_APPROVED)
+
+    if action == "new_to_appendix":
+        # An out-of-scope candidate is never a dashboard row. Move it to the
+        # not-classified staging queue, where nc_file — the human-only gate on
+        # data/not_classified.json — can pick it up. This stages a DRAFT; it does
+        # not publish. The reviewer still files it, and still owns the wording.
+        item = next((e for e in queue if e.get("row", {}).get("name") == name), None)
+        if item is None:
+            return {"error": f"no staged candidate named {name!r}"}
+        row = item.get("row", {})
+        reason = (req.get("reason") or item.get("reason") or "").strip()
+        if not reason:
+            return {"error": "a public reason is required — it must stand alone"}
+        if row.get("type") not in TYPES or row.get("region") not in REGIONS:
+            return {"error": "candidate needs a valid type and region to be filed"}
+        nc = load_nc(NC_QUEUE)
+        if any(e.get("name") == row["name"] for e in nc):
+            return {"error": f"{row['name']} is already staged for the appendix"}
+        if any(e.get("name", "").casefold() == row["name"].casefold() for e in load_nc(NC_PUBLIC)):
+            return {"error": f"{row['name']} is already in the public appendix"}
+        nc.append({"name": row["name"], "type": row["type"], "region": row["region"],
+                   "outcome": req.get("outcome") or "no-qualifying-evidence",
+                   "reason": reason})
+        save_nc(NC_QUEUE, nc)
+        queue.remove(item)
+        save_nc(NEW_QUEUE, queue)
+        log_decision({"action": "new_to_appendix", "name": name,
+                      "prior_status": item.get("status")})
+        return {"ok": True, "new_to_appendix": name}
+
+    if action == "new_ruling":
+        # A tier_ruling candidate is blocked on a source-tier judgment that only a
+        # human may make (SOURCES.md §1: a T3 source is admitted as corroboration
+        # only on a reviewer's explicit, recorded decision). Record the ruling and
+        # release the candidate to the normal approve path — the row bar still
+        # applies at new_approve, so this promotes the STATUS, never the evidence.
+        item = next((e for e in queue if e.get("row", {}).get("name") == name), None)
+        if item is None:
+            return {"error": f"no staged candidate named {name!r}"}
+        if item.get("status") != "tier_ruling":
+            return {"error": "only a tier_ruling candidate takes a source ruling"}
+        ruling = (req.get("ruling") or "").strip()
+        if not ruling:
+            return {"error": "the ruling must say which source was admitted, and why"}
+        item["status"] = "ready"
+        item["reason"] = (item.get("reason", "") + " REVIEWER RULING: " + ruling).strip()
+        item.setdefault("rulings", []).append(
+            {"on": date.today().isoformat(), "ruling": ruling})
+        save_nc(NEW_QUEUE, queue)
+        log_decision({"action": "new_ruling", "name": name, "ruling": ruling})
+        return {"ok": True, "new_ruling": name}
+
+    if action == "new_publish":
+        item = next((e for e in approved if e.get("row", {}).get("name") == name), None)
+        if item is None:
+            return {"error": f"no approved candidate named {name!r}"}
+        row = item["row"]
+        err = _new_row_error(row)
+        if err:
+            return {"error": err}
+        schema_errors = validate_data.validate(
+            row, validate_data._load_schema("institution.schema.json")["items"])
+        if schema_errors:
+            return {"error": "candidate fails public schema: " + "; ".join(schema_errors)}
+        duplicate = _new_duplicate(row)
+        if duplicate:
+            return {"error": f"candidate conflicts with {duplicate}"}
+        rows = load_rows()
+        rows.append(row)
+        save_rows(rows)
+        approved.remove(item)
+        save_nc(NEW_APPROVED, approved)
+        log_decision({"action": "new_publish", "name": name, "stage": row["stage"]})
+        return {"ok": True, "new_published": name}
+
+    item = next((e for e in queue if e.get("row", {}).get("name") == name), None)
+    if item is None:
+        return {"error": f"no staged candidate named {name!r}"}
+    if action == "new_reject":
+        reason = (req.get("reason") or "").strip()
+        if not reason:
+            return {"error": "rejection reason is required"}
+        queue.remove(item)
+        save_nc(NEW_QUEUE, queue)
+        log_decision({"action": "new_reject", "name": name, "reason": reason})
+        return {"ok": True, "new_rejected": name}
+    if action != "new_approve":
+        return {"error": f"unknown action {action!r}"}
+    if item.get("status") != "ready":
+        return {"error": "candidate has an unresolved evidence or source-tier gap"}
+    sources = item.get("evidence", [])
+    row = dict(item["row"])
+    err = _set_fields(row, req.get("fields", {}))
+    if err:
+        return err
+    err = _new_row_error(row)
+    if err:
+        return {"error": err}
+    qualifying = [e for e in sources if isinstance(e, dict)
+                  and e.get("tier") in ("T1", "T2")
+                  and e.get("publisher") and e.get("quote")
+                  and str(e.get("url", "")).startswith("https://")]
+    if len({e["publisher"].casefold().strip() for e in qualifying}) < 2:
+        return {"error": "candidate needs two distinct T1/T2 source publishers with quotes"}
+    if any(event["source_url"] not in {e["url"] for e in qualifying}
+           for event in row["events"]):
+        return {"error": "each event source URL needs a matching T1/T2 evidence entry"}
+    duplicate = _new_duplicate(row)
+    if duplicate:
+        return {"error": f"candidate conflicts with {duplicate}"}
+    if any(e.get("row", {}).get("name") == name for e in approved):
+        return {"error": f"candidate {name!r} is already approved locally"}
+    row["as_of_reviewed"] = date.today().isoformat()
+    row["agent_proposed_stage"] = item["row"]["stage"]
+    row["label_provenance"] = ("agent_proposed_accepted" if row["stage"] == item["row"]["stage"]
+                               else "human_revised")
+    schema_errors = validate_data.validate(
+        row, validate_data._load_schema("institution.schema.json")["items"])
+    if schema_errors:
+        return {"error": "candidate fails public schema: " + "; ".join(schema_errors)}
+    # This is the human gate: once the reviewer clicks Approve, the validated
+    # row enters the public corpus through this endpoint. The intake agent can
+    # only create NEW_QUEUE; it never reaches this branch.
+    rows = load_rows()
+    rows.append(row)
+    save_rows(rows)
+    queue.remove(item)
+    save_nc(NEW_QUEUE, queue)
+    log_decision({"action": "new_approve", "name": name, "stage": row["stage"],
+                  "agent_proposed_stage": item["row"]["stage"],
+                  "label_provenance": row["label_provenance"],
+                  "published": True,
+                  "blind_recode_pending": freeze_active()})
+    return {"ok": True, "new_approved": name, "new_published": name,
+            "type": row["type"], "blind_recode_pending": freeze_active()}
 
 
 def _set_fields(row, fields):

@@ -71,9 +71,11 @@
 <body>
 <header><h1>institutions.json — review</h1><span class="counts" id="counts"></span></header>
 <div class="banner">METHODOLOGY §4: plans are not stages · between two stages, pick the LOWER · unverifiable firm claims stay "(company claim)"</div>
+<div class="banner" id="freeze-notice" style="display:none"></div>
 <div id="commit"></div>
 <div id="toast"></div>
 <div id="changes"></div>
+<div id="new-candidates"></div>
 <div id="cards"></div>
 <div id="nc"></div>
 <div id="done"></div>
@@ -451,6 +453,117 @@ function renderChanges(){
   queue.forEach(e => el.appendChild(changeCard(e)));
 }
 
+// New institutions stay outside the public corpus until a human reviews their
+// complete row. Publication is performed only by the human reviewer action.
+function newCandidateCard(item){
+  const row = item.row || {};
+  const d = document.createElement('div');
+  d.className = 'card';
+  const ready = item.status === 'ready';
+  const oos = item.status === 'out_of_scope';
+  const ruling = item.status === 'tier_ruling';
+  d.innerHTML = `
+    <div class="rowhead"><b>${esc(row.name)}</b>
+      <span class="tag">new ${esc(row.type || '')}</span>
+      <span class="tag">${ready ? 'ready for human review' : esc(item.status || 'evidence gap')}</span>
+      <span class="tag stage-${esc(row.stage)}">proposed: ${esc(row.stage)}</span></div>
+    <div class="note">${esc(item.reason || '')}</div>
+    <div class="grid"><div>
+      <label>stage and confidence</label>
+      <select class="new-stage">${STAGES.map(s => `<option ${s===row.stage?'selected':''}>${s}</option>`).join('')}</select>
+      <select class="new-confidence">${CONFS.map(c => `<option ${c===row.confidence?'selected':''}>${c}</option>`).join('')}</select>
+      <label>AUM</label><input class="new-aum" type="text" style="width:20ch">
+      <label>rationale</label><textarea class="new-rationale" rows="6"></textarea>
+      <label>footnote and scope calls</label><textarea class="new-footnote" rows="3"></textarea>
+      <label>dated events</label><div class="new-events"></div>
+      <div class="actions">
+        ${ready ? `<button class="approve new-approve">Approve and add to corpus</button>` : ''}
+        ${ruling ? `<button class="approve new-ruling">Record source ruling</button>` : ''}
+        ${oos ? `<button class="approve new-to-appendix">File to appendix</button>` : ''}
+        <button class="pull new-reject">Reject candidate</button>
+      </div>
+      ${ready || ruling || oos ? '' : `<div class="note">Evidence gap: below the two-event /
+        two-independent-publisher floor, so it cannot be approved. Leave it — it carries over to
+        the next intake run with its named gap. Rejecting deletes the research.</div>`}
+    </div><div>
+      <label>source dossier — open and verify every URL</label>
+      <div class="evidence">${(item.evidence || []).map(e =>
+        `<div><b>${esc(e.date || '')} · ${esc(e.publisher || '')} · ${esc(e.tier || '')}</b><br>
+        <a href="${esc(e.url)}" target="_blank" rel="noreferrer">${esc(e.url)}</a><br>
+        ${esc(e.quote || '')}${e.translation ? `<br>${esc(e.translation)}` : ''}</div>`).join('<hr>')}
+        ${item.uncertainty ? `<hr><b>Uncertainty:</b> ${esc(item.uncertainty)}` : ''}</div>
+    </div></div>`;
+  d.querySelector('.new-aum').value = row.aum || '';
+  d.querySelector('.new-rationale').value = row.rationale || '';
+  d.querySelector('.new-footnote').value = row.footnote || '';
+  const wrap = d.querySelector('.new-events');
+  (row.events || []).forEach(e => {
+    const line = document.createElement('div');
+    line.className = 'evitem';
+    line.innerHTML = `<input class="ev-date" title="date" style="width:13ch">
+      <input class="ev-desc" title="event" style="flex:2">
+      <input class="ev-url" title="source URL" style="flex:1">
+      <a class="ev-test" target="_blank" rel="noreferrer">↗</a>`;
+    line.querySelector('.ev-date').value = e.date || '';
+    line.querySelector('.ev-desc').value = e.event || '';
+    line.querySelector('.ev-url').value = e.source_url || '';
+    line.querySelector('.ev-test').href = e.source_url || '#';
+    line.querySelector('.ev-url').oninput = ev => line.querySelector('.ev-test').href = ev.target.value || '#';
+    wrap.appendChild(line);
+  });
+  if (ready) d.querySelector('.new-approve').onclick = () => apply({
+    action:'new_approve', name:row.name,
+    fields:{stage:d.querySelector('.new-stage').value,
+      confidence:d.querySelector('.new-confidence').value,
+      aum:d.querySelector('.new-aum').value.trim(),
+      rationale:d.querySelector('.new-rationale').value,
+      footnote:d.querySelector('.new-footnote').value,
+      events:[...wrap.querySelectorAll('.evitem')].map(r => ({
+        date:r.querySelector('.ev-date').value.trim(),
+        event:r.querySelector('.ev-desc').value.trim(),
+        source_url:r.querySelector('.ev-url').value.trim()}))}});
+  if (ruling) d.querySelector('.new-ruling').onclick = () => {
+    const r = prompt(`Source-tier ruling for ${row.name}.\n\nSOURCES.md: a T3 source is admitted `
+      + `only on your explicit recorded decision, and never as the sole source for an event.\n\n`
+      + `State which source you are admitting and why:`, '');
+    if (r) apply({action:'new_ruling', name:row.name, ruling:r});
+  };
+  if (oos) d.querySelector('.new-to-appendix').onclick = () => {
+    const r = prompt(`File ${row.name} to the public appendix as no-qualifying-evidence.\n\n`
+      + `This stages a DRAFT in the not-classified queue — you still file it there.\n`
+      + `The reason below publishes verbatim, so it must stand alone:`, item.reason || '');
+    if (r) apply({action:'new_to_appendix', name:row.name, reason:r});
+  };
+  d.querySelector('.new-reject').onclick = () => {
+    const reason = prompt(`Why reject ${row.name}?`, '');
+    if (reason !== null) apply({action:'new_reject', name:row.name, reason});
+  };
+  return d;
+}
+
+function renderNewCandidates(){
+  const el = document.getElementById('new-candidates');
+  el.innerHTML = '';
+  const queue = S.new_queue || [], approved = S.new_approved || [];
+  if (!queue.length && !approved.length) return;
+  const h = document.createElement('div');
+  h.className = 'banner';
+  h.textContent = `NEW INSTITUTIONS — ${queue.filter(e => e.status === 'ready').length} ready for review · ${queue.filter(e => e.status !== 'ready').length} evidence gaps · ${approved.length} approved locally${S.freeze_active ? ' · blind re-code pending' : ''}`;
+  el.appendChild(h);
+  queue.forEach(item => el.appendChild(newCandidateCard(item)));
+  approved.forEach(item => {
+    const d = document.createElement('div');
+    d.className = 'card';
+    d.innerHTML = `<div class="rowhead"><b>${esc(item.row.name)}</b>
+      <span class="tag">human approved ${esc(item.row.as_of_reviewed)}</span></div>
+      <div class="note">Ready to publish through the human reviewer gate. The later blind re-code will include this approved row.</div>
+      <button class="approve new-publish">Publish approved row</button>`;
+    d.querySelector('.new-publish').onclick = () =>
+      apply({action:'new_publish', name:item.row.name});
+    el.appendChild(d);
+  });
+}
+
 // "Assessed, not classified" gate: drafts staged in local/NOT_CLASSIFIED_QUEUE.json
 // (agent/assistant suggestions) are filed to the PUBLIC data/not_classified.json
 // only here, on explicit human action. Every field is editable before filing.
@@ -534,6 +647,14 @@ async function apply(body){
       : `${j.ch_approved} updated, stage unchanged — no transition logged`);
   }
   if (j.ch_rejected) toast(`${j.ch_rejected} held as-is; 30-day clock reset`);
+  if (j.new_approved && !j.new_published) toast(`${j.new_approved} approved locally`);
+  if (j.new_rejected) toast(`${j.new_rejected} removed from new-institution queue`);
+  if (j.new_ruling) toast(`ruling recorded for ${j.new_ruling} — now ready for review`);
+  if (j.new_to_appendix) toast(`${j.new_to_appendix} staged for the appendix — file it below`);
+  if (j.new_published){
+    approvedThisSession.push({name:j.new_published, type:j.type || '?'});
+    toast(`${j.new_published} published to institutions.json through the reviewer gate`);
+  }
   S = j.state;
   render();
 }
@@ -566,6 +687,10 @@ function commitHelper(){
 
 function render(){
   const rows = S.institutions;
+  const freezeNotice = document.getElementById('freeze-notice');
+  freezeNotice.style.display = S.freeze_active ? 'block' : 'none';
+  freezeNotice.textContent = S.freeze_active
+    ? 'BLIND RE-CODE PENDING — public approvals are paused until the deliberate recode is complete. Local research may continue; this reviewer remains the only public write path.' : '';
   // Queue = never reviewed, plus rows whose last review is 30+ days old.
   const pending = rows.filter(r => !r.as_of_reviewed || r.as_of_reviewed <= S.cutoff)
     .sort((a,b) => ((a.as_of_reviewed?1:0)-(b.as_of_reviewed?1:0))
@@ -583,6 +708,7 @@ function render(){
     ? `<b>reviewed within 30 days</b><ul>${done.map(r =>
         `<li>${esc(r.name)} — ${esc(r.stage)} — ${esc(r.as_of_reviewed)}</li>`).join('')}</ul>` : '';
   renderChanges();
+  renderNewCandidates();
   renderNc();
   commitHelper();
 }

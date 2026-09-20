@@ -49,6 +49,10 @@ def sandbox(tmp_path, monkeypatch):
     monkeypatch.setattr(review, "REJECTED", tmp_path / "REJECTED.md")
     monkeypatch.setattr(review, "NC_QUEUE", tmp_path / "NOT_CLASSIFIED_QUEUE.json")
     monkeypatch.setattr(review, "NC_PUBLIC", tmp_path / "not_classified.json")
+    monkeypatch.setattr(review, "NEW_QUEUE", tmp_path / "NEW_INSTITUTIONS_QUEUE.json")
+    monkeypatch.setattr(review, "NEW_APPROVED", tmp_path / "NEW_INSTITUTIONS_APPROVED.json")
+    monkeypatch.setattr(review, "FROZEN_TEST", tmp_path / "test_frozen_corpus.py")
+    monkeypatch.setattr(review, "UNFREEZE_RECORD", tmp_path / "RECODE_UNFREEZE.json")
     return tmp_path
 
 
@@ -173,3 +177,80 @@ def test_review_io_pins_utf8_and_lf_regardless_of_platform(sandbox, monkeypatch)
     for name in ("institutions.json", "not_classified.json", "transitions.jsonl"):
         assert b"\r" not in (sandbox / name).read_bytes()  # LF-only on every platform
     assert _rows(sandbox)[0]["rationale"] == "完成部署 — £390B"
+
+
+def _new_candidate(status="ready"):
+    urls = ["https://publisher-a.example/one", "https://publisher-b.example/two"]
+    return {
+        "status": status,
+        "row": {
+            "name": "New Foundation", "aliases": ["New Foundation"],
+            "type": "endowment", "region": "US", "aum": "",
+            "stage": "piloting", "confidence": "med", "rationale": "Two internal uses.",
+            "use_cases": ["grant screening", "report synthesis"],
+            "events": [
+                {"date": "2025-09", "event": "Screened grant requests", "source_url": urls[0]},
+                {"date": "2026-06-12", "event": "Synthesized reports", "source_url": urls[1]},
+            ],
+            "latest_signal": "", "latest_date": "", "source_url": "",
+        },
+        "evidence": [
+            {"publisher": "Publisher A", "tier": "T2", "url": urls[0], "quote": "screened"},
+            {"publisher": "Publisher B", "tier": "T1", "url": urls[1], "quote": "synthesized"},
+        ],
+    }
+
+
+def test_new_candidate_approval_publishes_through_reviewer_gate(sandbox):
+    review.save_nc(review.NEW_QUEUE, [_new_candidate()])
+    review.FROZEN_TEST.touch()
+    result = review.apply_action({"action": "new_approve", "name": "New Foundation"})
+    assert result.get("ok") and result.get("new_published") == "New Foundation"
+    assert len(_rows(sandbox)) == 2
+    assert review.load_nc(review.NEW_QUEUE) == []
+    assert review.load_nc(review.NEW_APPROVED) == []
+    new_row = _rows(sandbox)[1]
+    assert new_row["label_provenance"] == "agent_proposed_accepted"
+    assert new_row["as_of_reviewed"] == date.today().isoformat()
+    # The test file remains present as a blind-recode reminder, but it does not
+    # disable a human action taken through the reviewer endpoint.
+    assert review.apply_action({"action": "approve", "name": "Example Fund"}).get("ok")
+
+
+def test_new_candidate_requires_ready_status_and_cited_independent_events(sandbox):
+    candidate = _new_candidate(status="evidence_gap")
+    review.save_nc(review.NEW_QUEUE, [candidate])
+    assert "gap" in review.apply_new({"action": "new_approve", "name": "New Foundation"})["error"]
+    candidate["status"] = "ready"
+    candidate["evidence"][1]["url"] = "https://publisher-b.example/unrelated"
+    review.save_nc(review.NEW_QUEUE, [candidate])
+    result = review.apply_new({"action": "new_approve", "name": "New Foundation"})
+    assert "matching" in result["error"]
+    assert len(_rows(sandbox)) == 1
+
+
+def test_blind_review_freeze_starts_at_100_rows(sandbox):
+    review.FROZEN_TEST.touch()
+    rows = _rows(sandbox)
+    for i in range(98):
+        extra = dict(ROW)
+        extra["name"] = f"Expansion Fund {i}"
+        extra["aliases"] = [extra["name"]]
+        rows.append(extra)
+    review.save_rows(rows)
+    assert len(_rows(sandbox)) == 99
+    assert review.freeze_active() is False
+    rows.append({**ROW, "name": "Expansion Fund 98", "aliases": ["Expansion Fund 98"]})
+    review.save_rows(rows)
+    assert review.freeze_active() is True
+    result = review.apply_action({"action": "approve", "name": "Example Fund"})
+    assert "100-row blind-review freeze" in result["error"]
+
+    # The gate lifts only after the freeze test is removed and the explicit
+    # completion marker is recorded; removing one without the other stays safe.
+    review.FROZEN_TEST.unlink()
+    review.UNFREEZE_RECORD.write_text(
+        json.dumps({"blind_recode_complete": True}) + "\n", encoding="utf-8"
+    )
+    assert review.freeze_active() is False
+    assert review.apply_action({"action": "approve", "name": "Example Fund"}).get("ok")

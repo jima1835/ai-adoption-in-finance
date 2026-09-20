@@ -229,10 +229,10 @@ Key from env (`ANTHROPIC_API_KEY`); repo secret in CI. Never hardcoded.
   `data/`; `tools/review.py --roles` is the only writer of the two JSONL files.
   **A role event never touches `stage`** — a hire is an input to adoption, not evidence of
   it. Reviewer-only there: `as_of_reviewed`, `label_provenance`, `agent_proposed_event_type`.
-- `tests/test_frozen_corpus.py` — the corpus is FROZEN for the blind re-code: pins
-  `not_classified.json` / `agreement.json` / `transitions.jsonl` by SHA-256 and pins
-  institutions' `stage`/`rationale`/`events`. Do not re-pin to go green; delete the file
-  when the re-code publishes.
+- `tests/test_frozen_corpus.py` — the planned 100-row blind-review gate. It stays
+  dormant while the reviewed corpus grows to 100 institutions. At that milestone,
+  record the hashes from the 100-row corpus and activate the checks; do not re-pin
+  them to go green. Delete the file only in the deliberate post-recode release.
 - `src/` — React dashboard: `App.jsx`, `main.jsx`, `data.js`, `useInstitutions.js`, `styles.css`;
   `components/`: Header, Footer, InstitutionTable, PhaseGrid, StageBadge, FilterPills, DrillDown, Methodology
 - `tests/` — `test_monitor.py` (unit) · `test_review.py` (review-tool panel guard) · `test_gdelt_live.py` (live)

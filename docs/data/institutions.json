@@ -915,7 +915,7 @@
     "aum": "~₩1,849T",
     "stage": "exploring",
     "confidence": "med",
-    "rationale": "NPS's own September 2025 release announces an \"AI·혁신 추진단\" (AI & Innovation Task Force), led by its planning director and organized into four divisions — pension/welfare, fund management (기금운용), institutional operations, and systems — which will \"최고 의사결정기구를 설치하고 인공지능 최고 책임자(CAIO)를 지정하는 등 인공지능 대전환을 위한 체계를 마련\" (establish a top decision-making body and designate a Chief AI Officer, building the framework for an AI transformation). A second NPS release in June 2026 reports that the fund \"공공기관 최초로 카카오와 인공지능 기술협력 체계를 구축하고 고성능 그래픽처리장치(GPU)를 확보\" (was the first public institution to establish an AI technology cooperation framework with Kakao and to secure high-performance GPUs) — compute and partnership build-out, not a deployed use case. Stops short of piloting: no public primary or reputable secondary source names a single AI pilot or limited deployment actually running inside NPS's investment process, and fund management appears only as one workstream of a task force — which METHODOLOGY §3 places squarely in exploring, while §4 treats both releases' forward-looking framing as intent rather than stage. Confidence is held at med because both supporting sources are NPS's own releases; no independent T1/T2 corroboration was obtainable.",
+    "rationale": "NPS's own September 2025 release announces an \"AI·혁신 추진단\" (AI & Innovation Task Force), led by its planning director and organized into four divisions — pension/welfare, fund management (기금운용), institutional operations, and systems — which will \"최고 의사결정기구를 설치하고 인공지능 최고 책임자(CAIO)를 지정하는 등 인공지능 대전환을 위한 체계를 마련\" (establish a top decision-making body and designate a Chief AI Officer, building the framework for an AI transformation). A second NPS release in June 2026 reports that the fund \"공공기관 최초로 카카오와 인공지능 기술협력 체계를 구축하고 고성능 그래픽처리장치(GPU)를 확보\" (was the first public institution to establish an AI technology cooperation framework with Kakao and to secure high-performance GPUs) — compute and partnership build-out, not a deployed use case. Stops short of piloting: no public primary or reputable secondary source names a single AI pilot or limited deployment actually running inside NPS's investment process, and fund management appears only as one workstream of a task force — which METHODOLOGY §3 places squarely in exploring, while §4 treats both releases' forward-looking framing as intent rather than stage. Confidence is held at med because both supporting sources are NPS's own releases; no independent T1/T2 corroboration was obtainable. On September 11, 2026, NPS announced a further, investment-specific agreement with LG AI Research to develop and test an AI foreign-exchange analysis service using macroeconomic and research data. The release says the service will be developed and its usefulness tested in fund-management work; it does not say a pilot is running. This adds a named prospective investment use case but leaves the exploring ceiling in place.",
     "footnote": "Sourcing and scope calls. Three signals were seen but NOT counted toward the stage, because in each case the only available source is weak source under this project's tier rules and weak source may never be the sole source for an event: an April 2026 SBS Biz report that custodian Shinhan Bank is still building an AI investment-decision-support tool for NPS's fund-management arm (reported as under construction, so it would not clear the pilot bar even if the tier held); a January 2026 report of a planned \"투자지원 결정 AI 지원 서비스\" targeted for completion in 2026 (a plan, which §4 places one stage lower regardless); and an August 2026 report that NPS received an AI-ethics-compliance certification tied to an internal AI Ethics Charter adopted in 2025 — governance build-out that would support piloting only if paired with a named pilot. Separately excluded under §1(b): NPS's AI- and semiconductor-driven equity gains and its reported interest in AI-company share offerings are an investment thesis, not operational AI use. An ISSA case-study page said to describe NPS member-facing AI services returned 403 on every attempt and was treated as non-existent rather than cited from search snippets; any member-facing chatbot or kiosk agent would in any case be excluded as client-facing service under §1(a). The Jeonju ICT-center GPU detail carried by trade press was dropped because it does not appear in the NPS release itself. AUM is the fund's own provisional (잠정치) total as at end-May 2026.",
     "use_cases": [
       "AI transformation task force spanning fund management (AI·혁신 추진단)",
@@ -933,12 +933,17 @@
         "date": "2026-06-23",
         "event": "NPS reports it is the first Korean public institution to establish an AI technology cooperation framework with Kakao and to secure high-performance GPUs",
         "source_url": "https://nps.or.kr/pnsgdnc/nscvrgdata/getOHAE0002M1.do?hmpgBbsCd=BS20240145&hmpgCd=01&menuId=MN24000898&pageIndex=1&pstId=ZZ202600000000000702&searchGbu=&searchText="
+      },
+      {
+        "date": "2026-09-11",
+        "event": "NPS signed an agreement with LG AI Research to develop and test an AI-based foreign-exchange analysis service for fund management; the service is planned, not yet deployed",
+        "source_url": "https://fund.nps.or.kr/impa/nscvrgdatadtl/getOHEF0014M0.do?hmpgBbsCd=BS20240174&pstId=ZZ202600000000001037"
       }
     ],
     "latest_signal": "",
     "latest_date": "",
     "source_url": "",
-    "as_of_reviewed": "2026-08-25",
+    "as_of_reviewed": "2026-09-20",
     "agent_proposed_stage": null,
     "label_provenance": "unknown_pre_capture"
   },
@@ -2604,7 +2609,7 @@
     "aum": "~RMB 4.34T",
     "stage": "scaling",
     "confidence": "high",
-    "rationale": "E Fund runs several named internal AI systems that are shipped rather than planned. 中国基金报 reported on 15 February 2025 that the firm had 「完成DeepSeek全参数版本模型在内部的私有化部署」 (completed a private, full-parameter deployment of DeepSeek internally) and that its self-developed asset-management large model EFundGPT 「在辅助投资研究、辅助文案生成、辅助编程、日常会议纪要、辅助数据查询、智能交易等多个场景进行了应用落地」 — put into use across research support, copy generation, coding, daily meeting minutes, data queries and intelligent trading. The People's Bank of China's 2023 Financial Technology Development Awards, reported in October 2024, gave E Fund a first prize for 「基于人工智能的一站式主动权益投研业务平台」 (an AI-based one-stop active-equity investment research platform) and a second prize for the EFundGPT asset-management large-model platform, and 证券时报网 reported in March 2025 that the DeepSeek-upgraded EFundGPT 「可以覆盖70%以上业务部门的人工智能应用生态」 — 「可以覆盖」 is stated capability, not a measured adoption rate (company claim). ",
+    "rationale": "E Fund runs several named internal AI systems that are shipped rather than planned. 中国基金报 reported on 15 February 2025 that the firm had 「完成DeepSeek全参数版本模型在内部的私有化部署」 (completed a private, full-parameter deployment of DeepSeek internally) and that its self-developed asset-management large model EFundGPT 「在辅助投资研究、辅助文案生成、辅助编程、日常会议纪要、辅助数据查询、智能交易等多个场景进行了应用落地」 — put into use across research support, copy generation, coding, daily meeting minutes, data queries and intelligent trading. The People's Bank of China's 2023 Financial Technology Development Awards, reported in October 2024, gave E Fund a first prize for 「基于人工智能的一站式主动权益投研业务平台」 (an AI-based one-stop active-equity investment research platform) and a second prize for the EFundGPT asset-management large-model platform, and 证券时报网 reported in March 2025 that the DeepSeek-upgraded EFundGPT 「可以覆盖70%以上业务部门的人工智能应用生态」 — 「可以覆盖」 is stated capability, not a measured adoption rate (company claim).  September 6, 2026 evidence update: EWork reportedly offers skills across research, trading, operations, sales, marketing, compliance, and IT; employees may create and share skills, while automated evaluation and retirement of low-value skills provide governance. Company statements and reporter observations are as of the article date.",
     "footnote": "Scope and sourcing calls. Excluded under METHODOLOGY §1(b): E Fund's AI-theme index products (易方达中证人工智能主题ETF, 易方达上证科创板人工智能ETF) — AI as portfolio exposure sold to clients, not internal adoption. Seen but not counted toward the stage: a 3 March 2025 中国基金报 piece hosted on E Fund's own site about DeepSeek in 基金投顾 (fund advisory), which is client-service framing and uses exploratory verbs (「正在探索」, 「可充当」). The 70%-of-business-departments figure is stated as 「可以覆盖」 (can cover) and is treated here as designed capability rather than measured penetration. AUM is the 管理规模 figure in E Fund's own 公司概况 table — 43,425億元 as of 2026Q2 — which covers 易方达基金及下属机构, the group including subsidiaries.",
     "use_cases": [
       "investment research assistance (EFundGPT)",
@@ -2638,6 +2643,11 @@
         "date": "2026",
         "event": "E Fund says it launched EWork, an enterprise-grade AI infrastructure platform, 「推动AI能力在投研全场景规模化应用」 — to drive scaled application of AI capability across all investment-research scenarios",
         "source_url": "https://www.chnfund.com/article/ARa8b273a6-b86e-9558-ae0f-3a231b97db93"
+      },
+      {
+        "date": "2026-09-06",
+        "event": "As reported September 6, 2026: EWork skills and governance across business lines reported; the underlying rollout date is not established",
+        "source_url": "https://www.cls.cn/detail/2475116"
       }
     ],
     "latest_signal": "",
@@ -2645,7 +2655,7 @@
     "source_url": "",
     "agent_proposed_stage": "piloting",
     "label_provenance": "human_revised",
-    "as_of_reviewed": "2026-08-31"
+    "as_of_reviewed": "2026-09-20"
   },
   {
     "name": "China Europe Fund Management",
@@ -2662,7 +2672,7 @@
     "aum": "",
     "stage": "piloting",
     "confidence": "high",
-    "rationale": "China Europe Fund Management has shipped named internal AI systems rather than announcements. 中国基金报 reported on 25 August 2024 that, 「据中欧基金介绍」, the firm 「应用BERT和Siamese网络、OCR等人工智能技术建设了一套成熟、完整的『智能交易对手管理系统』」 — a mature, complete intelligent counterparty-management system used in trade risk control — and had 「引入智能IVR系统」 drawing on speech recognition, natural-language processing and machine learning in client service (company claims). It completed private deployment of the DeepSeek open-source model family by 7 February 2025, though the firm's own wording put the application ahead of it: 「未来将根据效果运用到办公、投资研究、客户服务等领域」. By 16 August 2026 the investment-research side had shipped too — 「最新开发的投研Agent已集成超过100个Skills」 spanning data scraping, industry analysis, financial modelling and report writing, with 「研究员信息检索效率提升60%以上」 and the equity team's long-used 「五要素模型」 having 「实现智能化升级」, while 量化投决会主席 曲径 said large language models markedly raised code-writing and IT development efficiency (company claims, made at a briefing the firm hosted). Stops short of scaling: no penetration or daily-use figure is public — the headline throughput line is the capability modal 「AI可以每天晚上处理超10000份研报或公告信息」 (what AI can do nightly by design, not a measured rate) — and in December 2025 中欧's 权益专户投委会主席 王培 placed the payoff three years out, 「AI内嵌式对投研业务的赋能，会在三年后给我们带来实质性的变化」, which METHODOLOGY §4 reads as intent one stage below where it points.",
+    "rationale": "China Europe Fund Management has shipped named internal AI systems rather than announcements. 中国基金报 reported on 25 August 2024 that, 「据中欧基金介绍」, the firm 「应用BERT和Siamese网络、OCR等人工智能技术建设了一套成熟、完整的『智能交易对手管理系统』」 — a mature, complete intelligent counterparty-management system used in trade risk control — and had 「引入智能IVR系统」 drawing on speech recognition, natural-language processing and machine learning in client service (company claims). It completed private deployment of the DeepSeek open-source model family by 7 February 2025, though the firm's own wording put the application ahead of it: 「未来将根据效果运用到办公、投资研究、客户服务等领域」. By 16 August 2026 the investment-research side had shipped too — 「最新开发的投研Agent已集成超过100个Skills」 spanning data scraping, industry analysis, financial modelling and report writing, with 「研究员信息检索效率提升60%以上」 and the equity team's long-used 「五要素模型」 having 「实现智能化升级」, while 量化投决会主席 曲径 said large language models markedly raised code-writing and IT development efficiency (company claims, made at a briefing the firm hosted). Stops short of scaling: no penetration or daily-use figure is public — the headline throughput line is the capability modal 「AI可以每天晚上处理超10000份研报或公告信息」 (what AI can do nightly by design, not a measured rate) — and in December 2025 中欧's 权益专户投委会主席 王培 placed the payoff three years out, 「AI内嵌式对投研业务的赋能，会在三年后给我们带来实质性的变化」, which METHODOLOGY §4 reads as intent one stage below where it points. September 6, 2026 evidence update: A deployed sector-outlook agent reportedly covers more than 250 subsectors and can refresh the full sector dashboard in about two hours, giving research leads to analysts and fund managers. This is a company claim in a staff-written report; frequency and adoption breadth are not reported.",
     "footnote": "Scope and sourcing calls. Excluded under METHODOLOGY §1(b): 中欧's 「科技战队」 technology-sector fund line-up and its managers' commentary on the AI industry chain — that is AI as an investment thesis, not internal adoption. Counted toward the stage: the 智能交易对手管理系统 and the 智能IVR client-service system, because §1 covers operations a firm runs for itself and neither is a product sold to clients; the firm's 数字化营销 big-data platform is never described as AI and is not counted. Sourcing limits, stated plainly: every deployment claim here traces to 中国基金报 and to the firm's own account of itself, with no independent corroboration of any single system — and two separate press roundups of the roughly twenty Chinese fund managers that privately deployed DeepSeek (21世纪经济报道, 8 February 2025, and its 4 March 2025 piece carried by 证券时报网) do not list 中欧基金 at all. AUM is left blank deliberately: 中欧's own site carries only stale figures (逾1000亿元 as of end-May 2015, 超3000亿元 as of end-June 2019), and the one current dated figure found in the press — 主动权益类基金规模 1780亿元 at end-Q1 2025 — is an active-equity subset, not firm-wide assets.",
     "use_cases": [
       "investment-research agent (投研Agent, 100+ skill modules)",
@@ -2697,6 +2707,11 @@
         "date": "2026-08-16",
         "event": "中国基金报 reports 中欧基金's 「最新开发的投研Agent已集成超过100个Skills」 covering data scraping, industry analysis, financial modelling and report writing, with 「研究员信息检索效率提升60%以上」 and the equity team's 「五要素模型」 having 「实现智能化升级」; 量化投决会主席曲径 says large language models markedly raised code-writing and IT development efficiency",
         "source_url": "https://www.chnfund.com/article/ARa8b273a6-b86e-9558-ae0f-3a231b97db93"
+      },
+      {
+        "date": "2026-09-06",
+        "event": "As reported September 6, 2026: Deployed sector-outlook agent with >250-subsector coverage reported; the underlying rollout date is not established",
+        "source_url": "https://www.cls.cn/detail/2475116"
       }
     ],
     "latest_signal": "",
@@ -2704,7 +2719,7 @@
     "source_url": "",
     "agent_proposed_stage": "piloting",
     "label_provenance": "agent_proposed_accepted",
-    "as_of_reviewed": "2026-08-31"
+    "as_of_reviewed": "2026-09-20"
   },
   {
     "name": "China Merchants Fund Management",
@@ -2766,7 +2781,7 @@
     "aum": "",
     "stage": "piloting",
     "confidence": "med",
-    "rationale": "Guotai Fund has shipped internal AI across several business functions, but every public description of it is qualitative. 21世纪经济报道 reported on 4 March 2025 that the firm 「于2025年1月底完成了DeepSeek系列模型私有化部署，搭建了国泰基金AI应用开发平台」 — private deployment of the DeepSeek model family completed at the end of January 2025, and an in-house AI application development platform built — and that the platform 「在品牌持营、风险管控、产品运营、文档办公等业务场景中有了不错表现」, i.e. is live across brand marketing, risk control, product operations and document/office work (company account relayed by the press; 「不错表现」 is an unquantified claim of decent performance, not a metric). By 16 August 2026, 中国基金报 reported that the firm 「已建成『数据基座—知识基座—Agent能力层』三层递进的智能投研架构」 — a completed three-tier investment-research stack whose base is a structured data system 「覆盖A股、基金等核心维度」, whose middle tier is an unstructured knowledge base 「涵盖研报、路演纪要等在内」 supporting 语义级检索 (semantic retrieval), and whose top tier is an Agent capability layer. Stops short of scaling: no public source gives an adoption rate, a user count, a daily output figure, or a name for any production tool; the 投研 stack is described as built infrastructure rather than as use cases in daily use across the firm; and the firm's own framing in the same report is future-tense — 「国泰基金预判，差异化将来自组织能否把知识规模化，把资深研究员的方法论、行业框架与合规红线沉淀为标准化、可复用、可评估的Skill」 — which METHODOLOGY §4 reads as intent one stage below where it points, so between piloting and scaling §4 picks the lower.",
+    "rationale": "Guotai Fund has shipped internal AI across several business functions, but every public description of it is qualitative. 21世纪经济报道 reported on 4 March 2025 that the firm 「于2025年1月底完成了DeepSeek系列模型私有化部署，搭建了国泰基金AI应用开发平台」 — private deployment of the DeepSeek model family completed at the end of January 2025, and an in-house AI application development platform built — and that the platform 「在品牌持营、风险管控、产品运营、文档办公等业务场景中有了不错表现」, i.e. is live across brand marketing, risk control, product operations and document/office work (company account relayed by the press; 「不错表现」 is an unquantified claim of decent performance, not a metric). By 16 August 2026, 中国基金报 reported that the firm 「已建成『数据基座—知识基座—Agent能力层』三层递进的智能投研架构」 — a completed three-tier investment-research stack whose base is a structured data system 「覆盖A股、基金等核心维度」, whose middle tier is an unstructured knowledge base 「涵盖研报、路演纪要等在内」 supporting 语义级检索 (semantic retrieval), and whose top tier is an Agent capability layer. Stops short of scaling: no public source gives an adoption rate, a user count, a daily output figure, or a name for any production tool; the 投研 stack is described as built infrastructure rather than as use cases in daily use across the firm; and the firm's own framing in the same report is future-tense — 「国泰基金预判，差异化将来自组织能否把知识规模化，把资深研究员的方法论、行业框架与合规红线沉淀为标准化、可复用、可评估的Skill」 — which METHODOLOGY §4 reads as intent one stage below where it points, so between piloting and scaling §4 picks the lower. September 6, 2026 evidence update: A deployed research agent is reported to pull financial statements, analyze finances, run valuation models, cross-check data and produce conclusions with evidence chains. Guotai says deterministic programs remain a check on financial calculations and attribution. The report does not supply user or daily usage counts.",
     "footnote": "Scope and sourcing calls. Excluded under METHODOLOGY §1(b): Guotai's AI-theme index products (e.g. 国泰创业板人工智能ETF) and its fund managers' published AI market commentary, including 量化投资部总监梁杏's January 2025 interview on DeepSeek catalysing AI applications — these are investment views and client products, not internal adoption. ENTITY WARNING: 国泰基金管理有限公司 is a separate company from 国泰君安证券 / 国泰海通 — whose 「君弘灵犀」 large model and 40-plus Agent matrix dominate searches for 国泰 plus AI — and from Taiwan's 國泰投信 (Cathay SITE); nothing from either is counted here, and the aliases are deliberately narrow so the automated feed cannot match them. The 「风险管控」 scenario is counted as an AI application, not as governance, because the source lists it as a business scenario the platform performs in rather than as a rules layer constraining models. §3's piloting bar also asks for policy/governance build-out, and no AI use policy or governance committee is publicly evidenced for this firm — the stage rests on the shipped-deployment prong alone. Sourcing limits, stated plainly: both events rest on the firm's own account relayed by trade press, the two outlets corroborate no fact in common, and no independent source describes any single system; a check of gtfund.com surfaced only AI-as-investment market commentary and no first-party account of internal adoption. AUM is left blank because no firm-wide 管理规模 figure was found at T1 or T2 — a 29 October 2025 quarter-end ranking carried by 证券时报网 gives only subsets, placing 「国泰、嘉实基金均超1500亿元」 for 主动权益基金 as of end-Q3 2025 — and reporting a subset as firm AUM would misstate it.",
     "use_cases": [
       "investment-research stack with an Agent capability layer (数据基座—知识基座—Agent能力层)",
@@ -2787,6 +2802,11 @@
         "date": "2026-08-16",
         "event": "中国基金报 reports that 国泰基金 「已建成『数据基座—知识基座—Agent能力层』三层递进的智能投研架构，底层是覆盖A股、基金等核心维度的结构化数据体系，中间层是涵盖研报、路演纪要等在内的非结构化知识库，支持语义级检索」 — a completed three-tier investment-research architecture combining a structured data base, an unstructured knowledge base with semantic retrieval, and an Agent capability layer",
         "source_url": "https://www.chnfund.com/article/ARa8b273a6-b86e-9558-ae0f-3a231b97db93"
+      },
+      {
+        "date": "2026-09-06",
+        "event": "As reported September 6, 2026: Autonomous research agent deployed, with rule-engine safeguards reported; the underlying rollout date is not established",
+        "source_url": "https://www.cls.cn/detail/2475116"
       }
     ],
     "latest_signal": "",
@@ -2794,7 +2814,7 @@
     "source_url": "",
     "agent_proposed_stage": "piloting",
     "label_provenance": "agent_proposed_accepted",
-    "as_of_reviewed": "2026-08-31"
+    "as_of_reviewed": "2026-09-20"
   },
   {
     "name": "China Universal Asset Management",
@@ -2858,8 +2878,8 @@
     "aum": "",
     "stage": "piloting",
     "confidence": "med",
-    "rationale": "Maxwealth Fund Management's public AI record is one well-documented deployment, reported by two enumerated trade outlets within a month of each other. 中国基金报 reported on 7 February 2025, 据永赢基金介绍, that after DeepSeek's Spring Festival breakout the firm 「积极推进DeepSeek系列开源模型的私有化部署工作」 and that 「目前，公司已经完成了初步的私有化部署，并成功将其应用于制度解答、聊天记录整理、非结构化数据核对和代码开发等多个领域」 — a completed but explicitly 初步 (preliminary) private deployment, applied to policy Q&A, chat-log organisation, unstructured data reconciliation and code development. 21世纪经济报道 reported on 4 March 2025 that the firm 「主要通过Deepseek开展了问答、制度检索和非结构化交易数据整理的场景，同时还在测试文档优化、AI文档助手、智能知识库、投研数据整理、内部数据分析查询等多种应用场景」 — three scenarios launched and five more still in test, an enumerated scoped use-case pipeline of exactly the kind METHODOLOGY §3 names as the piloting bar's second prong. Stops short of scaling: every shipped use case is back-office or developer productivity, the investment-process application (投研数据整理) is in testing in the firm's own account rather than in production, no public source gives a user count, an adoption rate or even a name for the tooling, and the firm's most recent technology disclosure — 中国基金报, 16 August 2026 — describes only its self-developed 投研 systems, with 「智能评级模型」 as the sole AI-adjacent term and no 大模型 or 生成式 vocabulary anywhere in its entry. Both 2025 accounts are the firm's own description relayed by the trade press (company claims), not independent verification, which is what holds confidence at med.",
-    "footnote": "Scope and sourcing calls. NOT counted as AI use cases: the five self-developed systems the firm names — 牵星固收投研系统, 天玑权益投研系统, 万象固收+投研系统, 明镜风险管理系统, 经纬投资交易系统. 中国基金报's 28 January 2025 interview with general manager 芦特尔 presents all five as already built, part of 「自主研发了近百套系统」, with no AI, 人工智能, 大模型 or 智能 framing anywhere in the piece; when the same systems reappear in 中国基金报's 16 August 2026 AI roundup (「永赢基金的天玑权益研究系统涵盖了从宏观、行业到公司维度的研究数据收集与研究内容管理。其牵星固收投研系统则利用大数据技术和智能评级模型。」), the only AI-adjacent wording in 永赢's entry is 智能评级模型 and 智能化. They are therefore read as pre-existing investment IT, not as AI deployments. Excluded under §1(b): the firm's AI-themed investment products (永赢中证科创创业人工智能ETF, 永赢智能领先混合型基金, 永赢科技智选) are AI exposure sold to clients, not internal adoption. AUM: no T1 or T2 figure for total assets under management was found, so the field is left empty rather than dressing a subset up as firm AUM. 中国基金报 (28 January 2025) carries 非货规模 3516亿元 as of 2024-12-31 on 银河证券 data — a non-money-market subset; a newer 非货 figure of 5417亿元 at 2026-06-30, with an industry rank of 13th or 14th depending on the count, appears only at weak source outlets and in a 财联社 syndication carried by 21经济网. Seen but not counted: a 7 July 2026 account of a 大模型-based phishing-detection system for email security, carried only by 新浪财经 (weak source) and reading as company PR — a genuine enrichment target if an enumerated-T2 carrier for it exists.",
+    "rationale": "Maxwealth initially deployed DeepSeek internally in early 2025 for policy Q&A, chat-log organization, data reconciliation and coding, as reported by 中国基金报 and 21世纪经济报道. Investment research data preparation was then described as in testing. A September 6, 2026 original 财联社 staff report now describes an investment-research Q&A system, implemented post-custodian risk monitoring, AI screening of marketing materials, a unified agent platform and a recently deployed employee WorkBuddy. These are new internal research, risk and operating applications beyond the earlier back-office scope, though the claims come from the firm and the dates of the individual launches are unknown. Piloting remains supported; scaling is not established because the report gives no daily usage, user penetration or firm-wide production breadth. Confidence remains med.",
+    "footnote": "Scope and sourcing calls. NOT counted as AI use cases: the five self-developed systems the firm names — 牵星固收投研系统, 天玑权益投研系统, 万象固收+投研系统, 明镜风险管理系统, 经纬投资交易系统. 中国基金报's 28 January 2025 interview with general manager 芦特尔 presents all five as already built, part of 「自主研发了近百套系统」, with no AI, 人工智能, 大模型 or 智能 framing anywhere in the piece; when the same systems reappear in 中国基金报's 16 August 2026 AI roundup (「永赢基金的天玑权益研究系统涵盖了从宏观、行业到公司维度的研究数据收集与研究内容管理。其牵星固收投研系统则利用大数据技术和智能评级模型。」), the only AI-adjacent wording in 永赢's entry is 智能评级模型 and 智能化. They are therefore read as pre-existing investment IT, not as AI deployments. Excluded under §1(b): the firm's AI-themed investment products (永赢中证科创创业人工智能ETF, 永赢智能领先混合型基金, 永赢科技智选) are AI exposure sold to clients, not internal adoption. AUM: no T1 or T2 figure for total assets under management was found, so the field is left empty rather than dressing a subset up as firm AUM. 中国基金报 (28 January 2025) carries 非货规模 3516亿元 as of 2024-12-31 on 银河证券 data — a non-money-market subset; a newer 非货 figure of 5417亿元 at 2026-06-30, with an industry rank of 13th or 14th depending on the count, appears only at weak source outlets and in a 财联社 syndication carried by 21经济网. Seen but not counted: a 7 July 2026 account of a 大模型-based phishing-detection system for email security, carried only by 新浪财经 (weak source) and reading as company PR — a genuine enrichment target if an enumerated-T2 carrier for it exists. September 2026 sourcing update: The original 财联社 staff report describes newly identified AI systems separately from the five pre-existing investment IT systems. Its usage claims are company claims and individual rollout dates are unknown.",
     "use_cases": [
       "policy and rulebook Q&A (制度解答 / 制度检索)",
       "chat-log organisation (聊天记录整理)",
@@ -2882,6 +2902,11 @@
         "date": "2026-08-16",
         "event": "中国基金报's industry AI roundup reports that 「永赢基金同样将投研系统建设视为数字化转型的重要战略内容」 and that 永赢 is among firms whose 「投研系统投入逐年增加」, naming 天玑权益研究系统 for macro-to-company research data and content management and 牵星固收投研系统 as 「利用大数据技术和智能评级模型」, with its self-developed research, risk and trading systems 「均与恒生O32系统实时联通」 — no 大模型 or 生成式 application named 18 months after the DeepSeek deployment",
         "source_url": "https://www.chnfund.com/article/ARa8b273a6-b86e-9558-ae0f-3a231b97db93"
+      },
+      {
+        "date": "2026-09-06",
+        "event": "As reported September 6, 2026: Investment research, risk and agent-platform use reported; the underlying rollout date is not established",
+        "source_url": "https://www.cls.cn/detail/2475116"
       }
     ],
     "latest_signal": "",
@@ -2889,7 +2914,7 @@
     "source_url": "",
     "agent_proposed_stage": "piloting",
     "label_provenance": "agent_proposed_accepted",
-    "as_of_reviewed": "2026-09-01"
+    "as_of_reviewed": "2026-09-20"
   },
   {
     "name": "China Asset Management (ChinaAMC)",
@@ -2952,8 +2977,8 @@
     "aum": "",
     "stage": "piloting",
     "confidence": "med",
-    "rationale": "Harvest Fund Management's internal AI record is an unnamed 智能投研 platform with real coverage metrics, disclosed to a single trade outlet across two 2026 articles. 中国基金报 reported on 7 July 2026 that 「在完成包括半导体、计算机、创新药等100余个二级子行业的知识库建设基础上，利用知识图谱技术将海量非结构化数据转化为投资线索，覆盖超过5000家上市公司」 and that 「依托『数据+模型+工具』为核心的智能投研平台，高质量的信息得以更高效流动，进而推动投研过程从『经验驱动』更多转向『数据与经验共振』」 — knowledge-base construction completed across more than 100 secondary sub-industries, knowledge-graph technology converting unstructured data into investment leads over more than 5,000 listed companies, and a 'data + model + tool' intelligent investment-research platform shifting the research process from experience-driven toward a resonance of data and experience. In the same outlet's 16 August 2026 industry AI roundup the firm says it 「自2018年便布局投研数字化，近两年进一步将AI能力深度落地投研业务」 and sets out its own scoped frame — 「可将AI在投研领域的应用划分为生产、交互、决策三个阶段，目前在生产、交互两大环节已发挥巨大价值」 — with the production stage lifting the efficiency of information acquisition, processing and structuring and the interaction stage delivering personalised precise pushes so that 「基金经理可快速浏览与自身组合高度相关的信息」, alongside a stated governance line that 「公募AI建设的关键是明确能力边界、任务边界和责任边界」 and a goal of 「建设有责任边界的AI认知生产体系」. Stops short of scaling: the firm itself puts only two of its three stages in value-delivering use and leaves 决策 outside them, every claim is Harvest's own account relayed by one carrier (company claims) with no independent verification, no public source gives a user count, an adoption rate or any daily-use claim, the tooling carries no product name, and Harvest is absent by name from the 4 March 2025 21世纪经济报道 census of the roughly 20 managers that had completed private DeepSeek deployments — an absence METHODOLOGY §2 reads as a cap rather than an inference — so between piloting and scaling §4 picks the lower.",
-    "footnote": "Scope and sourcing calls. Excluded under METHODOLOGY §1(b): Harvest's AI-theme investment products and AI-sector research — its 科创芯片ETF, 软件ETF and 机器人ETF, its 'AI five-layer cake' ETF matrix across energy, chips, infrastructure, models and applications, and its 「'人工智能＋'ETF投资全攻略」 handbook. On the same ground the whole of 第一财经's 5 August 2025 piece 「嘉实基金：洞察智能时代脉搏构筑数字AI投资新生态」 was read and NOT counted: it describes AI purely as portfolio exposure and contains no internal-adoption claim. Most 2026 coverage of Harvest's 「平台化投研」 is likewise about its capability to invest in the technology sector rather than about AI tooling; only the two 中国基金报 passages cited above describe the firm's own internal research infrastructure. Sourcing: both events rest on 中国基金报, so there is no second carrier — the firm's own domain renders but its 投研实力 page carries no AI content and its news items are other outlets' clippings (the 16 July 2026 item is 来源：经济观察报), so no own-domain first-party corroboration could be read, and this is what holds confidence at med rather than high. No AUM figure from a first- or second-tier source was fetchable, so AUM is left blank rather than estimated.",
+    "rationale": "Harvest had an internal intelligent investment-research platform by July 2026, reported by 中国基金报, with knowledge bases for more than 100 secondary industries and investment leads covering more than 5,000 companies (company claims). Its August 2026 description said AI was contributing to information production and interaction, while leaving AI decisioning outside the claimed value-delivering stages. A separate September 6, 2026 original 财联社 report says Harvest launched an enterprise AI assistant and applications in investment, research, compliance review and office work; it says all technology staff use AI-assisted coding. These broaden the internal operational record and add a second editorial carrier, but do not quantify daily use across investment teams or prove multiple firm-wide daily production uses. Piloting remains the conservative stage and confidence remains med.",
+    "footnote": "Scope and sourcing calls. Excluded under METHODOLOGY §1(b): Harvest's AI-theme investment products and AI-sector research — its 科创芯片ETF, 软件ETF and 机器人ETF, its 'AI five-layer cake' ETF matrix across energy, chips, infrastructure, models and applications, and its 「'人工智能＋'ETF投资全攻略」 handbook. On the same ground the whole of 第一财经's 5 August 2025 piece 「嘉实基金：洞察智能时代脉搏构筑数字AI投资新生态」 was read and NOT counted: it describes AI purely as portfolio exposure and contains no internal-adoption claim. Most 2026 coverage of Harvest's 「平台化投研」 is likewise about its capability to invest in the technology sector rather than about AI tooling; only the two 中国基金报 passages cited above describe the firm's own internal research infrastructure. Sourcing update: The July and August 2026 internal-research descriptions came from 中国基金报; the September 2026 original 财联社 staff report adds a distinct editorial carrier. Benefits and use claims are company accounts; the report does not provide an independent usage audit or rollout dates.",
     "use_cases": [
       "intelligent investment-research platform (数据+模型+工具)",
       "knowledge-graph generation of investment leads across 5,000+ listed companies",
@@ -2971,6 +2996,11 @@
         "date": "2026-08-16",
         "event": "In 中国基金报's industry AI roundup Harvest says it has built investment-research digitalisation since 2018 and over the past two years has 「将AI能力深度落地投研业务」, dividing AI in investment research into production, interaction and decision stages with production and interaction 「已发挥巨大价值」 — and names 「能力边界、任务边界和责任边界」 as the key to public-fund AI build-out (company claims)",
         "source_url": "https://www.chnfund.com/article/ARa8b273a6-b86e-9558-ae0f-3a231b97db93"
+      },
+      {
+        "date": "2026-09-06",
+        "event": "As reported September 6, 2026: Enterprise AI assistant and four application areas launched, according to the firm; the underlying rollout date is not established",
+        "source_url": "https://www.cls.cn/detail/2475116"
       }
     ],
     "latest_signal": "",
@@ -2978,7 +3008,7 @@
     "source_url": "",
     "agent_proposed_stage": "piloting",
     "label_provenance": "agent_proposed_accepted",
-    "as_of_reviewed": "2026-08-31"
+    "as_of_reviewed": "2026-09-20"
   },
   {
     "name": "Fullgoal Fund Management",
@@ -2992,10 +3022,10 @@
     "type": "asset-manager",
     "region": "Asia",
     "aum": "",
-    "stage": "exploring",
+    "stage": "piloting",
     "confidence": "high",
-    "rationale": "Fullgoal's internal-AI record at enumerated-tier sourcing is a completed model deployment with no named use case behind it. 21世纪经济报道's 4 March 2025 census of nearly 30 large and mid-size public fund managers names Fullgoal in the roughly 20 that 「已完成DeepSeek系列开源模型私有化部署」 — completed private deployment of the DeepSeek open-source model series — but the firm's own application claims in the same piece are future-tense: 「开源模型将在数字化转型、投资策略优化和风控体系建设方面发挥越来越关键的作用」 (open-source models WILL play an increasingly key role in digital transformation, investment-strategy optimisation and risk-control build-out), and it calls validating business-scenario AI deployment 「各行业AI应用探索的前提保障」 — a prerequisite of exploration (company claims). 中国基金报's 16 August 2026 industry roundup supplies the strategic framing and the production systems: Fullgoal 「确立了以『数据—算法—算力』三位一体为核心的转型主线，将投研一体化智能平台定位为数字化转型的核心生产力底座与投研工业化的重要载体」, its equity, fixed-income and quant business lines 「均实现全面自主研发与落地应用」, and a distributed-EDA compliance and risk engine runs pre-trade simulation, intraday alerts and post-trade supervision across all on- and off-exchange trading scenarios. Stops short of piloting: neither enumerated-tier source names a single shipped AI use case — the roundup's three Fullgoal paragraphs contain no 大模型, 生成式, AI or 人工智能 vocabulary at all and describe investment-systems engineering rather than model use, so METHODOLOGY §4 forbids reading the article's AI frame onto them — and no source at that tier shows an AI use policy, a governance committee or a scoped use-case pipeline, which is piloting's second prong. The only source that does name internal applications — 「本地化部署模型在内部数据加工、代码辅助生成、文字生成、企业级RAG、研报解读等应用方向上达到了可用阶段」 — is 新京报, not an enumerated outlet for this project and therefore corroboration only; its own verb, 「达到了可用阶段」, reaches usability rather than production.",
-    "footnote": "Scope and sourcing calls. Excluded under METHODOLOGY §1(b): Fullgoal's AI-theme index products — 富国创业板人工智能ETF and 富国上证科创板人工智能ETF — and its fund managers' AI-sector market commentary, which are portfolio exposure and an investment view, not internal adoption. Its quantitative fund range (reported as 42 products and about RMB 28.5B as at 26 February 2025) is a product line and was not counted toward the stage either. Sourcing: the two events rest on two independent enumerated outlets 17 months apart (21世纪经济报道 2025-03-04, 中国基金报 2026-08-16), both relaying Fullgoal's own account with no independent verification, which is what holds confidence at med. ONE TIER RULING WOULD MOVE THIS ROW: the only source naming concrete internal AI use cases is 新京报 (2025-02-13, 记者 潘亦纯, read via news.cn), which is not on this project's enumerated list — if a human admits it, Fullgoal has five named internal applications and becomes a piloting candidate. Extraction note: a first raw-paragraph request on the 21世纪 census returned only Fullgoal's two commentary paragraphs and missed the firm-list paragraph that names it (the invented-negative failure mode); the list paragraph was re-requested directly and is quoted verbatim above. No first- or second-tier AUM figure was fetchable — fullgoal.com.cn/aboutus/index.html returns HTTP 404 — so AUM is left blank rather than estimated.",
+    "rationale": "Fullgoal completed private deployment of DeepSeek models by March 2025, reported by 21世纪经济报道, but the cited application language then was prospective. 中国基金报 reported in August 2026 that its digital transformation strategy centers on data, algorithms and compute, while the described investment and risk systems did not by themselves establish AI use. A September 6, 2026 original report by 财联社 now supplies named live internal applications: an all-staff AI office platform with more than 20 agents and 60 skills, over 200 users and more than 3,000 daily requests, plus a separate research workbench used by investment researchers. The report also describes an AI anti-money-laundering report agent. These figures are Fullgoal claims relayed by a staff reporter, not independent measurements; the report does not date each rollout. They clear the piloting bar through named active use and an organized platform with safe enterprise access. Scaling is not yet established: the active-use denominator is unknown and the report does not show that multiple distinct applications are used daily across the whole firm. Confidence remains med.",
+    "footnote": "Scope and sourcing calls. Excluded under METHODOLOGY §1(b): Fullgoal's AI-theme index products — 富国创业板人工智能ETF and 富国上证科创板人工智能ETF — and its fund managers' AI-sector market commentary, which are portfolio exposure and an investment view, not internal adoption. Its quantitative fund range (reported as 42 products and about RMB 28.5B as at 26 February 2025) is a product line and was not counted toward the stage either. Sourcing update: The March 2025 21世纪经济报道 and August 2026 中国基金报 articles remain distinct earlier reports. The September 2026 original 财联社 staff report supplies the first qualifying account of named active internal use cases; counts and adoption details are company claims. The 2025 新京报 account of applications reaching a usable stage remains contextual and does not date production. Underlying rollout dates are not known.",
     "use_cases": [
       "privately deployed open-source large models (DeepSeek series) — deployment completed, no application named at enumerated tier",
       "integrated investment-research intelligence platform (投研一体化智能平台) — named the core of digital transformation, no model use disclosed",
@@ -3017,6 +3047,11 @@
         "date": "2026-08-16",
         "event": "In 中国基金报's industry AI roundup Fullgoal sets out a 「数据—算法—算力」 three-in-one transformation mainline and positions its integrated investment-research intelligence platform as the core productivity base of digital transformation; it says its equity, fixed-income and quant business lines have all been fully self-developed and put into use, and describes a distributed-EDA compliance and risk engine covering pre-trade simulation, intraday alerts and post-trade supervision across all on- and off-exchange scenarios (company claims; the firm's paragraphs carry no AI or large-model vocabulary)",
         "source_url": "https://www.chnfund.com/article/ARa8b273a6-b86e-9558-ae0f-3a231b97db93"
+      },
+      {
+        "date": "2026-09-06",
+        "event": "As reported September 6, 2026: >200 users and >3,000 daily requests reported by the firm; research workbench and anti-money-laundering agent described; the underlying rollout date is not established",
+        "source_url": "https://www.cls.cn/detail/2475116"
       }
     ],
     "latest_signal": "",
@@ -3024,7 +3059,7 @@
     "source_url": "",
     "agent_proposed_stage": "exploring",
     "label_provenance": "agent_proposed_accepted",
-    "as_of_reviewed": "2026-08-31"
+    "as_of_reviewed": "2026-09-20"
   },
   {
     "name": "Bosera Asset Management",
@@ -3969,5 +4004,41 @@
     "agent_proposed_stage": "piloting",
     "label_provenance": "agent_proposed_accepted",
     "as_of_reviewed": "2026-09-01"
+  },
+  {
+    "name": "GitLab Foundation",
+    "aliases": [
+      "GitLab Foundation"
+    ],
+    "type": "endowment",
+    "region": "US",
+    "aum": "",
+    "stage": "piloting",
+    "confidence": "med",
+    "rationale": "GitLab Foundation used its own AI systems to screen a grant application round, and separately describes internal AI tooling inside its grantmaking operations. An April 2026 Chronicle of Philanthropy report states the foundation \"turned to its own AI systems to make sense of the 800 applications\" received for an AI for Economic Opportunity round, with its president saying the screening took about 30 minutes (company claim — neither the runtime nor what the system actually decided is independently measured). Staff, not the system, retained the grant decisions. In a June 2026 post on its own site the foundation adds that a staff member \"developed an internal AI-enabled tool that helps the team synthesize information more efficiently\", covering grantee reports and research literature, and that staff use Grant Guardian in the foundation's own grant diligence (foundation claims). Two named operational uses inside the foundation's core process therefore sit on the public record, one of them carried by an independent outlet, which clears the piloting bar. Stops short of scaling: nothing establishes daily use across the organization, no second team or function is named, and no AI use policy or governance committee has been published — so neither the breadth test nor the strategic-priority test for scaling is met. Confidence is med because the June account is the foundation's own voice and the screening event's year is never printed.",
+    "footnote": "Scope calls. Excluded under METHODOLOGY §1(c): the AI for Economic Opportunity grant program itself and the AI tools built by its grantees — that is AI the foundation funds others to adopt, not AI in its own operations, and none of it moved this stage. Excluded as a separate entity: GitLab Inc. and its AI software products, which share a name but not an organization. Sourcing limits. The April 2026 Chronicle of Philanthropy report says the applications were received \"in September\" but does not print the event year, so the event is dated by the report rather than assigned an inferred rollout date; a human should confirm the round's actual year before this timeline publishes. The June 2026 foundation post is the institution's own voice, and its date was verified against the foundation's news index rather than a dateline on the article itself. Two of the three sources are therefore the foundation speaking about itself, leaving a single independent upstream. No investment AUM was verified: the reported size of the philanthropy is not treated as AUM and no endowment figure is published, which is why the field is empty rather than estimated. No evidence was found either way on AI in the foundation's investment or finance functions.",
+    "use_cases": [
+      "AI-assisted grant-application screening",
+      "internal synthesis of grantee reports and research literature",
+      "grant diligence support (Grant Guardian)"
+    ],
+    "events": [
+      {
+        "date": "2026-04-07",
+        "event": "An independent report said the foundation had used its own AI system to screen about 800 applications for an AI for Economic Opportunity grant round received in September (event year unspecified); the foundation president said screening took about 30 minutes (company claim)",
+        "source_url": "https://www.philanthropy.com/news/can-ai-make-grant-seeking-easier-and-grant-making-more-refined/"
+      },
+      {
+        "date": "2026-06-12",
+        "event": "The foundation described an internal AI-enabled tool for synthesizing grantee reports and research literature, and staff use of Grant Guardian in its own grant diligence (foundation claim)",
+        "source_url": "https://www.gitlabfoundation.org/our-journey/innovating-for-greater-impact"
+      }
+    ],
+    "latest_signal": "",
+    "latest_date": "",
+    "source_url": "",
+    "as_of_reviewed": "2026-09-20",
+    "agent_proposed_stage": "piloting",
+    "label_provenance": "agent_proposed_accepted"
   }
 ]
