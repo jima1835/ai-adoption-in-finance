@@ -215,5 +215,6 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) to add to this list.
 Built by Jiajun Ma — [github.com/jima1835](https://github.com/jima1835).
 
 ## Public comments and submissions
+- **2026-09-19** — Comment on NIST AI 200-2 ipd, *The TEVV-Athlon Framework for Evaluating AI Systems*. Proposes a minimum reporting summary for §2.4 — which Blocks went unmeasured, what human judges were shown before judging, and the evaluator's relationship to the developer — and a declared adoption stage for §2.1, offering this corpus's four-stage classification as the scale. [PDF](comments/2026-09-19_NIST_AI_200-2_ipd_comment_Jiajun_Ma.pdf) · [doi:10.5281/zenodo.N22853598](https://doi.org/10.5281/zenodo.22853598)
 - **2026-09-10** — Comment on NIST AI 300-1 ipd, *Guidance and Templates for Public-Facing AI Documentation* (AI Standards Zero Draft). Proposes Annex A subfields 1.3.2.1 *Production Method* and 8.2.1.1 *Verification Condition* and a typed-absence convention, using this corpus's provenance record as the worked example. [PDF](comments/2026-09-10_NIST_AI_300-1_ipd_comment_Jiajun_Ma.pdf) · [doi:10.5281/zenodo.22701607](https://doi.org/10.5281/zenodo.22701607)
 - **2026-07-22** — Response to the FSB consultation *Sound Practices for Responsible Adoption of AI*, published on [fsb.org](https://www.fsb.org/uploads/Jiajun-M-independent-response.pdf).
