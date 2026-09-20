@@ -30,8 +30,9 @@ ROOT = Path(__file__).resolve().parent.parent
 # duplicating the population and denylist logic in two places.
 sys.path.insert(0, str(ROOT))
 
-import roles as roles_mod  # noqa: E402  (needs the sys.path line above)
 import validate_data  # noqa: E402  (same published row schema as the site)
+
+import roles as roles_mod  # noqa: E402  (needs the sys.path line above)
 
 DATA = ROOT / "data" / "institutions.json"
 REVIEW = ROOT / "local" / "REVIEW.md"
@@ -333,7 +334,9 @@ def _new_row_error(row):
 def _new_duplicate(row):
     names = {str(x).casefold().strip() for x in [row["name"], *row.get("aliases", [])]}
     for existing in load_rows():
-        if names & {str(x).casefold().strip() for x in [existing["name"], *existing.get("aliases", [])]}:
+        existing_names = {str(x).casefold().strip()
+                          for x in [existing["name"], *existing.get("aliases", [])]}
+        if names & existing_names:
             return existing["name"]
     for existing in load_nc(NC_PUBLIC):
         if existing.get("name", "").casefold().strip() in names:
