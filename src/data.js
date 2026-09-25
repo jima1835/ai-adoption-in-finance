@@ -22,9 +22,10 @@ export const STAGE_DEFS = {
   embedded: 'AI is core infrastructure across the business.',
 }
 
-// The deliberate editorial statement for the intentionally empty column.
+// Fallback for the empty Embedded column. It reports a measured result — the bar
+// was applied and nothing met it — not a decision to hold the column empty.
 export const EMBEDDED_EMPTY_NOTE =
-  'No institution qualifies yet — even the most advanced keep humans in control of every decision.'
+  'No institution in this corpus meets the Embedded bar. The most AI-advanced institutions tracked each publicly state they keep humans in control of investment decisions and have not redesigned their structure around AI.'
 
 // Type filter groups. Allocators put capital to work via managers; managers
 // run the money. All current rows are allocators; the filter already works
@@ -68,7 +69,7 @@ export const CONFIDENCE_GROUPS = {
 // Rough FX to USD for SORTING/BANDING ONLY — the aum string is always
 // displayed verbatim. Longest symbols first: 'RMB' must win over 'RM'
 // (ringgit) and 'C$'/'A$' over '$'. In this dataset '¥' is JPY only —
-// Chinese yuan rows use the 'RMB' prefix (PROMPT.md row style).
+// Chinese yuan rows use the 'RMB' prefix (see the aum convention in CLAUDE.md).
 const AUM_FX = [
   ['RMB', 0.14],
   ['CNY', 0.14],
@@ -210,18 +211,19 @@ export async function loadStageDefinitions() {
 
 // "Assessed, not classified" appendix (data/not_classified.json): institutions
 // worked against the methodology whose public record didn't support a stage.
-// Returns [] on any failure — the appendix simply doesn't render.
-export async function loadNotClassified() {
+// Defaults to [] on failure; coverage totals request null to distinguish an
+// unavailable appendix from a successfully loaded, empty one.
+export async function loadNotClassified({ fallback = [] } = {}) {
   try {
     const res = await fetch(
       `${import.meta.env.BASE_URL}data/not_classified.json`,
       { cache: 'no-store' },
     )
-    if (!res.ok) return []
+    if (!res.ok) return fallback
     const data = await res.json()
-    return Array.isArray(data) ? data : []
+    return Array.isArray(data) ? data : fallback
   } catch {
-    return []
+    return fallback
   }
 }
 
@@ -347,11 +349,18 @@ export function segmentCjk(text) {
 }
 
 // ---------------------------------------------------------------------------
-// Presentation-layer lookups. Neither file modifies institutions.json.
-//   summaries.json — bulleted digests of each row's reviewed rationale
-//   homepages.json — firm homepages derived from own-domain evidence URLs that
-//                    already passed human review. A firm with no own-domain
-//                    evidence gets no link rather than a guessed one.
+// Presentation-layer lookups. None of these files modifies institutions.json.
+//   summaries.json    — bulleted digests of each row's reviewed rationale
+//   homepages.json    — firm homepages derived from own-domain evidence URLs
+//                       that already passed human review. A firm with no
+//                       own-domain evidence gets no link rather than a guessed one.
+//   descriptions.json — a one-line intro per row: who the firm is, read before
+//                       what it does with AI
+//   highlights.json   — the timeline entries that disclose something concrete
+//   publishers.json   — who is behind each evidence URL, so a source link can
+//                       say more than "source"
+// All degrade the same way: absent or malformed → the lookup answers null / []
+// and the feature simply does not render.
 // ---------------------------------------------------------------------------
 let SUMMARIES = {}
 let HOMEPAGES = {}
@@ -393,6 +402,159 @@ export async function loadHomepages() {
     HOMEPAGES = {}
   }
   return HOMEPAGES
+}
+
+let DESCRIPTIONS = {}
+
+// The intro text for a row, or null. `basis` and `source_url` travel in the same
+// entry as the maintainer's audit trail and are never rendered.
+export function descriptionFor(name) {
+  const d = DESCRIPTIONS[name]
+  return d && typeof d.text === 'string' && d.text.trim() ? d.text : null
+}
+
+export async function loadDescriptions() {
+  try {
+    const res = await fetch(
+      `${import.meta.env.BASE_URL}data/descriptions.json`,
+      { cache: 'no-store' },
+    )
+    if (res.ok) {
+      const j = await res.json()
+      DESCRIPTIONS = j && j.descriptions ? j.descriptions : {}
+    }
+  } catch {
+    DESCRIPTIONS = {}
+  }
+  return DESCRIPTIONS
+}
+
+// Highlights: the entries in a timeline that disclose something concrete — a
+// named tool in production, hard numbers, or live capital. An entry is keyed by
+// the event's own identity (row name + verbatim date + verbatim source_url), so
+// the file never needs an event id that institutions.json does not have;
+// event_prefix disambiguates only when a row cites one source twice on one date.
+export const HIGHLIGHT_LABELS = {
+  tool: 'New tool',
+  metric: 'Numbers disclosed',
+  capital: 'Live capital',
+}
+
+let HIGHLIGHTS = []
+
+// The highlight for one event of one row, or null.
+export function highlightFor(instName, ev) {
+  if (!ev) return null
+  return (
+    HIGHLIGHTS.find(
+      (h) =>
+        h.institution === instName &&
+        h.date === ev.date &&
+        h.source_url === ev.source_url &&
+        (!h.event_prefix || String(ev.event || '').startsWith(h.event_prefix)),
+    ) || null
+  )
+}
+
+export async function loadHighlights() {
+  try {
+    const res = await fetch(`${import.meta.env.BASE_URL}data/highlights.json`, {
+      cache: 'no-store',
+    })
+    if (res.ok) {
+      const j = await res.json()
+      // An entry missing one of its match keys could only ever match by accident
+      // (undefined === undefined), and one without a kind has no label to show,
+      // so both are dropped at the door rather than rendered half-formed.
+      HIGHLIGHTS = (
+        j && Array.isArray(j.highlights) ? j.highlights : []
+      ).filter(
+        (h) =>
+          h &&
+          typeof h.institution === 'string' &&
+          typeof h.date === 'string' &&
+          typeof h.source_url === 'string' &&
+          typeof h.kind === 'string',
+      )
+    }
+  } catch {
+    HIGHLIGHTS = [] // absent or malformed → nothing is boxed
+  }
+  return HIGHLIGHTS
+}
+
+// Publishers: who is behind an evidence URL. A source link used to say only
+// "source"; naming the publisher — and, off the press, the medium — lets a
+// reader weigh an item before opening it. `press` carries no medium tag because
+// the outlet's name is the whole story.
+export const MEDIUM_LABELS = {
+  firm: 'firm site',
+  vendor: 'vendor',
+  press: null,
+  wire: 'wire',
+  transcript: 'transcript',
+  filing: 'filing',
+  podcast: 'podcast',
+}
+
+// Display tag for a medium, or null. A medium outside the table renders verbatim
+// rather than vanishing — the same fallback the type and outcome labels use.
+// hasOwnProperty, not `in`: a medium must never resolve to Object.prototype.
+export function mediumLabel(medium) {
+  if (!medium) return null
+  return Object.prototype.hasOwnProperty.call(MEDIUM_LABELS, medium)
+    ? MEDIUM_LABELS[medium]
+    : medium
+}
+
+let PUBLISHERS = { rules: [], publishers: {} }
+
+// { name, medium } for a URL, or null when it does not parse. Path rules go
+// first (investing.com/news/transcripts/ is a transcript; the rest of the site
+// is press), then the host table, walking up one label at a time so
+// news.microsoft.com resolves through microsoft.com. An unknown host still
+// answers with its bare hostname — honest, if not pretty.
+export function publisherFor(url) {
+  let u
+  try {
+    u = new URL(url)
+  } catch {
+    return null
+  }
+  const host = u.hostname.toLowerCase().replace(/^www\./, '')
+  const rule = PUBLISHERS.rules.find(
+    (r) => r && r.host === host && u.pathname.startsWith(r.path_prefix || ''),
+  )
+  if (rule) return { name: rule.name || host, medium: rule.medium || null }
+  for (let h = host; ;) {
+    const hit = PUBLISHERS.publishers[h]
+    if (hit) return { name: hit.name || host, medium: hit.medium || null }
+    const cut = h.indexOf('.')
+    if (cut < 0 || !h.includes('.', cut + 1)) break // fewer than two dots left
+    h = h.slice(cut + 1)
+  }
+  return { name: host, medium: null }
+}
+
+export async function loadPublishers() {
+  try {
+    const res = await fetch(`${import.meta.env.BASE_URL}data/publishers.json`, {
+      cache: 'no-store',
+    })
+    if (res.ok) {
+      const j = await res.json()
+      PUBLISHERS = {
+        rules: j && Array.isArray(j.rules) ? j.rules : [],
+        publishers:
+          j && j.publishers && typeof j.publishers === 'object'
+            ? j.publishers
+            : {},
+      }
+    }
+  } catch {
+    PUBLISHERS = { rules: [], publishers: {} } // → bare hostnames, no tags
+  }
+  return PUBLISHERS
 }
 
 // The region filter is keyed by group id ('middle-east'), while the map and its

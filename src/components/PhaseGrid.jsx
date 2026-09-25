@@ -83,7 +83,8 @@ function Card({ inst, onSelect }) {
 }
 
 // Four columns left→right: EXPLORING | PILOTING | SCALING | EMBEDDED.
-// EMBEDDED is intentionally empty — rendered as an editorial statement.
+// EMBEDDED is empty as an OBSERVATION, not an editorial choice: the bar was
+// applied to every row and none met it. The column reports that count.
 // Column headers expose the full stage definition (from stage_definitions.json,
 // falling back to the built-in one-liners) on hover/focus.
 // Each column has its own sort toggles — AUM and ⚡ last-news date — cycling
@@ -94,9 +95,11 @@ const SORT_VALUE = {
   aum: (inst) => aumUsd(inst.aum),
   news: (inst) => dateSortKey(latestActivity(inst)?.date),
 }
+const PREVIEW_COUNT = 5
 
 export default function PhaseGrid({ institutions, onSelect, defs }) {
   const [sorts, setSorts] = useState({}) // stage → {key:'aum'|'news', dir} | undefined
+  const [expanded, setExpanded] = useState({})
 
   const byStage = Object.fromEntries(STAGES.map((s) => [s, []]))
   for (const inst of institutions) {
@@ -190,21 +193,46 @@ export default function PhaseGrid({ institutions, onSelect, defs }) {
                 </button>
               </div>
             )}
-            <div className="phase-cards">
-              {isEmbedded ? (
+            <div className="phase-cards" id={`phase-cards-${stage}`}>
+              {isEmbedded && rows.length === 0 ? (
                 <div className="embedded-note">
                   <span className="embedded-rule" />
                   <p>{embeddedNote(defs)}</p>
-                  <span className="embedded-tag">editorial position</span>
+                  <span className="embedded-tag">
+                    0 of {institutions.length} meet this bar
+                  </span>
                 </div>
               ) : rows.length === 0 ? (
                 <p className="col-empty">No institutions match this filter.</p>
               ) : (
-                rows.map((inst) => (
-                  <Card key={inst.name} inst={inst} onSelect={onSelect} />
-                ))
+                (expanded[stage] ? rows : rows.slice(0, PREVIEW_COUNT)).map(
+                  (inst) => (
+                    <Card key={inst.name} inst={inst} onSelect={onSelect} />
+                  ),
+                )
               )}
             </div>
+            {rows.length > PREVIEW_COUNT && (
+              <button
+                type="button"
+                className="phase-expand"
+                aria-expanded={!!expanded[stage]}
+                aria-controls={`phase-cards-${stage}`}
+                onClick={() =>
+                  setExpanded((current) => ({
+                    ...current,
+                    [stage]: !current[stage],
+                  }))
+                }
+              >
+                {expanded[stage] ? 'Show fewer' : `Show all ${rows.length}`}
+                <span className="sr-only">
+                  {' '}
+                  {STAGE_LABELS[stage]} institutions
+                </span>
+                <span aria-hidden="true"> {expanded[stage] ? '−' : '+'}</span>
+              </button>
+            )}
           </section>
         )
       })}

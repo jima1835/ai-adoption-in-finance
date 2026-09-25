@@ -145,7 +145,8 @@ export default function Methodology({ defs }) {
           ))}
         </dl>
         <p className="prose-note">
-          <strong>Embedded is intentionally empty.</strong> {embeddedNote(defs)}
+          <strong>Embedded is empty as observed, not by choice.</strong>{' '}
+          {embeddedNote(defs)}
         </p>
       </section>
 

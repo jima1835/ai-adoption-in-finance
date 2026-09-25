@@ -3,8 +3,13 @@ import {
   TYPE_LABELS,
   EVENT_TYPE_LABELS,
   TITLE_LABELS,
+  HIGHLIGHT_LABELS,
   aumUsdApprox,
   dateSortKey,
+  descriptionFor,
+  highlightFor,
+  mediumLabel,
+  publisherFor,
   rolesForInstitution,
   summaryFor,
 } from '../data.js'
@@ -15,15 +20,45 @@ import FirmLink from './FirmLink.jsx'
 const FOCUSABLE =
   'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])'
 
-// Modal panel, in reading order: use cases → timeline → why this stage.
+// A source link, labelled by who published it. "source ↗" said nothing about
+// provenance; the publisher's name — and, off the press, the medium — lets a
+// reader weigh an item before opening it. The visible tag is aria-hidden and the
+// medium is spoken from the sr-only text instead, so a screen reader hears
+// "CalSTRS, firm site, for 2024-07 — opens in a new tab" with a pause where the
+// eye sees a dot, rather than the name and the tag run together. `context` names
+// what the link is for ("2024-07", "the 2025-03 role event").
+function SourceLink({ href, context }) {
+  const pub = publisherFor(href)
+  const name = pub?.name || 'source'
+  const tag = mediumLabel(pub?.medium)
+  return (
+    <a className="tl-source" href={href} target="_blank" rel="noreferrer">
+      {name}
+      {tag && (
+        <span className="tl-medium" aria-hidden="true">
+          {' · '}
+          {tag}
+        </span>
+      )}{' '}
+      <span aria-hidden="true">↗</span>
+      <span className="sr-only">
+        {tag ? `, ${tag}` : ''}, for {context} — opens in a new tab
+      </span>
+    </a>
+  )
+}
+
+// Modal panel. The head carries the name, the stage, a one-line intro (who the
+// firm is) and the tags; below it, in reading order: use cases → timeline → why
+// this stage.
 //
 // Use cases lead because they are the concrete, scannable answer to "what does
-// this firm actually do with AI". The dated record follows. The stage argument
-// comes last, once the reader has seen what it is arguing from — a short derived
-// digest, with the complete human-reviewed rationale one disclosure away. The
-// row's footnote — the scope call: what was seen but NOT counted toward the
-// stage, and why — closes that section as a scope note, so the argument and its
-// boundary are read together.
+// this firm actually do with AI". The dated record follows, newest first. The
+// stage argument comes last, once the reader has seen what it is arguing from —
+// a short derived digest, with the complete human-reviewed rationale one
+// disclosure away. The row's footnote — the scope call: what was seen but NOT
+// counted toward the stage, and why — closes that section as a scope note, so
+// the argument and its boundary are read together.
 //
 // There is no separate "latest signal" section. Across the corpus every row that
 // has a latest_signal duplicates an event that is already in the timeline (all of
@@ -70,12 +105,18 @@ export default function DrillDown({ inst, roles = [], onClose }) {
 
   if (!inst) return null
 
-  // Sort by padded key; DISPLAY the raw date string verbatim.
   const bullets = summaryFor(inst.name)
+  const intro = descriptionFor(inst.name)
 
+  // Newest first: the reader meets the latest signal before the history behind
+  // it. Sort by padded key; DISPLAY the raw date string verbatim.
   const events = [...(inst.events || [])].sort(
-    (a, b) => dateSortKey(a.date) - dateSortKey(b.date),
+    (a, b) => dateSortKey(b.date) - dateSortKey(a.date),
   )
+
+  // Looked up once per event so the legend and the rows cannot disagree.
+  const highlights = events.map((ev) => highlightFor(inst.name, ev))
+  const hasHighlight = highlights.some(Boolean)
 
   // Role events are a separate record on a separate unit (METHODOLOGY §11).
   // The section is hidden when there are none: an empty "Leadership" heading
@@ -84,14 +125,14 @@ export default function DrillDown({ inst, roles = [], onClose }) {
   const roleEvents = rolesForInstitution(roles, inst)
 
   // The latest signal is the most recent dated event, full stop — exactly one per
-  // timeline, and a claim that is always true.
+  // timeline, and a claim that is always true. Newest-first puts it at index 0.
   //
   // The row's own source_url looked like a better pointer, but it is not: on two
   // rows it names an event that is not the newest (NBIM points at 2026-03-24 when
   // a reviewed 2026-04-28 event exists; GIC points at a 2023 item while its own
   // latest_date is 2026-03-17). Badging those as "latest" would have been wrong,
   // so the timeline's own ordering decides.
-  const latestIdx = events.length - 1
+  const latestIdx = 0
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -120,6 +161,11 @@ export default function DrillDown({ inst, roles = [], onClose }) {
             </h2>
             <StageBadge stage={inst.stage} size="lg" />
           </div>
+          {intro && (
+            <p className="modal-intro">
+              <Lang>{intro}</Lang>
+            </p>
+          )}
           <div className="modal-tags">
             <span>{TYPE_LABELS[inst.type] || inst.type}</span>
             {inst.region && (
@@ -184,47 +230,64 @@ export default function DrillDown({ inst, roles = [], onClose }) {
           <h3 className="modal-label">
             Timeline <span className="modal-label-count">{events.length}</span>
           </h3>
+          {hasHighlight && (
+            <p className="modal-note">
+              Boxed entries disclose a named tool in production, hard numbers,
+              or live capital.
+            </p>
+          )}
           {events.length === 0 ? (
             <p className="td-empty">No dated public events recorded yet.</p>
           ) : (
             <ol className="timeline">
-              {events.map((ev, i) => (
-                <li
-                  key={i}
-                  className="tl-item"
-                  data-latest={i === latestIdx ? 'true' : undefined}
-                >
-                  <span className="tl-rail" aria-hidden="true">
-                    <span className="tl-dot" />
-                  </span>
-                  <span className="tl-content">
-                    <span className="tl-date">
-                      {ev.date}
+              {events.map((ev, i) => {
+                const hl = highlights[i]
+                return (
+                  <li
+                    key={i}
+                    className="tl-item"
+                    data-latest={i === latestIdx ? 'true' : undefined}
+                    data-highlight={hl ? hl.kind : undefined}
+                  >
+                    {/* The date stands in its own column, left of the rail,
+                        so the eye can run straight down the record; the
+                        content column stays clear for the callouts. Newest
+                        first, so the ⚡ badge always hangs under the top date. */}
+                    <span className="tl-when">
+                      <span className="tl-date">{ev.date}</span>
                       {i === latestIdx && (
                         <span className="tl-badge">
-                          <span aria-hidden="true">⚡</span> latest signal
+                          <span aria-hidden="true">⚡</span> latest
+                          <span className="sr-only"> signal</span>
                         </span>
                       )}
                     </span>
-                    <span className="tl-event">
-                      <Lang>{ev.event}</Lang>
+                    <span className="tl-rail" aria-hidden="true">
+                      <span className="tl-dot" />
                     </span>
-                    {ev.source_url && (
-                      <a
-                        className="tl-source"
-                        href={ev.source_url}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        source <span aria-hidden="true">↗</span>
-                        <span className="sr-only">
-                          for {ev.date} — opens in a new tab
+                    <span className="tl-content">
+                      {/* The kind is text, never colour alone: the box says
+                          "this matters", the pill says why. */}
+                      {hl && (
+                        <span className="tl-tags">
+                          <span className="tl-kind">
+                            {HIGHLIGHT_LABELS[hl.kind] || hl.kind}
+                          </span>
+                          {hl.label && (
+                            <span className="tl-lead">{hl.label}</span>
+                          )}
                         </span>
-                      </a>
-                    )}
-                  </span>
-                </li>
-              ))}
+                      )}
+                      <span className="tl-event">
+                        <Lang>{ev.event}</Lang>
+                      </span>
+                      {ev.source_url && (
+                        <SourceLink href={ev.source_url} context={ev.date} />
+                      )}
+                    </span>
+                  </li>
+                )
+              })}
             </ol>
           )}
         </section>
@@ -257,17 +320,10 @@ export default function DrillDown({ inst, roles = [], onClose }) {
                         ` · reports to ${r.reporting_line.toUpperCase()}`}
                     </span>
                     {r.source_url && (
-                      <a
-                        className="tl-source"
+                      <SourceLink
                         href={r.source_url}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        source <span aria-hidden="true">↗</span>
-                        <span className="sr-only">
-                          for the {r.date} role event — opens in a new tab
-                        </span>
-                      </a>
+                        context={`the ${r.date} role event`}
+                      />
                     )}
                   </span>
                 </li>

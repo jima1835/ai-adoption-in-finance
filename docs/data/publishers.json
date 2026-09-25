@@ -1,0 +1,540 @@
+{
+  "_readme": "Presentation-layer lookup: evidence-URL host → outlet name and medium, consulted by the drill-down at render time to label source links. It is NOT a source roster and carries no tiers — SOURCES.md defines tiers by criteria, not by a list, and nothing here says whether an outlet is accepted. A host absent from this map is shown as its bare hostname. Never modifies institutions.json.",
+  "media": {
+    "firm": "the institution's own domain — newsroom, board materials, blog, IR",
+    "vendor": "a technology vendor's or partner's own site (customer stories, partner announcements)",
+    "press": "a news or trade outlet with editorial staff",
+    "wire": "a press-release distribution wire",
+    "transcript": "an earnings-call or conference transcript",
+    "filing": "a regulatory or exchange filing / regulator publication",
+    "podcast": "an audio programme"
+  },
+  "rules": [
+    {
+      "host": "investing.com",
+      "path_prefix": "/news/transcripts/",
+      "name": "Investing.com",
+      "medium": "transcript"
+    },
+    {
+      "host": "fool.com",
+      "path_prefix": "/earnings/call-transcripts/",
+      "name": "The Motley Fool",
+      "medium": "transcript"
+    },
+    {
+      "host": "nikkei.com",
+      "path_prefix": "/nkd/disclosure/",
+      "name": "Nikkei (日本経済新聞)",
+      "medium": "filing"
+    },
+    {
+      "host": "omny.fm",
+      "path_prefix": "/shows/odd-lots/",
+      "name": "Odd Lots (Bloomberg)",
+      "medium": "podcast"
+    },
+    {
+      "host": "euroborsa.it",
+      "path_prefix": "/public/euroborsa/Comunicati_Stampa/",
+      "name": "Euroborsa",
+      "medium": "wire"
+    },
+    {
+      "host": "benefitscanada.com",
+      "path_prefix": "/canadian-investment-review/",
+      "name": "Canadian Investment Review",
+      "medium": "press"
+    }
+  ],
+  "publishers": {
+    "21jingji.com": {
+      "name": "21st Century Business Herald (21世纪经济报道)",
+      "medium": "press"
+    },
+    "aberdeenplc.com": {
+      "name": "Aberdeen Group",
+      "medium": "firm"
+    },
+    "adia.ae": {
+      "name": "ADIA",
+      "medium": "firm"
+    },
+    "advisorperspectives.com": {
+      "name": "Advisor Perspectives",
+      "medium": "press"
+    },
+    "ai-cio.com": {
+      "name": "Chief Investment Officer",
+      "medium": "press"
+    },
+    "alliancebernstein.com": {
+      "name": "AllianceBernstein",
+      "medium": "firm"
+    },
+    "amac.org.cn": {
+      "name": "Asset Management Association of China (中国证券投资基金业协会)",
+      "medium": "filing"
+    },
+    "amundi.com": {
+      "name": "Amundi",
+      "medium": "firm"
+    },
+    "amunditechnology.com": {
+      "name": "Amundi Technology",
+      "medium": "firm"
+    },
+    "anthropic.com": {
+      "name": "Anthropic",
+      "medium": "vendor"
+    },
+    "appension.dk": {
+      "name": "AP Pension",
+      "medium": "firm"
+    },
+    "atp.dk": {
+      "name": "ATP",
+      "medium": "firm"
+    },
+    "aveni.ai": {
+      "name": "Aveni",
+      "medium": "vendor"
+    },
+    "aware.com.au": {
+      "name": "Aware Super",
+      "medium": "firm"
+    },
+    "aws.amazon.com": {
+      "name": "AWS",
+      "medium": "vendor"
+    },
+    "awsstatic.com": {
+      "name": "AWS",
+      "medium": "vendor"
+    },
+    "bamfunds.com": {
+      "name": "Balyasny Asset Management",
+      "medium": "firm"
+    },
+    "bci.ca": {
+      "name": "BCI",
+      "medium": "firm"
+    },
+    "benefitscanada.com": {
+      "name": "Benefits Canada",
+      "medium": "press"
+    },
+    "blackstone.com": {
+      "name": "Blackstone",
+      "medium": "firm"
+    },
+    "bloomberg.com": {
+      "name": "Bloomberg",
+      "medium": "press"
+    },
+    "bloomberglaw.com": {
+      "name": "Bloomberg Law",
+      "medium": "press"
+    },
+    "businesswire.com": {
+      "name": "Business Wire",
+      "medium": "wire"
+    },
+    "calpers.ca.gov": {
+      "name": "CalPERS",
+      "medium": "firm"
+    },
+    "calstrs.com": {
+      "name": "CalSTRS",
+      "medium": "firm"
+    },
+    "cfs.com.au": {
+      "name": "Colonial First State",
+      "medium": "firm"
+    },
+    "chnfund.com": {
+      "name": "China Fund News (中国基金报)",
+      "medium": "press"
+    },
+    "cio.com": {
+      "name": "CIO",
+      "medium": "press"
+    },
+    "claude.com": {
+      "name": "Anthropic",
+      "medium": "vendor"
+    },
+    "cloud.google.com": {
+      "name": "Google Cloud",
+      "medium": "vendor"
+    },
+    "cls.cn": {
+      "name": "Cailian Press (财联社)",
+      "medium": "press"
+    },
+    "cnbc.com": {
+      "name": "CNBC",
+      "medium": "press"
+    },
+    "coreweave.com": {
+      "name": "CoreWeave",
+      "medium": "vendor"
+    },
+    "cppinvestments.com": {
+      "name": "CPP Investments",
+      "medium": "firm"
+    },
+    "elo.fi": {
+      "name": "Elo",
+      "medium": "firm"
+    },
+    "eqtgroup.com": {
+      "name": "EQT",
+      "medium": "firm"
+    },
+    "euroborsa.it": {
+      "name": "Euroborsa",
+      "medium": "press"
+    },
+    "fa-mag.com": {
+      "name": "Financial Advisor",
+      "medium": "press"
+    },
+    "finance.sina.com.cn": {
+      "name": "Sina Finance (新浪财经)",
+      "medium": "press"
+    },
+    "finews.ch": {
+      "name": "finews.ch",
+      "medium": "press"
+    },
+    "flowtraders.com": {
+      "name": "Flow Traders",
+      "medium": "firm"
+    },
+    "fool.com": {
+      "name": "The Motley Fool",
+      "medium": "press"
+    },
+    "forbes.com": {
+      "name": "Forbes",
+      "medium": "press"
+    },
+    "fortune.com": {
+      "name": "Fortune",
+      "medium": "press"
+    },
+    "franklintempleton.com": {
+      "name": "Franklin Templeton",
+      "medium": "firm"
+    },
+    "gic.com.sg": {
+      "name": "GIC",
+      "medium": "firm"
+    },
+    "gitlabfoundation.org": {
+      "name": "GitLab Foundation",
+      "medium": "firm"
+    },
+    "hankyung.com": {
+      "name": "Korea Economic Daily (한국경제)",
+      "medium": "press"
+    },
+    "hedgeweek.com": {
+      "name": "Hedgeweek",
+      "medium": "press"
+    },
+    "high-flyer.cn": {
+      "name": "High-Flyer",
+      "medium": "firm"
+    },
+    "hoopp.com": {
+      "name": "HOOPP",
+      "medium": "firm"
+    },
+    "hudsonrivertrading.com": {
+      "name": "Hudson River Trading",
+      "medium": "firm"
+    },
+    "ilmarinen.fi": {
+      "name": "Ilmarinen",
+      "medium": "firm"
+    },
+    "innovationleader.com": {
+      "name": "Innovation Leader",
+      "medium": "press"
+    },
+    "institutionalinvestor.com": {
+      "name": "Institutional Investor",
+      "medium": "press"
+    },
+    "investcorp.com": {
+      "name": "Investcorp",
+      "medium": "firm"
+    },
+    "investegate.co.uk": {
+      "name": "Investegate",
+      "medium": "filing"
+    },
+    "investing.com": {
+      "name": "Investing.com",
+      "medium": "press"
+    },
+    "investmentnews.com": {
+      "name": "InvestmentNews",
+      "medium": "press"
+    },
+    "investpsp.com": {
+      "name": "PSP Investments",
+      "medium": "firm"
+    },
+    "ipe.com": {
+      "name": "IPE",
+      "medium": "press"
+    },
+    "itnews.com.au": {
+      "name": "iTnews",
+      "medium": "press"
+    },
+    "janestreet.com": {
+      "name": "Jane Street",
+      "medium": "firm"
+    },
+    "jrj.com.cn": {
+      "name": "JRJ (金融界)",
+      "medium": "press"
+    },
+    "klp.no": {
+      "name": "KLP",
+      "medium": "firm"
+    },
+    "lambda.ai": {
+      "name": "Lambda",
+      "medium": "vendor"
+    },
+    "legalandgeneral.com": {
+      "name": "Legal & General",
+      "medium": "firm"
+    },
+    "lynxhedge.se": {
+      "name": "Lynx Asset Management",
+      "medium": "firm"
+    },
+    "macfound.org": {
+      "name": "MacArthur Foundation",
+      "medium": "firm"
+    },
+    "man.com": {
+      "name": "Man Group",
+      "medium": "firm"
+    },
+    "manulife.com": {
+      "name": "Manulife",
+      "medium": "firm"
+    },
+    "manulifeim.com": {
+      "name": "Manulife Investment Management",
+      "medium": "firm"
+    },
+    "mapension.com": {
+      "name": "MassPRIM",
+      "medium": "firm"
+    },
+    "marketing-interactive.com": {
+      "name": "Marketing-Interactive",
+      "medium": "press"
+    },
+    "microsoft.com": {
+      "name": "Microsoft",
+      "medium": "vendor"
+    },
+    "milanofinanza.it": {
+      "name": "Milano Finanza",
+      "medium": "press"
+    },
+    "mlp.com": {
+      "name": "Millennium Management",
+      "medium": "firm"
+    },
+    "nam.co.jp": {
+      "name": "Nissay Asset Management",
+      "medium": "firm"
+    },
+    "nbim.no": {
+      "name": "NBIM",
+      "medium": "firm"
+    },
+    "news.cn": {
+      "name": "Xinhua (新华网)",
+      "medium": "press"
+    },
+    "nikkei.com": {
+      "name": "Nikkei (日本経済新聞)",
+      "medium": "press"
+    },
+    "norges-bank.no": {
+      "name": "Norges Bank",
+      "medium": "firm"
+    },
+    "nps.or.kr": {
+      "name": "National Pension Service",
+      "medium": "firm"
+    },
+    "nvidia.com": {
+      "name": "NVIDIA",
+      "medium": "vendor"
+    },
+    "omers.com": {
+      "name": "OMERS",
+      "medium": "firm"
+    },
+    "omny.fm": {
+      "name": "Omny Studio",
+      "medium": "podcast"
+    },
+    "optiver.com": {
+      "name": "Optiver",
+      "medium": "firm"
+    },
+    "partnersgroup.com": {
+      "name": "Partners Group",
+      "medium": "firm"
+    },
+    "pggm.nl": {
+      "name": "PGGM",
+      "medium": "firm"
+    },
+    "philanthropy.com": {
+      "name": "The Chronicle of Philanthropy",
+      "medium": "press"
+    },
+    "pictet.com": {
+      "name": "Pictet Asset Management",
+      "medium": "firm"
+    },
+    "pionline.com": {
+      "name": "Pensions & Investments",
+      "medium": "press"
+    },
+    "prnewswire.com": {
+      "name": "PR Newswire",
+      "medium": "wire"
+    },
+    "prtimes.jp": {
+      "name": "PR TIMES",
+      "medium": "wire"
+    },
+    "prudential.com": {
+      "name": "Prudential Financial",
+      "medium": "firm"
+    },
+    "quilter.com": {
+      "name": "Quilter",
+      "medium": "firm"
+    },
+    "reuters.com": {
+      "name": "Reuters",
+      "medium": "press"
+    },
+    "schroders.com": {
+      "name": "Schroders",
+      "medium": "firm"
+    },
+    "sec.gov": {
+      "name": "SEC EDGAR",
+      "medium": "filing"
+    },
+    "sedaily.com": {
+      "name": "Seoul Economic Daily (서울경제)",
+      "medium": "press"
+    },
+    "sloanreview.mit.edu": {
+      "name": "MIT Sloan Management Review",
+      "medium": "press"
+    },
+    "smd-am.co.jp": {
+      "name": "Sumitomo Mitsui DS Asset Management",
+      "medium": "firm"
+    },
+    "ssga.com": {
+      "name": "State Street Investment Management",
+      "medium": "firm"
+    },
+    "stcn.com": {
+      "name": "Securities Times (证券时报)",
+      "medium": "press"
+    },
+    "thelogic.co": {
+      "name": "The Logic",
+      "medium": "press"
+    },
+    "thetradenews.com": {
+      "name": "The TRADE",
+      "medium": "press"
+    },
+    "thinkingmachines.ai": {
+      "name": "Thinking Machines Lab",
+      "medium": "vendor"
+    },
+    "top1000funds.com": {
+      "name": "Top1000funds.com",
+      "medium": "press"
+    },
+    "tp.or.kr": {
+      "name": "Korea Teachers Pension",
+      "medium": "firm"
+    },
+    "tpg.com": {
+      "name": "TPG Inc.",
+      "medium": "firm"
+    },
+    "tradersmagazine.com": {
+      "name": "Traders Magazine",
+      "medium": "press"
+    },
+    "troweprice.com": {
+      "name": "T. Rowe Price",
+      "medium": "firm"
+    },
+    "twosigma.com": {
+      "name": "Two Sigma",
+      "medium": "firm"
+    },
+    "uipath.com": {
+      "name": "UiPath",
+      "medium": "vendor"
+    },
+    "unique.ai": {
+      "name": "Unique",
+      "medium": "vendor"
+    },
+    "vanguard.com": {
+      "name": "Vanguard",
+      "medium": "firm"
+    },
+    "vcm.com": {
+      "name": "Victory Capital",
+      "medium": "firm"
+    },
+    "via.ritzau.dk": {
+      "name": "Via Ritzau",
+      "medium": "wire"
+    },
+    "waterstechnology.com": {
+      "name": "WatersTechnology",
+      "medium": "press"
+    },
+    "wealthmanagement.com": {
+      "name": "WealthManagement.com",
+      "medium": "press"
+    },
+    "wsj.com": {
+      "name": "The Wall Street Journal",
+      "medium": "press"
+    },
+    "xtxmarkets.com": {
+      "name": "XTX Markets",
+      "medium": "firm"
+    }
+  }
+}

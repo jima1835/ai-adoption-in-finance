@@ -1,0 +1,605 @@
+{
+  "_readme": "Presentation-layer lookup: which timeline events the drill-down renders as a callout, and why. An event is keyed by (institution, date, source_url) — the three fields the reviewed record already carries — so this file never modifies institutions.json and a key that no longer resolves is simply not rendered. `kind` is one of the three in `kinds`; `label` is a ≤12-word lead that names the concrete disclosure. Importance is an editorial reading for the page, not a methodology field: it never feeds the stage.",
+  "kinds": {
+    "tool": "a named internal tool, platform or agent system launched, rolled out, or reported in production",
+    "metric": "a specific disclosed number about the firm's own AI adoption, usage, performance or savings",
+    "capital": "an AI or ML system running live investment capital, with the amount or fund named"
+  },
+  "highlights": [
+    {
+      "institution": "NBIM (Norges Bank Investment Management)",
+      "date": "2026-03-24",
+      "source_url": "https://www.reuters.com/business/norway-wealth-fund-moves-towards-some-ai-driven-decisions-with-humans-control-2026-03-24/",
+      "kind": "metric",
+      "label": "~50% of 700 staff building their own Claude tools"
+    },
+    {
+      "institution": "NBIM (Norges Bank Investment Management)",
+      "date": "2026-05-05",
+      "source_url": "https://www.norges-bank.no/en/news-events/news/Speeches/2026/2026-05-05-hearing-tangen",
+      "kind": "metric",
+      "label": "All 680 employees use AI daily; productivity gains of over 20%"
+    },
+    {
+      "institution": "CPP Investments",
+      "date": "2025-09-25",
+      "source_url": "https://www.cppinvestments.com/insight-institute/from-experiment-to-workflow-cpp-investments-and-the-challenge-of-turning-ai-into-value/",
+      "kind": "metric",
+      "label": "83% ChatGPT Enterprise activation; 528 custom GPTs in first 90 days"
+    },
+    {
+      "institution": "GIC",
+      "date": "2023",
+      "source_url": "https://www.tradersmagazine.com/departments/buy-side/gics-travis-ni-balances-technical-and-interpersonal-skills/",
+      "kind": "tool",
+      "label": "Launches ChatGIC, an enterprise secure ChatGPT"
+    },
+    {
+      "institution": "BlackRock",
+      "date": "2025-06",
+      "source_url": "https://www.bloomberg.com/news/articles/2025-06-12/blackrock-has-built-an-ai-analyst-asimov-to-scour-filings",
+      "kind": "tool",
+      "label": "Asimov, an agentic investment-research platform with hundreds of agents, announced"
+    },
+    {
+      "institution": "BlackRock",
+      "date": "2026-04-21",
+      "source_url": "https://www.wsj.com/cio-journal/inside-blackrocks-ai-transformation-03a1e8c7",
+      "kind": "tool",
+      "label": "RockAI no-code agent platform rolled out to 5,000 in-house developers"
+    },
+    {
+      "institution": "Temasek",
+      "date": "2025-10-10",
+      "source_url": "https://www.marketing-interactive.com/temasek-bets-on-human-ai-collaboration-to-transform-investment-decisions",
+      "kind": "tool",
+      "label": "Winnow super-app and Knowledge Graph detailed as internal AI tools"
+    },
+    {
+      "institution": "Bridgewater Associates",
+      "date": "2023",
+      "source_url": "https://fortune.com/2024/07/01/bridgewater-2-billion-fund-machine-learning-decision-making-openai-anthropic-perplexity",
+      "kind": "capital",
+      "label": "AIA macro strategy live on a ~$100M sleeve of Pure Alpha"
+    },
+    {
+      "institution": "Bridgewater Associates",
+      "date": "2024-07-01",
+      "source_url": "https://fortune.com/2024/07/01/bridgewater-2-billion-fund-machine-learning-decision-making-openai-anthropic-perplexity",
+      "kind": "capital",
+      "label": "Standalone AIA fund begins trading with almost $2B"
+    },
+    {
+      "institution": "Bridgewater Associates",
+      "date": "2026-06-30",
+      "source_url": "https://thinkingmachines.ai/news/learning-to-replicate-expert-judgment-in-financial-tasks/",
+      "kind": "metric",
+      "label": "Fine-tuned model: 84.7% accuracy vs 78.2%, 13.8x lower inference cost"
+    },
+    {
+      "institution": "Man Group",
+      "date": "2024-07-10",
+      "source_url": "https://www.man.com/insights/AI-asset-management-lightbulb-moment",
+      "kind": "metric",
+      "label": "Generative-AI adoption above 70% of employees"
+    },
+    {
+      "institution": "Man Group",
+      "date": "2025-07-11",
+      "source_url": "https://www.hedgeweek.com/man-group-deploys-agentic-ai-for-quant-signal-discovery/",
+      "kind": "capital",
+      "label": "AlphaGPT: several dozen investment signals approved for live trading"
+    },
+    {
+      "institution": "AQR Capital Management",
+      "date": "2023",
+      "source_url": "https://www.fa-mag.com/news/aqr-bets-on-machine-learning-as-cliff-asness-becomes-ai-believer-82224.html",
+      "kind": "capital",
+      "label": "Turing Equities and Turing Macro ML strategies trade proprietary capital"
+    },
+    {
+      "institution": "AQR Capital Management",
+      "date": "2025-04-23",
+      "source_url": "https://www.fa-mag.com/news/aqr-bets-on-machine-learning-as-cliff-asness-becomes-ai-believer-82224.html",
+      "kind": "metric",
+      "label": "Machine learning powers about a fifth of flagship fund's trading signals"
+    },
+    {
+      "institution": "Schroders",
+      "date": "2024-06-26",
+      "source_url": "https://www.schroders.com/en-us/us/institutional/media-center/schroders-capital-launches-ai-analyst-for-private-equity/",
+      "kind": "tool",
+      "label": "GAiiA launched: internal-only AI analyst used by the private-equity team"
+    },
+    {
+      "institution": "Schroders",
+      "date": "2025",
+      "source_url": "https://www.schroders.com/en/global/individual/media-centre/schroders-unveils-new-ai-tools-to-enhance-active-investment-insights/",
+      "kind": "metric",
+      "label": "First Cut exceeds 80% adoption, saves 50 minutes per investor daily"
+    },
+    {
+      "institution": "T. Rowe Price",
+      "date": "2026-04",
+      "source_url": "https://www.troweprice.com/institutional/us/en/insights/articles/2026/q2/ai-in-the-investing-process-na.html",
+      "kind": "tool",
+      "label": "Investor Copilot, now Chat TRP, rolled out within months of LLMs"
+    },
+    {
+      "institution": "Balyasny Asset Management",
+      "date": "2023-06",
+      "source_url": "https://www.hedgeweek.com/google-ai-expert-joins-balyasny/",
+      "kind": "tool",
+      "label": "BAM ChatGPT, proprietary generative-AI assistant, made available to employees"
+    },
+    {
+      "institution": "Balyasny Asset Management",
+      "date": "2024-11-28",
+      "source_url": "https://www.hedgeweek.com/balyasnys-ai-outperforms-openai-in-financial-applications/",
+      "kind": "metric",
+      "label": "BAM Embeddings: 60% retrieval accuracy vs OpenAI's under 40%"
+    },
+    {
+      "institution": "PGGM",
+      "date": "2025-12-03",
+      "source_url": "https://pggm.nl/en/blogs/innovations-director-mladen-sancanin-on-the-ai-accelerator-and-the-future-of-ai-within-pggm",
+      "kind": "metric",
+      "label": "Over 70% used Copilot; 90-plus internal assistants; ~700 use Intelligent Agent monthly"
+    },
+    {
+      "institution": "OMERS",
+      "date": "2026-06-08",
+      "source_url": "https://www.benefitscanada.com/canadian-investment-review/post-event-coverage/2026-global-investment-conference-pursuing-ai-adoption-through-rigorous-building-process-at-the-omers/",
+      "kind": "metric",
+      "label": "Internal AI platform: up to 39 production applications, more than 1,300 users"
+    },
+    {
+      "institution": "BCI (British Columbia Investment Management Corporation)",
+      "date": "2024-12-03",
+      "source_url": "https://www.microsoft.com/en/customers/story/18816-british-columbia-investment-management-corporation-microsoft-365-copilot",
+      "kind": "metric",
+      "label": "Copilot to 570+ users; 22 solutions save over 2,300 person-hours"
+    },
+    {
+      "institution": "ATP (Arbejdsmarkedets Tillægspension)",
+      "date": "2025-11-25",
+      "source_url": "https://www.atp.dk/ai-frigoer-tusindvis-af-arbejdstimer-i-atp-og-giver-mere-naervaer-i-borgerdialogen",
+      "kind": "metric",
+      "label": "Journalnotatsassistenten live six months with ~300 advisors, expanding to ~600"
+    },
+    {
+      "institution": "Franklin Templeton",
+      "date": "2026-01-29",
+      "source_url": "https://investors.franklintempleton.com/news-center/press-releases/press-release-details/2026/New-Intelligence-Hub-Marks-Expansion-of-Franklin-Templetons-Strategic-Collaboration-with-Microsoft/default.aspx",
+      "kind": "tool",
+      "label": "Intelligence Hub launched to U.S. Distribution teams after multi-month pilot"
+    },
+    {
+      "institution": "Franklin Templeton",
+      "date": "2026-07-31",
+      "source_url": "https://www.investing.com/news/transcripts/earnings-call-transcript-franklin-templeton-beats-q3-2026-estimates-on-revenue-93CH-4828893",
+      "kind": "metric",
+      "label": "Over 1,000 agents on investment teams; 11% uplift in sales"
+    },
+    {
+      "institution": "EQT",
+      "date": "2024-05-31",
+      "source_url": "https://eqtgroup.com/thinq/technology/how-exactly-is-eqt-using-ai",
+      "kind": "tool",
+      "label": "Motherbrain in active use across deal management, market analysis, monitoring"
+    },
+    {
+      "institution": "EQT",
+      "date": "2025-07-23",
+      "source_url": "https://eqtgroup.com/thinq/technology/why-private-capital-needs-to-embrace-artificial-intelligence",
+      "kind": "metric",
+      "label": "20 percent of investment-professional users generate the lion share of prompts"
+    },
+    {
+      "institution": "Amundi",
+      "date": "2025-03-26",
+      "source_url": "https://www.waterstechnology.com/data-management/7952331/a-new-data-analytics-studio-born-from-a-large-asset-manager-hits-the-market",
+      "kind": "metric",
+      "label": "Alto Studio internal data platform has 500 users"
+    },
+    {
+      "institution": "Amundi",
+      "date": "2025-10-17",
+      "source_url": "https://www.amunditechnology.com/article/how-ai-could-reshape-economics-asset-management-industry",
+      "kind": "metric",
+      "label": "All employees have ALTO Studio access; about half use it weekly"
+    },
+    {
+      "institution": "Citadel",
+      "date": "2025-12-04",
+      "source_url": "https://www.hedgeweek.com/citadel-rolls-out-ai-research-assistant/",
+      "kind": "tool",
+      "label": "Citadel AI Assistant in regular use across almost all equities investors"
+    },
+    {
+      "institution": "CSOP Asset Management",
+      "date": "2024-05-03",
+      "source_url": "https://news.microsoft.com/en-hk/2024/05/03/csop-asset-management-limited-strengthens-the-investment-ecosystem-with-azure-openai-service-boosts-information-retrieval-by-20/",
+      "kind": "metric",
+      "label": "Azure OpenAI chatbot live; retrieval efficiency up 20%, 80% of correspondence filtered"
+    },
+    {
+      "institution": "CSOP Asset Management",
+      "date": "2025-09-04",
+      "source_url": "https://www.microsoft.com/en/customers/story/24963-csop-asset-management-azure-ai-foundry",
+      "kind": "metric",
+      "label": "Intelligence Hub: ETF reporting 10 minutes to 30 seconds; three production tools"
+    },
+    {
+      "institution": "State Street Investment Management (SSGA)",
+      "date": "2026-04-17",
+      "source_url": "https://www.investing.com/news/transcripts/earnings-call-transcript-state-street-q1-2026-beats-expectations-stock-rises-93CH-4621299",
+      "kind": "metric",
+      "label": "Centralized AI hub supports over 200 use cases, 70 already live"
+    },
+    {
+      "institution": "Fidelity Investments",
+      "date": "2023-10-31",
+      "source_url": "https://www.ai-cio.com/news/at-fidelity-ai-provides-extra-eyes-to-spot-red-flags/",
+      "kind": "tool",
+      "label": "Saifr NLP screens staff communications for risks in real time"
+    },
+    {
+      "institution": "Fidelity Investments",
+      "date": "2025",
+      "source_url": "https://aws.amazon.com/blogs/industries/financial-institutions-advance-mission-critical-workloads-and-agentic-ai-at-reinvent-2025/",
+      "kind": "metric",
+      "label": "Text-to-SQL solution: 93–95% execution accuracy, ~28-second responses"
+    },
+    {
+      "institution": "PGIM",
+      "date": "2026-05",
+      "source_url": "https://news.prudential.com/us-en/latest-news/prudential-news/2026/q2/AI-at-Prudential-Amplifying-human-potential-to-better-serve-our-customers",
+      "kind": "metric",
+      "label": "Sales chatbot has handled nearly 5,000 wholesaler queries"
+    },
+    {
+      "institution": "Permodalan Nasional Berhad (PNB)",
+      "date": "2024-12-03",
+      "source_url": "https://www.microsoft.com/en/customers/story/19148-permodalan-nasional-berhad-microsoft-365-copilot",
+      "kind": "tool",
+      "label": "SuperApp, Azure OpenAI HR knowledge advisor in Teams, deployed alongside Copilot"
+    },
+    {
+      "institution": "M&G",
+      "date": "2025-06-19",
+      "source_url": "https://www.microsoft.com/en/customers/story/23651-m-and-g-microsoft-365-copilot",
+      "kind": "metric",
+      "label": "Copilot 300 to 600 staff; PRAI flagged 3,500 issues in five months"
+    },
+    {
+      "institution": "AllianceBernstein",
+      "date": "2023-12-15",
+      "source_url": "https://www.waterstechnology.com/emerging-technologies/7951561/alliancebernstein-fine-tuning-shrinks-gen-ai-hallucinations",
+      "kind": "metric",
+      "label": "Fine-tuning lifts generative-AI model accuracy to 95%"
+    },
+    {
+      "institution": "Ares Management",
+      "date": "2026-02-10",
+      "source_url": "https://www.investing.com/news/transcripts/ares-management-at-bank-of-america-conference-embracing-growth-and-ai-93CH-4497748",
+      "kind": "metric",
+      "label": "About 25 of 160 use cases deploying; NDA review almost fully automated"
+    },
+    {
+      "institution": "Ameriprise Financial",
+      "date": "2026-04-23",
+      "source_url": "https://www.investing.com/news/transcripts/earnings-call-transcript-ameriprise-financials-q1-2026-earnings-surpass-expectations-93CH-4634407",
+      "kind": "tool",
+      "label": "eMeeting named as 'already integrated' and delivering clear productivity"
+    },
+    {
+      "institution": "Ameriprise Financial",
+      "date": "2026-07-23",
+      "source_url": "https://www.investing.com/news/transcripts/earnings-call-transcript-ameriprise-tops-q2-2026-estimates-as-stock-slips-93CH-4809202",
+      "kind": "metric",
+      "label": "e-meeting automation saves advisors 10 to 20 hours weekly; about 6,000 using"
+    },
+    {
+      "institution": "J.P. Morgan Asset Management",
+      "date": "2026-01-07",
+      "source_url": "https://fortune.com/2026/01/07/jamie-dimon-jpmorgan-asset-management-proxy-advisory-iss-glass-lewis-what-it-means/",
+      "kind": "tool",
+      "label": "Internal AI voting platform Proxy IQ replaces ISS and Glass Lewis"
+    },
+    {
+      "institution": "TPG Inc.",
+      "date": "2025-12",
+      "source_url": "https://www.tpg.com/news-and-insights/flywheel-in-focus-from-data-to-diligence-building-ai-enabled-edge-across-private-markets",
+      "kind": "tool",
+      "label": "Lab 39's Samantha agentic orchestrator interrogates research and diligence data"
+    },
+    {
+      "institution": "TPG Inc.",
+      "date": "2026-05-01",
+      "source_url": "https://www.fool.com/earnings/call-transcripts/2026/05/01/tpg-tpg-q1-2026-earnings-call-transcript/",
+      "kind": "metric",
+      "label": "Approaching 80% of the firm using in-house LLM tools daily"
+    },
+    {
+      "institution": "Manulife Investment Management",
+      "date": "2025-09-30",
+      "source_url": "https://www.manulife.com/ca/en/about-us/news/manulife-wealth-and-asset-management-brings-transformative-power-of-ai-to-its-investment-teams",
+      "kind": "metric",
+      "label": "AI Research Assistant: 65% adoption, document-mining time cut 70–80%"
+    },
+    {
+      "institution": "Manulife Investment Management",
+      "date": "2026-05-20",
+      "source_url": "https://www.prnewswire.com/news-releases/manulife-wealth--asset-management-continues-to-build-its-ai-leadership-and-impact-with-ai-powered-tools-enabling-better-advisor-and-customer-experiences-302777780.html",
+      "kind": "metric",
+      "label": "Compliance Q&A assistant: nearly 980 users, more than 5,400 conversations"
+    },
+    {
+      "institution": "Colonial First State",
+      "date": "2024-01",
+      "source_url": "https://news.microsoft.com/en-au/features/empowering-financial-freedom-how-colonial-first-state-is-using-ai-to-transform-wealth-management/",
+      "kind": "metric",
+      "label": "Copilot rollout: 40% power users saving more than 30 minutes a day"
+    },
+    {
+      "institution": "Azimut Holding",
+      "date": "2024-10-15",
+      "source_url": "https://www.milanofinanza.it/news/azimut-lancia-il-servizio-di-consulenza-con-l-ai-2642458",
+      "kind": "tool",
+      "label": "Goal Based Plan AI platform launched for the adviser network"
+    },
+    {
+      "institution": "Sumitomo Mitsui DS Asset Management",
+      "date": "2025-10-22",
+      "source_url": "https://www.smd-am.co.jp/news/news/2025/NewsRelease_20251022/",
+      "kind": "tool",
+      "label": "Assistant For Investment Research (AIR) enters full-scale use in investment division"
+    },
+    {
+      "institution": "Daiwa Asset Management",
+      "date": "2026-01-07",
+      "source_url": "https://www.nikkei.com/nkd/disclosure/tdnr/20260107529776/",
+      "kind": "tool",
+      "label": "Document-review AI (ドキュメント審査AIシステム) in use since October"
+    },
+    {
+      "institution": "Nissay Asset Management",
+      "date": "2024",
+      "source_url": "https://d1.awsstatic.com/onedam/marketing-channels/website/aws/ja_JP/solution-case-studies/approved/images/jp-case-study_nissay-asset-management.pdf",
+      "kind": "metric",
+      "label": "Integrated-report analysis productivity improved 3–5× with generative AI"
+    },
+    {
+      "institution": "Nissay Asset Management",
+      "date": "2024-07-31",
+      "source_url": "https://www.nam.co.jp/news/info/240731.html",
+      "kind": "tool",
+      "label": "Internally releases チャット, ESGインタビューアシスト and NAVIS検索システム generative-AI apps"
+    },
+    {
+      "institution": "Nissay Asset Management",
+      "date": "2025-05-11",
+      "source_url": "https://www.nikkei.com/article/DGXZQOUA02CMG0S5A500C2000000/",
+      "kind": "metric",
+      "label": "70% of employees now use AI (「今は社員の7割が活用する」)"
+    },
+    {
+      "institution": "E Fund Management",
+      "date": "2024-09-23",
+      "source_url": "https://www.stcn.com/article/detail/1328239.html",
+      "kind": "tool",
+      "label": "EFundGPT in real use; published pieces tagged 「以上内容由EFundGPT生成」"
+    },
+    {
+      "institution": "E Fund Management",
+      "date": "2026",
+      "source_url": "https://www.chnfund.com/article/ARa8b273a6-b86e-9558-ae0f-3a231b97db93",
+      "kind": "tool",
+      "label": "EWork enterprise-grade AI infrastructure platform launched for investment research"
+    },
+    {
+      "institution": "China Europe Fund Management",
+      "date": "2024-08-25",
+      "source_url": "https://www.chnfund.com/article/ARf82165d8-ce79-204c-dafa-3a1499933da5",
+      "kind": "tool",
+      "label": "『智能交易对手管理系统』 built on BERT, Siamese networks and OCR for trade risk control"
+    },
+    {
+      "institution": "China Europe Fund Management",
+      "date": "2026-08-16",
+      "source_url": "https://www.chnfund.com/article/ARa8b273a6-b86e-9558-ae0f-3a231b97db93",
+      "kind": "metric",
+      "label": "投研Agent integrates 100+ Skills; analyst retrieval efficiency up over 60%"
+    },
+    {
+      "institution": "China Merchants Fund Management",
+      "date": "2026-08-16",
+      "source_url": "https://www.chnfund.com/article/ARa8b273a6-b86e-9558-ae0f-3a231b97db93",
+      "kind": "metric",
+      "label": "About 30 interview summaries a day; earnings commentary covers 31 industries"
+    },
+    {
+      "institution": "China Universal Asset Management",
+      "date": "2025-03-04",
+      "source_url": "https://www.21jingji.com/article/20250304/herald/f0ea921ef44946aa1d0ce8895185b2b8.html",
+      "kind": "metric",
+      "label": "Bond-ledger parsing 96%+ accurate; code assistant acceptance rate 3% to 10%"
+    },
+    {
+      "institution": "China Asset Management (ChinaAMC)",
+      "date": "2026-05-31",
+      "source_url": "https://www.chnfund.com/article/AR52dddd6f-968e-1bb2-e200-3a218ede2c7c",
+      "kind": "tool",
+      "label": "「华夏飞翼固收一体化智能平台」 named as improving portfolio analysis and trade execution"
+    },
+    {
+      "institution": "China Asset Management (ChinaAMC)",
+      "date": "2026-06-22",
+      "source_url": "https://www.chnfund.com/article/AR20260621094952351",
+      "kind": "tool",
+      "label": "『灵犀系统』 and 『飞翼系统』 built over three years, covering the full research workflow"
+    },
+    {
+      "institution": "Fullgoal Fund Management",
+      "date": "2026-09-06",
+      "source_url": "https://www.cls.cn/detail/2475116",
+      "kind": "metric",
+      "label": "More than 200 users and 3,000+ daily requests reported"
+    },
+    {
+      "institution": "Bosera Asset Management",
+      "date": "2026-04",
+      "source_url": "https://www.chnfund.com/article/AR0510706e-d2be-f4c8-f7f4-3a218e3f33d9",
+      "kind": "tool",
+      "label": "「龙虾平台（内部命名BSBox）」 formally live into scaled application"
+    },
+    {
+      "institution": "Tianhong Asset Management",
+      "date": "2024",
+      "source_url": "https://www.chnfund.com/article/AR20250706010413883",
+      "kind": "tool",
+      "label": "TIRD (天弘智能研究及决策系统) integrated research-and-decision platform goes live"
+    },
+    {
+      "institution": "Tianhong Asset Management",
+      "date": "2025-12-23",
+      "source_url": "https://m.21jingji.com/article/20251223/herald/350ef45776e766fae6fdc8a0192265ef.html",
+      "kind": "capital",
+      "label": "Over 70% of excess-return factors from AI across 19 funds, RMB 12.084B"
+    },
+    {
+      "institution": "Ping An Fund Management",
+      "date": "2026-05-31",
+      "source_url": "https://www.chnfund.com/article/ARae630e7e-72d1-f00a-3da7-3a218b519b1b",
+      "kind": "tool",
+      "label": "「AI青蚨」 large-model platform live in 投研 with 「千人千面的Agent工具」"
+    },
+    {
+      "institution": "ICBC Credit Suisse Fund Management",
+      "date": "2024-02-23",
+      "source_url": "https://m.21jingji.com/article/20240223/herald/06ee83d293b3c97493c6a36f1f2b7307_zaker.html",
+      "kind": "tool",
+      "label": "FundGPT launched: digital-human Q&A, retrieval-augmented models, data-analyst companion"
+    },
+    {
+      "institution": "XTX Markets",
+      "date": "2025-09",
+      "source_url": "https://www.xtxmarkets.com/tech/2025-ternfs/",
+      "kind": "tool",
+      "label": "TernFS in-house filesystem drives all machine-learning efforts since mid-2024"
+    },
+    {
+      "institution": "Jane Street",
+      "date": "2026-05-26",
+      "source_url": "https://blog.janestreet.com/strace-ui-bonsai-term-and-the-tui-renaissance/",
+      "kind": "tool",
+      "label": "Own Claude Code–ish tool AIDE developed in-house"
+    },
+    {
+      "institution": "Optiver",
+      "date": "2025-12-18",
+      "source_url": "https://www.optiver.com/insights/technology-blog/research-at-scale/",
+      "kind": "tool",
+      "label": "In-house research engine runs thousands of parallel ML experiments; GraphRunner named"
+    },
+    {
+      "institution": "Quilter",
+      "date": "2026-03-24",
+      "source_url": "https://aveni.ai/blog/aveni-selected-by-quilter-for-deployment-of-ai-powered-support-across-adviser-network/",
+      "kind": "tool",
+      "label": "Aveni Assist deployed to all advisers across the network"
+    },
+    {
+      "institution": "Pictet Asset Management",
+      "date": "2023-07",
+      "source_url": "https://am.pictet.com/ch/en/investment-views/active-equity/2026/evolving-ai-model",
+      "kind": "capital",
+      "label": "Quest AI stock-selection model goes live"
+    },
+    {
+      "institution": "Pictet Asset Management",
+      "date": "2023-12-19",
+      "source_url": "https://www.unique.ai/en/blog/pictet-launches-the-one.chat-platform-co-developed-with-unique",
+      "kind": "metric",
+      "label": "One.Chat rolled out to 5,000+ group employees; 1,200 use it weekly"
+    },
+    {
+      "institution": "Pictet Asset Management",
+      "date": "2025-10",
+      "source_url": "https://am.pictet.com/us/en/investment-views/active-equity/2025/alexandra-nagy-quest-ai-driven-investment",
+      "kind": "capital",
+      "label": "Quest AI-Driven strategy: USD 1.7bn raised over 18 months"
+    },
+    {
+      "institution": "High-Flyer (幻方量化)",
+      "date": "2023-06-27",
+      "source_url": "https://www.high-flyer.cn/blog/hai-llm/",
+      "kind": "tool",
+      "label": "HAI-LLM in-house training framework published, scaling to thousands of GPUs"
+    },
+    {
+      "institution": "High-Flyer (幻方量化)",
+      "date": "2026-01-14",
+      "source_url": "https://www.21jingji.com/article/20260114/herald/c28662157ae4f0d9f2c7c944101a35ad.html",
+      "kind": "capital",
+      "label": "Over 700亿元 managed; deep learning applied to all trading since 2017"
+    },
+    {
+      "institution": "KB Asset Management",
+      "date": "2025-10-01",
+      "source_url": "https://www.hankyung.com/article/2025100197061",
+      "kind": "capital",
+      "label": "Two public EMP funds run on 앤더슨(ANDERSON), the in-house deep-learning system"
+    },
+    {
+      "institution": "Elo (Työeläkeyhtiö Elo)",
+      "date": "2024-03-06",
+      "source_url": "https://www.elo.fi/fi-fi/elomedia/2024/tekoaly-tulee-myos-elakeyhtioon",
+      "kind": "metric",
+      "label": "Chatbot handled 26,000 conversations in 2023, 77% resolved without a human"
+    },
+    {
+      "institution": "KLP (Kommunal Landspensjonskasse)",
+      "date": "2026-06-16",
+      "source_url": "https://www.ipe.com/analysis/nordic-pension-funds-embrace-ai-for-efficiency-and-insight/10137127.article",
+      "kind": "tool",
+      "label": "Pythia, BankingGPT and PropertyGPT assistants in use alongside Copilot"
+    },
+    {
+      "institution": "GitLab Foundation",
+      "date": "2026-04-07",
+      "source_url": "https://www.philanthropy.com/news/can-ai-make-grant-seeking-easier-and-grant-making-more-refined/",
+      "kind": "metric",
+      "label": "Own AI system screened about 800 grant applications in about 30 minutes"
+    },
+    {
+      "institution": "GitLab Foundation",
+      "date": "2026-06-12",
+      "source_url": "https://www.gitlabfoundation.org/our-journey/innovating-for-greater-impact",
+      "kind": "tool",
+      "label": "Grant Guardian used by staff in the foundation's own grant diligence"
+    },
+    {
+      "institution": "Blackstone",
+      "date": "2023-09-06",
+      "source_url": "https://www.institutionalinvestor.com/article/2c5n7hypxbs38zj9xsutc/portfolio/how-blackstone-sprinted-ahead-of-its-peers-in-ai",
+      "kind": "metric",
+      "label": "AI platform turns two-to-three-day memos into hours; Cody halves engineering work"
+    },
+    {
+      "institution": "Partners Group",
+      "date": "2024",
+      "source_url": "https://www.partnersgroup.com/~/media/files/p/partnersgroup/universal/shareholders/reports-and-presentations/2025/sustainability-report-2024.pdf",
+      "kind": "metric",
+      "label": "Up to 75% of employees use AI tools regularly; PRIMERA GPT deployed"
+    },
+    {
+      "institution": "Partners Group",
+      "date": "2025",
+      "source_url": "https://partnersgroup.com/~/media/Files/P/Partnersgroup/Universal/shareholders/reports-and-presentations/2026/2025-sustainability-report.pdf",
+      "kind": "tool",
+      "label": "Alpha Intelligence added to PG Alpha; PRIMERA.ai internal LLM platform"
+    }
+  ]
+}

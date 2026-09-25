@@ -220,6 +220,17 @@ code {
   line-height: 1.55;
   color: var(--text-dim);
 }
+.scope-note .scope-coverage {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin-top: 6px;
+  font-size: 14px;
+}
+.scope-coverage strong {
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
 
 /* ---------------- Controls / filter ---------------- */
 .controls {
@@ -569,6 +580,21 @@ code {
   gap: 8px;
   flex: 1;
 }
+.phase-expand {
+  margin-top: 12px;
+  padding: 8px 12px;
+  min-height: 36px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--col-accent, var(--accent));
+  font-family: var(--mono);
+  font-size: 12px;
+}
+.phase-expand:hover {
+  background: var(--panel-hover);
+  border-color: var(--col-accent, var(--accent));
+}
 .col-empty {
   font-family: var(--mono);
   font-size: 14px;
@@ -660,7 +686,7 @@ code {
   color: var(--accent);
 }
 
-/* embedded editorial statement */
+/* embedded column: the observed-zero statement */
 .embedded-note {
   flex: 1;
   display: flex;
@@ -839,7 +865,7 @@ code {
 .modal {
   position: relative;
   width: 100%;
-  max-width: 680px;
+  max-width: 720px;
   background: var(--panel);
   border: 1px solid var(--border-bright);
   border-radius: 10px;
@@ -877,9 +903,20 @@ code {
   margin: 0;
   letter-spacing: -0.01em;
 }
+/* One-line intro under the name — who the firm is, read before what it does
+   with AI. Capped at a comfortable measure so a long line wraps rather than
+   spanning the panel; margins kept tight so the head barely grows. */
+.modal-intro {
+  margin: 4px 0 0;
+  max-width: 60ch;
+  font-size: 16px;
+  line-height: 1.45;
+  color: var(--text-dim);
+}
 .modal-tags {
   display: flex;
-  gap: 7px;
+  flex-wrap: wrap;
+  gap: 3px 7px;
   align-items: center;
   font-family: var(--mono);
   font-size: 14.5px;
@@ -966,20 +1003,32 @@ code {
   border-radius: 4px;
 }
 
-/* timeline */
+/* timeline — a date column, the rail, then the content. The date stands in
+   its own right-aligned column so a reader can run straight down the record
+   (newest first), and the content column stays clear for the callouts. */
 .timeline {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 .tl-item {
+  display: grid;
+  grid-template-columns: 92px 9px minmax(0, 1fr);
+  column-gap: 14px;
+}
+.tl-when {
   display: flex;
-  gap: 14px;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+  padding-top: 2px;
+}
+.tl-when .tl-badge {
+  margin-left: 0;
 }
 .tl-rail {
   position: relative;
   width: 9px;
-  flex-shrink: 0;
   display: flex;
   justify-content: center;
 }
@@ -991,16 +1040,19 @@ code {
   width: 1px;
   background: var(--border-bright);
 }
+/* First/last are DOM positions, not dates: the rail starts at the top dot and
+   ends at the bottom dot whichever way the list is sorted (it runs newest-first,
+   so the top dot is the latest signal). 10px is the dot's centre. */
 .tl-item:first-child .tl-rail::before {
-  top: 7px;
+  top: 10px;
 }
 .tl-item:last-child .tl-rail::before {
   bottom: auto;
-  height: 7px;
+  height: 10px;
 }
 .tl-dot {
   position: relative;
-  margin-top: 4px;
+  margin-top: 6px; /* centred on the first line of 15.5px text */
   width: 9px;
   height: 9px;
   border-radius: 50%;
@@ -1010,8 +1062,8 @@ code {
 .tl-content {
   display: flex;
   flex-direction: column;
-  gap: 3px;
-  padding-bottom: 18px;
+  gap: 4px;
+  padding-bottom: 20px;
   min-width: 0;
 }
 .tl-item:last-child .tl-content {
@@ -1019,14 +1071,16 @@ code {
 }
 .tl-date {
   font-family: var(--mono);
-  font-size: 13px;
+  font-size: 13.5px;
+  line-height: 1.4;
   color: var(--accent);
   letter-spacing: 0.03em;
+  white-space: nowrap;
 }
 .tl-event {
   font-size: 15.5px;
   color: var(--text);
-  line-height: 1.5;
+  line-height: 1.55;
 }
 .tl-source {
   font-family: var(--mono);
@@ -1036,6 +1090,16 @@ code {
 }
 .tl-source:hover {
   color: var(--accent);
+}
+/* The medium tag on a source link ("· firm site"). Muted and small, in the
+   same mono voice as .card-meta / .modal-tags, so the publisher's name keeps
+   the link's visible weight. It stays faint on hover on purpose: the name
+   lights up, the qualifier does not. */
+.tl-medium {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-faint);
 }
 .latest-signal {
   background: color-mix(in srgb, var(--accent) 6%, transparent);
@@ -1925,12 +1989,12 @@ li a,
   height: auto;
   display: block;
 }
-/* Categorical now: the fill is set per rect from REGION_COLORS, so no fill is
-   declared here — a CSS rule would beat the presentation attribute and repaint
-   the whole map one colour, which is exactly what it did the first time. */
-.map-svg rect {
-  transition: opacity 0.12s;
-}
+/* Categorical now: the fill is set per GROUP from REGION_COLORS — top faces at
+   full hue, the extruded sides at a third of it — so no fill is declared here.
+   A CSS rule would beat the presentation attribute and repaint the whole map
+   one colour, which is exactly what it did the first time. Dimming is a group
+   opacity (see g[data-region] below), never a per-rect one: the side faces sit
+   under the tops, and two translucent layers would show through each other. */
 
 .map-legend {
   list-style: none;
@@ -2086,9 +2150,10 @@ li a,
   color: var(--text-faint);
 }
 
-/* The most recent entry in every timeline is marked, and it is the only place
-   the latest signal appears — the standalone section under the timeline was
-   printing the same event a second time. */
+/* The most recent entry in every timeline — the first, now that the list runs
+   newest-first — is marked, and it is the only place the latest signal appears:
+   the standalone section under the timeline was printing the same event a
+   second time. */
 .tl-item[data-latest='true'] .tl-dot {
   background: var(--accent);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
@@ -2096,8 +2161,11 @@ li a,
 .tl-item[data-latest='true'] .tl-content {
   background: color-mix(in srgb, var(--accent) 7%, transparent);
   border-radius: 5px;
-  margin: -4px -8px;
+  margin: -4px -8px 16px;
   padding: 4px 8px;
+}
+.tl-item[data-latest='true']:last-child .tl-content {
+  margin-bottom: 0;
 }
 .tl-item[data-latest='true'] .tl-event {
   color: var(--text);
@@ -2116,6 +2184,66 @@ li a,
   text-transform: uppercase;
   color: var(--accent);
   white-space: nowrap;
+}
+
+/* Highlights — the entries in a timeline that disclose something concrete: a
+   named tool in production, hard numbers, or live capital. The box says "this
+   one matters" without shouting: a filled panel, a hairline border, an amber
+   rule on the left. The KIND is always text (.tl-kind), never colour alone.
+   Negative margins mirror the latest-signal tint above, so the date and text
+   of a boxed entry sit on the same x/y as their neighbours (left: -10 + 2
+   border + 8 padding = 0; top: -8 + 1 border + 7 padding = 0). */
+.tl-item[data-highlight] .tl-dot {
+  /* a ring, not a halo — brighter than the latest-signal dot, same footprint */
+  box-shadow:
+    0 0 0 2px var(--panel),
+    0 0 0 3px var(--accent);
+}
+.tl-item[data-highlight] .tl-content {
+  flex: 1 1 auto;
+  gap: 5px;
+  margin: -8px -10px 12px;
+  padding: 7px 10px 9px 8px;
+  background: var(--panel-2);
+  border: 1px solid var(--border-bright);
+  border-left: 2px solid var(--accent);
+  border-radius: 5px;
+}
+.tl-item[data-highlight]:last-child .tl-content {
+  margin-bottom: 0;
+}
+/* Latest signal AND highlight on one entry: the box wins the frame, the amber
+   tint survives inside it, and the badge sits in the date row as always. */
+.tl-item[data-latest='true'][data-highlight] .tl-content {
+  background: color-mix(in srgb, var(--accent) 7%, var(--panel-2));
+}
+.tl-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 3px 8px;
+}
+/* Filled where .tl-badge is outlined, so the two pills read as different
+   things at a glance: outlined = position in time, filled = kind of disclosure.
+   Amber on the 16% tint is ~6.2:1 (WCAG 1.4.3 needs 4.5:1 at this size). */
+.tl-kind {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  white-space: nowrap;
+}
+.tl-lead {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--text);
 }
 
 /* ============================================================
@@ -2335,5 +2463,26 @@ li a,
   .role-item {
     flex-direction: column;
     gap: 4px;
+  }
+  /* The date column folds above the content; the rail spans both rows. */
+  .tl-item {
+    grid-template-columns: 9px minmax(0, 1fr);
+  }
+  .tl-rail {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+  }
+  .tl-when {
+    grid-column: 2;
+    grid-row: 1;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    padding-top: 0;
+    margin-bottom: 4px;
+  }
+  .tl-content {
+    grid-column: 2;
+    grid-row: 2;
   }
 }

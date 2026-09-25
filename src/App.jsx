@@ -13,6 +13,9 @@ import {
   loadTranslations,
   loadSummaries,
   loadHomepages,
+  loadDescriptions,
+  loadHighlights,
+  loadPublishers,
   loadRoles,
   loadRolesNotFound,
   REGION_LABELS,
@@ -74,13 +77,15 @@ export default function App() {
   })
   const [selected, setSelected] = useState(null)
   const [stageDefs, setStageDefs] = useState(null)
-  const [notClassified, setNotClassified] = useState([])
+  const [notClassified, setNotClassified] = useState(null)
   // Role events are a separate record with a separate unit of observation
   // (METHODOLOGY §11); they never feed the stage grid.
   const [roles, setRoles] = useState([])
   const [rolesNotFound, setRolesNotFound] = useState([])
-  // The translation map lives in a module-level cache in data.js; this counter
-  // exists only to re-render the tree once it has loaded.
+  // The presentation-layer maps (translations, summaries, homepages,
+  // descriptions, highlights, publishers) live in module-level caches in
+  // data.js; this counter exists only to re-render the tree once they have
+  // loaded.
   const [, setTranslationsReady] = useState(0)
 
   // Live data: snappy poll in dev (edit the JSON → see it), gentle in prod.
@@ -95,16 +100,32 @@ export default function App() {
   useEffect(() => {
     let live = true
     loadStageDefinitions().then((d) => live && setStageDefs(d))
-    loadNotClassified().then((d) => live && setNotClassified(d))
     loadRoles().then((d) => live && setRoles(d))
     loadRolesNotFound().then((d) => live && setRolesNotFound(d))
-    Promise.all([loadTranslations(), loadSummaries(), loadHomepages()]).then(
-      ([m]) => live && setTranslationsReady(Object.keys(m).length),
-    )
+    Promise.all([
+      loadTranslations(),
+      loadSummaries(),
+      loadHomepages(),
+      loadDescriptions(),
+      loadHighlights(),
+      loadPublishers(),
+    ]).then(([m]) => live && setTranslationsReady(Object.keys(m).length))
     return () => {
       live = false
     }
   }, [])
+
+  // Refresh coverage when the live institution dataset changes. Keep the last
+  // successful appendix on failure; an unavailable record is not a zero count.
+  useEffect(() => {
+    let live = true
+    loadNotClassified({ fallback: null }).then((d) => {
+      if (live && d !== null) setNotClassified(d)
+    })
+    return () => {
+      live = false
+    }
+  }, [institutions])
 
   useEffect(() => {
     const onHash = () => setRoute(routeFromHash())
@@ -275,15 +296,35 @@ export default function App() {
           </div>
         ) : (
           <>
-            {scopeNote(stageDefs) && (
-              <aside
-                className="scope-note"
-                aria-label="Scope of this dashboard"
-              >
-                <span className="scope-label">Scope</span>
-                <p>{scopeNote(stageDefs)}</p>
-              </aside>
-            )}
+            <aside className="scope-note" aria-label="Scope of this dashboard">
+              <span className="scope-label">Scope</span>
+              <div>
+                {scopeNote(stageDefs) && <p>{scopeNote(stageDefs)}</p>}
+                <p className="scope-coverage" aria-live="polite">
+                  {notClassified !== null ? (
+                    <>
+                      <span>
+                        <strong>
+                          {institutions.length + notClassified.length}
+                        </strong>{' '}
+                        institutions assessed
+                      </span>
+                      <span>
+                        <strong>{institutions.length}</strong> classified
+                      </span>
+                      <a href="#/methodology">
+                        <strong>{notClassified.length}</strong> not classified
+                      </a>
+                    </>
+                  ) : (
+                    <span>
+                      <strong>{institutions.length}</strong> classified · full
+                      coverage count unavailable
+                    </span>
+                  )}
+                </p>
+              </div>
+            </aside>
 
             <div className="exec-band">
               <StageStrip
@@ -396,7 +437,7 @@ export default function App() {
               defs={stageDefs}
             />
 
-            {notClassified.length > 0 && (
+            {notClassified?.length > 0 && (
               <section
                 className="nc-strip"
                 aria-label="Assessed, not classified"
