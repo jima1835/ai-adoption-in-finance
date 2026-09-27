@@ -40,9 +40,25 @@ drafted. They are settled:
   such an announcement can carry a classification alone — §2's rule stands that
   a vendor-published event with no independent second source does not
   (*Walleye Capital*), as does the two-event minimum.
-- **The floor is two independent T2-or-better sources.** A rationale may not rest
-  on T3 alone. A T3 source may corroborate, and is admitted only on a reviewer's
-  explicit recorded decision, never automatically.
+- **The floor is two dated events, each carried by a T2-or-better source, and a
+  rationale may not rest on T3 alone.** A T3 source may corroborate, and is
+  admitted only on a reviewer's explicit recorded decision, never automatically.
+  **Independent corroboration is sought, not required.** Where every load-bearing
+  source is the institution's own voice, the row is still publishable — several
+  are — on two conditions the reviewer checks document by document before
+  approval: the document is a governance or operational disclosure (an annual
+  report, board or committee material, a regulatory filing, a newsroom item about
+  the firm's own operations), not a pitch to investors or clients, a sponsored
+  piece or an advertisement (*Baillie Gifford*, §2); and the reviewer has opened
+  it and confirmed the sentence that carries the call. The human pass is the
+  corroboration. The limitation is stated in the rationale and confidence is
+  capped at `med`. Two pages on a firm's own domain are one voice, however many
+  URLs they span. A row resting on a single voice at `high` confidence would
+  overstate the record, and is refused. Two independent publishers are what lift
+  a row to `high`; they are not a condition of publishing one. A publisher is
+  independent when it reports a fact it established itself. Several staff-written
+  outlets that each carry the firm's own account, however independent of one
+  another, are that one voice and hold the row at `med`.
 - **Confidence is a judgment, not a formula.** `high` / `med` / `low` is the
   reviewer's reading of the evidence against the four stage criteria in
   METHODOLOGY §3, deliberately not derived from a tier count — a count would
@@ -66,25 +82,6 @@ Each of these is attested in a tracked file today. They are not new.
 | Unverifiable institutional claims are labelled **company claims**, not treated as fact. | METHODOLOGY §2 |
 | Absence of evidence **caps** a stage; it never infers one. | METHODOLOGY §2; README |
 
-## 3. Additional rules for role events
-
-The roles module ([METHODOLOGY §11](METHODOLOGY.md)) inherits everything above
-and adds one restriction, because its records can name a living person:
-
-> **A named individual is recorded only from a firm press release, a firm
-> leadership page, a regulatory filing, or an outlet on the accepted source
-> list.** No LinkedIn-derived data enters this pipeline at any point — not as
-> evidence, not as corroboration, not as a search surface. `person: null` is a
-> valid and complete record; the event is the unit of observation, not the
-> person.
-
-No compensation data is collected, and no job-posting corpus is built.
-
-Corrections and removal requests: see
-[README, "Public comments and submissions"](README.md#public-comments-and-submissions).
-
 ---
 
-*This file is referenced by `source_tier` in
-[`schemas/role_event.schema.json`](schemas/role_event.schema.json); §1 defines
-the values that field may carry.*
+*The additional sourcing rules for the AI-leadership roles record (§3 of v1.1.0) are withdrawn with that module and will return with it.*

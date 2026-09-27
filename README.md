@@ -46,7 +46,7 @@ Separately, a monitoring pass (`monitor.py`) screens public news and refreshes e
 
 ## The disagreement record
 
-Because every review decision is logged, the human-vs-agent disagreement rate is a measurement rather than an assurance. It is published in [`data/agreement.json`](data/agreement.json), rebuilt from `data/institutions.json` and `data/not_classified.json` (both in this repo, so the figures are reproducible without trusting the page), and rendered on the methodology page.
+Because every review decision is logged, the human-vs-agent disagreement rate is a measurement rather than an assurance. It is published in [`data/agreement.json`](data/agreement.json), rebuilt from `data/institutions.json` and `data/not_classified.json` (both in this repo, so the figures are reproducible from the data alone).
 
 Two figures, because one alone would flatter the pipeline:
 
@@ -70,7 +70,7 @@ Four stages, applied as a strict bar — each higher stage requires everything t
 | **exploring** | Stated intent, hiring, task forces, "evaluating" — no shipped use case. |
 | **piloting** | Named pilots/POCs, limited deployment, governance build-out — not yet firm-wide. |
 | **scaling** | Multiple use cases in production, firm-wide rollout, AI as a strategic pillar with deployment evidence. |
-| **embedded** | AI is core infrastructure across the business. **Intentionally empty** — no institution qualifies yet. A deliberate editorial position. |
+| **embedded** | AI is core infrastructure across the business. **Empty as observed** — the bar was applied to every institution and none met it. Not a held position: the most advanced institutions tracked publicly state they keep humans in control of investment decisions. |
 
 Institution types: `asset-manager` · `pension` · `sovereign-wealth` · `hedge-fund` · `endowment`. Regions: US · Canada · Europe · Middle East · Asia · Other.
 
@@ -87,30 +87,12 @@ Everything the dashboard runs on is tracked in this repo:
 | `data/agreement.json` | **The disagreement record.** Derived; rebuild with `tools/build_agreement.py`. |
 | `data/stage_definitions.json` | The shared stage reference, so the site and the docs cannot drift apart. |
 | `data/translations.json` | English renderings of the CJK evidence runs, consulted at render time. The stored evidence is never rewritten. |
-| `data/summaries.json`, `data/homepages.json` | Presentation-layer derivations: bulleted digests of reviewed rationales, and firm homepages taken from own-domain evidence URLs that already passed review. |
+| `data/summaries.json`, `data/event_summaries.json`, `data/descriptions.json`, `data/highlights.json`, `data/homepages.json`, `data/publishers.json` | Presentation-layer derivations, written after review and never rewriting the evidence: bulleted digests of reviewed rationales; a short title and bullets for every dated event, keyed on the exact event text; one-line intros; the few events per row worth a marker; firm homepages taken from own-domain evidence URLs; publisher labels behind source links. |
 | `data/feed.json`, `data/seen_urls.json` | The monitoring stream and its dedup ledger. |
 
 Stage **transitions** are appended to `data/transitions.jsonl` when a reviewer approves a stage change — dated by the *triggering evidence*, never by the review date. The log starts empty and fills prospectively; a panel dated by review sessions would measure the reviewer's calendar rather than the sector.
 
-## Roles module (v1.1.0, pre-release)
-
-A second record, on a different unit of observation: the **AI-leadership role event** — one dated, publicly sourced thing that happened to an AI-leadership role (a role created, someone hired into it, a leader retitled, a departure, a remit expanded). It lives in `data/roles.jsonl`, one record per line, and the full rules are [METHODOLOGY §11](METHODOLOGY.md).
-
-It ships **published and empty**. The schema, the review gate, the collection sweep and the rules are in place before any data is, so the first record enters against rules written in advance rather than rules fitted to it.
-
-**What it records:** the institution, the title verbatim in its own language plus a normalized comparison key, the person *where a qualifying source names one*, the event type, a variable-precision date, reporting line and scope where the source states them, one source URL with its tier, the verbatim quote that carries the claim, and a rationale.
-
-**What it refuses to record:**
-
-- **Any effect on an adoption stage.** A hire is an input to adoption, not evidence of it. Nothing in this module reads or writes `stage`, and a test enforces that.
-- **Anything LinkedIn-derived**, at any point — not as evidence, not as corroboration, not as a search surface. A person is named only from a firm press release, a firm leadership page, a regulatory filing, or an outlet meeting the T1 or T2 criteria in [SOURCES.md](SOURCES.md). `person: null` is a complete record.
-- **Compensation, and job postings.** Neither is collected and no such file exists.
-- **A retitle as a new role.** "Chief Data Officer becomes Chief Data & AI Officer" is one person and one job.
-- **Anything about an excluded institution** (`data/excluded.json`). An exclusion is a recusal and implies nothing about that institution.
-
-Institutions searched with no qualifying result are published in `data/roles_not_found.jsonl` — without that, a firm searched and found empty is indistinguishable from one nobody looked at.
-
-**To submit a correction or ask for a removal:** open an issue with the public sources, or use the channels under [Public comments and submissions](#public-comments-and-submissions). Anyone named in this record can ask for a correction or removal. A withdrawn event is deleted from `data/roles.jsonl` and recorded as `withdrawn-on-review` in the negative record, so the correction itself stays visible.
+The AI-leadership roles module shipped in v1.1.0 is withdrawn from this release and will return in a later one.
 
 ## A note on sourcing
 
@@ -134,10 +116,6 @@ uv run --env-file .env python monitor.py
 uv run pytest
 uv run ruff check .
 python3 tools/validate_data.py     # every data file against schemas/
-
-# roles module (METHODOLOGY §11) — proposes into local/, files nothing
-uv run --env-file .env python monitor.py --roles --limit 5
-python3 tools/review.py --roles    # the human gate on data/roles.jsonl
 
 # site
 npm install
@@ -166,7 +144,6 @@ ai-adoption-in-finance/
 ├── tests/                 # pytest suite: engine, review tool, data schema, version
 ├── tools/                 # human review tool, agreement builder, data validator
 ├── schemas/               # JSON Schema for every public data file
-├── prompts/               # screener prompts, versioned as the instruments they are
 ├── data/                  # source of truth — see "What's published" above
 ├── src/                   # static React site (Vite) — components + plain CSS
 ├── vite.config.js         # build config; copies data/*.json(l) → docs/data/

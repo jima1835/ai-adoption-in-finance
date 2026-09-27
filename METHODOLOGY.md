@@ -1,35 +1,40 @@
 # Methodology
 
-How institutions are classified on **AI Adoption in Finance**. This is the
-project's credibility spine: every placement on the grid follows the rules
-below, and every placement is defensible from public evidence alone.
+How institutions are classified on **AI Adoption in Finance**. Every placement
+follows the rules below and is defensible from public evidence alone; to
+contribute or challenge one, this is the standard ([CONTRIBUTING.md](CONTRIBUTING.md)).
 
-If you want to contribute a classification or challenge one, this is the
-standard you're held to. See [CONTRIBUTING.md](CONTRIBUTING.md) for the
-mechanics.
+## TL;DR
+
+Institutional investors are placed on four stages of **internal** AI adoption —
+`exploring`, `piloting`, `scaling`, `embedded` — from **public evidence only**.
+AI sold to clients, AI as an investment thesis and AI pushed into portfolio
+companies do not count. A row needs two dated events from first-party or
+staff-written sources, the decisive wording quoted verbatim. Between two stages
+the lower wins; absent evidence caps a stage, never infers one. An AI agent
+drafts each row and proposes a stage; a human verifies, revises or removes it,
+and that decision is published as anchored agreement — not a reliability
+coefficient. Unplaceable institutions are published with the reason. Nothing
+here is an industry rate.
 
 ---
 
 ## 1. Scope: operational, internal AI adoption
 
-The dashboard measures one thing: **how a firm uses AI inside its own
-investment process and operations** — research, screening, due diligence, risk,
-portfolio construction, trading, and back-office work that the firm runs for
-itself.
+The dashboard measures one thing: **how a firm uses AI inside its own investment
+process and operations** — research, due diligence, risk, portfolio construction,
+trading, back office. Three things often called "AI adoption" are **excluded**,
+and a firm can score high on all of them while early on this axis:
 
-It deliberately **excludes** three things that are frequently mislabeled as "AI
-adoption." A firm can score high on any of them and still be early on the only
-axis this dashboard tracks.
+- **(a) AI products sold to clients.** BlackRock's Aladdin Copilot is a product
+  line, not internal adoption.
+- **(b) AI as an investment thesis or holding.** Owning Nvidia or running an "AI
+  megatrend" strategy is a view on the market.
+- **(c) AI the firm pushes into its portfolio companies.** A PE value-creation
+  playbook changes *their* operations, not its own deal team's.
 
-| Excluded | Why it's out of scope | Concrete example |
-|---|---|---|
-| **(a) AI products the firm sells to clients** | That's a product line, not internal operational adoption. | **BlackRock's Aladdin Copilot** is a GenAI layer BlackRock *sells* to Aladdin clients. It says nothing about whether BlackRock's own investors run their process on AI. Excluded. |
-| **(b) AI as an investment thesis or portfolio holding** | Owning AI exposure is a *view on the market*, not use of AI in operations. | A fund that holds Nvidia and Microsoft, or runs an "AI megatrend" thematic strategy, is *investing in* AI — not *operating with* it. Excluded. |
-| **(c) AI the firm helps its portfolio companies adopt** | That's value-creation at the asset level, not the firm's own operating model. | A PE firm running an "AI value-creation playbook" to push tools into its portfolio companies is changing *their* operations, not its own deal team's. Excluded. |
-
-When a public signal is about (a), (b), or (c), it does **not** move the firm's
-stage. It may still appear in the signal feed as context, but the classification
-rests only on operational, internal evidence.
+A signal about (a), (b) or (c) never moves a stage; it may appear in the feed as
+context.
 
 ---
 
@@ -37,30 +42,16 @@ rests only on operational, internal evidence.
 
 Every classification rests on **public evidence**: reported news, official
 disclosures, regulatory filings, board and committee materials, earnings calls,
-conference remarks, and the institution's own published position papers.
+conference remarks and the institution's own published positions. **No
+non-public knowledge**: if it cannot be cited, it cannot classify. **Absence of
+evidence caps the stage; it never infers one**: a firm is placed no higher than
+the record defends, however far along it "probably" is, and the gap is stated as
+a limit of the record.
 
-Two rules follow:
-
-- **No non-public knowledge.** Private conversations, rumor, vendor backchannel,
-  or "I know someone there" never inform a stage. If it can't be cited, it can't
-  classify.
-- **Absence of evidence caps the stage; it never infers one.** If there is no
-  public evidence that a firm has reached a given stage, it is **not** placed
-  there — even if it "probably" has. The lack of a public signal is noted as a
-  limit of the record, not filled in by assumption. A firm may well be further
-  along privately; this dashboard only reports what the public record can
-  defend.
-
-Where an institution's own claims can't be independently verified (e.g.
-"benefits already in the billions"), they are labeled as **company claims** in
-the rationale, not treated as established fact.
-
-The source tiers this project works in — what counts as T1, T2 or T3 — are
-published in [SOURCES.md](SOURCES.md), along with the tier floor beneath which a
-rationale may not rest. Tiers are defined by criteria, not by a roster of named
-outlets: where the §7 appendix says "accepted source list", read those criteria.
-This section remains the sourcing bar; SOURCES.md states how it is applied and
-loosens nothing in it.
+Unverifiable institutional claims are labelled **company claims**, not fact.
+Source tiers (T1 first-party, T2 staff-written, T3 everything else) and the floor
+beneath which a rationale may not rest are in [SOURCES.md](SOURCES.md); tiers are
+criteria, not a roster of outlets, and SOURCES.md loosens nothing here.
 
 ---
 
@@ -92,7 +83,7 @@ decision is `scaling`, not `embedded`.
 
 A single production use case that makes live investment decisions with material capital counts as scaling.
 
-### `embedded` — currently UNREACHED, by design
+### `embedded` — no institution currently meets this bar
 AI is **structurally constitutive of how the firm operates**, not just a tool
 within it:
 
@@ -102,12 +93,16 @@ within it:
 - **AI as the default mode**, with humans as the exception. *AI **is** the
   workflow.*
 
-**No institution is classified `embedded`, and the column is intentionally
-empty.** This is an evidence-based editorial finding, not missing data: the most
-AI-advanced institutions tracked (NBIM, CPP Investments, BlackRock, GIC) each
-*independently and publicly* state they keep humans in control of decisions and
-have **not** redesigned their org structure around AI. The day that changes —
-with public evidence — the column fills.
+**The `embedded` column is empty as an observation, not as an editorial
+position.** The bar above was applied to every institution in the corpus and
+none met it — that is a measured result, and it is reported as one. It is also
+not missing data: the most AI-advanced institutions tracked (NBIM, CPP
+Investments, BlackRock, GIC) each *independently and publicly* state they keep
+humans in control of decisions and have **not** redesigned their org structure
+around AI, so the record actively contradicts an `embedded` placement rather
+than merely failing to support one. The day that changes — with public
+evidence — the column fills, and nothing about this project has to be revised
+for it to.
 
 ---
 
@@ -136,329 +131,132 @@ The rules that keep classifications honest and consistent:
 
 ## 5. How a row is built
 
-This section describes the construction protocol, in full, because it is as much
-the contribution as the data is. **An AI research agent drafts every row and
-proposes a stage; a human verifies every row before it publishes.**
+**An AI research agent drafts every row and proposes a stage; a human verifies
+every row before it publishes.**
 
 ### 5.1 The agent drafts
 
-A research agent works one institution at a time. It searches the public record,
-**fetches every URL it intends to cite** — a search-result snippet is not a
-source — writes the rationale and the dated timeline, and proposes an adoption
-stage against the bar in §3. Its standing constraints:
-
-- public sources only, per §2;
-- no encyclopedias or aggregators as evidence;
-- evidence dated 2023 or later;
-- the verbatim wording that carries the call is quoted, in its original
-  language;
-- when the record does not support a stage, it says so rather than reaching.
+One institution at a time, it searches the public record, **fetches every URL it
+cites** (a snippet is not a source), writes the rationale and the dated timeline,
+and proposes a stage against §3 — under §2, with no encyclopedias or aggregators,
+evidence dated 2023 or later, the decisive wording quoted verbatim in its
+original language, and an explicit "the record does not support a stage" where
+that is the finding.
 
 ### 5.2 A human verifies, row by row
 
-Every drafted row goes through a local review tool where a person reads it
-against its cited sources and does one of three things: **accepts** the proposed
-stage, **revises** it, or **removes** the row entirely. Nothing publishes without
-that pass.
-
-The reviewer works from the cited evidence rather than re-researching the firm.
-That is a deliberate division of labour — the agent's job is to find and
-assemble the record; the reviewer's job is to check that the record says what
-the draft claims and that the stage follows from it.
+In a local review tool a person reads each draft against its sources and
+**accepts** the stage, **revises** it or **removes** the row; nothing publishes
+without that pass. Where a row rests only on the institution's own voice, that
+pass is the corroboration: the reviewer confirms each document is a governance or
+operational disclosure — annual report, board material, filing — not a pitch or
+an advertisement, and that the quoted sentence is there. Independent coverage
+lifts confidence; its absence caps it at `med`, stated in the rationale
+([SOURCES.md](SOURCES.md) §1).
 
 ### 5.3 What an agent may never write
 
-These fields are reviewer-only, enforced in the review tool rather than left to
-convention:
-
-| Field | Why |
-|---|---|
-| `stage` (after first review) | A reviewed stage is a published measurement. Rewriting it destroys the before/after pair. |
-| `as_of_reviewed` | The claim that a human checked this row. |
-| `label_provenance`, `agent_proposed_stage` | The audit trail in §6. Self-reported provenance would be worthless. |
-| the not-classified appendix (§7) | A negative record is a finding, and findings are human-gated. |
-| the stage-transition log | A dated transition is the panel's spine; see §8. |
+Reviewer-only fields, enforced in the tool: `stage` after first review (a
+published measurement), `as_of_reviewed` (the claim that a human checked the
+row), `label_provenance` and `agent_proposed_stage` (the audit trail of §6), the
+not-classified appendix (§7) and the stage-transition log (§8).
 
 ### 5.4 Freshness monitoring is separate, and is a notifier
 
-A monitoring pass screens public news and refreshes each institution's *latest
-signal* line. When a signal looks stage-relevant it **emails a human**. It never
-edits a stage. The split is structural: automation writes only
-`latest_signal` / `latest_date` / `source_url`.
+A monitoring pass screens public news, refreshes each row's *latest signal* and
+**emails a human** when something looks stage-relevant. It never edits a stage;
+automation writes only `latest_signal`, `latest_date` and `source_url`.
 
 ---
 
 ## 6. The disagreement record
 
-### Corpus lifecycle and the planned blind-review freeze
+Because §5 logs what the reviewer did with each proposal, the human–agent
+disagreement rate is a **published measurement**:
+[`data/agreement.json`](data/agreement.json), rebuilt from the two public data
+files (the site links it and renders no figure). Two figures, because one alone would
+flatter the pipeline: **stage agreement** — how often the proposed stage stood at
+the first human review; and **proposals accepted as-is** — how often a proposal
+was taken unchanged, counting rows **withdrawn on review**, since a withdrawal is
+a disagreement. Provenance (accepted, revised, or human-written) is set once, at
+first review; later moves on new evidence or corrections on re-reading do not
+change the rate and are listed separately, beside a proposal-versus-current-stage
+figure, so the two reconcile.
 
-The project is currently in an **expansion phase**. Human review continues while
-the dashboard grows to 100 institutions, including endowment candidates and
-other qualified additions. The review tool remains the publication gate: an
-agent may prepare a local proposal, but only a human action in `review.py` may
-add or change a public row.
+### Corpus lifecycle and the blind-review freeze
 
-The blind-review freeze begins only after the reviewed corpus reaches 100 rows.
-At that milestone the maintainer records the corpus hashes and activates
-`tests/test_frozen_corpus.py`. The blind re-code then uses that fixed 100-row
-corpus with proposed stages and reasoning removed. During that later freeze,
-new research may continue locally, but public classification changes wait until
-the blind re-code is complete. The freeze is a planned milestone, not the
-current operating priority.
-
-Because §5 logs what the reviewer did with each proposal, the rate at which the
-human and the agent disagree is a **published measurement**, not an assurance.
-It lives in [`data/agreement.json`](data/agreement.json), is rebuilt from
-`data/institutions.json` and `data/not_classified.json` — both in this repo — and
-is rendered on the dashboard's methodology page.
-
-Two figures are reported, because one alone would flatter the pipeline:
-
-- **Stage agreement** — of the reviewed rows that carried an agent proposal, how
-  often did the proposed stage stand unchanged?
-- **Proposals accepted as-is** — of every proposal the reviewer adjudicated, how
-  often was it taken unchanged? This denominator includes rows that were
-  **withdrawn on review**. A withdrawal is a disagreement, and excluding it
-  inflates the rate.
-
-Each row also carries its own provenance: whether the label was the agent's
-proposal accepted, the agent's proposal revised, or written by the human
-outright (as the earliest rows were, before the pipeline existed).
+The reviewed corpus passed its 100-row target in September 2026 and stands at
+111 rows. The freeze for the blind re-code is **declared by the maintainer**
+(`tools/review.py --freeze`), which records the digests that
+`tests/test_frozen_corpus.py` then holds; no row count triggers it. Under the
+freeze, research continues locally and public changes wait for the re-code.
 
 ### The limitation, stated plainly
 
-**This is anchored, non-independent agreement. It should not be read as an
-inter-rater reliability estimate.**
-
-The reviewer saw the agent's proposed stage, and the agent-written rationale
-states the stage reasoning, *before* deciding. Agreement measured under those
-conditions is not independent of the proposal. How it compares with agreement
-between independent coders has not been measured here, in either direction.
-On top of that there is one reviewer, and he is also the author of the
-classification rules in §3 and §4.
-
-So: **no inter-rater reliability coefficient is computed from this file, and
-none should be quoted from it.** Establishing reliability requires a blind
-re-code — the same evidence stripped of the proposed stage and its reasoning,
-coded cold, against an independent coder. That is a separate exercise, and its
-result will be reported separately. The gap between the anchored figure here and
-a blind figure is itself the quantity of interest.
+**This is anchored, non-independent agreement, not an inter-rater reliability
+estimate.** The reviewer saw the proposed stage and its written reasoning
+*before* deciding, and the one reviewer also wrote §3 and §4. No reliability
+coefficient is computed from this record and none should be quoted from it;
+that needs a blind re-code — the same evidence stripped of stage and reasoning,
+coded cold by an independent coder — reported separately. The gap between the
+anchored figure and the blind one is itself the quantity of interest.
 
 ---
 
 ## 7. Assessed, not classified
 
 Institutions researched against this methodology whose public record did not
-support a stage are **published**, with a reason, in
-[`data/not_classified.json`](data/not_classified.json) and in the appendix on the
-methodology page. Two outcomes:
-
-- **No qualifying evidence** — the public record, after searching, contained
-  nothing in scope that met the sourcing rules in §2.
-- **Withdrawn on review** — the institution was listed, and human review then
-  found the evidence insufficient to carry a stage.
-
-Absence from the dashboard is a finding, not an omission. A tracker that
-publishes only its hits cannot be read as a rate of anything.
+support a stage are **published, with a reason**, in
+[`data/not_classified.json`](data/not_classified.json) and on the methodology
+page — **no qualifying evidence** (nothing in scope met §2) or **withdrawn on
+review** (listed, then removed when human review found the evidence
+insufficient). Absence from the dashboard is a finding, not an omission; a
+tracker that publishes only its hits cannot be read as a rate of anything.
 
 ---
 
 ## 8. Coverage, and what these numbers are not
 
-**This corpus is not a sample of any defined population.** Institutions enter it
-through research passes, not through a sampling frame — there is no register of
-"all institutional investors" to draw from, and no weighting scheme could repair
-its absence. Every figure on this site describes *this corpus*. None of them is
-an industry rate, and none should be reported as one.
+**This corpus is not a sample of any defined population.** Institutions enter
+through research passes, not a sampling frame; every figure describes *this
+corpus*, never an industry rate. Coverage is uneven — endowments are thin because
+their disclosure is thin, which is itself a finding.
 
-Coverage is also uneven by design and by circumstance: endowments are thinly
-represented because their public disclosure is thin, which is itself a
-disclosure finding rather than a gap to be filled by inference.
-
-Stage **transitions** are recorded prospectively — when a reviewed row moves,
-the change is logged against the date of the *triggering evidence*, never the
-date of the review. A panel dated by review sessions would measure the
-reviewer's calendar rather than the sector.
-
-**The panel's baseline is the v1.0 release.** Every stage in the tagged,
-DOI-archived corpus is position zero; every record in
-[`data/transitions.jsonl`](data/transitions.jsonl) is a move away from it. The
-file is therefore empty at v1.0 and fills forward, one approved change at a time.
-It is **not** backfilled, and the series should not be reconstructed from the
-event timelines in this corpus: those rows were researched to establish each
-firm's *current* stage, so their early-period evidence is thin and collected
-non-systematically, and any retrospective crossing date would be assigned with
-knowledge of the outcome. A backfilled panel would look like data and behave like
-hindsight.
+Stage **transitions** are recorded prospectively in
+[`data/transitions.jsonl`](data/transitions.jsonl), dated by the *triggering
+evidence*, never the review. The baseline is the v1.0 release — position zero for
+every stage — and the file fills forward one approved change at a time. It is
+not backfilled from the event timelines, which were researched to establish each
+firm's *current* stage; a retrospective crossing date would be hindsight.
 
 ---
 
 ## 9. Language
 
 Evidence in Chinese, Japanese and Korean is quoted **verbatim in the original**,
-because the exact wording is what carries the classification — the difference
-between 完成部署 (deployment completed) and 将应用 (will be applied) is the
-difference between two stages. An English rendering is displayed alongside it at
-render time, from a separate translation map; the stored evidence is never
-rewritten, and the original is always the record.
+because the exact wording carries the classification — 完成部署 (deployment
+completed) and 将应用 (will be applied) are two different stages. An English
+rendering is shown alongside from a separate translation map; the stored
+evidence is never rewritten, and the original is always the record.
 
 ---
 
 ## 10. How this differs from the alternatives
 
-A staged reading of AI adoption is not a new idea, and this project does not
-claim to have originated one. Where it sits:
-
-- **Commercial AI indices** — chiefly the [Evident AI
-  Index](https://evidentinsights.com/), which ranks banks, insurers and payments
-  firms on 60+ indicators and has announced an asset-management edition — score
-  and rank large public *companies*. This is not a ranking and assigns no score.
-  It places each institution on a stage, it covers **asset owners** (pensions,
-  sovereign-wealth funds, endowments) that commercial benchmarks do not, and it
-  publishes the assessments that failed.
-- **Staged self-assessment questionnaires**, including the one shipped with the
-  US financial-services AI risk management framework published in February 2026,
-  ask a firm to place *itself*. This dashboard adapts the staged form for
-  **external observation**: no institution is asked anything, and no institution
-  can move its own row. *(The stage vocabulary of that questionnaire has not yet
-  been compared line by line against §3; where they overlap, this project is the
-  later work and says so.)*
-- **Industry surveys** (central-bank and consultant surveys of AI use) report
-  self-declared adoption in aggregate and anonymized. Every row here is named,
-  dated and sourced — which makes it checkable, and makes it wrong in public
-  when it is wrong.
+A staged reading of AI adoption is not new. **Commercial AI indices** — chiefly
+the [Evident AI Index](https://evidentinsights.com/) — rank large public
+*companies*; this is not a ranking, it covers **asset owners** that benchmarks do
+not, and it publishes the assessments that failed. **Staged self-assessment
+questionnaires**, including the one in the US financial-services AI
+risk-management framework of February 2026, ask a firm to place *itself*; here no
+institution is asked anything and none can move its own row. **Industry surveys**
+report self-declared adoption in aggregate; every row here is named, dated and
+sourced — checkable, and wrong in public when it is wrong.
 
 ---
 
-## 11. AI leadership roles
-
-A second record, on a **different unit of observation**, published alongside the
-stage classification and deliberately kept apart from it.
-
-The unit is a **role event**: one dated, publicly sourced thing that happened to
-an AI-leadership role at an institution in the population. It lives in
-[`data/roles.jsonl`](data/roles.jsonl), one record per line, append-only. Its
-shape is [`schemas/role_event.schema.json`](schemas/role_event.schema.json).
-
-### 11.1 Relation to the stages: none
-
-**A role event never moves an adoption stage, in either direction.** Hiring is an
-input to adoption, not evidence of it: §3 places `exploring` at "stated intent,
-hiring, task forces" precisely because an appointment says what an institution
-intends, not what it runs. A firm that appoints a Chief AI Officer and ships
-nothing stays where the shipped evidence puts it.
-
-The roles pipeline enforces this rather than trusting it — the module never
-reads or writes `stage`, and a test asserts that a roles pass leaves
-`data/institutions.json` byte-identical.
-
-### 11.2 The population
-
-Role events are recorded only for institutions in the population, which is the
-union of three published files:
-
-1. [`data/institutions.json`](data/institutions.json) — the dashboard;
-2. [`data/not_classified.json`](data/not_classified.json) — the appendix (§7).
-   These entries carry no aliases, so they match on name alone;
-3. [`data/roles_expansion.json`](data/roles_expansion.json) — a hand-written
-   list for institutions in neither of the above.
-
-An institution qualifies for the expansion list only if it is **an asset owner
-or asset manager, with disclosed AUM of US$10B or more, carrying at least one
-public AI-leadership signal dated 2023-01-01 or later from a T1 or T2 source**
-(see [SOURCES.md](SOURCES.md)). The list is written by the maintainer and never
-by an agent, and it ships empty: an expanded population is a decision, not a
-side effect of a search.
-
-Institutions on the denylist in [`data/excluded.json`](data/excluded.json) are
-never searched, never proposed and never recorded. **An exclusion is a recusal,
-not an assessment** — it implies nothing about that institution's AI adoption in
-either direction.
-
-### 11.3 Event types
-
-| `event_type` | Means |
-|---|---|
-| `created` | The role itself is newly established. |
-| `hired` | A person is appointed into the role. |
-| `retitled` | The **same person** takes a new AI-inclusive title. |
-| `departed` | A person leaves the role. |
-| `expanded_remit` | An existing leader's remit is extended to cover AI. |
-
-**A retitle is not a new role**, and is never counted as one. It is the single
-most likely way to overstate this record: "Chief Data Officer becomes Chief Data
-& AI Officer" is one person and one job, and counting it as an appointment would
-manufacture a hiring wave out of a press-release convention.
-
-### 11.4 Title normalization
-
-Every record keeps `title_verbatim` — the title exactly as the source prints it,
-in the source's own language, never translated or tidied. `title_normalized` is a
-separate comparison key, drawn from a closed vocabulary: `chief_ai_officer`,
-`head_of_ai`, `chief_data_and_ai_officer`, `head_of_ai_implementation`,
-`ai_lead_other`.
-
-The rule is **map, never promote**: a title is normalized to the bucket it
-already states, and seniority the title does not state is never inferred. A
-"Head of AI Implementation" is not a Head of AI; a divisional AI lead is not a
-firm-wide one. Anything that does not clearly sit in the first four buckets is
-`ai_lead_other`, which is a real answer and not a residue. `reporting_line` and
-`scope` are `unknown` unless the source says otherwise — they are never deduced
-from the title.
-
-### 11.5 Naming a person
-
-These records can name a living individual, so the sourcing bar is narrower than
-elsewhere in this project. **A name is recorded only from a firm press release, a
-firm leadership page, a regulatory filing, or an outlet meeting the T1 or T2
-criteria in [SOURCES.md](SOURCES.md).** No LinkedIn-derived data enters this pipeline
-at any point — not as evidence, not as corroboration, not as a search surface.
-
-`person: null` is a **complete record**, not a missing one: the unit is the
-event, and an unnamed appointment is fully observed for this corpus's purposes.
-No compensation data is collected and no job-postings corpus is built.
-
-**Corrections and removals.** Anyone named in this record can ask for a
-correction or removal, and so can anyone else who can show the record is wrong.
-Use the channels in [README, "Public comments and
-submissions"](README.md#public-comments-and-submissions), or open an issue. A
-withdrawn event is deleted from `data/roles.jsonl` and a `withdrawn-on-review`
-entry is written to the negative record below — a removal that left no trace
-would make the corpus look as though the event had never been filed.
-
-### 11.6 The negative record
-
-Institutions searched whose public record yielded no qualifying role event are
-published in [`data/roles_not_found.jsonl`](data/roles_not_found.jsonl), with the
-same two outcomes as §7 (`no-qualifying-evidence`, `withdrawn-on-review`) and a
-public reason. Without it, a firm that was searched and came up empty is
-indistinguishable from one nobody looked at.
-
-Its `searched_on` field dates the **looking**, not any evidence, and is named so
-that it cannot be mistaken for one. That is the opposite of the rule for stage
-transitions in §8, and for the opposite reason: a negative result has no evidence
-date to take.
-
-### 11.7 Provenance, and the same caveat as §6
-
-A screener proposes candidates into a local queue; a human opens each source and
-files the record, exactly as §5 describes for a stage. Each filed event carries
-`agent_proposed_event_type` and `label_provenance`, written once, at filing.
-
-**This is anchored, non-independent agreement, precisely as in §6.** The
-reviewer sees the screener's proposed event type before deciding, and the
-reviewer is also the author of these rules. No reliability coefficient is
-computed from it and none may be quoted from it.
-
-### 11.8 Status
-
-The module is **published and unpopulated**: the schema, the review gate, the
-collection sweep and this section ship before any data does, so the first record
-enters against rules written in advance rather than rules fitted to it. The
-`embedded` column of §3 is empty for a different reason — nothing qualifies —
-and the two emptinesses should not be read as the same claim.
-
----
+*The AI-leadership roles record described in §11 of v1.1.0 is withdrawn from
+this release and will return in a later one.*
 
 *Questions about a specific classification? Open an issue with the public
 sources you think change the call.*

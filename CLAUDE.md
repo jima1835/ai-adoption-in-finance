@@ -94,13 +94,17 @@ never write this file. `reason` text is public — it must stand alone.
 `data/agreement.json` — the DISAGREEMENT RECORD, public and derived. Built by
 `tools/build_agreement.py` from `institutions.json` + `not_classified.json` only, so
 anyone can reproduce it from this repo. Reports two rates — `stage_agreement` (of
-reviewed rows carrying an agent proposal, how often the proposed stage stood) and
-`proposal_accepted` (of every proposal adjudicated, how often it was taken unchanged,
-counting rows withdrawn on review) — plus a proposed-vs-final matrix, the revisions and
-the withdrawals. **It is ANCHORED, non-independent agreement, never a reliability
+reviewed rows carrying an agent proposal, how often the proposed stage stood **at the
+first human review**, read from `label_provenance`) and `proposal_accepted` (of every
+proposal adjudicated, how often it was taken unchanged, counting rows withdrawn on
+review) — plus a proposed-vs-final matrix, the revisions and the withdrawals. Later
+changes never move those rates: an evidence-dated transition (`transitions.jsonl`) or a
+correction on re-reading is listed under `since_first_review`, and `current_label`
+reports the proposal against today's stage so the two readings are never confused. **It is ANCHORED, non-independent agreement, never a reliability
 coefficient**: the reviewer saw the proposed stage and its reasoning before deciding, and
 is also the author of the rules. No kappa is computed here and none may be quoted from
-it. Rebuild after every review session. Rendered on the Methodology page.
+it. Rebuild after every review session. Not rendered on the site (panel withdrawn 2026-09-27: a
+near-diagonal matrix reads as two changes); the Methodology page links the file.
 
 `data/transitions.jsonl` — the PANEL SPINE. Append-only, public, tracked. One record per
 approved stage move, written ONLY by `review.py`, which refuses the write without a
@@ -110,23 +114,48 @@ instead of the sector's. Starts absent and fills prospectively.
 
 ### Presentation layer — never modifies `institutions.json`
 
-Three derived files, consulted at render time only. `vite.config.js` copies every
+Derived files, consulted at render time only. `vite.config.js` copies every
 `data/*.json` into `docs/data/` at build, so a new one ships automatically — but only
-after `npm run build`.
+after `npm run build`. All of them are written AFTER human approval (the reviewer may
+edit text at approval), never by the intake or refresh agents, and all degrade the same
+way: absent or malformed → the lookup answers null and the feature does not render.
+**Gate the whole layer with `python3 local/check_translations.py --check`** before
+every build; `tests/presentation.test.mjs` and `tests/timeline.test.mjs` enforce the
+same in CI.
 
 `data/translations.json` — `{runs: {exact CJK run: English}}`. `<Lang>` looks each run up
 by EXACT string via `segmentCjk()` in `src/data.js` (quoted 「…」/『…』 spans first, then CJK
 runs in the remainder). Keys drift silently whenever a reviewed rationale is edited: the
-old key orphans, the new one falls back to raw CJK, and nothing errors. **Gate it with
-`python3 local/check_translations.py --check`** before every build.
+old key orphans, the new one falls back to raw CJK, and nothing errors.
 
 `data/summaries.json` — `{summaries: {row name: [bullets]}}`. 4–5 bullets compressed from
 that row's reviewed rationale, introducing no new facts, the last one carrying the
-"stops short of…" clause. One entry per row; the checker above reports missing and stale.
+"stops short of…" clause; `summaryParts()` in `src/data.js` prefixes each with a fixed
+evidence label at render time. One entry per row.
 
-`data/homepages.json` — `{homepages: {row name: {url}}}`. Firm homepages taken from
-own-domain evidence URLs that already passed human review. A row with no own-domain
-evidence gets no link rather than a guessed one, so partial coverage is expected.
+`data/event_summaries.json` — `{entries: [{institution, date, source_url, source_note,
+title, bullets}]}`: the per-event digest the timeline renders (`src/timeline.js`). Keyed on
+the EXACT tuple of institution, date, source URL and event text (`source_note`), so a
+changed event falls back to its full note until re-digested and an orphan marks an edited
+or removed event. `title` ≤ 12 words, present tense, names the actor and the thing;
+1–2 `bullets`, each ≤ 35 words, in English (a proper noun may keep its script; the
+translation gate covers the run), preserving the event's attribution
+("company claim", vendor-published), its deployment status (plan / pilot / production /
+research output) and its scope calls, adding no fact the event does not carry. The full
+event text stays one disclosure away in the UI. Maintain with
+`python3 local/event_digests.py --check | --stubs | --merge`.
+
+`data/descriptions.json` — `{descriptions: {row name: {text, source_url}}}`: a 15–30-word
+intro under the name, drafted from the reviewed row; `source_url` is the homepage or null.
+
+`data/homepages.json` — `{homepages: {row name: {url, derived_from, basis}}}`. Firm
+homepages taken from own-domain evidence URLs that already passed human review; an
+entry without `derived_from` renders as unverified.
+
+`data/highlights.json` — `{kinds, highlights: [{institution, date, source_url, kind, label}]}`:
+the few events per row worth a marker (tool / metric / capital), resolved to exactly one
+event by the same exact-key rule. `data/publishers.json` — host → publisher label behind
+each source link. `data/job_postings.json` — the requisition events rendered as Roles.
 
 ### Auto vs curated vs reviewer-only
 
@@ -219,28 +248,31 @@ Key from env (`ANTHROPIC_API_KEY`); repo secret in CI. Never hardcoded.
 - `monitor.py` — engine: GDELT fetch → dedup → Claude screen → feed/institutions update
 - `alerts.py` — notify-only email digest (Resend) for stage-relevant signals
 - `data/` — `institutions.json` (STATE) · `feed.json` (STREAM) · `seen_urls.json` (dedup) · `stage_definitions.json` · `not_classified.json` (APPENDIX, human-gated)
-- ROLES module (METHODOLOGY §11) — a SECOND record on a different unit: the AI-leadership
-  ROLE EVENT. `roles.py` (shared population/denylist/ULID/JSONL helpers) · `data/roles.jsonl`
-  (append-only, human-filed) · `data/roles_not_found.jsonl` (negative record) ·
-  `data/roles_expansion.json` (maintainer-written population extension) ·
-  `data/excluded.json` (denylist; merged with an untracked `local/excluded.json` overlay) ·
-  `prompts/roles_screen.md` · `schemas/*.schema.json` + `tools/validate_data.py`.
-  `monitor.py --roles` PROPOSES into `local/roles_queue.jsonl` and writes NOTHING under
-  `data/`; `tools/review.py --roles` is the only writer of the two JSONL files.
-  **A role event never touches `stage`** — a hire is an input to adoption, not evidence of
-  it. Reviewer-only there: `as_of_reviewed`, `label_provenance`, `agent_proposed_event_type`.
-- `tests/test_frozen_corpus.py` — the planned 100-row blind-review gate. It stays
-  dormant while the reviewed corpus grows to 100 institutions. At that milestone,
-  record the hashes from the 100-row corpus and activate the checks; do not re-pin
+- ROLES module (METHODOLOGY §11 of v1.1.0) — withdrawn from the public tree in v1.2.0; preserved under local/roles_module/ for a later release.
+- `schemas/*.schema.json` + `tools/validate_data.py` — a JSON Schema per public data file
+  (`institutions.json`, `not_classified.json`, `excluded.json`) and the validator that checks
+  every one of them. `data/excluded.json` is the recusal list — institutions never researched
+  or proposed, merged with an untracked `local/excluded.json` overlay; it implies nothing about
+  the institutions on it.
+- `tests/test_frozen_corpus.py` — the blind-review gate. Dormant until the freeze is
+  DECLARED: `python3 tools/review.py --freeze` writes `data/recode_freeze.json` and
+  prints the digests to paste in. Nothing trips on row count alone — reaching 100 only
+  makes the reviewer show `freeze_due`. Record the printed hashes once; do not re-pin
   them to go green. Delete the file only in the deliberate post-recode release.
-- `src/` — React dashboard: `App.jsx`, `main.jsx`, `data.js`, `useInstitutions.js`, `styles.css`;
-  `components/`: Header, Footer, InstitutionTable, PhaseGrid, StageBadge, FilterPills, DrillDown, Methodology
+- `src/` — React dashboard: `App.jsx`, `main.jsx`, `data.js`, `timeline.js`,
+  `useInstitutions.js`, `styles.css`; `components/`: Header, Footer, InstitutionTable, PhaseGrid,
+  StageBadge, FilterPills, DrillDown, Methodology, Releases, About. Hash routes:
+  `#/methodology`, `#/releases` (a hand-written table, one 30–50-word row per release, kept in
+  step with CHANGELOG.md at each release), `#/about`. `vite.config.js` bakes `__SITE_BUILD__` (build date,
+  HEAD commit and its date) into the bundle; the footer's "Updated" stamp and the Releases page read it.
 - `tests/` — `test_monitor.py` (unit) · `test_review.py` (review-tool panel guard) · `test_gdelt_live.py` (live)
 - `tools/` — PUBLIC review tooling: `review.py` + `review.html` (the human audit UI) and
   `build_agreement.py` (rebuilds `data/agreement.json`). `local/review.py`, `local/review.html`
   and `local/build_agreement.py` are symlinks to these, so `python3 local/review.py` still works;
   edit the `tools/` copies. Published in v1.0.2 because the ATRACC submission and
-  METHODOLOGY §5–6 describe them.
+  METHODOLOGY §5–6 describe them. Also `mapgen.mjs` — a one-shot generator that
+  rewrites `src/worldgrid.js` (the By-region dot raster) from Natural Earth 110m;
+  run it only to change the projection or the country→bucket table it carries.
 - `docs/` — built site served by GitHub Pages; `vite.config.js` copies `data/` → `docs/data/`
 - `local/` + `CLAUDE.local.md` — gitignored working area (research queue, evidence
   ledger, overnight supervisor). Never committed, except that the three tool files
