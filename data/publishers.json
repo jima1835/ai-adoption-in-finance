@@ -76,6 +76,10 @@
       "name": "Asset Management Association of China (中国证券投资基金业协会)",
       "medium": "filing"
     },
+    "amova-am.com": {
+      "name": "Amova Asset Management",
+      "medium": "firm"
+    },
     "amundi.com": {
       "name": "Amundi",
       "medium": "firm"
@@ -120,6 +124,10 @@
       "name": "BCI",
       "medium": "firm"
     },
+    "benefitsandpensionsmonitor.com": {
+      "name": "Benefits and Pensions Monitor",
+      "medium": "press"
+    },
     "benefitscanada.com": {
       "name": "Benefits Canada",
       "medium": "press"
@@ -136,6 +144,14 @@
       "name": "Bloomberg Law",
       "medium": "press"
     },
+    "bnpparibas-am.com": {
+      "name": "BNP Paribas Asset Management",
+      "medium": "firm"
+    },
+    "businessinsider.com": {
+      "name": "Business Insider",
+      "medium": "press"
+    },
     "businesswire.com": {
       "name": "Business Wire",
       "medium": "wire"
@@ -146,6 +162,14 @@
     },
     "calstrs.com": {
       "name": "CalSTRS",
+      "medium": "firm"
+    },
+    "capgroup.wd1.myworkdayjobs.com": {
+      "name": "Capital Group careers (Workday)",
+      "medium": "firm"
+    },
+    "capitalgroup.com": {
+      "name": "Capital Group",
       "medium": "firm"
     },
     "cfs.com.au": {
@@ -175,6 +199,10 @@
     "cnbc.com": {
       "name": "CNBC",
       "medium": "press"
+    },
+    "coder.com": {
+      "name": "Coder",
+      "medium": "vendor"
     },
     "coreweave.com": {
       "name": "CoreWeave",
@@ -228,12 +256,28 @@
       "name": "Franklin Templeton",
       "medium": "firm"
     },
+    "gatesfoundation.org": {
+      "name": "Gates Foundation",
+      "medium": "firm"
+    },
+    "gatesfoundation.wd1.myworkdayjobs.com": {
+      "name": "Gates Foundation careers (Workday)",
+      "medium": "firm"
+    },
     "gic.com.sg": {
       "name": "GIC",
       "medium": "firm"
     },
     "gitlabfoundation.org": {
       "name": "GitLab Foundation",
+      "medium": "firm"
+    },
+    "hamiltonlane.com": {
+      "name": "Hamilton Lane",
+      "medium": "firm"
+    },
+    "hamiltonlane.wd108.myworkdayjobs.com": {
+      "name": "Hamilton Lane careers (Workday)",
       "medium": "firm"
     },
     "hankyung.com": {
@@ -252,12 +296,20 @@
       "name": "HOOPP",
       "medium": "firm"
     },
+    "houstonendowment.org": {
+      "name": "Houston Endowment",
+      "medium": "firm"
+    },
     "hudsonrivertrading.com": {
       "name": "Hudson River Trading",
       "medium": "firm"
     },
     "ilmarinen.fi": {
       "name": "Ilmarinen",
+      "medium": "firm"
+    },
+    "imcoinvest.com": {
+      "name": "IMCO",
       "medium": "firm"
     },
     "innovationleader.com": {
@@ -267,6 +319,10 @@
     "institutionalinvestor.com": {
       "name": "Institutional Investor",
       "medium": "press"
+    },
+    "invest.bnpparibas": {
+      "name": "BNP Paribas investor relations",
+      "medium": "firm"
     },
     "investcorp.com": {
       "name": "Investcorp",
@@ -284,6 +340,10 @@
       "name": "InvestmentNews",
       "medium": "press"
     },
+    "investordaily.com.au": {
+      "name": "InvestorDaily",
+      "medium": "press"
+    },
     "investpsp.com": {
       "name": "PSP Investments",
       "medium": "firm"
@@ -296,6 +356,10 @@
       "name": "iTnews",
       "medium": "press"
     },
+    "itpro.com": {
+      "name": "ITPro",
+      "medium": "press"
+    },
     "janestreet.com": {
       "name": "Jane Street",
       "medium": "firm"
@@ -304,13 +368,25 @@
       "name": "JRJ (金融界)",
       "medium": "press"
     },
+    "kkr.com": {
+      "name": "KKR",
+      "medium": "firm"
+    },
     "klp.no": {
       "name": "KLP",
+      "medium": "firm"
+    },
+    "lacaisse.com": {
+      "name": "La Caisse (CDPQ)",
       "medium": "firm"
     },
     "lambda.ai": {
       "name": "Lambda",
       "medium": "vendor"
+    },
+    "lapresse.ca": {
+      "name": "La Presse",
+      "medium": "press"
     },
     "legalandgeneral.com": {
       "name": "Legal & General",
@@ -356,12 +432,24 @@
       "name": "Millennium Management",
       "medium": "firm"
     },
+    "morganstanley.com": {
+      "name": "Morgan Stanley",
+      "medium": "firm"
+    },
     "nam.co.jp": {
       "name": "Nissay Asset Management",
       "medium": "firm"
     },
     "nbim.no": {
       "name": "NBIM",
+      "medium": "firm"
+    },
+    "nbprivatewealth.com": {
+      "name": "Neuberger Berman Private Wealth",
+      "medium": "firm"
+    },
+    "nestpensions.org.uk": {
+      "name": "Nest",
       "medium": "firm"
     },
     "news.cn": {
@@ -374,6 +462,10 @@
     },
     "norges-bank.no": {
       "name": "Norges Bank",
+      "medium": "firm"
+    },
+    "northerntrust.com": {
+      "name": "Northern Trust",
       "medium": "firm"
     },
     "nps.or.kr": {
@@ -394,6 +486,14 @@
     },
     "optiver.com": {
       "name": "Optiver",
+      "medium": "firm"
+    },
+    "otpp.com": {
+      "name": "Ontario Teachers' Pension Plan",
+      "medium": "firm"
+    },
+    "otppb.wd3.myworkdayjobs.com": {
+      "name": "Ontario Teachers' careers (Workday)",
       "medium": "firm"
     },
     "partnersgroup.com": {
@@ -428,9 +528,21 @@
       "name": "Prudential Financial",
       "medium": "firm"
     },
+    "publishing.service.gov.uk": {
+      "name": "GOV.UK",
+      "medium": "filing"
+    },
     "quilter.com": {
       "name": "Quilter",
       "medium": "firm"
+    },
+    "recruiting2.ultipro.com": {
+      "name": "UKG-hosted careers page",
+      "medium": "firm"
+    },
+    "researchprofessionalnews.com": {
+      "name": "Research Professional News",
+      "medium": "press"
     },
     "reuters.com": {
       "name": "Reuters",
@@ -476,6 +588,10 @@
       "name": "Thinking Machines Lab",
       "medium": "vendor"
     },
+    "tokiomarineam.co.jp": {
+      "name": "Tokio Marine Asset Management",
+      "medium": "firm"
+    },
     "top1000funds.com": {
       "name": "Top1000funds.com",
       "medium": "press"
@@ -508,6 +624,14 @@
       "name": "Unique",
       "medium": "vendor"
     },
+    "uss.co.uk": {
+      "name": "USS",
+      "medium": "firm"
+    },
+    "utimco.org": {
+      "name": "UTIMCO",
+      "medium": "firm"
+    },
     "vanguard.com": {
       "name": "Vanguard",
       "medium": "firm"
@@ -524,9 +648,17 @@
       "name": "WatersTechnology",
       "medium": "press"
     },
+    "wealthadvisor.jp": {
+      "name": "Wealth Advisor",
+      "medium": "press"
+    },
     "wealthmanagement.com": {
       "name": "WealthManagement.com",
       "medium": "press"
+    },
+    "wellcome.org": {
+      "name": "Wellcome",
+      "medium": "firm"
     },
     "wsj.com": {
       "name": "The Wall Street Journal",

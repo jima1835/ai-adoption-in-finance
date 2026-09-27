@@ -30,7 +30,7 @@
     {
       "institution": "GIC",
       "date": "2023",
-      "source_url": "https://www.tradersmagazine.com/departments/buy-side/gics-travis-ni-balances-technical-and-interpersonal-skills/",
+      "source_url": "https://www.tradersmagazine.com/featured_articles/gics-equity-trading-head-travis-ni-balances-technical-and-interpersonal-skills/",
       "kind": "tool",
       "label": "Launches ChatGIC, an enterprise secure ChatGPT"
     },
@@ -211,10 +211,10 @@
     },
     {
       "institution": "Citadel",
-      "date": "2025-12-04",
-      "source_url": "https://www.hedgeweek.com/citadel-rolls-out-ai-research-assistant/",
+      "date": "2025-12-03",
+      "source_url": "https://www.investing.com/news/stock-market-news/citadel-debuts-new-ai-tool-for-equities-investors-cto-subramanian-says-4396760",
       "kind": "tool",
-      "label": "Citadel AI Assistant in regular use across almost all equities investors"
+      "label": "Citadel AI Assistant used regularly by nearly all equities investors (Reuters)"
     },
     {
       "institution": "CSOP Asset Management",
@@ -600,6 +600,13 @@
       "source_url": "https://partnersgroup.com/~/media/Files/P/Partnersgroup/Universal/shareholders/reports-and-presentations/2026/2025-sustainability-report.pdf",
       "kind": "tool",
       "label": "Alpha Intelligence added to PG Alpha; PRIMERA.ai internal LLM platform"
+    },
+    {
+      "institution": "GIC",
+      "date": "2026-07-24",
+      "source_url": "https://www.gic.com.sg/uploads/2026/07/GIC_AR_2025-26_PRINT.pdf",
+      "kind": "tool",
+      "label": "Enterprise AI platform (Claude/GPT), AI Research Assistant and virtual IC member disclosed"
     }
   ]
 }

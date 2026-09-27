@@ -24,17 +24,17 @@
     "GIC": {
       "text": "Sovereign wealth fund wholly owned by the Government of Singapore; manages the country's foreign reserves for the long term across public and private markets worldwide.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://www.gic.com.sg/"
     },
     "BlackRock": {
       "text": "New York-listed asset manager, the world's largest, running iShares index funds alongside active and alternative strategies for institutions and individuals; also licenses its Aladdin risk platform.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://www.blackrock.com/"
     },
     "Temasek": {
       "text": "Investment company owned by the Government of Singapore that holds and manages a global portfolio of equity stakes, including in many of Singapore's largest companies.",
       "basis": "drafted",
-      "source_url": "https://marketing-interactive.com/"
+      "source_url": "https://www.temasek.com.sg/"
     },
     "Vanguard": {
       "text": "Pennsylvania-based mutual-fund and ETF manager owned by its own US funds, and thus by their investors; built around low-cost index investing for individuals and institutions.",
@@ -44,7 +44,7 @@
     "Bridgewater Associates": {
       "text": "Connecticut-based hedge fund founded by Ray Dalio, running systematic global-macro strategies such as Pure Alpha and All Weather for institutional clients.",
       "basis": "drafted",
-      "source_url": "https://thinkingmachines.ai/"
+      "source_url": "https://www.bridgewater.com/"
     },
     "Man Group": {
       "text": "London-listed alternative investment manager, among the largest publicly traded hedge-fund firms, running systematic (Man AHL, Man Numeric) and discretionary strategies for institutional clients worldwide.",
@@ -54,7 +54,7 @@
     "AQR Capital Management": {
       "text": "Greenwich, Connecticut-based quantitative investment manager co-founded by Cliff Asness; runs systematic, factor-based strategies across asset classes for institutional clients and in mutual funds.",
       "basis": "drafted",
-      "source_url": "https://fa-mag.com/"
+      "source_url": "https://www.aqr.com/"
     },
     "Schroders": {
       "text": "London-listed asset manager with the founding Schroder family still its largest shareholder; runs active public-market, private-market (Schroders Capital) and wealth-management businesses for institutions and individuals worldwide.",
@@ -129,7 +129,7 @@
     "Citadel": {
       "text": "Miami-headquartered multi-strategy hedge fund founded by Ken Griffin, trading equities, fixed income and macro, commodities, credit and quantitative strategies; distinct from the market maker Citadel Securities.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://www.citadel.com/"
     },
     "Two Sigma": {
       "text": "New York-based quantitative hedge fund founded by John Overdeck and David Siegel, running systematic, model-driven strategies across global markets for institutional investors.",
@@ -139,7 +139,7 @@
     "CSOP Asset Management": {
       "text": "Hong Kong-based subsidiary of China Southern Asset Management, the first offshore arm set up by a mainland Chinese fund house; specializes in ETFs on Chinese and Asian markets.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://www.csopasset.com/"
     },
     "State Street Investment Management (SSGA)": {
       "text": "Boston-based asset-management arm of State Street Corporation, the custody bank; runs the SPDR ETF family and index and active mandates for institutional and intermediary clients worldwide.",
@@ -154,32 +154,32 @@
     "Fidelity Investments": {
       "text": "Boston-based, privately held financial-services group controlled by the Johnson family; runs mutual funds and manages retirement plans, brokerage and custody for individuals, employers and institutions.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://institutional.fidelity.com/advisors"
     },
     "PGIM": {
       "text": "Newark, New Jersey-based asset-management business of the insurer Prudential Financial; runs fixed-income, equity, real-estate and private-credit strategies for institutional and retail clients worldwide through specialist affiliates.",
       "basis": "drafted",
-      "source_url": "https://news.prudential.com/"
+      "source_url": "https://www.pgim.com/"
     },
     "Permodalan Nasional Berhad (PNB)": {
       "text": "Malaysian state-linked fund manager, established to broaden Bumiputera share ownership, that runs unit trusts for millions of Malaysian retail investors through its ASNB arm; based in Kuala Lumpur.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://www.pnb.com.my/"
     },
     "M&G": {
       "text": "London-listed savings and investment group, demerged from Prudential plc, that combines the asset manager M&G Investments with a UK life-insurance and with-profits business serving retail and institutional clients.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://www.mandg.com/"
     },
     "AllianceBernstein": {
       "text": "Nashville-headquartered, publicly traded asset manager majority-owned by the insurer Equitable Holdings; runs active equity, fixed-income and alternative strategies alongside the Bernstein private-wealth business.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://www.alliancebernstein.com/corporate/en/home.html"
     },
     "Ares Management": {
       "text": "Los Angeles-based, publicly listed alternative asset manager with private credit its largest business, alongside private equity, real assets and secondaries; invests for institutional and wealth clients worldwide.",
       "basis": "drafted",
-      "source_url": "https://fool.com/"
+      "source_url": "https://www.aresmgmt.com/"
     },
     "Aberdeen Group (abrdn)": {
       "text": "Edinburgh-based listed investment group, formed by merging Standard Life and Aberdeen Asset Management, that combines an asset manager with a UK adviser platform and the interactive investor retail platform.",
@@ -194,12 +194,12 @@
     "Ameriprise Financial": {
       "text": "Minneapolis-based, publicly listed financial-services company spun off from American Express; built around a large network of financial advisors and also owns the asset manager Columbia Threadneedle.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://www.ameriprise.com/"
     },
     "DWS Group": {
       "text": "Frankfurt-listed asset manager majority-owned by Deutsche Bank, running active, passive (Xtrackers) and alternative strategies for retail and institutional clients in Europe, the Americas and Asia.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://www.dws.com/"
     },
     "Victory Capital": {
       "text": "San Antonio-based, publicly listed asset manager structured as a holding company for autonomous investment franchises, including the former USAA funds and Pioneer Investments; serves retail and institutional clients.",
@@ -209,7 +209,7 @@
     "J.P. Morgan Asset Management": {
       "text": "New York-based asset-management arm of JPMorgan Chase, running active equity, fixed-income, multi-asset, liquidity and alternative strategies for institutions, intermediaries and individual investors worldwide.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://am.jpmorgan.com/"
     },
     "TPG Inc.": {
       "text": "Publicly listed alternative asset manager, founded in San Francisco and Fort Worth, running private equity, growth, impact, real-estate and credit funds for institutional investors worldwide.",
@@ -219,7 +219,7 @@
     "Manulife Investment Management": {
       "text": "Toronto-based asset-management arm of the insurer Manulife (John Hancock in the US), running public-market, private-market and retirement-plan businesses for institutional and retail clients worldwide.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://www.manulifeim.com/"
     },
     "AP Pension": {
       "text": "Danish pension and life-insurance company, based in Copenhagen, providing occupational and individual pensions; owned by its customers through the association Foreningen AP Pension.",
@@ -234,12 +234,12 @@
     "Liontrust Asset Management": {
       "text": "London-listed independent fund manager organized around autonomous investment teams, running active equity, fixed-income, multi-asset and sustainable strategies, mainly for UK retail investors, financial advisers and institutions.",
       "basis": "drafted",
-      "source_url": "https://investegate.co.uk/"
+      "source_url": "https://www.liontrust.co.uk/"
     },
     "Azimut Holding": {
       "text": "Milan-listed independent asset-management and financial-advisory group, partly owned by its own managers and advisers, serving retail clients through a network of financial advisers in Italy and abroad.",
       "basis": "drafted",
-      "source_url": "https://milanofinanza.it/"
+      "source_url": "https://www.azimut-group.com/"
     },
     "Ilmarinen": {
       "text": "Finnish mutual earnings-related pension insurance company, based in Helsinki, that manages statutory pension cover for private-sector employers and self-employed workers; owned by its customers.",
@@ -259,7 +259,7 @@
     "ExodusPoint Capital Management": {
       "text": "New York-based multi-strategy hedge fund founded by Michael Gelband, a former Millennium executive, allocating capital across many portfolio-manager teams in fixed income, macro and equities.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://www.exoduspoint.com/"
     },
     "Lynx Asset Management": {
       "text": "Stockholm-based systematic hedge-fund manager running trend-following and other model-driven futures strategies (the Lynx program) for institutional investors; part of the Brummer & Partners group.",
@@ -274,7 +274,7 @@
     "Daiwa Asset Management": {
       "text": "Tokyo-based asset manager wholly owned by Daiwa Securities Group, running publicly offered investment trusts (including ETFs) and institutional mandates, mainly for Japanese investors.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://www.daiwa-am.co.jp/english/"
     },
     "Nissay Asset Management": {
       "text": "Tokyo-based asset-management subsidiary of Nippon Life Insurance (Nissay), one of Japan's major life insurers, running investment trusts and institutional mandates for Japanese pension funds, institutions and retail investors.",
@@ -284,72 +284,72 @@
     "E Fund Management": {
       "text": "Guangzhou-based mutual-fund manager, among mainland China's largest, running public funds, ETFs, pension products and institutional mandates for Chinese retail and institutional investors.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://www.efunds.com.cn/"
     },
     "China Europe Fund Management": {
       "text": "Shanghai-based mutual-fund manager, originally a Sino-European joint venture and among the first mainland fund houses with significant employee ownership; runs public funds for Chinese retail and institutional investors.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://www.zofund.com/"
     },
     "China Merchants Fund Management": {
       "text": "Shenzhen-based mutual-fund manager owned by China Merchants Bank and China Merchants Securities, running public funds, ETFs and institutional mandates for Chinese retail and institutional investors.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://www.cmfchina.com/"
     },
     "Guotai Fund Management": {
       "text": "Shanghai-based mutual-fund manager, one of the first fund companies licensed in mainland China, running public funds, ETFs and institutional mandates for Chinese investors.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://www.gtfund.com/"
     },
     "China Universal Asset Management": {
       "text": "Shanghai-based mutual-fund manager, part-owned by Orient Securities, running public funds, pension products and institutional mandates for Chinese retail and institutional investors.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://www.chinauniversalasset.com/"
     },
     "Maxwealth Fund Management": {
       "text": "Mainland Chinese mutual-fund manager, majority-owned by Bank of Ningbo, running public funds and institutional mandates for Chinese retail and institutional investors.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://www.maxwealthfund.com/"
     },
     "China Asset Management (ChinaAMC)": {
       "text": "Beijing-based mutual-fund manager, among mainland China's largest and earliest, majority-owned by CITIC Securities; runs public funds, ETFs, pension products and institutional mandates for Chinese and overseas investors.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://www.chinaamc.com/"
     },
     "Harvest Fund Management": {
       "text": "Beijing-based mutual-fund manager, one of mainland China's first ten fund houses, with DWS as a long-standing foreign shareholder; runs public funds and institutional mandates for Chinese investors.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://www.jsfund.cn/"
     },
     "Fullgoal Fund Management": {
       "text": "Shanghai-based mutual-fund manager, one of mainland China's first ten fund houses, part-owned by Bank of Montreal; runs public funds, ETFs and institutional mandates for Chinese investors.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://www.fullgoal.com.cn/"
     },
     "Bosera Asset Management": {
       "text": "Shenzhen-based mutual-fund manager, one of mainland China's first ten fund houses, with China Merchants Securities as its largest shareholder; runs public funds, ETFs and institutional mandates for Chinese investors.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://www.bosera.com/"
     },
     "Tianhong Asset Management": {
       "text": "Tianjin-registered mutual-fund manager majority-owned by Ant Group; manages Yu'e Bao, the money-market fund embedded in Alipay, alongside index and other public funds, mainly for retail investors.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://www.thfund.com.cn/"
     },
     "Ping An Fund Management": {
       "text": "Shenzhen-based mutual-fund manager controlled by the Ping An Insurance group, running public funds and institutional mandates for Chinese retail and institutional investors.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://fund.pingan.com/"
     },
     "Dacheng Fund Management": {
       "text": "Shenzhen-based mutual-fund manager, one of mainland China's first ten fund houses, running public funds and institutional mandates for Chinese retail and institutional investors.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://www.dcfund.com.cn/"
     },
     "Penghua Fund Management": {
       "text": "Shenzhen-based mutual-fund manager, one of mainland China's first ten fund houses, owned mainly by Guosen Securities and Intesa Sanpaolo's Eurizon; runs public funds and institutional mandates for Chinese investors.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://www.phfund.com.cn/"
     },
     "Korea Teachers Pension": {
       "text": "South Korean public pension fund for teachers and staff of private schools, operating under the Ministry of Education; invests contributions across domestic and overseas public and private markets.",
@@ -359,12 +359,12 @@
     "Invesco Great Wall Fund Management": {
       "text": "Shenzhen-based mutual-fund manager, a joint venture between Invesco and Great Wall Securities, running public funds and institutional mandates for Chinese retail and institutional investors.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://www.igwfmc.com/"
     },
     "ICBC Credit Suisse Fund Management": {
       "text": "Beijing-based mutual-fund manager majority-owned by Industrial and Commercial Bank of China, originally formed with Credit Suisse as minority partner; runs public funds and institutional mandates for Chinese investors.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://www.icbcubs.com.cn/"
     },
     "XTX Markets": {
       "text": "London-based algorithmic trading firm and electronic market maker founded by Alexander Gerko, providing liquidity in equities, fixed income, currencies and commodities to institutional counterparties worldwide.",
@@ -374,7 +374,7 @@
     "Hudson River Trading": {
       "text": "New York-based proprietary trading firm using automated, quantitative strategies to trade its own capital across equities, futures, options, currencies and fixed income on markets worldwide.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://www.hudsonrivertrading.com/"
     },
     "Jane Street": {
       "text": "New York-based proprietary trading firm and market maker, trading its own capital across ETFs, equities, bonds, options and other instruments on exchanges worldwide; builds its systems in OCaml.",
@@ -394,7 +394,7 @@
     "Quilter": {
       "text": "London-listed UK wealth manager, formerly Old Mutual Wealth, combining a financial-advice network, an investment platform and the discretionary manager Quilter Cheviot for UK retail clients and their advisers.",
       "basis": "drafted",
-      "source_url": "https://aveni.ai/"
+      "source_url": "https://www.quilter.com/"
     },
     "Pictet Asset Management": {
       "text": "Geneva-based institutional asset-management arm of the Pictet Group, a partner-owned Swiss private bank, running active equity, fixed-income, multi-asset and alternative strategies for institutions and fund investors worldwide.",
@@ -409,47 +409,152 @@
     "KB Asset Management": {
       "text": "Seoul-based asset-management subsidiary of KB Financial Group, one of South Korea's largest banking groups, running public funds, ETFs and institutional mandates for Korean retail and institutional investors.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://www.kbam.co.kr/eng/"
     },
     "Elo (Työeläkeyhtiö Elo)": {
       "text": "Finnish mutual pension insurance company, based in Espoo and formed by merging LocalTapiola Pension and Pension Fennia, providing statutory earnings-related pension cover for private-sector employers, employees and the self-employed.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://www.elo.fi/"
     },
     "KLP (Kommunal Landspensjonskasse)": {
       "text": "Oslo-based mutual life-insurance company providing occupational pensions for Norway's municipalities, county authorities and health enterprises; owned by its public-sector customers, with an in-house asset-management arm, KLP Kapitalforvaltning.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://www.klp.no/"
     },
     "GitLab Foundation": {
       "text": "Private grantmaking foundation founded by GitLab co-founder Sid Sijbrandij and endowed with GitLab Inc. stock; funds programs and research aimed at raising people's lifetime earnings and economic mobility.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://www.gitlabfoundation.org/"
     },
     "Aware Super": {
       "text": "Sydney-based profit-to-member superannuation fund, formerly First State Super, with a membership rooted in New South Wales public-sector, health and education workplaces; open to all Australians.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://aware.com.au/"
     },
     "AustralianSuper": {
       "text": "Melbourne-based profit-to-member industry superannuation fund, Australia's largest, open to all workers and jointly owned by the ACTU and the Australian Industry Group; invests globally across public and private markets.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://www.australiansuper.com/about-us"
     },
     "Blackstone": {
       "text": "New York-based, publicly listed alternative asset manager, the world's largest, running private equity, real estate, credit and hedge-fund-solutions businesses for institutional and individual investors worldwide.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://blackstone.com/"
     },
     "PSP Investments": {
       "text": "Canadian Crown corporation, based mainly in Montreal, that invests the pension contributions of the federal public service, Canadian Forces, RCMP and Reserve Force across public and private markets.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://investpsp.com/"
     },
     "Partners Group": {
       "text": "Swiss private-markets manager, listed on the SIX Swiss Exchange and headquartered in Baar-Zug, running private equity, credit, infrastructure and real-estate programs for institutional investors and private-wealth clients worldwide.",
       "basis": "drafted",
-      "source_url": null
+      "source_url": "https://partnersgroup.com/"
+    },
+    "Hamilton Lane": {
+      "text": "US-listed private-markets investment firm advising and managing capital for institutional and private-wealth investors across primaries, secondaries and direct investments; headquartered in Conshohocken, Pennsylvania.",
+      "basis": "drafted",
+      "source_url": "https://hamiltonlane.com/"
+    },
+    "Houston Endowment": {
+      "text": "Private philanthropic foundation established in 1937 by Jesse H. and Mary Gibbs Jones, funding civic, arts and community work in greater Houston from an endowment it manages.",
+      "basis": "drafted",
+      "source_url": "https://houstonendowment.org/"
+    },
+    "BNP Paribas Asset Management": {
+      "text": "The asset-management arm of French banking group BNP Paribas, managing institutional, wholesale and retail assets globally; absorbed AXA Investment Managers in 2025.",
+      "basis": "drafted",
+      "source_url": "https://bnpparibas-am.com/"
+    },
+    "Capital Group": {
+      "text": "Privately held Los Angeles-based active manager, home of the American Funds, running mutual funds and institutional mandates for retail and institutional investors worldwide.",
+      "basis": "drafted",
+      "source_url": "https://capitalgroup.com/"
+    },
+    "CDPQ (Caisse de dépôt et placement du Québec)": {
+      "text": "Québec's public pension and insurance-plan investor, managing provincial depositors' assets such as the Québec Pension Plan across public and private markets worldwide; trades as La Caisse.",
+      "basis": "drafted",
+      "source_url": "https://lacaisse.com/"
+    },
+    "IMCO (Investment Management Corporation of Ontario)": {
+      "text": "Ontario public-sector investment manager created in 2016, pooling and investing the assets of provincial public-sector pension plans and other public bodies from Toronto.",
+      "basis": "drafted",
+      "source_url": "https://www.imcoinvest.com/overview.html"
+    },
+    "Neuberger": {
+      "text": "Employee-owned New York investment manager offering equity, fixed-income, private-markets and hedge-fund strategies to institutions, advisers and individuals worldwide.",
+      "basis": "drafted",
+      "source_url": "https://www.nb.com/"
+    },
+    "Gates Foundation": {
+      "text": "Seattle-based private foundation funding global health, development and US education; its endowment sits in a separate trust managed outside the foundation's grantmaking organisation.",
+      "basis": "drafted",
+      "source_url": "https://gatesfoundation.org/"
+    },
+    "KKR": {
+      "text": "New York-based global alternative-asset manager investing across private equity, credit, infrastructure and real estate for institutional and individual investors; listed on the NYSE.",
+      "basis": "drafted",
+      "source_url": "https://kkr.com/"
+    },
+    "Morgan Stanley Investment Management": {
+      "text": "The asset-management division of Morgan Stanley, spanning active equity, fixed income, alternatives and Parametric's customised strategies for institutional and wealth clients worldwide.",
+      "basis": "drafted",
+      "source_url": "https://www.morganstanley.com/im/"
+    },
+    "Tokio Marine Asset Management": {
+      "text": "Tokyo-based asset manager within the Tokio Marine insurance group, running investment trusts and discretionary mandates for Japanese institutional and retail investors.",
+      "basis": "drafted",
+      "source_url": "https://tokiomarineam.co.jp/"
+    },
+    "USS (Universities Superannuation Scheme)": {
+      "text": "The UK's largest private pension scheme by assets, providing pensions for university and higher-education staff; its investments are run in-house by USS Investment Management.",
+      "basis": "drafted",
+      "source_url": "https://uss.co.uk/"
+    },
+    "Amova Asset Management (formerly Nikko Asset Management)": {
+      "text": "Tokyo-headquartered asset manager formerly known as Nikko Asset Management, part of the Sumitomo Mitsui Trust group, managing investment trusts and institutional mandates across Asia and beyond.",
+      "basis": "drafted",
+      "source_url": "https://amova-am.com/"
+    },
+    "Nest (National Employment Savings Trust)": {
+      "text": "UK workplace pension scheme set up by the government for automatic enrolment and run by the public corporation Nest Corporation, serving millions of members mainly through default funds.",
+      "basis": "drafted",
+      "source_url": "https://nestpensions.org.uk/"
+    },
+    "Northern Trust Asset Management": {
+      "text": "The investment-management arm of Chicago-based Northern Trust Corporation, offering index, quantitative and active strategies to institutions and intermediaries worldwide.",
+      "basis": "drafted",
+      "source_url": "https://www.northerntrust.com/united-states/what-we-do/investment-management"
+    },
+    "Nuveen": {
+      "text": "Investment manager owned by TIAA, managing fixed income, real estate, equities and alternatives for institutions and individuals; headquartered in New York.",
+      "basis": "drafted",
+      "source_url": "https://www.nuveen.com/"
+    },
+    "Ontario Teachers' Pension Plan": {
+      "text": "Toronto-based pension plan administering and investing the retirement assets of Ontario's active and retired teachers, with global public- and private-market investments.",
+      "basis": "drafted",
+      "source_url": "https://otpp.com/"
+    },
+    "UTIMCO": {
+      "text": "Non-profit investment company managing the endowment and operating funds of the University of Texas and Texas A&M University systems, including the Permanent University Fund; based in Austin.",
+      "basis": "drafted",
+      "source_url": "https://utimco.org/"
+    },
+    "Texas Teacher Retirement System": {
+      "text": "Public pension fund providing retirement and related benefits to Texas public-education employees; Austin-based, with a large internal investment division across public and private markets.",
+      "basis": "drafted",
+      "source_url": "https://www.trs.texas.gov/"
+    },
+    "Wellcome Trust": {
+      "text": "London-based charitable foundation funding health research worldwide, financed by an investment portfolio managed in-house by its own investment team.",
+      "basis": "drafted",
+      "source_url": "https://wellcome.org/"
+    },
+    "The Carlyle Group": {
+      "text": "Washington DC-based global alternative-asset manager investing across private equity, credit and investment solutions for institutional and private investors; listed on Nasdaq.",
+      "basis": "drafted",
+      "source_url": "https://www.carlyle.com/"
     }
   }
 }

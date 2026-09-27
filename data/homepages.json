@@ -1,5 +1,47 @@
 {
- "_readme": "Firm homepages, derived mechanically from the registrable domain of an own-domain evidence URL already verified during human review. No URL here was researched separately. A row with no own-domain evidence gets no link rather than a guessed one. `derived_from` is the evidence URL it came from. A domain claimed by more than one institution is treated as press coverage rather than an own domain and is dropped, since a homepage belongs to exactly one firm.",
+ "_readme": "Audited institution homepages. `derived_from` records either reviewed first-party evidence or the official page used to verify the mapping. `manually_verified` records maintainer-confirmed mappings that were not derived from reviewed evidence. A mapping with neither form of verification is uncertain, and the dashboard shows a visible question mark beside it.",
+ "manually_verified": [
+  "Temasek",
+  "Bridgewater Associates",
+  "AQR Capital Management",
+  "PGIM",
+  "Ares Management",
+  "Liontrust Asset Management",
+  "Azimut Holding",
+  "BlackRock",
+  "Citadel",
+  "CSOP Asset Management",
+  "Fidelity Investments",
+  "Permodalan Nasional Berhad (PNB)",
+  "M&G",
+  "Ameriprise Financial",
+  "DWS Group",
+  "J.P. Morgan Asset Management",
+  "ExodusPoint Capital Management",
+  "Daiwa Asset Management",
+  "E Fund Management",
+  "China Europe Fund Management",
+  "China Merchants Fund Management",
+  "Guotai Fund Management",
+  "China Universal Asset Management",
+  "Maxwealth Fund Management",
+  "China Asset Management (ChinaAMC)",
+  "Harvest Fund Management",
+  "Fullgoal Fund Management",
+  "Bosera Asset Management",
+  "Tianhong Asset Management",
+  "Ping An Fund Management",
+  "Dacheng Fund Management",
+  "Penghua Fund Management",
+  "Invesco Great Wall Fund Management",
+  "ICBC Credit Suisse Fund Management",
+  "KB Asset Management",
+  "AustralianSuper",
+  "Neuberger",
+  "Nuveen",
+  "Texas Teacher Retirement System",
+  "The Carlyle Group"
+ ],
  "homepages": {
   "CalSTRS": {
    "url": "https://calstrs.com/",
@@ -17,25 +59,13 @@
    "url": "https://cppinvestments.com/",
    "derived_from": "https://www.cppinvestments.com/insight-institute/from-experiment-to-workflow-cpp-investments-and-the-challenge-of-turning-ai-into-value/"
   },
-  "Temasek": {
-   "url": "https://marketing-interactive.com/",
-   "derived_from": "https://www.marketing-interactive.com/temasek-bets-on-human-ai-collaboration-to-transform-investment-decisions"
-  },
   "Vanguard": {
    "url": "https://corporate.vanguard.com/",
    "derived_from": "https://corporate.vanguard.com/content/corporatesite/us/en/corp/who-we-are/pressroom/press-release-vanguard-launches-expert-insights-equipping-advisors-with-ai-powered-portfolio-analysis-expertise-04092026.html"
   },
-  "Bridgewater Associates": {
-   "url": "https://thinkingmachines.ai/",
-   "derived_from": "https://thinkingmachines.ai/news/learning-to-replicate-expert-judgment-in-financial-tasks/"
-  },
   "Man Group": {
    "url": "https://man.com/",
    "derived_from": "https://www.man.com/insights/AI-asset-management-lightbulb-moment"
-  },
-  "AQR Capital Management": {
-   "url": "https://fa-mag.com/",
-   "derived_from": "https://www.fa-mag.com/news/aqr-bets-on-machine-learning-as-cliff-asness-becomes-ai-believer-82224.html"
   },
   "Schroders": {
    "url": "https://schroders.com/",
@@ -105,14 +135,6 @@
    "url": "https://mlp.com/",
    "derived_from": "https://www.mlp.com/life-at-millennium/mchats-with-gideon-mann/"
   },
-  "PGIM": {
-   "url": "https://news.prudential.com/",
-   "derived_from": "https://news.prudential.com/us-en/latest-news/prudential-news/2026/q2/AI-at-Prudential-Amplifying-human-potential-to-better-serve-our-customers"
-  },
-  "Ares Management": {
-   "url": "https://fool.com/",
-   "derived_from": "https://www.fool.com/earnings/call-transcripts/2026/08/03/ares-ares-q2-2026-earnings-call-transcript/"
-  },
   "Aberdeen Group (abrdn)": {
    "url": "https://aberdeenplc.com/",
    "derived_from": "https://www.aberdeenplc.com/en-gb/news/all-news/abrdn-and-university-of-edinburgh-join-forces-to-develop-ai-investment-tool"
@@ -129,10 +151,6 @@
    "url": "https://tpg.com/",
    "derived_from": "https://www.tpg.com/news-and-insights/flywheel-in-focus-from-data-to-diligence-building-ai-enabled-edge-across-private-markets"
   },
-  "PFA Pension": {
-   "url": "https://pfa.dk/",
-   "derived_from": "https://www.pfa.dk/news-archive/2023/12/06/13/03/kunstig-intelligens-saenker-risiko/"
-  },
   "AP Pension": {
    "url": "https://appension.dk/",
    "derived_from": "https://appension.dk/nyheder/2025/ap-pension-er-i-luften-med-nyt-forretningssystem-i-taet-samarbejde-med-festina-finance"
@@ -140,14 +158,6 @@
   "Colonial First State": {
    "url": "https://cfs.com.au/",
    "derived_from": "https://www.cfs.com.au/about-us/media/cfs-signs-five-year-agreement-with-microsoft"
-  },
-  "Liontrust Asset Management": {
-   "url": "https://investegate.co.uk/",
-   "derived_from": "https://www.investegate.co.uk/announcement/rns/liontrust-asset-management--lio/half-year-financial-report/9245327"
-  },
-  "Azimut Holding": {
-   "url": "https://milanofinanza.it/",
-   "derived_from": "https://www.milanofinanza.it/news/azimut-nel-2024-nuovi-prodotti-tra-eltif-e-ia-202401111132206406"
   },
   "Ilmarinen": {
    "url": "https://ilmarinen.fi/",
@@ -193,13 +203,9 @@
    "url": "https://optiver.com/",
    "derived_from": "https://www.optiver.com/working-at-optiver/career-hub/why-devex-matters/"
   },
-  "Hg": {
-   "url": "https://hgcapital.com/",
-   "derived_from": "https://hgcapital.com/ai-data-source"
-  },
   "Quilter": {
-   "url": "https://aveni.ai/",
-   "derived_from": "https://aveni.ai/blog/aveni-selected-by-quilter-for-deployment-of-ai-powered-support-across-adviser-network/"
+   "url": "https://www.quilter.com/",
+   "derived_from": "https://plc.quilter.com/4957e8/siteassets/documents/reports/annual-report-2025.pdf"
   },
   "Pictet Asset Management": {
    "url": "https://am.pictet.com/",
@@ -208,6 +214,318 @@
   "High-Flyer (幻方量化)": {
    "url": "https://high-flyer.cn/",
    "derived_from": "https://www.high-flyer.cn/blog/hai-llm/"
+  },
+  "Aware Super": {
+   "url": "https://aware.com.au/",
+   "derived_from": "https://aware.com.au/content/dam/aware/au/en/documents/member/reports/annual-reports/2024/annual-report.pdf"
+  },
+  "Blackstone": {
+   "url": "https://blackstone.com/",
+   "derived_from": "https://www.blackstone.com/insights/article/blackstone-leaders-on-ai/"
+  },
+  "PSP Investments": {
+   "url": "https://investpsp.com/",
+   "derived_from": "https://www.investpsp.com/media/filer_public/03-our-performance/annual-report-2024/pdf/PSP-2024-annual-report-en.pdf"
+  },
+  "Partners Group": {
+   "url": "https://partnersgroup.com/",
+   "derived_from": "https://www.partnersgroup.com/~/media/files/p/partnersgroup/universal/shareholders/reports-and-presentations/2025/sustainability-report-2024.pdf"
+  },
+  "Hamilton Lane": {
+   "url": "https://hamiltonlane.com/",
+   "derived_from": "https://www.hamiltonlane.com/en-us/insight/tech-solutions-q-and-a"
+  },
+  "Houston Endowment": {
+   "url": "https://houstonendowment.org/",
+   "derived_from": "https://houstonendowment.org/insights-and-news/pilot-project-centers-grantee-voice-through-oral-reporting-and-ai"
+  },
+  "BNP Paribas Asset Management": {
+   "url": "https://bnpparibas-am.com/",
+   "derived_from": "https://www.bnpparibas-am.com/en/forward-thinking/quant-investing-in-2026-data-ai-and-human-judgment/"
+  },
+  "Capital Group": {
+   "url": "https://capitalgroup.com/",
+   "derived_from": "https://www.capitalgroup.com/individual/pdf/shareholder/MFGEOT-119-1073155.pdf"
+  },
+  "CDPQ (Caisse de dépôt et placement du Québec)": {
+   "url": "https://lacaisse.com/",
+   "derived_from": "https://www.lacaisse.com/sites/default/files/medias/pdf/en/ra/2023_cdpq_annual_report.pdf"
+  },
+  "IMCO (Investment Management Corporation of Ontario)": {
+   "url": "https://www.imcoinvest.com/overview.html",
+   "derived_from": "https://www.imcoinvest.com/static-assets/pdf/2023/imco-annual-report-2023.pdf"
+  },
+  "Gates Foundation": {
+   "url": "https://gatesfoundation.org/",
+   "derived_from": "https://www.gatesfoundation.org/ideas/articles/artificial-intelligence-ai-development-principles"
+  },
+  "KKR": {
+   "url": "https://kkr.com/",
+   "derived_from": "https://www.kkr.com/content/dam/kkr/sustainability/pdf/2024-corporate-sustainability-disclosures.pdf"
+  },
+  "Tokio Marine Asset Management": {
+   "url": "https://tokiomarineam.co.jp/",
+   "derived_from": "https://www.tokiomarineam.co.jp/company/sustainability/cf5aqc0000000ceb-att/sustainabilityreport2025.pdf"
+  },
+  "USS (Universities Superannuation Scheme)": {
+   "url": "https://uss.co.uk/",
+   "derived_from": "https://www.uss.co.uk/-/media/project/ussmainsite/files/about-us/report-and-accounts/uss-report-and-accounts-2024.pdf?rev=10a2041a444a4262b16d3f6004858dd5&hash=9AE81E04874DE7EEDB5BF5ACD675112A"
+  },
+  "Amova Asset Management (formerly Nikko Asset Management)": {
+   "url": "https://amova-am.com/",
+   "derived_from": "https://www.amova-am.com/files/pages/about/pdf/esg/FINAL_Amova_Sustainability_Report_digital_J_2025.pdf"
+  },
+  "Nest (National Employment Savings Trust)": {
+   "url": "https://nestpensions.org.uk/",
+   "derived_from": "https://nestpensions.org.uk/schemeweb/dam/nestlibrary/members-panel-annual-report-2024-25.pdf"
+  },
+  "Ontario Teachers' Pension Plan": {
+   "url": "https://otpp.com/",
+   "derived_from": "https://www.otpp.com/content/dam/otpp/documents/reports/2023-ar/otpp-2023-annual-report-eng.pdf"
+  },
+  "UTIMCO": {
+   "url": "https://utimco.org/",
+   "derived_from": "https://www.utimco.org/media/ncpkqecc/book-board-of-directors-march-13-2025.pdf"
+  },
+  "Wellcome Trust": {
+   "url": "https://wellcome.org/",
+   "derived_from": "https://wellcome.org/about-us/positions-and-statements/joint-statement-generative-ai"
+  },
+  "GIC": {
+   "url": "https://www.gic.com.sg/",
+   "derived_from": "https://www.gic.com.sg/newsroom/all/gic-delivers-stable-long-term-returns-and-remains-focused-on-portfolio-resilience-amidst-unprecedented-uncertainty/"
+  },
+  "AllianceBernstein": {
+   "url": "https://www.alliancebernstein.com/corporate/en/home.html",
+   "derived_from": "https://www.alliancebernstein.com/corporate/en/insights/investment-insights/putting-ai-to-work-a-scorecard-sharpens-insights.html"
+  },
+  "Manulife Investment Management": {
+   "url": "https://www.manulifeim.com/",
+   "derived_from": "https://www.manulifeim.com/en/viewpoints/market-outlook/implementing-ai-better-investor-outcomes"
+  },
+  "Hudson River Trading": {
+   "url": "https://www.hudsonrivertrading.com/",
+   "derived_from": "https://www.hudsonrivertrading.com/hrtbeat/intern-spotlight-hrt-ai-labs-project/"
+  },
+  "Elo (Työeläkeyhtiö Elo)": {
+   "url": "https://www.elo.fi/",
+   "derived_from": "https://www.elo.fi/fi-fi/elomedia/2024/tekoaly-tulee-myos-elakeyhtioon"
+  },
+  "KLP (Kommunal Landspensjonskasse)": {
+   "url": "https://www.klp.no/",
+   "derived_from": "https://www.klp.no/om-klp/finans-og-ir/rapporter-og-presentasjoner/_/attachment/inline/462eb437-6fd1-4637-9350-210e459346cc:b4a59a237a139196cdc17710a93102ab3bf23278/Kvartalsrapport%20NOR%202.%20kvartal%202026.pdf"
+  },
+  "GitLab Foundation": {
+   "url": "https://www.gitlabfoundation.org/",
+   "derived_from": "https://www.gitlabfoundation.org/our-journey/innovating-for-greater-impact"
+  },
+  "Morgan Stanley Investment Management": {
+   "url": "https://www.morganstanley.com/im/",
+   "derived_from": "https://www.morganstanley.com/im/publication/insights/articles/article_aishiddenwinners.pdf"
+  },
+  "Northern Trust Asset Management": {
+   "url": "https://www.northerntrust.com/united-states/what-we-do/investment-management",
+   "derived_from": "https://www.northerntrust.com/africa/pr/2025/northern-trust-asset-management-expands-global-quantitative-investment-strategies-team"
+  },
+  "Temasek": {
+   "url": "https://www.temasek.com.sg/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "Bridgewater Associates": {
+   "url": "https://www.bridgewater.com/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "AQR Capital Management": {
+   "url": "https://www.aqr.com/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "PGIM": {
+   "url": "https://www.pgim.com/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "Ares Management": {
+   "url": "https://www.ares.com/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "Liontrust Asset Management": {
+   "url": "https://www.liontrust.co.uk/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "Azimut Holding": {
+   "url": "https://www.azimut-group.com/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "BlackRock": {
+   "url": "https://www.blackrock.com/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "Citadel": {
+   "url": "https://www.citadel.com/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "CSOP Asset Management": {
+   "url": "https://www.csopasset.com/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "Fidelity Investments": {
+   "url": "https://institutional.fidelity.com/advisors",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "Permodalan Nasional Berhad (PNB)": {
+   "url": "https://www.pnb.com.my/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "M&G": {
+   "url": "https://www.mandg.com/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "Ameriprise Financial": {
+   "url": "https://www.ameriprise.com/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "DWS Group": {
+   "url": "https://www.dws.com/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "J.P. Morgan Asset Management": {
+   "url": "https://am.jpmorgan.com/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "ExodusPoint Capital Management": {
+   "url": "https://www.exoduspoint.com/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "Daiwa Asset Management": {
+   "url": "https://www.daiwa-am.co.jp/english/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "E Fund Management": {
+   "url": "https://www.efunds.com.cn/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "China Europe Fund Management": {
+   "url": "https://www.zofund.com/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "China Merchants Fund Management": {
+   "url": "https://www.cmfchina.com/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "Guotai Fund Management": {
+   "url": "https://www.gtfund.com/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "China Universal Asset Management": {
+   "url": "https://www.chinauniversalasset.com/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "Maxwealth Fund Management": {
+   "url": "https://www.maxwealthfund.com/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "China Asset Management (ChinaAMC)": {
+   "url": "https://www.chinaamc.com/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "Harvest Fund Management": {
+   "url": "https://www.jsfund.cn/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "Fullgoal Fund Management": {
+   "url": "https://www.fullgoal.com.cn/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "Bosera Asset Management": {
+   "url": "https://www.bosera.com/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "Tianhong Asset Management": {
+   "url": "https://www.thfund.com.cn/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "Ping An Fund Management": {
+   "url": "https://fund.pingan.com/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "Dacheng Fund Management": {
+   "url": "https://www.dcfund.com.cn/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "Penghua Fund Management": {
+   "url": "https://www.phfund.com.cn/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "Invesco Great Wall Fund Management": {
+   "url": "https://www.igwfmc.com/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "ICBC Credit Suisse Fund Management": {
+   "url": "https://www.icbcubs.com.cn/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "KB Asset Management": {
+   "url": "https://www.kbam.co.kr/eng/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "AustralianSuper": {
+   "url": "https://www.australiansuper.com/about-us",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "Neuberger": {
+   "url": "https://www.nb.com/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "Nuveen": {
+   "url": "https://www.nuveen.com/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "Texas Teacher Retirement System": {
+   "url": "https://www.trs.texas.gov/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
+  },
+  "The Carlyle Group": {
+   "url": "https://www.carlyle.com/",
+   "derived_from": null,
+   "basis": "manually verified by the maintainer on 2026-09-26; this homepage was not derived from a reviewed evidence URL"
   }
  }
 }
