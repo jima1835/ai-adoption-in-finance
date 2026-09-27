@@ -78,7 +78,7 @@ export default function InstitutionTable({ institutions, onSelect }) {
       className="table-wrap"
       tabIndex={0}
       role="region"
-      aria-label="All institutions, scrollable table"
+      aria-label="Classified institutions, scrollable table"
     >
       <table className="inst-table">
         <thead>

@@ -65,7 +65,7 @@ function Card({ inst, onSelect }) {
           {activity && (
             <span className="card-date card-news">
               <span aria-hidden="true">⚡</span>
-              <span className="sr-only">Latest activity </span>
+              <span className="sr-only">Latest evidence </span>
               {activity.date}
             </span>
           )}
@@ -155,6 +155,22 @@ export default function PhaseGrid({ institutions, onSelect, defs }) {
               )}
             </header>
             <p className="phase-def">{STAGE_DEFS[stage]}</p>
+            {rows.length > 0 && (
+              <p className="phase-preview">
+                Showing{' '}
+                {expanded[stage]
+                  ? rows.length
+                  : Math.min(PREVIEW_COUNT, rows.length)}{' '}
+                of {rows.length}
+                <span>
+                  {sort
+                    ? sort.key === 'aum'
+                      ? `Approx. AUM · ${sort.dir === 'desc' ? 'largest' : 'smallest'} first`
+                      : `Latest evidence · ${sort.dir === 'desc' ? 'newest' : 'oldest'} first`
+                    : 'Dataset order · not a ranking'}
+                </span>
+              </p>
+            )}
             {!isEmbedded && rows.length > 1 && (
               <div className="phase-sorts">
                 <button
@@ -185,7 +201,7 @@ export default function PhaseGrid({ institutions, onSelect, defs }) {
                     ⚡ {sort?.key === 'news' ? SORT_GLYPH[sort.dir] : '↕'}
                   </span>
                   <span className="sr-only">
-                    Sort {STAGE_LABELS[stage]} by latest activity date
+                    Sort {STAGE_LABELS[stage]} by latest evidence date
                     {sort?.key === 'news'
                       ? `, currently ${sort.dir === 'asc' ? 'ascending' : 'descending'}`
                       : ''}
@@ -193,7 +209,15 @@ export default function PhaseGrid({ institutions, onSelect, defs }) {
                 </button>
               </div>
             )}
-            <div className="phase-cards" id={`phase-cards-${stage}`}>
+            <div
+              className="phase-cards"
+              id={`phase-cards-${stage}`}
+              data-balanced={
+                !expanded[stage] && rows.length >= PREVIEW_COUNT
+                  ? 'true'
+                  : undefined
+              }
+            >
               {isEmbedded && rows.length === 0 ? (
                 <div className="embedded-note">
                   <span className="embedded-rule" />
@@ -203,7 +227,9 @@ export default function PhaseGrid({ institutions, onSelect, defs }) {
                   </span>
                 </div>
               ) : rows.length === 0 ? (
-                <p className="col-empty">No institutions match this filter.</p>
+                <p className="col-empty">
+                  No institutions match this search and filters.
+                </p>
               ) : (
                 (expanded[stage] ? rows : rows.slice(0, PREVIEW_COUNT)).map(
                   (inst) => (

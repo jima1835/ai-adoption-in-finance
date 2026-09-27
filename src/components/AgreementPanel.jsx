@@ -137,10 +137,19 @@ export default function AgreementPanel({ data }) {
             {revisions.map((r) => (
               <li key={r.institution}>
                 <strong>{r.institution}</strong> — {STAGE_LABELS[r.proposed]} →{' '}
-                {STAGE_LABELS[r.final]}{' '}
-                <span className="agree-dir" data-direction={r.direction}>
-                  {r.direction === 'up' ? 'raised' : 'lowered'}
-                </span>
+                {r.final ? (
+                  <>
+                    {STAGE_LABELS[r.final]}{' '}
+                    <span className="agree-dir" data-direction={r.direction}>
+                      {r.direction === 'up' ? 'raised' : 'lowered'}
+                    </span>
+                  </>
+                ) : (
+                  <span className="agree-dir" data-direction="corrected-back">
+                    revised at first review, later corrected back to the
+                    proposal
+                  </span>
+                )}
               </li>
             ))}
           </ul>

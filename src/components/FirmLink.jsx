@@ -9,8 +9,8 @@ import Lang from './Lang.jsx'
 // stopPropagation matters: these sit inside a row that opens the drill-down, and
 // following the link should not also open the panel.
 export default function FirmLink({ name, className }) {
-  const href = homepageFor(name)
-  if (!href) {
+  const homepage = homepageFor(name)
+  if (!homepage) {
     return (
       <span className={className}>
         <Lang>{name}</Lang>
@@ -20,7 +20,7 @@ export default function FirmLink({ name, className }) {
   return (
     <a
       className={className ? `${className} firm-link` : 'firm-link'}
-      href={href}
+      href={homepage.url}
       target="_blank"
       rel="noreferrer"
       onClick={(e) => e.stopPropagation()}
@@ -29,7 +29,20 @@ export default function FirmLink({ name, className }) {
       <span className="firm-link-mark" aria-hidden="true">
         ↗
       </span>
-      <span className="sr-only"> — homepage, opens in a new tab</span>
+      {homepage.uncertain && (
+        <span
+          className="firm-link-uncertain"
+          title={homepage.audit_note || 'Homepage mapping needs confirmation'}
+          aria-label="Homepage mapping uncertain"
+        >
+          ?
+        </span>
+      )}
+      <span className="sr-only">
+        {' '}
+        — homepage{homepage.uncertain ? ', mapping uncertain' : ''}, opens in a
+        new tab
+      </span>
     </a>
   )
 }

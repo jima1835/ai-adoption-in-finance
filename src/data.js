@@ -364,14 +364,80 @@ export function segmentCjk(text) {
 // ---------------------------------------------------------------------------
 let SUMMARIES = {}
 let HOMEPAGES = {}
+let MANUALLY_VERIFIED_HOMEPAGES = new Set()
+let JOB_POSTINGS = []
 
 export function summaryFor(name) {
   const s = SUMMARIES[name]
   return Array.isArray(s) && s.length ? s : null
 }
+
+// Every rationale digest uses one explicit evidence label followed by the full
+// reviewed bullet. Keeping the original text intact makes the context auditable;
+// the small, fixed label set gives all 111 institutions the same scan pattern.
+export function summaryParts(text) {
+  const value = String(text || '').trim()
+  const lower = value.toLowerCase()
+  const rules = [
+    [/^(stops short|strongest evidence)/, 'Stage boundary'],
+    [/^(confidence|evidence confidence)/, 'Evidence confidence'],
+    [
+      /(no public|no source|not publicly|absence|unconfirmed|only confirmed)/,
+      'Evidence limit',
+    ],
+    [
+      /(policy|governance|governed|oversight|human in the loop|human oversight)/,
+      'Governance',
+    ],
+    [
+      /(\b\d+%|percent|users|employees|staff|colleagues|firm-wide|enterprise-wide|daily use|adoption)/,
+      'Adoption scale',
+    ],
+    [
+      /(production|went live|launched|rolled out|deployed|shipped|in live use)/,
+      'Production use',
+    ],
+    [
+      /(pilot|explor|experiment|testing|proof of concept|poc)/,
+      'Pilot activity',
+    ],
+    [
+      /(chief ai|ai team|ai lab|task force|centre of excellence|center of excellence)/,
+      'AI organization',
+    ],
+    [/(investment|portfolio|trading|research|deal|capital)/, 'Investment use'],
+    [/(operations|workflow|client|legal|hr|customer service)/, 'Operating use'],
+  ]
+  const match = rules.find(([pattern]) => pattern.test(lower))
+  return { title: match?.[1] || 'Adoption evidence', context: value }
+}
+
+export function jobPostingFor(institution, event) {
+  return (
+    JOB_POSTINGS.find(
+      (posting) =>
+        posting.institution === institution &&
+        posting.date === event?.date &&
+        posting.source_url === event?.source_url,
+    ) || null
+  )
+}
 export function homepageFor(name) {
   const h = HOMEPAGES[name]
-  return h && h.url ? h.url : null
+  if (!h?.url) return null
+  const manuallyVerified = MANUALLY_VERIFIED_HOMEPAGES.has(name)
+  return {
+    ...h,
+    manually_verified: manuallyVerified,
+    uncertain: Boolean(h.uncertain || (!h.derived_from && !manuallyVerified)),
+    audit_note: manuallyVerified
+      ? h.audit_note || ''
+      : h.audit_note ||
+        h.basis ||
+        (!h.derived_from
+          ? 'Homepage mapping is not supported by a reviewed evidence URL.'
+          : ''),
+  }
 }
 
 export async function loadSummaries() {
@@ -389,6 +455,24 @@ export async function loadSummaries() {
   return SUMMARIES
 }
 
+export async function loadJobPostings() {
+  try {
+    const res = await fetch(
+      `${import.meta.env.BASE_URL}data/job_postings.json`,
+      {
+        cache: 'no-store',
+      },
+    )
+    if (res.ok) {
+      const j = await res.json()
+      JOB_POSTINGS = Array.isArray(j?.postings) ? j.postings : []
+    }
+  } catch {
+    JOB_POSTINGS = []
+  }
+  return JOB_POSTINGS
+}
+
 export async function loadHomepages() {
   try {
     const res = await fetch(`${import.meta.env.BASE_URL}data/homepages.json`, {
@@ -397,9 +481,13 @@ export async function loadHomepages() {
     if (res.ok) {
       const j = await res.json()
       HOMEPAGES = j && j.homepages ? j.homepages : {}
+      MANUALLY_VERIFIED_HOMEPAGES = new Set(
+        Array.isArray(j?.manually_verified) ? j.manually_verified : [],
+      )
     }
   } catch {
     HOMEPAGES = {}
+    MANUALLY_VERIFIED_HOMEPAGES = new Set()
   }
   return HOMEPAGES
 }

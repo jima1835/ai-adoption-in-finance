@@ -243,7 +243,7 @@ export default function Methodology({ defs }) {
       </section>
       {notClassified.length > 0 && (
         <section className="prose-bleed">
-          <h3 className="prose-h2">Appendix — assessed, not classified</h3>
+          <h3 className="prose-h2">Appendix — insufficient public evidence</h3>
           <p>
             Institutions researched against this methodology whose public record
             did not support a stage. Absence from the dashboard is a finding,
@@ -257,7 +257,7 @@ export default function Methodology({ defs }) {
             className="table-wrap"
             tabIndex={0}
             role="region"
-            aria-label="Assessed but not classified, scrollable table"
+            aria-label="Insufficient public evidence, scrollable table"
           >
             <table className="inst-table nc-table">
               <thead>

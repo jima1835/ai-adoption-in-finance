@@ -210,7 +210,7 @@ export default function RolesView({
                   <th scope="col">Date</th>
                   <th scope="col">Reports to</th>
                   <th scope="col">Source</th>
-                  <th scope="col">Confidence</th>
+                  <th scope="col">Evidence confidence</th>
                 </tr>
               </thead>
               <tbody>

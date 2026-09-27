@@ -8,10 +8,12 @@ import {
   dateSortKey,
   descriptionFor,
   highlightFor,
+  jobPostingFor,
   mediumLabel,
   publisherFor,
   rolesForInstitution,
   summaryFor,
+  summaryParts,
 } from '../data.js'
 import StageBadge from './StageBadge.jsx'
 import Lang from './Lang.jsx'
@@ -110,9 +112,13 @@ export default function DrillDown({ inst, roles = [], onClose }) {
 
   // Newest first: the reader meets the latest signal before the history behind
   // it. Sort by padded key; DISPLAY the raw date string verbatim.
-  const events = [...(inst.events || [])].sort(
+  const allEvents = [...(inst.events || [])].sort(
     (a, b) => dateSortKey(b.date) - dateSortKey(a.date),
   )
+  const postings = allEvents
+    .map((event) => ({ event, posting: jobPostingFor(inst.name, event) }))
+    .filter(({ posting }) => posting)
+  const events = allEvents.filter((event) => !jobPostingFor(inst.name, event))
 
   // Looked up once per event so the legend and the rows cannot disagree.
   const highlights = events.map((ev) => highlightFor(inst.name, ev))
@@ -132,7 +138,11 @@ export default function DrillDown({ inst, roles = [], onClose }) {
   // a reviewed 2026-04-28 event exists; GIC points at a 2023 item while its own
   // latest_date is 2026-03-17). Badging those as "latest" would have been wrong,
   // so the timeline's own ordering decides.
-  const latestIdx = 0
+  const latestEvent = allEvents[0] || null
+  const isLatest = (event) =>
+    event === latestEvent ||
+    (event?.date === latestEvent?.date &&
+      event?.source_url === latestEvent?.source_url)
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -194,7 +204,7 @@ export default function DrillDown({ inst, roles = [], onClose }) {
                     data-conf={inst.confidence}
                     aria-hidden="true"
                   />{' '}
-                  {inst.confidence} confidence
+                  {inst.confidence} evidence confidence
                   <span className="sr-only">
                     {' '}
                     in the public evidence for this stage
@@ -246,7 +256,7 @@ export default function DrillDown({ inst, roles = [], onClose }) {
                   <li
                     key={i}
                     className="tl-item"
-                    data-latest={i === latestIdx ? 'true' : undefined}
+                    data-latest={isLatest(ev) ? 'true' : undefined}
                     data-highlight={hl ? hl.kind : undefined}
                   >
                     {/* The date stands in its own column, left of the rail,
@@ -255,7 +265,7 @@ export default function DrillDown({ inst, roles = [], onClose }) {
                         first, so the ⚡ badge always hangs under the top date. */}
                     <span className="tl-when">
                       <span className="tl-date">{ev.date}</span>
-                      {i === latestIdx && (
+                      {isLatest(ev) && (
                         <span className="tl-badge">
                           <span aria-hidden="true">⚡</span> latest
                           <span className="sr-only"> signal</span>
@@ -291,6 +301,48 @@ export default function DrillDown({ inst, roles = [], onClose }) {
             </ol>
           )}
         </section>
+
+        {postings.length > 0 && (
+          <section className="modal-section">
+            <h3 className="modal-label">
+              Job postings{' '}
+              <span className="modal-label-count">{postings.length}</span>
+            </h3>
+            <p className="modal-note">
+              Advertised roles are hiring signals. They do not prove the work
+              has shipped or that a candidate was hired.
+            </p>
+            <ul className="job-list">
+              {postings.map(({ event, posting }) => (
+                <li
+                  key={`${event.date}-${event.source_url}`}
+                  className="job-item"
+                  data-latest={isLatest(event) ? 'true' : undefined}
+                >
+                  <span className="job-date">
+                    {event.date}
+                    {isLatest(event) && (
+                      <span className="tl-badge">
+                        <span aria-hidden="true">⚡</span> latest
+                        <span className="sr-only"> signal</span>
+                      </span>
+                    )}
+                  </span>
+                  <span className="job-body">
+                    <strong className="job-title">{posting.role}</strong>
+                    <span className="job-wording">
+                      <Lang>{posting.ai_wording}</Lang>
+                    </span>
+                    <SourceLink
+                      href={event.source_url}
+                      context={`the ${event.date} job posting`}
+                    />
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
         {roleEvents.length > 0 && (
           <section className="modal-section">
@@ -337,29 +389,33 @@ export default function DrillDown({ inst, roles = [], onClose }) {
           {bullets ? (
             <>
               <ul className="why-bullets">
-                {bullets.map((b, i) => (
-                  <li key={i}>{b}</li>
-                ))}
+                {bullets.map((b, i) => {
+                  const { title, context } = summaryParts(b, i)
+                  return (
+                    <li key={i}>
+                      <strong>{title}</strong>
+                      <span>{context}</span>
+                    </li>
+                  )
+                })}
               </ul>
-              <details className="why-full">
-                <summary>Full reviewed rationale</summary>
-                <p className="modal-rationale">
-                  <Lang>{inst.rationale}</Lang>
-                </p>
-              </details>
             </>
-          ) : (
+          ) : null}
+          <details className="why-full">
+            <summary>Full reviewed rationale</summary>
             <p className="modal-rationale">
               <Lang>{inst.rationale}</Lang>
             </p>
-          )}
+          </details>
           {inst.footnote && (
-            <div className="modal-footnote">
-              <span className="footnote-label">Scope note</span>
-              <p>
-                <Lang>{inst.footnote}</Lang>
-              </p>
-            </div>
+            <details className="why-full scope-full">
+              <summary>Scope note</summary>
+              <div className="modal-footnote">
+                <p>
+                  <Lang>{inst.footnote}</Lang>
+                </p>
+              </div>
+            </details>
           )}
         </section>
       </div>

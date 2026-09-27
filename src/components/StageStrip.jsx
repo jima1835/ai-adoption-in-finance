@@ -27,14 +27,13 @@ export default function StageStrip({ institutions, active, onToggle }) {
       n: rows.length,
       share: total ? rows.length / total : 0,
       aum: rows.reduce((sum, i) => sum + (aumUsd(i.aum) || 0), 0),
-      high: rows.filter((i) => i.confidence === 'high').length,
     }
   })
 
   return (
     <section className="stage-strip" aria-label="Adoption stages overview">
       <div className="strip-head">
-        <span className="strip-title">Adoption ramp</span>
+        <span className="strip-title">Stages among matching institutions</span>
         <span className="strip-sub">
           {total} institutions · select a stage to filter
         </span>
@@ -73,7 +72,7 @@ export default function StageStrip({ institutions, active, onToggle }) {
               <span
                 className="sp-meter"
                 role="img"
-                aria-label={`${Math.round(s.share * 100)} percent of the corpus`}
+                aria-label={`${s.n} of ${total} matching institutions${total ? `, ${Math.round(s.share * 100)} percent` : ''}`}
               >
                 <span
                   className="sp-meter-fill"
@@ -85,9 +84,6 @@ export default function StageStrip({ institutions, active, onToggle }) {
                 <span>
                   AUM <b>{fmtAum(s.aum)}</b>
                 </span>
-                <span>
-                  HI-CONF <b>{s.high}</b>
-                </span>
               </span>
 
               <span className="sr-only">
@@ -95,9 +91,7 @@ export default function StageStrip({ institutions, active, onToggle }) {
                   ? `${STAGE_LABELS[s.stage]}: no institutions. `
                   : `${STAGE_LABELS[s.stage]}: ${s.n} institutions, ${Math.round(
                       s.share * 100,
-                    )} percent of the corpus, ${fmtAum(s.aum)} combined AUM, ${
-                      s.high
-                    } rated high confidence. `}
+                    )} percent of ${total} matching institutions, ${fmtAum(s.aum)} combined AUM. `}
                 {on
                   ? 'Filtering by this stage. Activate to clear.'
                   : 'Activate to filter by this stage.'}
@@ -106,6 +100,11 @@ export default function StageStrip({ institutions, active, onToggle }) {
           )
         })}
       </div>
+      <p className="strip-note">
+        Shares use {total} classified institutions matching the name and
+        non-stage filters. Stage selection narrows the list below. These are not
+        industry adoption rates.
+      </p>
     </section>
   )
 }

@@ -85,6 +85,188 @@ code {
   min-height: 100vh;
 }
 
+.dashboard-view-switch,
+.mobile-dashboard-nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.dashboard-view-switch {
+  justify-content: flex-end;
+}
+.dashboard-filters {
+  width: 100%;
+  min-width: 0;
+}
+.dashboard-filters > summary,
+.confidence-help > summary,
+.scope-details > summary {
+  cursor: pointer;
+  color: var(--text-dim);
+  padding: 8px 0;
+  font-size: 13px;
+}
+[data-dashboard-view='computer'] .dashboard-filters > summary {
+  display: none;
+}
+.confidence-help {
+  max-width: 350px;
+}
+.confidence-help p,
+.strip-note,
+.active-filter-summary {
+  color: var(--text-dim);
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 6px 0;
+}
+.strip-note {
+  margin: 12px 0 0;
+}
+.phase-preview {
+  margin: 0 0 14px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+}
+.phase-preview > span {
+  display: block;
+  margin-top: 3px;
+  color: var(--text-faint);
+  font-size: 11px;
+}
+
+/* The mobile view is an explicit layout choice, including on a large screen. */
+[data-dashboard-view='mobile'] .main,
+[data-dashboard-view='mobile'] .header-top,
+[data-dashboard-view='mobile'] .header-stamps {
+  max-width: 680px;
+}
+[data-dashboard-view='mobile'] .site-header {
+  position: static;
+}
+[data-dashboard-view='mobile'] .header-top {
+  flex-direction: column;
+  gap: 8px;
+  padding-block: 12px 6px;
+}
+[data-dashboard-view='mobile'] .brand-title {
+  font-size: 20px;
+}
+[data-dashboard-view='mobile'] .brand-sub {
+  display: none;
+}
+[data-dashboard-view='mobile'] .header-stamps {
+  font-size: 11px;
+  gap: 4px 12px;
+}
+[data-dashboard-view='mobile'] .header-stamps > :last-child {
+  display: none;
+}
+[data-dashboard-view='mobile'] .scope-note {
+  flex-direction: column;
+  gap: 2px;
+}
+[data-dashboard-view='mobile'] .scope-coverage {
+  gap: 4px 12px;
+}
+[data-dashboard-view='mobile'] .dashboard-view-switch {
+  justify-content: flex-start;
+}
+[data-dashboard-view='mobile'] .mobile-dashboard-nav > button {
+  flex: 1;
+}
+[data-dashboard-view='mobile'] .filter-groups {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+}
+[data-dashboard-view='mobile'] .type-filter,
+[data-dashboard-view='mobile'] .legend-body {
+  flex-wrap: wrap;
+}
+.mobile-findings h2 {
+  font-size: 23px;
+  line-height: 1.25;
+  margin: 20px 0 8px;
+}
+.mobile-findings > p {
+  margin: 0 0 16px;
+  color: var(--text-dim);
+  font-size: 14px;
+}
+.finding-stages,
+.mobile-institution-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.finding-stage,
+.mobile-institution {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--panel);
+  padding: 14px;
+  color: var(--text);
+  text-align: left;
+}
+.finding-stage:hover,
+.mobile-institution:hover {
+  background: var(--panel-hover);
+  border-color: var(--border-bright);
+}
+.finding-definition,
+.mobile-institution-meta {
+  display: block;
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-top: 3px;
+}
+.finding-count {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-shrink: 0;
+  font-family: var(--mono);
+}
+.finding-count strong {
+  font-size: 25px;
+}
+.finding-count > span {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+.browse-institutions {
+  width: 100%;
+  margin: 16px 0;
+  padding: 12px 16px;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: var(--bg);
+  font-weight: 600;
+}
+.mobile-institutions {
+  margin: 0 0 24px;
+}
+.mobile-institution-list {
+  margin-top: 12px;
+}
+.mobile-institution > span:first-child {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.mobile-institution .badge {
+  flex-shrink: 0;
+}
+
 .main {
   width: 100%;
   max-width: var(--maxw);
@@ -135,6 +317,8 @@ code {
 }
 .nav {
   display: flex;
+  flex-wrap: wrap;
+  max-width: 100%;
   gap: 4px;
   flex-shrink: 0;
 }
@@ -233,6 +417,64 @@ code {
 }
 
 /* ---------------- Controls / filter ---------------- */
+.institution-search {
+  margin-bottom: 18px;
+}
+.search-input-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 5px;
+}
+.search-input-row input {
+  flex: 1 1 260px;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--panel);
+  color: var(--text);
+  font: inherit;
+}
+.search-input-row input::placeholder {
+  color: var(--text-faint);
+}
+.search-input-row input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.search-action {
+  min-height: 36px;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--panel);
+  color: var(--text-dim);
+  font-family: var(--mono);
+  font-size: 12px;
+}
+.search-action:hover,
+.search-action[aria-pressed='true'] {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.search-help {
+  margin: 6px 0 0;
+  color: var(--text-faint);
+  font-size: 13px;
+}
+.search-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+.nc-search-reason {
+  color: var(--text-dim);
+  font-size: 13px;
+  line-height: 1.5;
+}
 .controls {
   display: flex;
   align-items: center;
@@ -579,6 +821,13 @@ code {
   flex-direction: column;
   gap: 8px;
   flex: 1;
+}
+.phase-cards[data-balanced='true'] {
+  display: grid;
+  grid-template-rows: repeat(5, minmax(76px, 1fr));
+}
+.phase-cards[data-balanced='true'] .inst-card {
+  height: 100%;
 }
 .phase-expand {
   margin-top: 12px;
@@ -1452,16 +1701,29 @@ th[data-align='right'] .th-btn {
 /* 1.4.10 Reflow — at 320px the filter rail forced the document to 585px wide,
    so the page scrolled in two dimensions. */
 @media (max-width: 560px) {
+  .scope-note {
+    flex-direction: column;
+    gap: 2px;
+  }
   .filter-groups {
     flex-direction: column;
     align-items: stretch;
     gap: 10px;
+    min-width: 0;
+    max-width: 100%;
   }
   .filter-group {
     flex-wrap: wrap;
   }
   .type-filter {
     flex-wrap: wrap;
+  }
+  .date-legend .legend-body {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .legend-item {
+    white-space: normal;
   }
   .controls {
     flex-direction: column;
@@ -1644,6 +1906,19 @@ li a,
   line-height: 1.55;
   color: var(--text);
 }
+.why-bullets li strong,
+.why-bullets li > span {
+  display: block;
+}
+.why-bullets li strong {
+  margin-bottom: 2px;
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.4;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
 .why-bullets li::before {
   content: '';
   position: absolute;
@@ -1691,6 +1966,12 @@ li a,
 .why-full .modal-rationale {
   margin-top: 10px;
 }
+.scope-full {
+  margin-top: 10px;
+}
+.scope-full .modal-footnote {
+  margin-top: 8px;
+}
 
 /* Firm name → homepage. Underlined so it is not colour-only (1.4.1). */
 .firm-link {
@@ -1706,6 +1987,21 @@ li a,
   font-size: 0.78em;
   margin-left: 3px;
   color: var(--accent);
+}
+.firm-link-uncertain {
+  display: inline-grid;
+  place-items: center;
+  width: 1.25em;
+  height: 1.25em;
+  margin-left: 4px;
+  border: 1px solid var(--border-bright);
+  border-radius: 50%;
+  color: var(--text-faint);
+  font-family: var(--mono);
+  font-size: 0.62em;
+  line-height: 1;
+  text-decoration: none;
+  vertical-align: 0.2em;
 }
 
 /* The methodology page is a 680px prose column, which squeezed the appendix
@@ -2062,21 +2358,15 @@ li a,
   }
 }
 
-/* The panel footer put AUM and HI-CONF on one justified row; a wide figure like
-   $41.7T pushed the pair into a collision. Let it wrap as a pair of stacked
-   key/value cells instead of fighting for one line. */
+/* Keep the full evidence-confidence label readable in narrow stage panels. */
 .sp-foot {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, auto));
-  justify-content: space-between;
-  gap: 4px 10px;
-  align-items: baseline;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 4px;
 }
 .sp-foot > span {
-  display: flex;
-  align-items: baseline;
-  gap: 4px;
-  white-space: nowrap;
+  display: block;
+  white-space: normal;
   min-width: 0;
 }
 
@@ -2371,7 +2661,14 @@ li a,
    path, so the groups are aria-hidden and only need a pointer affordance. */
 .map-svg g[data-region] {
   cursor: pointer;
-  transition: opacity 120ms ease;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    opacity 120ms ease,
+    transform 140ms ease;
+}
+.map-svg g[data-region][data-hover='true'] {
+  transform: translateY(-3px);
 }
 
 /* ============================================================
@@ -2459,7 +2756,61 @@ li a,
   color: var(--text-dim);
 }
 
+.job-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.job-item {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  gap: 14px;
+  padding: 12px;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+}
+.job-item[data-latest='true'] {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+}
+.job-date,
+.job-body {
+  display: flex;
+  flex-direction: column;
+}
+.job-date {
+  gap: 6px;
+  align-items: flex-start;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--accent);
+}
+.job-body {
+  gap: 5px;
+  min-width: 0;
+}
+.job-title {
+  font-size: 15px;
+  color: var(--text);
+}
+.job-wording {
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--text-dim);
+}
+
 @media (max-width: 640px) {
+  .job-item {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .job-date {
+    flex-direction: row;
+    align-items: center;
+  }
   .role-item {
     flex-direction: column;
     gap: 4px;

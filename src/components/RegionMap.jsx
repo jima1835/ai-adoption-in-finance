@@ -115,6 +115,7 @@ export default function RegionMap({ institutions, selected, onToggle }) {
   // duplicated as a second, worse set of controls with no keyboard path.
   const handlers = (r) => ({
     'data-region': r,
+    'data-hover': hover === r ? 'true' : undefined,
     opacity: lit(r) ? 1 : 0.16,
     onClick: () => onToggle(r),
     onMouseEnter: () => setHover(r),
@@ -132,7 +133,7 @@ export default function RegionMap({ institutions, selected, onToggle }) {
       <div className="map-body">
         <svg
           className="map-svg"
-          viewBox={`0 0 ${VIEW_W.toFixed(1)} ${VIEW_H.toFixed(1)}`}
+          viewBox={`0 -4 ${VIEW_W.toFixed(1)} ${(VIEW_H + 4).toFixed(1)}`}
           role="img"
           aria-label={`World map of the corpus by region. ${REGION_LABELS.map(
             (r) => `${r} ${counts[r]}`,
