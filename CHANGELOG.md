@@ -7,7 +7,43 @@ agreement figures are those of the release they sit under, not industry rates.
 
 ## [Unreleased]
 
+## [1.2.1] - 2026-09-27
+
+Site and documentation patch. No row, stage or methodology change; the corpus stands
+as at v1.2.0 (111 human-reviewed institutions).
+
+### Added
+- `robots.txt` on the site asks crawlers that collect pages to train AI models not
+  to, while leaving search indexing and per-question assistant reads open, and
+  `AGENTS.md` tells automated readers of the repository to take the licensed data
+  files instead of scraping pages, cite the corpus, and send people to the live site.
+- A contact address for questions and inquiries, written with a deliberate
+  `[at]`, on the About page, in the site footer and in the README.
+
+### Changed
+- The dashboard moved to its own domain, <https://ai-adoption-in-finance.org/>: the
+  site now builds at the root path with a `CNAME`, a canonical link and `og:url`
+  tag, and the README and `CITATION.cff` point at the new address.
+- The independence statement is now one dated, lettered text, identical in the
+  README, on the About page and in the Zenodo record, with a one-line summary in
+  the footer: an independent, open-source, non-commercial research project in the
+  author's individual capacity, of whose corpus and methodology the author is the
+  sole author and owner; not affiliated with, sponsored by or funded by any
+  employer or institution, and representing no institution's views; not a
+  business or a service, and not carried out for any employer or client; to date
+  no revenue and no compensation; built without any employer's resources or
+  working time; open licences govern reuse by others, from which the author has
+  derived nothing. The word "endorsed" is gone — an expert's letter about the
+  work is an endorsement, and the statement should not read as denying one.
+
 ### Fixed
+- Expanding one stage column stretched the five preview cards in every other
+  column to the expanded column's height. Columns are now equal only while all
+  are collapsed; opening one leaves the others exactly as they were. Every
+  collapsed column divides its card area into five equal slots — an embedded
+  column with one firm, or a filter that leaves two, uses the same slots — and
+  every column renders the same parts (preview line, sort toggles, show-all
+  button, hidden where they do not apply) so the heights match by construction.
 - The review tool reported an intake dossier's path with the host's separator, so
   the Windows leg of the test suite failed on the v1.2.0 commit; the path is now
   written with forward slashes on every platform.
@@ -292,7 +328,8 @@ First release: 84 human-verified institutions across four adoption stages, the
 assessed-but-not-classified appendix, and the published human-vs-agent
 disagreement record (`data/agreement.json`).
 
-[Unreleased]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.2.1...HEAD
+[1.2.1]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.0.3...v1.1.0
 [1.0.3]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.0.2...v1.0.3

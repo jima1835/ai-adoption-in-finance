@@ -686,10 +686,21 @@ code {
 
 /* ---------------- Phase grid ---------------- */
 .phase-grid {
+  --card-h: 76px;
+  --card-gap: 8px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 14px;
   margin-bottom: 40px;
+}
+/* Collapsed, the grid's default stretch makes the four columns equally tall and
+   each column's five slots share that height. Once any column is expanded the
+   stretch is switched off: otherwise the open column's height would flow into
+   its neighbours and, through the 1fr slots, into their cards (the "show all
+   makes every other card huge" bug). The other columns then keep exactly the
+   collapsed layout they had, because every column renders the same parts. */
+.phase-grid[data-expanded='true'] {
+  align-items: start;
 }
 .phase-col {
   background: var(--panel);
@@ -819,15 +830,28 @@ code {
 .phase-cards {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--card-gap);
   flex: 1;
 }
-.phase-cards[data-balanced='true'] {
+/* Collapsed with rows: five equal slots, whether the column holds five rows or
+   one — an embedded firm gets one fifth of the column, like every other card. */
+.phase-cards[data-view='preview'] {
   display: grid;
-  grid-template-rows: repeat(5, minmax(76px, 1fr));
+  grid-template-rows: repeat(5, minmax(var(--card-h), 1fr));
 }
-.phase-cards[data-balanced='true'] .inst-card {
+.phase-cards[data-view='preview'] .inst-card {
   height: 100%;
+}
+/* Collapsed with no rows (the embedded note, or nothing matching a filter): the
+   same five slots' worth of height, so the column stands as tall as the others. */
+.phase-cards[data-view='empty'] {
+  min-height: calc(5 * var(--card-h) + 4 * var(--card-gap));
+}
+/* Parts a column renders only to match its neighbours' height — the preview line
+   of an empty column, sort toggles with nothing to sort, a show-all button with
+   nothing to show. Invisible, unfocusable, and out of the accessibility tree. */
+.phase-col [data-placeholder] {
+  visibility: hidden;
 }
 .phase-expand {
   margin-top: 12px;
@@ -1571,6 +1595,12 @@ code {
 .footer-muted {
   color: var(--text-faint);
 }
+/* The contact address is written with a deliberate "[at]" and is not a link. */
+.contact-address {
+  font-family: var(--mono);
+  color: var(--text);
+  white-space: nowrap;
+}
 
 /* ---------------- Responsive ---------------- */
 @media (max-width: 980px) {
@@ -1587,6 +1617,12 @@ code {
     grid-template-columns: 1fr;
   }
   .phase-col {
+    min-height: 0;
+  }
+  .phase-col [data-placeholder] {
+    display: none;
+  }
+  .phase-cards[data-view='empty'] {
     min-height: 0;
   }
   .phase-def {

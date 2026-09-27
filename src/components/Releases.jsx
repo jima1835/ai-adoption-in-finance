@@ -5,6 +5,12 @@ const BUILD = typeof __SITE_BUILD__ !== 'undefined' ? __SITE_BUILD__ : null
 // the full record; this page summarises it and is updated alongside it.
 const RELEASES = [
   {
+    version: '1.2.1',
+    date: '2026-09-27',
+    notes:
+      'The dashboard moves to ai-adoption-in-finance.org. Expanding one stage column no longer stretches the others. A dated independence statement is identical in README, About page and Zenodo record; a contact address is added; robots.txt asks AI-training crawlers to stay out and AGENTS.md addresses automated readers. No row or stage changed.',
+  },
+  {
     version: '1.2.0',
     date: '2026-09-27',
     notes:

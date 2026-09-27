@@ -20,7 +20,15 @@ export default function Footer() {
       </a>
       <span className="footer-sep">·</span>
       <span className="footer-muted">
-        Classifications rest only on public sources.
+        A personal, non-commercial, open-source project. Classifications rest
+        only on public sources.
+      </span>
+      <span className="footer-sep">·</span>
+      <span className="footer-muted" title="For questions and inquiries">
+        Questions:{' '}
+        <span className="contact-address">
+          info[at]ai-adoption-in-finance.org
+        </span>
       </span>
       {BUILD && BUILD.built && (
         <>

@@ -37,23 +37,54 @@ export default function About() {
       <h2 className="prose-h1">About the author</h2>
       <p className="prose-lede">
         Built and maintained by <strong>Jiajun Ma</strong>, an investment
-        professional working in institutional asset management.
+        professional working in institutional asset management, as independent
+        research outside of work.
       </p>
 
       <section>
         <h3 className="prose-h2">Independence</h3>
         <p>
-          This is an independent personal project, produced entirely in the
-          author’s personal capacity. It is not affiliated with, sponsored by,
-          or endorsed by any employer or institution, and every view and
-          classification here is the author’s alone.
+          <strong>(a) Independent research.</strong> This project (the
+          “Project”) is an independent, open-source, non-commercial research
+          project by its author, Jiajun Ma (the “Author”), carried out in the
+          Author’s individual capacity. The Author is the sole author and owner
+          of its corpus and methodology.
         </p>
         <p>
-          Consistent with the public-sources-only rule of the methodology, no
-          non-public information from the author’s professional work informs any
-          classification, and institutions where the author has a professional
-          affiliation are excluded from coverage entirely. Nothing on this site
-          is investment advice.
+          <strong>(b) No institutional affiliation.</strong> The Project is not
+          affiliated with, sponsored by, or funded by any employer or other
+          institution, and it does not represent the views or positions of any
+          employer or institution. Every view and classification in it is the
+          Author’s alone.
+        </p>
+        <p>
+          <strong>(c) Not a business or a service.</strong> The Project is not
+          operated as a business or a service and has not been carried out for
+          or on behalf of any employer or client. To date it has generated no
+          revenue, has charged no fees, carried no advertising, accepted no
+          sponsorship and sold no access, and the Author has received no
+          compensation in connection with it.
+        </p>
+        <p>
+          <strong>(d) Open licences.</strong> The code is licensed under the MIT
+          License and the data under CC BY 4.0. Use of either by others is
+          governed by those licences alone; the Project charges nothing for such
+          use, and the Author has derived no revenue or compensation from it.
+        </p>
+        <p>
+          <strong>(e) Public sources only.</strong> No non-public information
+          from the Author’s professional work informs any classification, and
+          institutions with which the Author has a professional affiliation are
+          excluded from coverage entirely. The Project was built without the use
+          of any employer’s resources or working time.
+        </p>
+        <p>
+          <strong>(f) No advice.</strong> Nothing in the Project constitutes
+          investment, legal or other professional advice.
+        </p>
+        <p className="prose-note">
+          Statement current as of 27 September 2026. It is updated whenever any
+          fact in it changes.
         </p>
         <p>
           The corpus and its methodology are the author’s; the code is not only
@@ -92,7 +123,7 @@ export default function About() {
       </section>
 
       <section>
-        <h3 className="prose-h2">Corrections</h3>
+        <h3 className="prose-h2">Corrections and contact</h3>
         <p>
           Corrections and challenges are welcome —{' '}
           <a href={`${REPO}/issues`} target="_blank" rel="noreferrer">
@@ -103,6 +134,13 @@ export default function About() {
           <a href={REPO} target="_blank" rel="noreferrer">
             GitHub
           </a>
+          .
+        </p>
+        <p>
+          For questions and inquiries, please contact{' '}
+          <span className="contact-address">
+            info[at]ai-adoption-in-finance.org
+          </span>
           .
         </p>
       </section>

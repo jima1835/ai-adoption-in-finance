@@ -140,6 +140,7 @@ ai-adoption-in-finance/
 ├── METHODOLOGY.md         # the classification rules + construction protocol
 ├── SOURCES.md             # source tiers, the tier floor, and how they apply
 ├── CLAUDE.md              # architecture & row schema
+├── AGENTS.md              # notice to crawlers and AI agents: use the data, cite it, send people to the site
 ├── CONTRIBUTING.md        # how to contribute
 ├── CHANGELOG.md           # what changed in each release
 ├── tests/                 # pytest suite: engine, review tool, data schema, version
@@ -147,6 +148,7 @@ ai-adoption-in-finance/
 ├── schemas/               # JSON Schema for every public data file
 ├── data/                  # source of truth — see "What's published" above
 ├── src/                   # static React site (Vite) — components + plain CSS
+├── public/                # served as-is: CNAME, robots.txt (AI-training crawlers asked not to collect the site)
 ├── vite.config.js         # build config; copies data/*.json(l) → docs/data/
 └── docs/                  # built site served by GitHub Pages
 ```
@@ -168,13 +170,35 @@ Row construction happens in a gitignored `local/` directory that never leaves th
 
 ## Independence
 
-This is an independent personal project, produced entirely in the author's personal
-capacity. It is **not affiliated with, sponsored by, funded by, or endorsed by any
-employer or institution**, and every view and classification here is the author's alone.
+**(a) Independent research.** This project (the "Project") is an independent, open-source,
+non-commercial research project by its author, Jiajun Ma (the "Author"), carried out in the
+Author's individual capacity. The Author is the sole author and owner of its corpus and
+methodology.
 
-No non-public information from the author's professional work informs any classification,
-and institutions where the author has a professional affiliation are **excluded from
-coverage entirely**. Nothing in this repository is investment advice.
+**(b) No institutional affiliation.** The Project is not affiliated with, sponsored by, or
+funded by any employer or other institution, and it does not represent the views or
+positions of any employer or institution. Every view and classification in it is the
+Author's alone.
+
+**(c) Not a business or a service.** The Project is not operated as a business or a service
+and has not been carried out for or on behalf of any employer or client. To date it has
+generated no revenue, has charged no fees, carried no advertising, accepted no sponsorship
+and sold no access, and the Author has received no compensation in connection with it.
+
+**(d) Open licences.** The code is licensed under the [MIT License](LICENSE) and the data
+under [CC BY 4.0](data/LICENSE). Use of either by others is governed by those licences
+alone; the Project charges nothing for such use, and the Author has derived no revenue or
+compensation from it.
+
+**(e) Public sources only.** No non-public information from the Author's professional work
+informs any classification, and institutions with which the Author has a professional
+affiliation are excluded from coverage entirely. The Project was built without the use of
+any employer's resources or working time.
+
+**(f) No advice.** Nothing in the Project constitutes investment, legal or other
+professional advice.
+
+*Statement current as of 27 September 2026. It is updated whenever any fact in it changes.*
 
 ## Contributors
 
@@ -195,6 +219,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) to add to this list.
 ---
 
 Built by Jiajun Ma — [github.com/jima1835](https://github.com/jima1835).
+
+For questions and inquiries, please contact info[at]ai-adoption-in-finance.org.
 
 ## Public comments and submissions
 - **2026-09-19** — Comment on NIST AI 200-2 ipd, *The TEVV-Athlon Framework for Evaluating AI Systems*. Proposes a minimum reporting summary for §2.4 — which Blocks went unmeasured, what human judges were shown before judging, and the evaluator's relationship to the developer — and a declared adoption stage for §2.1, offering this corpus's four-stage classification as the scale. [PDF](comments/2026-09-19_NIST_AI_200-2_ipd_comment_Jiajun_Ma.pdf) · [doi:10.5281/zenodo.N22853598](https://doi.org/10.5281/zenodo.22853598)

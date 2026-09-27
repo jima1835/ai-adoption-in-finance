@@ -1,0 +1,42 @@
+# ai-adoption-in-finance.org
+#
+# A personal, non-commercial, open-source project. The dashboard is built to be
+# read by a person: https://ai-adoption-in-finance.org/
+#
+# Search engines may index the site so that people can find it, and an
+# assistant answering one person's question may read it and link here.
+# Crawlers that collect pages to train AI models are asked not to. Automated
+# agents that need the corpus should not scrape the rendered pages at all: the
+# canonical, machine-readable data is published under CC BY 4.0 in the GitHub
+# repository and, versioned, on Zenodo. Take it from there, cite it, and send
+# people to the live site.
+#
+#   https://github.com/jima1835/ai-adoption-in-finance
+#   https://doi.org/10.5281/zenodo.22247885
+#   https://github.com/jima1835/ai-adoption-in-finance/blob/main/AGENTS.md
+#
+# For questions and inquiries: info[at]ai-adoption-in-finance.org
+
+# --- AI training-data crawlers ---------------------------------------------
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: anthropic-ai
+User-agent: CCBot
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: Bytespider
+User-agent: meta-externalagent
+User-agent: FacebookBot
+User-agent: Amazonbot
+User-agent: cohere-ai
+User-agent: AI2Bot
+User-agent: Diffbot
+User-agent: omgili
+User-agent: Timpibot
+User-agent: PetalBot
+User-agent: ImagesiftBot
+Disallow: /
+
+# --- Everyone else: index for search, and please send people here ----------
+User-agent: *
+Allow: /

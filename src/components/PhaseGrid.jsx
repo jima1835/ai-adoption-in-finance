@@ -85,6 +85,13 @@ function Card({ inst, onSelect }) {
 // Four columns left→right: EXPLORING | PILOTING | SCALING | EMBEDDED.
 // EMBEDDED is empty as an OBSERVATION, not an editorial choice: the bar was
 // applied to every row and none met it. The column reports that count.
+// Layout contract: while every column is collapsed the four stand equally tall
+// and each divides its card area into five equal slots — a column with one or
+// two rows (an embedded firm, a narrow filter) uses the same slots. Every column
+// renders the same parts (preview line, sort toggles, show-all button), hidden
+// as placeholders where they do not apply, so the heights match by construction.
+// Expanding one column must not change any other: the grid stops stretching
+// (`data-expanded`) and the others keep their collapsed layout as it was.
 // Column headers expose the full stage definition (from stage_definitions.json,
 // falling back to the built-in one-liners) on hover/focus.
 // Each column has its own sort toggles — AUM and ⚡ last-news date — cycling
@@ -116,8 +123,15 @@ export default function PhaseGrid({ institutions, onSelect, defs }) {
       return { ...s, [stage]: next || undefined }
     })
 
+  // A column is open only while it is expanded AND has more than the preview
+  // count — a filter can shrink an expanded column below the fold, and it then
+  // shows as a plain preview again.
+  const isOpen = (stage) =>
+    !!expanded[stage] && byStage[stage].length > PREVIEW_COUNT
+  const anyOpen = STAGES.some(isOpen)
+
   return (
-    <div className="phase-grid">
+    <div className="phase-grid" data-expanded={anyOpen || undefined}>
       {STAGES.map((stage, i) => {
         const isEmbedded = stage === 'embedded'
         const fullDef = stageDefinition(defs, stage)
@@ -129,6 +143,8 @@ export default function PhaseGrid({ institutions, onSelect, defs }) {
               return sort.dir === 'desc' ? vb - va : va - vb
             })
           : byStage[stage]
+        const open = isOpen(stage)
+        const shown = open ? rows.length : Math.min(PREVIEW_COUNT, rows.length)
         return (
           <section key={stage} className="phase-col" data-stage={stage}>
             <header
@@ -155,68 +171,62 @@ export default function PhaseGrid({ institutions, onSelect, defs }) {
               )}
             </header>
             <p className="phase-def">{STAGE_DEFS[stage]}</p>
-            {rows.length > 0 && (
-              <p className="phase-preview">
-                Showing{' '}
-                {expanded[stage]
-                  ? rows.length
-                  : Math.min(PREVIEW_COUNT, rows.length)}{' '}
-                of {rows.length}
-                <span>
-                  {sort
-                    ? sort.key === 'aum'
-                      ? `Approx. AUM · ${sort.dir === 'desc' ? 'largest' : 'smallest'} first`
-                      : `Latest evidence · ${sort.dir === 'desc' ? 'newest' : 'oldest'} first`
-                    : 'Dataset order · not a ranking'}
+            <p
+              className="phase-preview"
+              data-placeholder={rows.length === 0 || undefined}
+            >
+              Showing {shown} of {rows.length}
+              <span>
+                {sort
+                  ? sort.key === 'aum'
+                    ? `Approx. AUM · ${sort.dir === 'desc' ? 'largest' : 'smallest'} first`
+                    : `Latest evidence · ${sort.dir === 'desc' ? 'newest' : 'oldest'} first`
+                  : 'Dataset order · not a ranking'}
+              </span>
+            </p>
+            <div
+              className="phase-sorts"
+              data-placeholder={rows.length < 2 || undefined}
+            >
+              <button
+                type="button"
+                className="phase-sort"
+                data-active={sort?.key === 'aum'}
+                aria-pressed={sort?.key === 'aum'}
+                onClick={() => cycle(stage, 'aum')}
+              >
+                <span aria-hidden="true">
+                  AUM {sort?.key === 'aum' ? SORT_GLYPH[sort.dir] : '↕'}
                 </span>
-              </p>
-            )}
-            {!isEmbedded && rows.length > 1 && (
-              <div className="phase-sorts">
-                <button
-                  type="button"
-                  className="phase-sort"
-                  data-active={sort?.key === 'aum'}
-                  aria-pressed={sort?.key === 'aum'}
-                  onClick={() => cycle(stage, 'aum')}
-                >
-                  <span aria-hidden="true">
-                    AUM {sort?.key === 'aum' ? SORT_GLYPH[sort.dir] : '↕'}
-                  </span>
-                  <span className="sr-only">
-                    Sort {STAGE_LABELS[stage]} by approximate AUM in USD
-                    {sort?.key === 'aum'
-                      ? `, currently ${sort.dir === 'asc' ? 'ascending' : 'descending'}`
-                      : ''}
-                  </span>
-                </button>
-                <button
-                  type="button"
-                  className="phase-sort"
-                  data-active={sort?.key === 'news'}
-                  aria-pressed={sort?.key === 'news'}
-                  onClick={() => cycle(stage, 'news')}
-                >
-                  <span aria-hidden="true">
-                    ⚡ {sort?.key === 'news' ? SORT_GLYPH[sort.dir] : '↕'}
-                  </span>
-                  <span className="sr-only">
-                    Sort {STAGE_LABELS[stage]} by latest evidence date
-                    {sort?.key === 'news'
-                      ? `, currently ${sort.dir === 'asc' ? 'ascending' : 'descending'}`
-                      : ''}
-                  </span>
-                </button>
-              </div>
-            )}
+                <span className="sr-only">
+                  Sort {STAGE_LABELS[stage]} by approximate AUM in USD
+                  {sort?.key === 'aum'
+                    ? `, currently ${sort.dir === 'asc' ? 'ascending' : 'descending'}`
+                    : ''}
+                </span>
+              </button>
+              <button
+                type="button"
+                className="phase-sort"
+                data-active={sort?.key === 'news'}
+                aria-pressed={sort?.key === 'news'}
+                onClick={() => cycle(stage, 'news')}
+              >
+                <span aria-hidden="true">
+                  ⚡ {sort?.key === 'news' ? SORT_GLYPH[sort.dir] : '↕'}
+                </span>
+                <span className="sr-only">
+                  Sort {STAGE_LABELS[stage]} by latest evidence date
+                  {sort?.key === 'news'
+                    ? `, currently ${sort.dir === 'asc' ? 'ascending' : 'descending'}`
+                    : ''}
+                </span>
+              </button>
+            </div>
             <div
               className="phase-cards"
               id={`phase-cards-${stage}`}
-              data-balanced={
-                !expanded[stage] && rows.length >= PREVIEW_COUNT
-                  ? 'true'
-                  : undefined
-              }
+              data-view={open ? 'all' : rows.length > 0 ? 'preview' : 'empty'}
             >
               {isEmbedded && rows.length === 0 ? (
                 <div className="embedded-note">
@@ -231,34 +241,31 @@ export default function PhaseGrid({ institutions, onSelect, defs }) {
                   No institutions match this search and filters.
                 </p>
               ) : (
-                (expanded[stage] ? rows : rows.slice(0, PREVIEW_COUNT)).map(
-                  (inst) => (
-                    <Card key={inst.name} inst={inst} onSelect={onSelect} />
-                  ),
-                )
+                (open ? rows : rows.slice(0, PREVIEW_COUNT)).map((inst) => (
+                  <Card key={inst.name} inst={inst} onSelect={onSelect} />
+                ))
               )}
             </div>
-            {rows.length > PREVIEW_COUNT && (
-              <button
-                type="button"
-                className="phase-expand"
-                aria-expanded={!!expanded[stage]}
-                aria-controls={`phase-cards-${stage}`}
-                onClick={() =>
-                  setExpanded((current) => ({
-                    ...current,
-                    [stage]: !current[stage],
-                  }))
-                }
-              >
-                {expanded[stage] ? 'Show fewer' : `Show all ${rows.length}`}
-                <span className="sr-only">
-                  {' '}
-                  {STAGE_LABELS[stage]} institutions
-                </span>
-                <span aria-hidden="true"> {expanded[stage] ? '−' : '+'}</span>
-              </button>
-            )}
+            <button
+              type="button"
+              className="phase-expand"
+              data-placeholder={rows.length <= PREVIEW_COUNT || undefined}
+              aria-expanded={open}
+              aria-controls={`phase-cards-${stage}`}
+              onClick={() =>
+                setExpanded((current) => ({
+                  ...current,
+                  [stage]: !current[stage],
+                }))
+              }
+            >
+              {open ? 'Show fewer' : `Show all ${rows.length}`}
+              <span className="sr-only">
+                {' '}
+                {STAGE_LABELS[stage]} institutions
+              </span>
+              <span aria-hidden="true"> {open ? '−' : '+'}</span>
+            </button>
           </section>
         )
       })}
