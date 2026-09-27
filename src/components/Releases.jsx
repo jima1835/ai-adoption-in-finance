@@ -6,7 +6,7 @@ const BUILD = typeof __SITE_BUILD__ !== 'undefined' ? __SITE_BUILD__ : null
 const RELEASES = [
   {
     version: '1.2.0',
-    date: '2026-09-26',
+    date: '2026-09-27',
     notes:
       'Corpus at 111 reviewed institutions. The methodology is halved and opens with a TL;DR; the agreement record now measures the first review. Every timeline event gets a short digest and job postings appear as roles. Release and About pages added; the unpopulated roles module is withdrawn.',
   },

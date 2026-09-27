@@ -7,11 +7,134 @@ agreement figures are those of the release they sit under, not industry rates.
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-09-27
+
+Corpus at this release: 111 human-reviewed institutions, 398 dated events, 19
+assessed-but-not-classified entries; stage agreement 95/100 at first review,
+proposals accepted as-is 95/106. All figures describe this corpus, not an industry.
+
+### Added
+- **27 institutions, 84 → 111**, every one human-reviewed: 13 asset managers, 9
+  pensions and 5 endowments (14 US, 5 Europe, 4 Canada, 2 Asia, 2 Australia);
+  16 placed at piloting, 6 at exploring, 5 at scaling — Amova (formerly Nikko),
+  AustralianSuper, Aware Super, BNP Paribas AM, Blackstone, CDPQ, Capital Group,
+  Carlyle, Gates Foundation, GitLab Foundation, Hamilton Lane, Houston Endowment,
+  IMCO, KKR, Morgan Stanley IM, Nest, Neuberger, Northern Trust AM, Nuveen,
+  Ontario Teachers', PSP Investments, Partners Group, Texas TRS, Tokio Marine AM,
+  USS, UTIMCO and the Wellcome Trust. Dated events 276 → 398. Three more
+  assessed-but-not-classified entries (Harvard Management Company, PRINCO, the
+  Hewlett Foundation), 16 → 19.
+- **Release history and About pages** on the site (`#/releases`, `#/about`),
+  alongside the dashboard and the methodology. The release page is a table with
+  one short account of each release; this file remains the full record. The
+  author note moved out of the methodology page into its own, which also lists
+  the public comments and submissions, the FSB consultation response among them.
+- **Per-event timeline digests.** Every dated event in a drill-down now opens with
+  a title of at most twelve words and one or two bullets, the full source note one
+  disclosure below (`data/event_summaries.json`, `src/timeline.js`). A digest is
+  keyed on the exact event text, so an edited event falls back to its full note
+  until it is re-digested, and a test holds one digest per event.
+- **Requisition events rendered as postings** (`data/job_postings.json`): the
+  eight job-posting citations show the role and its AI wording in their own
+  section of the drill-down instead of as timeline entries. Rationale summaries
+  carry an evidence label per bullet, and a homepage link says whether it was
+  derived from a reviewed evidence URL.
+
 ### Changed
-- The corpus lifecycle is now explicit: the active phase expands the
-  human-reviewed dashboard to 100 institutions. The blind-review freeze and
-  its hash checks begin at that milestone; they are not a current restriction
-  on reviewer approvals or new institution admission.
+- **METHODOLOGY.md is about half its former length** and opens with a short
+  TL;DR. Section numbers, the four stage definitions (§3) and the decision rules
+  (§4) are unchanged word for word; the prose around them was compressed and the
+  corpus-lifecycle passage brought up to date.
+- **The agreement panel is withdrawn from the methodology page.** A
+  proposed-versus-final matrix that is nearly all diagonal reads as if the
+  reviewer changed two rows, when the record holds revisions, later corrections,
+  an evidence-dated transition, withdrawals and confidence re-tags. The page now
+  describes the protocol and links `data/agreement.json`, where every
+  intervention is named; no agreement figure is rendered on the site.
+- **Six stage moves against 1.1.0, all disclosed.** Five are corrections from a
+  skeptic re-read of the scaling rows against §4 on 2026-09-24 — Daiwa Asset
+  Management, E Fund Management, Quilter, State Street Investment Management
+  (SSGA) and Vanguard, each scaling → piloting on the evidence already on the
+  row, so none entered `data/transitions.jsonl`; they are logged in the decision
+  record and, where an agent proposal exists, in `data/agreement.json`. One is a
+  transition on new evidence: Fullgoal Fund Management, exploring → piloting,
+  effective 2026-09-06, the first record in `data/transitions.jsonl`. The
+  confidence field moved on 15 rows, all downward (14 high → med, Investcorp
+  high → low): three under the one-voice rule below, the rest where the field
+  disagreed with the row's own confidence sentence. Stage agreement 69/74 →
+  95/100 and proposals accepted as-is 69/80 → 95/106, both anchored.
+- **Pre-freeze consistency audit (2026-09-26).** The confidence field was re-read
+  against each row's own confidence sentence (the moves are counted above); GIC
+  gained its FY2025/26
+  report (an enterprise AI platform, an AI research assistant and a virtual
+  investment-committee member, in the fund's own voice); Citadel is re-sourced to
+  Reuters' original interview and its AUM updated from it; four footnotes were
+  cleared of pipeline language; key order was normalised on every row. No stage
+  moved.
+- **The agreement record measures the first review.** `stage_agreement` in
+  `data/agreement.json` is now read from `label_provenance`, which review.py sets
+  once when a human first rules on the agent's proposal, instead of comparing the
+  proposal with the row's stage today. The old comparison let a later correction
+  that happened to restore the proposal count as agreement and let an evidence-dated
+  transition count as disagreement. The record now lists those later changes under
+  `since_first_review`, reports the proposal-versus-today figure as `current_label`,
+  and marks a revision whose first-review stage is no longer in the public record as
+  such rather than inventing a direction. The dashboard's panel renders that case.
+- **What counts as a second publisher.** SOURCES.md §1 now states the test the
+  reviewer applied on 2026-09-26: a publisher is independent when it reports a fact
+  it established itself; several staff-written outlets that each carry the firm's
+  own account, however independent of one another, are that one voice and hold the
+  row at `med`. Three rows previously lifted to `high` on a count of outlets
+  (Bosera, Fullgoal, China Europe) were re-tagged `med` under it; rows whose second
+  publisher reported a fact of its own (Amundi, Franklin Templeton) keep `high`.
+- **Own-voice evidence is admitted on the reviewer's corroboration, not held for
+  a second publisher.** SOURCES.md §1 and METHODOLOGY §5.2 now say what the corpus
+  has practised since its first own-domain rows (ADIA, ATP, EQT, Ilmarinen,
+  Investcorp, Lynx, Optiver) and applied again to USS: a row whose every source is
+  the institution's annual report, board material or filing is publishable at
+  `med` or below once a person has opened each document and confirmed it is a
+  governance or operational disclosure rather than a pitch to investors, a
+  sponsored piece or an advertisement. Two independent publishers lift confidence
+  to `high`; they were never a condition of publishing.
+- **A reviewed row is re-queued by evidence, not by the calendar.** The reviewer
+  used to card every row whose last human review was 30+ days old as "re-review
+  due", so a batch approved on one night came back as a batch a month later
+  regardless of whether anything had happened. That is rework without new evidence
+  and a recipe for review fatigue. The queue now holds never-reviewed rows only; a
+  reviewed row comes back for a ruling solely through the sweep-proposals panel,
+  when a news pass has staged a proposal against it. The 30-day clock survives only
+  in the local dispatcher that decides which rows get that news pass.
+- **The blind-review freeze is declared, not inferred.** It used to switch on the
+  moment `institutions.json` reached 100 rows, which closed the corpus mid-session:
+  the hundredth row had to be right before it could be approved, and a typo caught a
+  minute later needed an unfreeze record to fix. `python3 tools/review.py --freeze`
+  now writes `data/recode_freeze.json` and prints the four digests to pin, captured
+  from one corpus at one moment. The milestone is still tracked — the reviewer shows
+  a standing notice once the target is reached — but it prompts a person rather than
+  closing the corpus on its own.
+- **A correction no longer enters the transitions panel.** A queue entry marked
+  `"correction": true` may move a stage without a `date_effective`, and appends
+  nothing to `data/transitions.jsonl`. Re-reading evidence already on a row against
+  the bar is not the sector moving; dating such a change with today, or with the date
+  of evidence that did not trigger it, would put a transition in the panel that never
+  happened. It is logged in the decision record instead.
+- The corpus lifecycle is stated in METHODOLOGY §6: the expansion phase ran past
+  its 100-row target to 111 rows, and the blind-review freeze is declared by the
+  maintainer (above) rather than by the row count.
+
+### Fixed
+- The review tool's sweep card merged two events that shared a date and a source
+  URL into one, which dropped one of IMCO's two 2025 annual-report events on
+  approval; events are now de-duplicated on date, URL and text, and the lost event
+  is restored.
+
+### Removed
+- **The AI-leadership roles module (v1.1.0, METHODOLOGY §11) is withdrawn from
+  this release**: the roles page, the empty JSONL records, their schemas, the
+  screener prompt and the `--roles` modes of the monitor and the review tool. It
+  shipped unpopulated and is withdrawn unpopulated; it is preserved outside the
+  public tree and will return in a later release with its rules unchanged.
+  SOURCES.md §3, which served only that module, is withdrawn with it.
 
 ## [1.1.0] - 2026-09-19
 
@@ -164,7 +287,8 @@ First release: 84 human-verified institutions across four adoption stages, the
 assessed-but-not-classified appendix, and the published human-vs-agent
 disagreement record (`data/agreement.json`).
 
-[Unreleased]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.0.3...v1.1.0
 [1.0.3]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.0.2...v1.0.3
 [1.0.2]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.0.1...v1.0.2

@@ -1,0 +1,61 @@
+{
+  "_readme": "Presentation-only index of reviewed timeline events that are job advertisements. Matching uses institution, date and source URL; wording is compressed from the cited posting and does not affect classification.",
+  "postings": [
+    {
+      "institution": "Hamilton Lane",
+      "date": "2026-09-03",
+      "source_url": "https://hamiltonlane.wd108.myworkdayjobs.com/Search/job/Conshohocken-PA-USA/AI-Strategy---Operations-Associate_R003088",
+      "role": "AI Strategy & Operations Associate",
+      "ai_wording": "Coordinate embedded AI teams against roadmaps; report ROI through the firm's existing framework; support firm-wide AI training, vendor governance and usage-cost tracking."
+    },
+    {
+      "institution": "Gates Foundation",
+      "date": "2026-07-16",
+      "source_url": "https://gatesfoundation.wd1.myworkdayjobs.com/Gates/job/Seattle-WA/Lead-Platform-Engineer_B021670-1",
+      "role": "Lead Platform Engineer, Enterprise Data Platform",
+      "ai_wording": "The recently launched Enterprise Data Platform is described as the central hub for foundation data and an enabler of AI, with multi-year data and AI roadmaps including agentic AI."
+    },
+    {
+      "institution": "Gates Foundation",
+      "date": "2026-08-10",
+      "source_url": "https://gatesfoundation.wd1.myworkdayjobs.com/Gates/job/Seattle-WA/Senior-AI-Engineer_B021690-2",
+      "role": "Senior AI Engineer",
+      "ai_wording": "Join an AI-first team building a conversational platform for employees to discover and use connected knowledge, with Claude Code, GitHub Copilot and Codex named in the toolset."
+    },
+    {
+      "institution": "Ontario Teachers' Pension Plan",
+      "date": "2026-08-25",
+      "source_url": "https://otppb.wd3.myworkdayjobs.com/wday/cxs/otppb/OntarioTeachers_Careers/job/Toronto-Canada/Director--Enterprise-Architect--Portfolio-Lead_7218",
+      "role": "Director, Enterprise Architect, Portfolio Lead",
+      "ai_wording": "Names the internal AI Centre of Excellence as a partner function and discloses possible AI-assisted applicant screening while retaining human decisions."
+    },
+    {
+      "institution": "UTIMCO",
+      "date": "2026-06-16",
+      "source_url": "https://recruiting2.ultipro.com/UNI1086TAMIM/JobBoard/36bde31a-2829-41f6-8302-00354faf172a/OpportunityDetail?opportunityId=7fe206d2-1adc-4b62-a1ae-119e6fe9733e",
+      "role": "Operational Due Diligence Analyst",
+      "ai_wording": "Identify process improvements and use AI tools to improve the efficiency and scalability of operational due-diligence workflows."
+    },
+    {
+      "institution": "UTIMCO",
+      "date": "2026-07-10",
+      "source_url": "https://recruiting2.ultipro.com/UNI1086TAMIM/JobBoard/36bde31a-2829-41f6-8302-00354faf172a/OpportunityDetail?opportunityId=a240574d-94a7-4407-bf69-d0ee38ba7bfc",
+      "role": "Data & AI Solutions Engineer",
+      "ai_wording": "Integrate Azure OpenAI into enterprise applications, build retrieval-augmented generation over approved data, and develop evaluation and monitoring for traceable, responsible deployment."
+    },
+    {
+      "institution": "UTIMCO",
+      "date": "2026-08-06",
+      "source_url": "https://recruiting2.ultipro.com/UNI1086TAMIM/JobBoard/36bde31a-2829-41f6-8302-00354faf172a/OpportunityDetail?opportunityId=2cc7f9f0-9a3b-4ecc-877f-6261b59ea422",
+      "role": "Director, Hedge Fund Investments",
+      "ai_wording": "Requires proficiency applying AI to research, analysis, communication and workflow efficiency, with judgment about accuracy, confidentiality and appropriate use."
+    },
+    {
+      "institution": "UTIMCO",
+      "date": "2026-08-06",
+      "source_url": "https://recruiting2.ultipro.com/UNI1086TAMIM/JobBoard/36bde31a-2829-41f6-8302-00354faf172a/OpportunityDetail?opportunityId=a5024d09-8705-4d7b-a5eb-938208fc8030",
+      "role": "Associate, Private Equity Funds",
+      "ai_wording": "Prefers proficiency with tools such as ChatGPT and Microsoft Copilot to automate workflows, speed research and improve day-to-day productivity."
+    }
+  ]
+}

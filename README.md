@@ -57,9 +57,10 @@ Two figures, because one alone would flatter the pipeline:
 
 **This is anchored, non-independent agreement, and it should not be read as an inter-rater reliability estimate.** The reviewer saw the proposed stage and the agent's written reasoning before deciding, and there is one reviewer who also wrote the classification rules. No kappa is computed from this file and none should be quoted from it; establishing reliability needs a blind re-code against stripped evidence, which is a separate exercise. See [METHODOLOGY §6](METHODOLOGY.md#6-the-disagreement-record).
 
-The current priority is to expand and human-review the corpus to 100 institutions.
-The blind re-code freeze begins at that 100-row milestone; it is not active during
-the expansion phase.
+The expansion phase ran past its 100-row target: the corpus stands at 111
+human-reviewed institutions. The blind re-code freeze is declared by the maintainer
+(`python3 tools/review.py --freeze`), not triggered by the row count; until it is
+declared, reviewer approvals and new admissions continue.
 
 ## The classification
 
