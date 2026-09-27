@@ -188,7 +188,7 @@ def intake_evidence(names):
             name = (item.get("row") or {}).get("name")
             if name in want and name not in out:
                 out[name] = {
-                    "path": str(path.relative_to(ROOT)),
+                    "path": path.relative_to(ROOT).as_posix(),  # "/" on every platform
                     "status": item.get("status"),
                     "evidence": item.get("evidence") or [],
                     "uncertainty": item.get("uncertainty"),

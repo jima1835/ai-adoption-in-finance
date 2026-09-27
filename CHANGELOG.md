@@ -7,6 +7,11 @@ agreement figures are those of the release they sit under, not industry rates.
 
 ## [Unreleased]
 
+### Fixed
+- The review tool reported an intake dossier's path with the host's separator, so
+  the Windows leg of the test suite failed on the v1.2.0 commit; the path is now
+  written with forward slashes on every platform.
+
 ## [1.2.0] - 2026-09-27
 
 Corpus at this release: 111 human-reviewed institutions, 398 dated events, 19
