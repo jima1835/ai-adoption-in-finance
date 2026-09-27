@@ -74,7 +74,7 @@ const SITE_BUILD = {
 // Relative base keeps the build portable to any GitHub Pages path. data/ is the
 // canonical source; syncData() propagates it into docs/ on build (see above).
 export default defineConfig({
-  base: '/ai-adoption-in-finance/',
+  base: '/',
   build: { outDir: 'docs' },
   plugins: [react(), syncData()],
   define: { __SITE_BUILD__: JSON.stringify(SITE_BUILD) },
