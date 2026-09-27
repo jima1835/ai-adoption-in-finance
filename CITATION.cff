@@ -14,7 +14,7 @@ identifiers:
     description: "Concept DOI — always resolves to the latest version"
 license: CC-BY-4.0
 repository-code: "https://github.com/jima1835/ai-adoption-in-finance"
-url: "https://jima1835.github.io/ai-adoption-in-finance/"
+url: "https://ai-adoption-in-finance.org/"
 keywords:
   - AI adoption
   - institutional investors
