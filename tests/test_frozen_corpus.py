@@ -2,14 +2,21 @@
 
 METHODOLOGY §6 commits this project to establishing reliability with a blind
 re-code: the same evidence, stripped of the proposed stage and its reasoning,
-coded cold. The project is currently expanding the reviewed corpus to 100
-institutions. Until that milestone, these checks are intentionally dormant so
-the human reviewer can add and revise rows through review.py.
+coded cold. Until the freeze is declared these checks are dormant, so the human
+reviewer can add and revise rows through review.py.
 
-Once the 100-row milestone is reached, the maintainer records the hashes below
-from that 100-row corpus and the checks become the blind-review freeze. Any
-later change then fails the suite until the blind re-code is deliberately
-completed.
+The freeze is DECLARED, not inferred from the row count. `python3
+tools/review.py --freeze` writes data/recode_freeze.json and prints the digests
+below, captured from the corpus as it stands at that moment; the maintainer
+pastes them in. Any later change then fails the suite until the blind re-code is
+deliberately completed.
+
+Why declared rather than automatic: a row count that flips the gate flips it
+mid-session, under the reviewer's hands. The hundredth row would have to be
+perfect before it could be approved, and a typo noticed in row 3 a minute later
+would need an unfreeze record to fix. The milestone is still tracked — review.py
+shows `freeze_due` once the corpus reaches FREEZE_TARGET_ROWS — but reaching it
+is a prompt to a person, not an event that closes the corpus on its own.
 
 What is frozen, and what deliberately is NOT:
 
@@ -42,25 +49,30 @@ from pathlib import Path
 import pytest
 
 DATA = Path(__file__).resolve().parents[1] / "data"
-FREEZE_TARGET_ROWS = 100
 
 
-def _expansion_phase():
+def _freeze_declared():
+    """Mirrors review.freeze_declared(): absent = expansion phase; unparseable
+    reads as declared, because an unreadable declaration is not a licence to
+    skip the gate."""
     try:
-        rows = json.loads((DATA / "institutions.json").read_text(encoding="utf-8"))
-        return len(rows) < FREEZE_TARGET_ROWS
-    except (OSError, ValueError, TypeError):
+        doc = json.loads((DATA / "recode_freeze.json").read_text(encoding="utf-8"))
+    except OSError:
         return False
+    except (ValueError, TypeError):
+        return True
+    return doc.get("blind_recode_freeze") is True
 
 
 pytestmark = pytest.mark.skipif(
-    _expansion_phase(),
-    reason="blind-review freeze activates after the reviewed corpus reaches 100 institutions",
+    not _freeze_declared(),
+    reason="the blind-review freeze has not been declared "
+           "(python3 tools/review.py --freeze); the corpus is in its expansion phase",
 )
 
-# These hashes are the release baseline. At the 100-row milestone, the
-# maintainer replaces them with hashes captured from that 100-row corpus once,
-# then keeps them fixed for the blind re-code.
+# These hashes are the release baseline. At the declaration, the maintainer
+# replaces them — once — with the digests `review.py --freeze` prints, then keeps
+# them fixed for the blind re-code.
 FROZEN_FILES = {
     "not_classified.json": "d5b2bcaebebada083c6a84ecd540e32158c0f8cb8a9cd9a52a109d1a2c6cbf4f",
     # Empty file: the panel starts absent and fills prospectively. Its first
@@ -76,13 +88,13 @@ AGREEMENT_PROSE_KEYS = ("_readme", "limitation")
 AGREEMENT_FIGURES_SHA = "67a44ddb5b6ced88e911edc31ba370303460955295f221c7b42c18e2bd82ce09"
 
 # sha256 over [{name, stage, rationale, events}] sorted-keys JSON. The row count
-# is updated to 100 at the milestone; until then the module-level skip keeps the
+# is captured at the declaration; until then the module-level skip keeps the
 # historical release values from acting as an expansion gate.
 INSTITUTIONS_CORE_SHA = "300c15ffebd0747d07d4c35577d3d07b46937a505e72cb75000f0b23a930bea7"
 INSTITUTIONS_ROWS = 84
 
 UNFREEZE = (
-    "The 100-row corpus is frozen for the blind re-code (METHODOLOGY §6). If this "
+    "The corpus is frozen for the blind re-code (METHODOLOGY §6). If this "
     "change is intentional, say so in the PR and remove tests/test_frozen_corpus.py "
     "in the same commit — do not re-pin the digest."
 )
@@ -117,16 +129,3 @@ def test_institutions_recode_inputs_are_unchanged():
     assert hashlib.sha256(blob).hexdigest() == INSTITUTIONS_CORE_SHA, (
         f"a stage, rationale or event timeline changed. {UNFREEZE}"
     )
-
-
-def test_the_roles_module_ships_no_data():
-    """The roles module is scaffolding until a human has reviewed real events.
-
-    Shipping an empty file is a claim — "this exists and is empty" — and it is
-    the claim this branch is making. A row appearing here without the review
-    protocol behind it would be exactly the failure METHODOLOGY §5 exists to
-    prevent.
-    """
-    for name in ("roles.jsonl", "roles_not_found.jsonl"):
-        assert (DATA / name).read_text(encoding="utf-8") == "", f"{name} is not empty"
-    assert json.loads((DATA / "roles_expansion.json").read_text(encoding="utf-8")) == []

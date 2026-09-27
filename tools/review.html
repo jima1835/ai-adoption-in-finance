@@ -37,7 +37,6 @@
   .tag.stage-embedded { color:var(--green); border-color:var(--green); }
   .tag.pause { color:var(--red); border-color:var(--red); }
   .tag.fresh { color:var(--green); border-color:var(--green); }
-  .tag.due { color:var(--amber); border-color:var(--amber); }
   select, input[type=text], textarea {
     background:var(--panel2); color:var(--text); border:1px solid var(--line);
     border-radius:6px; font:14px var(--mono); padding:5px 8px; }
@@ -55,6 +54,9 @@
   .evitem .ev-desc { flex:2; min-width:120px; }
   .evitem .ev-url { flex:1; min-width:90px; }
   .evitem a { font-size:15px; }
+  .new-addev { display:flex; gap:6px; margin:5px 0; align-items:center; }
+  .new-addev input, .new-addev select { font-size:13px; }
+  .ne-hint { font-size:12px; opacity:0.75; margin-bottom:6px; }
   .evrow { display:flex; gap:6px; margin-top:6px; flex-wrap:wrap; }
   .evrow input { flex:1; min-width:80px; }
   button { background:var(--panel2); color:var(--text); border:1px solid var(--line);
@@ -64,6 +66,33 @@
   button.pull { color:var(--red); }
   .actions { display:flex; gap:8px; margin-top:12px; align-items:center; flex-wrap:wrap; }
   .note { color:var(--dim); font-size:13px; }
+  .decision { margin:10px 0 4px; }
+  .case { background:var(--panel2); border:1px solid var(--line); border-radius:8px; padding:10px 12px; }
+  .casehead { font-size:13px; font-weight:bold; letter-spacing:.02em; margin-bottom:4px; }
+  .casehead.ok-head { color:var(--green); } .casehead.hold-head { color:var(--red); }
+  .case label { margin-top:8px; }
+  .preview { max-height:300px; font-size:13px; }
+  .diff-add { color:var(--green); }
+  .diff-del { color:var(--red); text-decoration:line-through; opacity:.8; }
+  mark { background:rgba(251,191,36,.18); color:inherit; border-radius:3px; padding:0 2px; }
+  .verdict { font-size:13px; margin-top:8px; padding:4px 8px; border-radius:6px; border:1px solid var(--line); }
+  .verdict.ok { color:var(--green); border-color:var(--green); }
+  .verdict.bad { color:var(--amber); border-color:var(--amber); }
+  .agentrec { border-left:3px solid var(--accent); padding-left:8px; margin:6px 0; color:var(--text); }
+  .voices { font-size:13px; color:var(--text); margin:4px 0 6px; }
+  ol.tl { list-style:none; padding:0; margin:0; white-space:normal; }
+  ol.tl li { padding:7px 0; border-top:1px solid var(--line); font-size:14px; }
+  ol.tl li:first-child { border-top:none; }
+  .tl-date { color:var(--accent); font-weight:bold; margin-right:8px; }
+  .tl-pub { color:var(--text); margin-right:6px; }
+  .tl-ev { margin:2px 0; }
+  .tag.own { color:var(--amber); border-color:var(--amber); }
+  .tag.medium { color:var(--dim); }
+  .subhead { font-size:12px; color:var(--dim); text-transform:uppercase; letter-spacing:.04em; margin-top:12px; }
+  details.more { margin-top:12px; border-top:1px dashed var(--line); padding-top:6px; }
+  details.more summary { cursor:pointer; color:var(--dim); font-size:13px; }
+  details.more[open] summary { margin-bottom:6px; }
+  .holdnote { border-left:3px solid var(--amber); padding-left:8px; margin-top:8px; color:var(--text); }
   #done { margin-top:26px; color:var(--dim); font-size:14px; }
   #done li { margin-bottom:2px; }
 </style>
@@ -101,6 +130,12 @@ function toast(msg){
   setTimeout(() => t.style.display = 'none', 6000);
 }
 
+/* advisory, not a gate: amber rule, never red — it does not stop you */
+const WARNBOX_CSS = `.warnbox{border-left:3px solid #c98a12;padding-left:10px}
+.warnbox ul{margin:6px 0 6px 18px;padding:0}.warnbox li{margin:2px 0}`;
+(function(){ const st = document.createElement('style'); st.textContent = WARNBOX_CSS;
+  document.head.appendChild(st); })();
+
 function renderEvidence(text){
   if (!text) return '<span class="note">No REVIEW.md section found — baseline row or evidence lives elsewhere. Confirm against the row’s own event links.</span>';
   let h = esc(text);
@@ -116,9 +151,9 @@ function card(row){
   d.dataset.name = row.name;
   const pauseTag = row.type === 'endowment'
     ? '<span class="tag pause">ENDOWMENT PAUSED — decide keep or pull</span>' : '';
-  const dueTag = row.as_of_reviewed
-    ? `<span class="tag due">re-review due — last reviewed ${esc(row.as_of_reviewed)}</span>`
-    : '<span class="tag fresh">new</span>';
+  // Only never-reviewed rows are carded here. A reviewed row comes back for a
+  // ruling solely through the SWEEP PROPOSALS panel, when a news pass staged one.
+  const dueTag = '<span class="tag fresh">new</span>';
   d.innerHTML = `
     <div class="rowhead">
       <b>${esc(row.name)}</b>
@@ -238,6 +273,155 @@ function card(row){
   return d;
 }
 
+// --- Decision preview for a sweep proposal -----------------------------------
+// The card shows what each button leaves on the row, so a confidence correction is
+// judged against both outcomes rather than against the agent's prose alone. The two
+// regexes are the ones local/prefreeze_check.sh step 1 runs, so the verdict shown
+// here is the check's verdict, not an approximation of it.
+const CONF_RE = /[Cc]onfidence (?:is |would be |remains |is held at |held at |stays at |at )?(?:at )?(high|med|medium|low)\b/;
+const SINGLE_VOICE_RE = /single[- ]voice|one voice|one publisher|single publisher/i;
+
+// Sentence split that leaves "SOURCES.md" and "U.S." alone: a period ends a
+// sentence only when whitespace or the end follows; 。 always does.
+function splitSentences(text){
+  const parts = String(text || '').split(/([.!?]+["\u201d\u2019)\]]*(?=\s|$)|\u3002+[\u300d\u300f\u201d]*)/);
+  const out = [];
+  for (let i = 0; i < parts.length; i += 2){
+    const s = (parts[i] + (parts[i+1] || '')).trim();
+    if (s) out.push(s);
+  }
+  return out;
+}
+
+// Sentence-level LCS diff — which sentences change is what the reviewer needs.
+function sentenceDiff(before, after){
+  const a = splitSentences(before), b = splitSentences(after);
+  const n = a.length, m = b.length;
+  const L = Array.from({length:n+1}, () => new Array(m+1).fill(0));
+  for (let i = n-1; i >= 0; i--) for (let j = m-1; j >= 0; j--)
+    L[i][j] = a[i] === b[j] ? L[i+1][j+1] + 1 : Math.max(L[i+1][j], L[i][j+1]);
+  const out = []; let i = 0, j = 0;
+  while (i < n && j < m){
+    if (a[i] === b[j]) { out.push({op:'same', s:a[i]}); i++; j++; }
+    else if (L[i+1][j] >= L[i][j+1]) { out.push({op:'del', s:a[i]}); i++; }
+    else { out.push({op:'add', s:b[j]}); j++; }
+  }
+  while (i < n) out.push({op:'del', s:a[i++]});
+  while (j < m) out.push({op:'add', s:b[j++]});
+  return out;
+}
+
+// The sentence that states the confidence gets <mark>, so the eye lands on it.
+function markConfidence(text){
+  return splitSentences(text).map(s => CONF_RE.test(s) ? `<mark>${esc(s)}</mark>` : esc(s)).join(' ');
+}
+
+function renderDiff(before, after){
+  if ((before || '') === (after || '')) return markConfidence(before);
+  return sentenceDiff(before, after).map(d =>
+    d.op === 'same' ? markConfidence(d.s)
+    : d.op === 'add' ? `<span class="diff-add">${markConfidence(d.s)}</span>`
+    : `<span class="diff-del">${esc(d.s)}</span>`).join(' ');
+}
+
+// Does the text's own statement of confidence agree with the field it would carry?
+function confidenceVerdict(rationale, footnote, field){
+  const txt = (rationale || '') + ' ' + (footnote || '');
+  const m = CONF_RE.exec(txt);
+  const said = m ? m[1].replace('medium', 'med') : null;
+  const problems = [];
+  if (said && said !== field) problems.push(`text says <b>${esc(said)}</b>, field would be <b>${esc(field)}</b>`);
+  if (field === 'high' && SINGLE_VOICE_RE.test(txt)) problems.push('field <b>high</b> on a row whose own text says single voice');
+  if (problems.length)
+    return `<div class="verdict bad">\u2717 ${problems.join(' \u00b7 ')} \u2014 pre-freeze check step 1 trips</div>`;
+  return `<div class="verdict ok">\u2713 ${said ? `text says ${esc(said)}, field ${esc(field)}` : `text states no confidence; field ${esc(field)}`} \u2014 consistent</div>`;
+}
+
+// The agent sometimes writes the hold-case wording into its reason after an
+// "IF YOU … HOLD …:" marker. Surface it instead of leaving it buried in the prose.
+function holdWording(reason){
+  const m = /IF YOU[^:]*HOLD[^:]*:\s*([\s\S]+)$/i.exec(reason || '');
+  return m ? m[1].trim() : '';
+}
+
+// --- Sources and dates, labelled the way the dashboard labels them ------------
+// Ports publisherFor() and dateSortKey() from src/data.js: path rules first, then
+// the host table walked up one label at a time; an unknown host answers with its
+// bare hostname. "own voice" = the row's homepage domain or a `firm` medium.
+const MEDIUM_LABELS = { firm:'firm site', vendor:'vendor', press:null, wire:'wire',
+                        transcript:'transcript', filing:'filing', podcast:'podcast' };
+function dateSortKey(raw){
+  const [y='0', m='0', d='0'] = String(raw || '').split('-');
+  return Number(y)*10000 + Number(m)*100 + Number(d);
+}
+function publisherFor(url){
+  let u; try { u = new URL(url); } catch { return null; }
+  const P = S.publishers || {};
+  const host = u.hostname.toLowerCase().replace(/^www\./, '');
+  const rule = (P.rules || []).find(r => r && r.host === host && u.pathname.startsWith(r.path_prefix || ''));
+  if (rule) return { name: rule.name || host, medium: rule.medium || null, host };
+  for (let h = host; ;) {
+    const hit = (P.publishers || {})[h];
+    if (hit) return { name: hit.name || host, medium: hit.medium || null, host };
+    const cut = h.indexOf('.');
+    if (cut < 0 || !h.includes('.', cut + 1)) break;
+    h = h.slice(cut + 1);
+  }
+  return { name: host, medium: null, host };
+}
+function ownVoice(url, rowName, pub){
+  const hp = ((S.homepages || {})[rowName] || {}).url;
+  if (hp) { try {
+    const hh = new URL(hp).hostname.toLowerCase().replace(/^www\./, '');
+    const eh = new URL(url).hostname.toLowerCase().replace(/^www\./, '');
+    if (eh === hh || eh.endsWith('.' + hh)) return true;
+  } catch {} }
+  // A firm's own site, its wire-distributed release and its regulatory filing are
+  // all the firm speaking (SOURCES.md §1 lists filings among own-voice disclosures).
+  return !!(pub && ['firm', 'wire', 'filing'].includes(pub.medium));
+}
+function renderTimeline(row){
+  const evs = [...(row.events || [])].sort((a,b) => dateSortKey(b.date) - dateSortKey(a.date));
+  if (!evs.length) return '<span class="note">This row carries no dated events.</span>';
+  const byPub = new Map(); let own = 0;
+  const items = evs.map(e => {
+    const p = publisherFor(e.source_url) || { name:'source', medium:null };
+    const isOwn = ownVoice(e.source_url, row.name, p);
+    if (isOwn) own++;
+    byPub.set(p.name, (byPub.get(p.name) || 0) + 1);
+    const med = p.medium && MEDIUM_LABELS[p.medium];
+    return `<li><span class="tl-date">${esc(e.date || '')}</span><span class="tl-pub">${esc(p.name)}</span>${
+        med ? `<span class="tag medium">${esc(med)}</span>` : ''}${isOwn ? ' <span class="tag own">own voice</span>' : ''}
+      <div class="tl-ev">${esc(e.event || '')}</div>
+      <a href="${esc(e.source_url)}" target="_blank" rel="noreferrer">${esc(e.source_url)}</a></li>`;
+  }).join('');
+  const others = new Set();
+  evs.forEach(e => { const p = publisherFor(e.source_url); if (p && !ownVoice(e.source_url, row.name, p)) others.add(p.name); });
+  const summary = `${evs.length} event${evs.length===1?'':'s'} \u00b7 ${byPub.size} publisher${byPub.size===1?'':'s'}: ${
+      [...byPub].map(([k,n]) => `${esc(k)}${n>1 ? ' \u00d7'+n : ''}`).join(', ')} \u00b7 ${own} own-voice (firm site, wire, filing) \u00b7 ${
+      others.size} other publisher${others.size===1?'':'s'} \u2014 SOURCES.md \u00a71: one voice caps at med, two independent publishers lift to high`;
+  return `<div class="voices">${summary}</div><ol class="tl">${items}</ol>`;
+}
+// Just the sentence(s) that state the confidence, for the compact as-is view.
+function confidenceSentences(rationale, footnote){
+  const out = [];
+  [rationale, footnote].forEach(t => splitSentences(t).forEach(s => { if (CONF_RE.test(s)) out.push(s); }));
+  return out;
+}
+
+// Intake dossier fallback for the evidence-ledger box: rows that entered through
+// the new-institution path have no REVIEW.md section, and their quotes and tiers
+// live in local/intake instead.
+function renderDossier(dos){
+  const items = (dos.evidence || []).map(e =>
+    `<div><b>${esc(e.date || '')} \u00b7 ${esc(e.publisher || '')} \u00b7 ${esc(e.tier || '')}</b><br>
+      <a href="${esc(e.url)}" target="_blank" rel="noreferrer">${esc(e.url)}</a><br>
+      ${esc(e.quote || '')}${e.note ? `<br><span class="note">${esc(e.note)}</span>` : ''}</div>`).join('<hr>');
+  return (items || '<span class="note">dossier carries no evidence items</span>')
+    + (dos.uncertainty ? `<hr><b>Uncertainty:</b> ${esc(dos.uncertainty)}` : '')
+    + (dos.status ? `<hr><span class="note">intake status when filed: ${esc(dos.status)}</span>` : '');
+}
+
 // Monthly REFRESH sweep. Agents write proposals into local/CHANGES_QUEUE.json and
 // never move a stage themselves. Approving here is the only path, and a stage move
 // demands the date of the evidence that caused it — that date, not today's, is what
@@ -264,55 +448,156 @@ function changeCard(entry){
   const moves = entry.proposed_stage && entry.proposed_stage !== entry.current_stage;
   const evs = (Array.isArray(entry.new_events) ? entry.new_events : [])
     .filter(e => e && (e.date || e.event || e.source_url));
+  const agentConf = entry.proposed_confidence || entry.current_confidence;
+  const agentStage = entry.proposed_stage || entry.current_stage;
+  const agentRat = entry.proposed_rationale ?? row.rationale ?? '';
+  const agentFoot = entry.proposed_footnote ?? row.footnote ?? '';
+  const hold = holdWording(entry.reason);
+  const hasHoldDraft = !!(entry.hold_rationale || entry.hold_footnote);
+  const holdRat = entry.hold_rationale ?? row.rationale ?? '';
+  const holdFoot = entry.hold_footnote ?? row.footnote ?? '';
+  const dossier = (S.dossier_evidence || {})[entry.name];
+  const ledger = S.sections[entry.name];
   d.innerHTML = `
     <div class="rowhead">
       <b>${esc(entry.name)}</b>
       <span class="tag">${moves
-        ? `sweep ${esc(entry.sweep || '?')} — proposes ${esc(entry.current_stage)} → <b>${esc(entry.proposed_stage)}</b>`
-        : `sweep ${esc(entry.sweep || '?')} — ${evs.length ? 'new evidence' : 're-look'}, stage held at ${esc(entry.current_stage)}`}</span>
+        ? `proposes ${esc(entry.current_stage)} → <b>${esc(entry.proposed_stage)}</b>`
+        : `stage ${esc(entry.current_stage)}`} · confidence ${esc(entry.current_confidence)}${
+        agentConf !== entry.current_confidence ? ` → <b>${esc(agentConf)}</b>` : ' (unchanged)'}</span>
+      ${entry.correction ? '<span class="tag">correction — no transition</span>' : ''}
+      <span class="note">${esc(entry.sweep || '')}</span>
     </div>
-    <div class="note">agent reason: ${esc(entry.reason || '(none given)')}</div>
-    <div><label>proposed new events — tick the ones to add, pick the one that dates a stage move</label>
-      <div class="cvents"></div>
-      <div class="evrow">
-        <input type="text" class="e-date" placeholder="YYYY-MM-DD" style="flex:0 0 13ch">
-        <input type="text" class="e-desc" placeholder="event — what the source actually says" style="flex:2">
-        <input type="text" class="e-url" placeholder="https://source" style="flex:1">
-        <button class="addcv">add event</button>
-        <button class="cv-all">tick all</button>
-        <button class="cv-none">untick all</button>
-      </div>
-      <div class="note cv-count"></div>
-    </div>
-    <div class="evrow" style="margin-top:10px">
-      <label>final stage</label>
+    <div><label>sources and dates on this row — as the dashboard shows them</label>
+      <div class="evidence">${renderTimeline(row)}</div></div>
+    <div><label>rationale — what Approve change writes <span class="c-prev-rat-note"></span></label>
+      <div class="evidence preview c-prev-rationale"></div></div>
+    <div class="c-prev-footnote-wrap"><label>footnote — what Approve change writes (green added, red struck)</label>
+      <div class="evidence preview c-prev-footnote"></div></div>
+    <div class="c-prev-fields"></div>
+    <div class="c-prev-verdict"></div>
+    <div class="evrow" style="margin-top:8px">
+      <label>stage</label>
       <select class="c-stage">${STAGES.map(t =>
         `<option ${t===(entry.proposed_stage||entry.current_stage)?'selected':''}>${t}</option>`).join('')}</select>
-      <label>confidence</label>
+      <label>confidence <span class="note">(agent: ${esc(agentConf)} · current: ${esc(entry.current_confidence)})</span></label>
       <select class="c-conf">${CONFS.map(t =>
-        `<option ${t===(entry.proposed_confidence||entry.current_confidence)?'selected':''}>${t}</option>`).join('')}</select>
-      <label>AUM</label><input type="text" class="c-aum" style="flex:0 0 16ch">
+        `<option ${t===agentConf?'selected':''}>${t}</option>`).join('')}</select>
     </div>
-    <div><label>rationale — edit it to cite the evidence you are adding</label>
+    <div><label>edit the rationale — ${entry.proposed_rationale
+        ? "pre-filled with the agent's proposed rewrite"
+        : 'pre-filled with the current text (agent proposed no rewrite)'}</label>
       <textarea class="c-rationale" rows="7"></textarea></div>
-    <div><label>footnote</label><textarea class="c-footnote" rows="4"></textarea></div>
-    <div class="evrow" style="margin-top:8px">
-      <label>date_effective</label><input type="text" class="c-date" placeholder="YYYY-MM-DD" style="flex:0 0 14ch">
-      <label>evidence_url</label><input type="text" class="c-url" style="flex:1" placeholder="https://…">
-    </div>
-    <div class="note">required only when the stage actually moves — the date of the evidence, never today</div>
+    <div class="c-foot-edit"><label>footnote${entry.proposed_footnote ? " — pre-filled with the agent's proposed rewrite" : ''}</label>
+      <textarea class="c-footnote" rows="4"></textarea></div>
     <div class="actions">
       <button class="approve c-approve">Approve change</button>
       <button class="pull c-reject">Hold row as-is</button>
-    </div>`;
+      <button class="c-load-agent">Reset to the agent's proposal</button>
+      ${hasHoldDraft ? `<button class="c-load-hold">Load the hold draft (field → ${esc(entry.current_confidence)})</button>` : ''}
+    </div>
+    <details class="more"><summary>more — agent's reason, hold-as-is preview, evidence ledger, proposed events, AUM, transition date</summary>
+      <div class="note"><b>agent reason:</b> ${esc(entry.reason || '(none given)')}</div>
+      ${entry.criterion ? `<div class="note"><b>criterion:</b> ${esc(entry.criterion)}</div>` : ''}
+      ${(entry.citations || []).length ? `<div class="note"><b>the flag rests on:</b><ul>${
+        (entry.citations || []).map(c => `<li><a href="${esc(c.url)}" target="_blank"
+          rel="noreferrer">${esc(c.url)}</a>${c.check ? ' — ' + esc(c.check) : ''}</li>`).join('')
+        }</ul></div>` : ''}
+      <div class="subhead">hold row as-is leaves</div>
+      <div class="note">confidence <b>${esc(entry.current_confidence)}</b>, stage ${esc(entry.current_stage)}; text and events untouched; only the reviewed date advances. The text's own statement of confidence:</div>
+      <div class="evidence preview">${confidenceSentences(row.rationale, row.footnote).map(s => `<mark>${esc(s)}</mark>`).join('<br>')
+          || '<span class="note">the text states no confidence</span>'}</div>
+      ${confidenceVerdict(row.rationale, row.footnote, entry.current_confidence)}
+      ${hasHoldDraft ? `
+      <div class="subhead">hold the field, fix the text — agent draft</div>
+      <div class="note">confidence stays <b>${esc(entry.current_confidence)}</b>; the confidence sentence is rewritten so text and field agree. Applied through <b>Approve change</b> with the field reset, so the log records the overrule.</div>
+      ${entry.hold_ground ? `<div class="note holdnote"><b>what this hold rests on:</b> ${esc(entry.hold_ground)}</div>` : ''}
+      ${entry.hold_rationale ? `<label>rationale under hold — green added, red struck</label>
+        <div class="evidence preview">${renderDiff(row.rationale || '', holdRat)}</div>` : ''}
+      ${entry.hold_footnote ? `<label>footnote under hold — green added, red struck</label>
+        <div class="evidence preview">${renderDiff(row.footnote || '', holdFoot)}</div>` : ''}
+      ${confidenceVerdict(holdRat, holdFoot, entry.current_confidence)}`
+      : hold ? `<div class="note holdnote"><b>agent's wording if you keep the field:</b> ${esc(hold)}</div>` : ''}
+      <div><label>evidence ledger — ${ledger ? 'local/REVIEW.md'
+          : dossier ? `intake dossier ${esc(dossier.path)} (no REVIEW.md section — the row entered through intake)`
+          : 'local/REVIEW.md'}</label>
+        <div class="evidence">${ledger ? renderEvidence(ledger) : dossier ? renderDossier(dossier) : renderEvidence('')}</div></div>
+      <div><label>proposed new events — tick the ones to add, pick the one that dates a stage move</label>
+        <div class="cvents"></div>
+        <div class="evrow">
+          <input type="text" class="e-date" placeholder="YYYY-MM-DD" style="flex:0 0 13ch">
+          <input type="text" class="e-desc" placeholder="event — what the source actually says" style="flex:2">
+          <input type="text" class="e-url" placeholder="https://source" style="flex:1">
+          <button class="addcv">add event</button>
+          <button class="cv-all">tick all</button>
+          <button class="cv-none">untick all</button>
+        </div>
+        <div class="note cv-count"></div>
+      </div>
+      <div class="evrow" style="margin-top:8px"><label>AUM</label><input type="text" class="c-aum" style="flex:0 0 16ch"></div>
+      <div class="evrow c-daterow" style="margin-top:8px">
+        <label>date_effective</label><input type="text" class="c-date" placeholder="YYYY-MM-DD" style="flex:0 0 14ch">
+        <label>evidence_url</label><input type="text" class="c-url" style="flex:1" placeholder="https://…">
+      </div>
+      <div class="note c-datenote">required only when the stage actually moves — the date of the evidence, never today</div>
+    </details>`;
 
   // Textareas/inputs set by value, never by innerHTML — no escaping pitfalls.
   d.querySelector('.c-aum').value = entry.proposed_aum ?? row.aum ?? '';
-  d.querySelector('.c-rationale').value = entry.proposed_rationale ?? row.rationale ?? '';
-  d.querySelector('.c-footnote').value = entry.proposed_footnote ?? row.footnote ?? '';
+  d.querySelector('.c-rationale').value = agentRat;
+  d.querySelector('.c-footnote').value = agentFoot;
+
+  // The APPROVE column follows the editor: at load it is the agent's recommendation,
+  // and it re-renders as the reviewer edits so the verdict is for what will be written.
+  function syncPreview(){
+    const conf = d.querySelector('.c-conf').value, stage = d.querySelector('.c-stage').value;
+    const rat = d.querySelector('.c-rationale').value, foot = d.querySelector('.c-footnote').value;
+    const isAgent = conf === agentConf && stage === agentStage && rat === agentRat && foot === agentFoot;
+    d.querySelector('.c-prev-fields').innerHTML = `<div class="note"><b>Approve change writes:</b> confidence ${esc(entry.current_confidence)}${
+        conf !== entry.current_confidence ? ` \u2192 <b>${esc(conf)}</b>` : ' (unchanged)'} \u00b7 stage ${esc(entry.current_stage)}${
+        stage !== entry.current_stage ? ` \u2192 <b>${esc(stage)}</b>` : ' (unchanged)'} \u00b7 ${isAgent
+        ? "= the agent's recommendation" : "edited by you \u2014 differs from the agent's recommendation"}</div>`;
+    d.querySelector('.c-prev-rat-note').textContent = rat === (row.rationale || '')
+      ? '\u2014 unchanged; only the field moves' : '\u2014 green added, red struck, against the current text';
+    d.querySelector('.c-prev-rationale').innerHTML = renderDiff(row.rationale || '', rat) || '<span class="note">(empty)</span>';
+    const fw = d.querySelector('.c-prev-footnote-wrap');
+    if (foot !== (row.footnote || '')){ fw.hidden = false; d.querySelector('.c-prev-footnote').innerHTML = renderDiff(row.footnote || '', foot); }
+    else fw.hidden = true;
+    d.querySelector('.c-prev-verdict').innerHTML = confidenceVerdict(rat, foot, conf);
+  }
+  ['.c-conf', '.c-stage'].forEach(c => d.querySelector(c).addEventListener('change', syncPreview));
+  ['.c-rationale', '.c-footnote'].forEach(c => d.querySelector(c).addEventListener('input', syncPreview));
+  syncPreview();
+
+  const footEdit = d.querySelector('.c-foot-edit'), more = d.querySelector('details.more');
+  footEdit.hidden = !entry.proposed_footnote;
+  more.addEventListener('toggle', () => { if (more.open) footEdit.hidden = false; });
+  const loadEditor = (conf, stage, rat, foot) => {
+    d.querySelector('.c-conf').value = conf; d.querySelector('.c-stage').value = stage;
+    d.querySelector('.c-rationale').value = rat; d.querySelector('.c-footnote').value = foot;
+    syncPreview(); d.classList.add('dirty');
+  };
+  d.querySelector('.c-load-agent').onclick = () => {
+    loadEditor(agentConf, agentStage, agentRat, agentFoot);
+    toast(`editor reset to the agent's proposal \u2014 confidence ${agentConf}`);
+  };
+  const loadHold = d.querySelector('.c-load-hold');
+  if (loadHold) loadHold.onclick = () => {
+    loadEditor(entry.current_confidence, entry.current_stage, holdRat, holdFoot);
+    toast(`hold draft loaded \u2014 field stays ${entry.current_confidence}; click Approve change to write it`);
+  };
 
   const wrap = d.querySelector('.cvents');
   const dateIn = d.querySelector('.c-date'), urlIn = d.querySelector('.c-url');
+  // A correction re-reads evidence the row already carries; nothing happened in
+  // the world, so there is no evidence date to give and no panel record to make.
+  if (entry.correction) {
+    d.querySelector('.c-daterow').style.display = 'none';
+    d.querySelector('.c-datenote').textContent =
+      'CORRECTION — re-reading of evidence already on the row, not a new event. '
+      + 'No date_effective is asked for and nothing is appended to data/transitions.jsonl; '
+      + 'the decision is logged in DECISIONS.jsonl.';
+  }
   const countEl = d.querySelector('.cv-count');
   const effName = 'eff-' + Math.random().toString(36).slice(2);
 
@@ -422,7 +707,11 @@ function changeCard(entry){
     if (stage !== entry.current_stage && rationale === (row.rationale || ''))
       return toast(`stage ${entry.current_stage} → ${stage}: edit the rationale so its "stops short of…" clause matches, then approve.`);
     const merged = (row.events || []).concat(picked)
-      .filter((e,i,a) => a.findIndex(x => x.date===e.date && x.source_url===e.source_url) === i);
+      // De-duplicate on the whole event, not (date, url): one document can carry two
+      // facts with one date (IMCO's 2025 annual report lost its second event this way
+      // on 2026-09-26). Text is compared trimmed so a stray space is not a new event.
+      .filter((e,i,a) => a.findIndex(x => x.date===e.date && x.source_url===e.source_url
+                                           && (x.event||'').trim()===(e.event||'').trim()) === i);
     if (merged.length < 2)
       return toast('METHODOLOGY minimum is 2 events per row.');
     apply({ action:'ch_approve', name: entry.name,
@@ -433,6 +722,11 @@ function changeCard(entry){
             date_effective: dateIn.value.trim(), evidence_url: urlIn.value.trim() });
   };
   d.querySelector('.c-reject').onclick = () => {
+    // A pure hold leaves the text as it stands. When that text states a different
+    // confidence from the field, say so before the click lands (Korea Teachers, 2026-09-26).
+    if (/verdict bad/.test(confidenceVerdict(row.rationale, row.footnote, entry.current_confidence))
+        && !confirm(`Holding as-is leaves the row's own text disagreeing with its ${entry.current_confidence} field \u2014 pre-freeze check step 1 will trip on it.\n\nTo keep the field AND fix the sentence, use "Load the hold draft" (or edit the rationale) and Approve change instead.\n\nHold as-is anyway?`))
+      return;
     const reason = prompt(`Hold ${entry.name} at ${entry.current_stage}. Why?`, '');
     if (reason === null) return;
     apply({ action:'ch_reject', name: entry.name, reason });
@@ -459,9 +753,15 @@ function newCandidateCard(item){
   const row = item.row || {};
   const d = document.createElement('div');
   d.className = 'card';
+  // One layout, one pair of buttons, every status. The intake status is shown as
+  // a tag and its failed checks are listed below the buttons; none of it decides
+  // for you. You reject on the criteria — the tool's job is to make sure nothing
+  // that fails a check passes silently, not to argue with the click.
+  const warnings = Array.isArray(item.warnings) ? item.warnings : [];
   const ready = item.status === 'ready';
-  const oos = item.status === 'out_of_scope';
-  const ruling = item.status === 'tier_ruling';
+  // Held on a RULE the reviewer owns, not on missing research: releasable by a
+  // recorded judgment rather than by more searching.
+  const held = item.status === 'tier_ruling' || item.status === 'evidence_gap';
   d.innerHTML = `
     <div class="rowhead"><b>${esc(row.name)}</b>
       <span class="tag">new ${esc(row.type || '')}</span>
@@ -476,15 +776,48 @@ function newCandidateCard(item){
       <label>rationale</label><textarea class="new-rationale" rows="6"></textarea>
       <label>footnote and scope calls</label><textarea class="new-footnote" rows="3"></textarea>
       <label>dated events</label><div class="new-events"></div>
+      <div class="new-addev">
+        <input class="ne-date" type="text" placeholder="YYYY-MM-DD" style="width:13ch">
+        <input class="ne-desc" type="text" placeholder="what the source establishes" style="flex:2">
+        <input class="ne-url" type="text" placeholder="https://source you opened" style="flex:1">
+        <button class="ne-add">+ event</button>
+      </div>
+      <div class="new-addev">
+        <input class="ne-pub" type="text" placeholder="publisher" style="flex:1">
+        <select class="ne-tier"><option value="">tier…</option><option>T1</option><option>T2</option></select>
+        <input class="ne-quote" type="text" placeholder="verbatim sentence that carries it" style="flex:2">
+      </div>
+      <div class="note ne-hint">A new event needs its own source. If the URL is not already in
+        the dossier, fill publisher + tier + quote — T3 is not accepted, and the tier is your
+        call to record.</div>
       <div class="actions">
-        ${ready ? `<button class="approve new-approve">Approve and add to corpus</button>` : ''}
-        ${ruling ? `<button class="approve new-ruling">Record source ruling</button>` : ''}
-        ${oos ? `<button class="approve new-to-appendix">File to appendix</button>` : ''}
+        <button class="approve new-approve">Approve and add to corpus</button>
         <button class="pull new-reject">Reject candidate</button>
       </div>
-      ${ready || ruling || oos ? '' : `<div class="note">Evidence gap: below the two-event /
-        two-independent-publisher floor, so it cannot be approved. Leave it — it carries over to
-        the next intake run with its named gap. Rejecting deletes the research.</div>`}
+      ${held ? `<div class="new-addev">
+        <input class="nr-ruling" type="text" style="flex:2"
+          placeholder="Your ruling \u2014 which source or limitation you admit, and why">
+        <button class="nr-go">Record ruling &amp; release</button>
+      </div>
+      <div class="note">Held on a rule, not on missing research. Recording your ruling moves this
+        to <code>ready</code> and logs it to DECISIONS.jsonl. It does not publish, and the row bar
+        still applies when you approve.</div>` : ''}
+      <div class="new-addev">
+        <select class="na-outcome">
+          <option value="no-qualifying-evidence">no-qualifying-evidence</option>
+          <option value="withdrawn-on-review">withdrawn-on-review</option>
+        </select>
+        <button class="na-file">File to appendix →</button>
+      </div>
+      <textarea class="na-reason" rows="3" placeholder="PUBLIC reason — publishes verbatim in data/not_classified.json, so it must stand alone. No intake jargon, no &quot;evidence_gap&quot;, no reference to this queue."></textarea>
+      <div class="note">Not a dashboard row, but a real finding? File it. This stages a DRAFT
+        in the not-classified queue — you still file it to the public appendix below, and you
+        still own the wording. Unlike Reject, it keeps the research.</div>
+      ${warnings.length ? `<div class="note warnbox"><b>Checks this candidate does not pass
+        (${warnings.length}) — your call:</b><ul>${warnings.map(w =>
+        `<li>${esc(w)}</li>`).join('')}</ul>Approving records these in DECISIONS.jsonl.
+        Rejecting deletes the research.</div>`
+        : '<div class="note">Every check passes. Rejecting deletes the research.</div>'}
     </div><div>
       <label>source dossier — open and verify every URL</label>
       <div class="evidence">${(item.evidence || []).map(e =>
@@ -497,21 +830,57 @@ function newCandidateCard(item){
   d.querySelector('.new-rationale').value = row.rationale || '';
   d.querySelector('.new-footnote').value = row.footnote || '';
   const wrap = d.querySelector('.new-events');
-  (row.events || []).forEach(e => {
+  const addEvRow = (e) => {
     const line = document.createElement('div');
     line.className = 'evitem';
     line.innerHTML = `<input class="ev-date" title="date" style="width:13ch">
       <input class="ev-desc" title="event" style="flex:2">
       <input class="ev-url" title="source URL" style="flex:1">
-      <a class="ev-test" target="_blank" rel="noreferrer">↗</a>`;
+      <a class="ev-test" target="_blank" rel="noreferrer">↗</a>
+      <button class="ev-up" title="move up">↑</button>
+      <button class="ev-down" title="move down">↓</button>
+      <button class="ev-del" title="remove event">×</button>`;
     line.querySelector('.ev-date').value = e.date || '';
     line.querySelector('.ev-desc').value = e.event || '';
     line.querySelector('.ev-url').value = e.source_url || '';
     line.querySelector('.ev-test').href = e.source_url || '#';
-    line.querySelector('.ev-url').oninput = ev => line.querySelector('.ev-test').href = ev.target.value || '#';
+    line.querySelector('.ev-url').oninput = ev =>
+      line.querySelector('.ev-test').href = ev.target.value || '#';
+    line.querySelector('.ev-up').onclick = () => {
+      const prev = line.previousElementSibling;
+      if (prev) wrap.insertBefore(line, prev);
+    };
+    line.querySelector('.ev-down').onclick = () => {
+      const next = line.nextElementSibling;
+      if (next) wrap.insertBefore(next, line);
+    };
+    line.querySelector('.ev-del').onclick = () => line.remove();
     wrap.appendChild(line);
-  });
-  if (ready) d.querySelector('.new-approve').onclick = () => apply({
+  };
+  (row.events || []).forEach(addEvRow);
+
+  // Sources the reviewer registers in this session, sent with the approval so
+  // the server can accept events citing a URL the agent never found.
+  const reviewerSources = [];
+  d.querySelector('.ne-add').onclick = () => {
+    const g = (c) => d.querySelector('.' + c).value.trim();
+    const [dt, desc, url] = [g('ne-date'), g('ne-desc'), g('ne-url')];
+    if (!dt || !desc || !/^https:\/\//.test(url))
+      return toast('an event needs a date, a description, and an https source URL');
+    const known = (item.evidence || []).some(e => e.url === url)
+      || reviewerSources.some(e => e.url === url);
+    if (!known) {
+      const [pub, tier, quote] = [g('ne-pub'), d.querySelector('.ne-tier').value, g('ne-quote')];
+      if (!pub || !tier || !quote)
+        toast('noted without publisher/tier/quote — it will show as an unbacked event');
+      reviewerSources.push({ date: dt, publisher: pub, tier, url, quote });
+    }
+    addEvRow({ date: dt, event: desc, source_url: url });
+    ['ne-date','ne-desc','ne-url','ne-pub','ne-quote'].forEach(c => d.querySelector('.'+c).value='');
+    d.querySelector('.ne-tier').value = '';
+    toast('event added — it publishes only when you approve');
+  };
+  d.querySelector('.new-approve').onclick = () => apply({
     action:'new_approve', name:row.name,
     fields:{stage:d.querySelector('.new-stage').value,
       confidence:d.querySelector('.new-confidence').value,
@@ -521,22 +890,28 @@ function newCandidateCard(item){
       events:[...wrap.querySelectorAll('.evitem')].map(r => ({
         date:r.querySelector('.ev-date').value.trim(),
         event:r.querySelector('.ev-desc').value.trim(),
-        source_url:r.querySelector('.ev-url').value.trim()}))}});
-  if (ruling) d.querySelector('.new-ruling').onclick = () => {
-    const r = prompt(`Source-tier ruling for ${row.name}.\n\nSOURCES.md: a T3 source is admitted `
-      + `only on your explicit recorded decision, and never as the sole source for an event.\n\n`
-      + `State which source you are admitting and why:`, '');
-    if (r) apply({action:'new_ruling', name:row.name, ruling:r});
-  };
-  if (oos) d.querySelector('.new-to-appendix').onclick = () => {
-    const r = prompt(`File ${row.name} to the public appendix as no-qualifying-evidence.\n\n`
-      + `This stages a DRAFT in the not-classified queue — you still file it there.\n`
-      + `The reason below publishes verbatim, so it must stand alone:`, item.reason || '');
-    if (r) apply({action:'new_to_appendix', name:row.name, reason:r});
-  };
+        source_url:r.querySelector('.ev-url').value.trim()}))},
+    evidence_added: reviewerSources});
   d.querySelector('.new-reject').onclick = () => {
     const reason = prompt(`Why reject ${row.name}?`, '');
     if (reason !== null) apply({action:'new_reject', name:row.name, reason});
+  };
+  if (d.querySelector('.nr-go')) d.querySelector('.nr-go').onclick = () => {
+    const ruling = d.querySelector('.nr-ruling').value.trim();
+    if (ruling.length < 25){
+      toast('state the ruling \u2014 it is logged as the basis for the row'); return;
+    }
+    apply({action:'new_ruling', name:row.name, ruling});
+  };
+  d.querySelector('.na-file').onclick = () => {
+    // The agent's `reason` is intake-internal prose; the appendix publishes verbatim.
+    // So the public wording is typed here, never inherited.
+    const reason = d.querySelector('.na-reason').value.trim();
+    if (reason.length < 40){
+      toast('write the PUBLIC reason first \u2014 it publishes verbatim'); return;
+    }
+    apply({action:'new_to_appendix', name:row.name, reason,
+           outcome:d.querySelector('.na-outcome').value});
   };
   return d;
 }
@@ -642,14 +1017,16 @@ async function apply(body){
   if (j.nc_discarded) toast(`draft discarded: ${j.nc_discarded}`);
   if (j.ch_approved){
     if (j.transition) transitionsThisSession.push(j.ch_approved);
+    const confNote = j.confidence_from && j.confidence_from !== j.confidence_to
+      ? ` — confidence ${j.confidence_from} → ${j.confidence_to}` : '';
     toast(j.transition
-      ? `${j.ch_approved} moved — transition appended to data/transitions.jsonl`
-      : `${j.ch_approved} updated, stage unchanged — no transition logged`);
+      ? `${j.ch_approved} moved — transition appended to data/transitions.jsonl${confNote}`
+      : `${j.ch_approved} updated, stage unchanged${confNote} — no transition logged`);
   }
-  if (j.ch_rejected) toast(`${j.ch_rejected} held as-is; 30-day clock reset`);
+  if (j.ch_rejected) toast(`${j.ch_rejected} held as-is — row untouched, reviewed date advanced`);
   if (j.new_approved && !j.new_published) toast(`${j.new_approved} approved locally`);
   if (j.new_rejected) toast(`${j.new_rejected} removed from new-institution queue`);
-  if (j.new_ruling) toast(`ruling recorded for ${j.new_ruling} — now ready for review`);
+  if (j.new_ruling) toast(`${j.new_ruling} released to ready — ruling logged`);
   if (j.new_to_appendix) toast(`${j.new_to_appendix} staged for the appendix — file it below`);
   if (j.new_published){
     approvedThisSession.push({name:j.new_published, type:j.type || '?'});
@@ -687,25 +1064,33 @@ function commitHelper(){
 
 function render(){
   const rows = S.institutions;
+  // Two states, never both: the freeze is declared and writes are closed, or the
+  // corpus has reached the target and nobody has declared it yet. The second is a
+  // reminder — nothing trips on its own now that the freeze is a deliberate act.
   const freezeNotice = document.getElementById('freeze-notice');
-  freezeNotice.style.display = S.freeze_active ? 'block' : 'none';
+  freezeNotice.style.display = (S.freeze_active || S.freeze_due) ? 'block' : 'none';
   freezeNotice.textContent = S.freeze_active
-    ? 'BLIND RE-CODE PENDING — public approvals are paused until the deliberate recode is complete. Local research may continue; this reviewer remains the only public write path.' : '';
-  // Queue = never reviewed, plus rows whose last review is 30+ days old.
-  const pending = rows.filter(r => !r.as_of_reviewed || r.as_of_reviewed <= S.cutoff)
-    .sort((a,b) => ((a.as_of_reviewed?1:0)-(b.as_of_reviewed?1:0))
-      || (ORDER[a.stage]-ORDER[b.stage]) || a.name.localeCompare(b.name));
-  const done = rows.filter(r => r.as_of_reviewed && r.as_of_reviewed > S.cutoff);
-  const nNew = pending.filter(r => !r.as_of_reviewed).length;
+    ? 'BLIND RE-CODE PENDING — public approvals are paused until the deliberate recode is complete. Local research may continue; this reviewer remains the only public write path.'
+    : S.freeze_due
+    ? `${S.n_total} rows — at or past the ${S.freeze_target}-row target, and the freeze is NOT declared. Approvals stay open until you run: python3 tools/review.py --freeze`
+    : '';
+  // Queue = never-reviewed rows only. A reviewed row is a published measurement
+  // and stays out of the queue until a news pass stages a proposal against it
+  // (SWEEP PROPOSALS, rendered above). Time alone never re-queues a row: a
+  // calendar-driven re-review is rework without new evidence.
+  const pending = rows.filter(r => !r.as_of_reviewed)
+    .sort((a,b) => (ORDER[a.stage]-ORDER[b.stage]) || a.name.localeCompare(b.name));
+  const done = rows.filter(r => r.as_of_reviewed);
+  const nProps = (S.changes_queue || []).length;
   const byStage = {};
   pending.forEach(r => byStage[r.stage] = (byStage[r.stage]||0)+1);
   document.getElementById('counts').textContent =
-    `${pending.length} in queue (${nNew} new · ${pending.length-nNew} due re-review) (${STAGES.filter(s=>byStage[s]).map(s=>`${byStage[s]} ${s}`).join(' · ')}) — ${done.length} current — ${rows.length} total`;
+    `${pending.length} new in queue (${STAGES.filter(s=>byStage[s]).map(s=>`${byStage[s]} ${s}`).join(' · ')}) — ${nProps} sweep proposal${nProps===1?'':'s'} — ${done.length} reviewed — ${rows.length} total`;
   const cards = document.getElementById('cards');
   cards.innerHTML = '';
   pending.forEach(r => cards.appendChild(card(r)));
   document.getElementById('done').innerHTML = done.length
-    ? `<b>reviewed within 30 days</b><ul>${done.map(r =>
+    ? `<b>reviewed</b><ul>${done.map(r =>
         `<li>${esc(r.name)} — ${esc(r.stage)} — ${esc(r.as_of_reviewed)}</li>`).join('')}</ul>` : '';
   renderChanges();
   renderNewCandidates();

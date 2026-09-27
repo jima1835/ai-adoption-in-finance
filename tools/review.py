@@ -2,19 +2,20 @@
 """Local reviewer for data/institutions.json — approve / change-stage / add-evidence / pull.
 
 Run:  python3 tools/review.py            → opens http://127.0.0.1:7788
-      python3 tools/review.py --roles    → CLI review of the AI-leadership
-                                           roles queue (METHODOLOGY §11)
+      python3 tools/review.py --freeze   → declare the blind-recode freeze and
+                                         print the digests to pin
 (local/review.py is a symlink to this file; local/ holds the private review state.)
 Writes institutions.json in monitor.py's exact format (indent=2, ensure_ascii=False,
 trailing newline), .bak before every write. Localhost only. Never touches git.
 """
+import hashlib
 import json
 import re
 import shutil
 import sys
 import time
 import webbrowser
-from datetime import date, datetime, timedelta
+from datetime import date, datetime
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
@@ -25,14 +26,8 @@ except ImportError:  # Windows: msvcrt.locking
     import msvcrt
 
 ROOT = Path(__file__).resolve().parent.parent
-# Running this file directly puts tools/ on sys.path, not the repo root — where
-# the shared roles helpers live beside monitor.py. Add it explicitly rather than
-# duplicating the population and denylist logic in two places.
-sys.path.insert(0, str(ROOT))
 
 import validate_data  # noqa: E402  (same published row schema as the site)
-
-import roles as roles_mod  # noqa: E402  (needs the sys.path line above)
 
 DATA = ROOT / "data" / "institutions.json"
 REVIEW = ROOT / "local" / "REVIEW.md"
@@ -50,12 +45,39 @@ NC_PUBLIC = ROOT / "data" / "not_classified.json"
 # the review date, or the panel measures the reviewer's calendar instead of the
 # sector's.
 CH_QUEUE = ROOT / "local" / "CHANGES_QUEUE.json"
+# A CORRECTION is the exception, and it is marked on the queue entry itself
+# (`"correction": true`). A skeptic pass re-reads evidence already on the row
+# against the bar in METHODOLOGY §3-4; when it concludes the row was placed too
+# high, nothing happened in the world and there is no date of triggering
+# evidence to record. Writing one anyway — today's date, or the date of whatever
+# evidence the row already cites — would put a transition in the panel that
+# never occurred, which is precisely what dating the panel by evidence exists to
+# prevent. So a correction moves the stage, is logged in DECISIONS.jsonl with
+# `"correction": true`, and appends NOTHING to transitions.jsonl. The panel
+# stays a record of the sector moving, not of the reviewer changing their mind.
 NEW_QUEUE = ROOT / "local" / "NEW_INSTITUTIONS_QUEUE.json"
 NEW_APPROVED = ROOT / "local" / "NEW_INSTITUTIONS_APPROVED.json"
+# Intake dossiers (quotes, tiers, URLs) for rows that entered through the
+# new-institution path and therefore have no REVIEW.md section.
+INTAKE_DIR = ROOT / "local" / "intake"
+# Presentation-layer lookups the dashboard uses to label a source link; the
+# reviewer shows the same labels so an event reads the same in both places.
+PUBLISHERS_FILE = ROOT / "data" / "publishers.json"
+HOMEPAGES_FILE = ROOT / "data" / "homepages.json"
 FROZEN_TEST = ROOT / "tests" / "test_frozen_corpus.py"
-# The expansion phase stays open until this many reviewed rows exist. Only
-# then does the tracked freeze test become an active blind-recode gate.
+# The row count at which the maintainer INTENDS to freeze. It is a reminder,
+# not a trigger: reaching it makes the reviewer nag (see `freeze_due`), and
+# nothing more.
 FREEZE_TARGET_ROWS = 100
+# The freeze is DECLARED, never inferred. Row 100 landing mid-session used to
+# flip the gate under the reviewer's hands, which meant the last row had to be
+# perfect before it was approved and a typo in row 3 needed an unfreeze record
+# to fix. Declaring it is one command — `python3 tools/review.py --freeze` —
+# and that command is also where the pinned hashes are captured, so the freeze
+# and the digests it enforces are taken from the same corpus at the same moment.
+# Public and tracked: the freeze is a dated methodological act, so the date and
+# the row count it was taken at belong in the repo, not on one laptop.
+FREEZE_RECORD = ROOT / "data" / "recode_freeze.json"
 # Removing the test alone does not establish that the blind re-code finished.
 # The maintainer records completion here before the post-recode gate is lifted.
 UNFREEZE_RECORD = ROOT / "local" / "RECODE_UNFREEZE.json"
@@ -142,6 +164,48 @@ def review_sections(rows):
     return sections
 
 
+def intake_evidence(names):
+    """Map row name -> the intake dossier that published it (path, status,
+    evidence items, uncertainty), for rows with no REVIEW.md section. The sweep
+    card otherwise shows an empty ledger for exactly the rows whose confidence
+    a proposal argues about. Live candidate folders win over `_superseded` and
+    `_carryover` copies; the first hit per name is kept."""
+    want = {n for n in names if n}
+    out = {}
+    if not want or not INTAKE_DIR.exists():
+        return out
+    paths = sorted(INTAKE_DIR.rglob("*.json"),
+                   key=lambda q: (any(part.startswith("_")
+                                      for part in q.relative_to(INTAKE_DIR).parts), str(q)))
+    for path in paths:
+        try:
+            doc = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        for item in (doc if isinstance(doc, list) else [doc]):
+            if not isinstance(item, dict):
+                continue
+            name = (item.get("row") or {}).get("name")
+            if name in want and name not in out:
+                out[name] = {
+                    "path": str(path.relative_to(ROOT)),
+                    "status": item.get("status"),
+                    "evidence": item.get("evidence") or [],
+                    "uncertainty": item.get("uncertainty"),
+                }
+        if len(out) == len(want):
+            break
+    return out
+
+
+def load_json_or(path, default):
+    """Read-only lookup file; absent or unparseable reads as its default."""
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return default
+
+
 def load_nc(path):
     if not path.exists():
         return []
@@ -157,17 +221,39 @@ def save_nc(path, entries):
     path.write_text(out, encoding="utf-8", newline="\n")
 
 
-def freeze_active():
-    # Before the 100-row milestone this is an expansion corpus. The presence
-    # of the historical test file must not block reviewer approvals or make the
-    # UI claim that the blind review has begun.
+def freeze_declared():
+    """Has the maintainer declared the blind-recode freeze?
+
+    Absent file = expansion phase, the ordinary state. A file that exists but
+    will not parse reads as declared: an unreadable declaration is not a licence
+    to keep writing to a corpus that may already be frozen."""
     try:
-        if len(load_rows()) < FREEZE_TARGET_ROWS:
-            return False
+        doc = json.loads(FREEZE_RECORD.read_text(encoding="utf-8"))
+    except OSError:
+        return False
+    except (ValueError, AttributeError):
+        return True
+    return doc.get("blind_recode_freeze") is True
+
+
+def freeze_due():
+    """At or past the target row count with no declaration filed yet.
+
+    Not a gate — the reviewer shows it so the milestone cannot pass unnoticed
+    now that nothing trips automatically."""
+    if freeze_declared():
+        return False
+    try:
+        return len(load_rows()) >= FREEZE_TARGET_ROWS
     except (OSError, ValueError, TypeError):
-        return True
-    if FROZEN_TEST.exists():
-        return True
+        return False
+
+
+def freeze_active():
+    if not freeze_declared():
+        return False
+    # Declared. It now lifts only on a recorded completion — deleting the test
+    # file is part of that commit, never a way to reopen writes on its own.
     try:
         record = json.loads(UNFREEZE_RECORD.read_text(encoding="utf-8"))
         return record.get("blind_recode_complete") is not True
@@ -178,20 +264,36 @@ def freeze_active():
 def state():
     rows = load_rows()
     unreviewed = sum(1 for r in rows if not r.get("as_of_reviewed"))
+    sections = review_sections(rows)
+    changes = load_nc(CH_QUEUE)
     return {
         "institutions": rows,
-        "sections": review_sections(rows),
+        "sections": sections,
+        # Only for the rows a sweep proposal argues about and only where REVIEW.md
+        # has nothing: the intake dossier is where their quotes and tiers live.
+        "dossier_evidence": intake_evidence(
+            [e.get("name") for e in changes if not sections.get(e.get("name"))]),
         "n_total": len(rows),
         "n_unreviewed": unreviewed,
         "nc_queue": load_nc(NC_QUEUE),
-        "changes_queue": load_nc(CH_QUEUE),
-        "new_queue": load_nc(NEW_QUEUE),
+        "changes_queue": changes,
+        "publishers": load_json_or(PUBLISHERS_FILE, {}),
+        "homepages": load_json_or(HOMEPAGES_FILE, {}).get("homepages", {}),
+        # Every candidate carries its failed checks to the card, so the reviewer
+        # sees them before deciding rather than after being refused.
+        "new_queue": [dict(e, warnings=judgment_warnings(
+            e.get("row") or {}, e.get("evidence") or [], e.get("status")))
+            for e in load_nc(NEW_QUEUE)],
         "new_approved": load_nc(NEW_APPROVED),
         "freeze_active": freeze_active(),
+        "freeze_due": freeze_due(),
+        "freeze_target": FREEZE_TARGET_ROWS,
         "nc_public": load_nc(NC_PUBLIC),
         "today": date.today().isoformat(),
-        # Rows reviewed on/before this date are due for re-review (30-day cycle).
-        "cutoff": (date.today() - timedelta(days=30)).isoformat(),
+        # No re-review cutoff is published: a reviewed row re-enters the queue
+        # only through CH_QUEUE, when a news pass has staged a proposal. The
+        # 30-day clock lives solely in the local dispatcher that picks which rows
+        # get that news pass.
     }
 
 
@@ -274,10 +376,10 @@ def apply_action(req):
     """
     if freeze_active() and req.get("action") in {
             "approve", "pull", "ch_approve", "ch_reject", "nc_file", "new_publish",
-            "new_approve", "new_to_appendix", "new_ruling"}:
+            "new_approve", "new_to_appendix"}:
         return {"error": (
-            "the 100-row blind-review freeze is active; finish the recode before "
-            "approving more public changes"
+            "the blind-review freeze is active (declared in data/recode_freeze.json); "
+            "finish the recode before approving more public changes"
         )}
     if str(req.get("action", "")).startswith("nc_"):
         return apply_nc(req)  # different file, human-only writer — no lock needed
@@ -354,12 +456,101 @@ def _new_duplicate(row):
     return None
 
 
+def _own_voice(name, qualifying):
+    """Publishers among `qualifying` that are NOT the institution talking about itself.
+    Two pages on a firm's own domain are one voice, however many URLs they span."""
+    stop = {"the", "and", "of", "group", "management", "asset", "investment", "investments",
+            "fund", "funds", "capital", "company", "inc", "ltd", "plc", "llc", "holdings",
+            "pension", "plan", "trust"}
+    tokens = {t for t in re.sub(r"[^a-z0-9 ]", " ", re.sub(r"\(.*?\)", "", name.casefold())).split()
+              if t not in stop and len(t) > 3}
+    external = set()
+    for e in qualifying:
+        pub = e["publisher"].casefold()
+        if not any(t[:6] in pub.replace("-", "").replace(" ", "") for t in tokens):
+            external.add(pub.strip())
+    return external
+
+
+def judgment_warnings(row, sources, status=None):
+    """The criteria checks, as ADVICE rather than gates.
+
+    These used to refuse the write. They no longer do: the reviewer reads the
+    dossier, applies METHODOLOGY and SOURCES, and rejects on the criteria
+    themselves — a tool that blocks the human at the moment of judgment just
+    moves the decision into an error message. What the tool owes the reviewer is
+    that nothing failing a check passes SILENTLY, so every check still runs and
+    every failure is shown on the card before the click and recorded in
+    DECISIONS.jsonl after it.
+
+    Structural integrity is a different thing and stays hard: enum values,
+    well-formed events, the public schema, and the duplicate check. Those are
+    not judgments about evidence, they are whether the file stays valid."""
+    out = []
+    if status and status != "ready":
+        out.append(f"intake left this candidate at status {status!r}, not 'ready'")
+    qualifying = [e for e in sources if isinstance(e, dict)
+                  and e.get("tier") in ("T1", "T2")
+                  and e.get("publisher") and e.get("quote")
+                  and str(e.get("url", "")).startswith("https://")]
+    if not qualifying:
+        out.append("no usable T1/T2 source: a source needs a publisher, a tier of "
+                   "T1 or T2, and the verbatim sentence that carries it")
+    # Own-voice publication is established practice, not a disqualifier: ADIA, ATP,
+    # EQT, Ilmarinen, Investcorp, Lynx and Optiver all rest entirely on the
+    # institution's own domain, and MacArthur, NPS and Pictet say so in their own
+    # footnotes. The corpus caps such a row at med and discloses the limitation.
+    if qualifying and not _own_voice(row.get("name", ""), qualifying) \
+            and row.get("confidence") == "high":
+        out.append("every qualifying source is this institution's own voice, and the "
+                   "corpus caps a single-voice row at med (see Pictet, MacArthur, NPS)")
+    backed = {q["url"] for q in qualifying}
+    known = {e.get("url"): e for e in sources if isinstance(e, dict)}
+    for ev in row.get("events", []):
+        url = ev.get("source_url", "")
+        if url in backed:
+            continue
+        hint = known.get(url)
+        if hint is None:
+            why = "not in the dossier at all"
+        elif hint.get("tier") not in ("T1", "T2"):
+            why = f"tier {hint.get('tier')!r} — a T3 or untiered source never carries an event"
+        else:
+            missing = [f for f in ("publisher", "quote") if not str(hint.get(f, "")).strip()]
+            why = f"its source entry is missing {' and '.join(missing) or 'an https URL'}"
+        out.append(f"event {ev.get('date', '?')} cites a source that cannot carry it "
+                   f"({url}): {why}")
+    return out
+
+
 def apply_new(req):
     """Review and publish new rows through the human reviewer gate."""
     action = req.get("action")
     name = req.get("name", "")
     queue = load_nc(NEW_QUEUE)
     approved = load_nc(NEW_APPROVED)
+
+    if action == "new_ruling":
+        # A candidate held on a SOURCE-TIER question, or on single-voice sourcing,
+        # is not a research failure — it is waiting on a rule the reviewer owns.
+        # Recording that judgment releases it to `ready`; it does NOT publish and
+        # does NOT relax the row bar, which still applies at new_approve.
+        item = next((e for e in queue if e.get("row", {}).get("name") == name), None)
+        if item is None:
+            return {"error": f"no staged candidate named {name!r}"}
+        if item.get("status") not in ("tier_ruling", "evidence_gap"):
+            return {"error": f"{name} is {item.get('status')!r} — a ruling applies to a "
+                             "candidate held on 'tier_ruling' or 'evidence_gap'"}
+        ruling = (req.get("ruling") or "").strip()
+        if len(ruling) < 25:
+            return {"error": "state the ruling — which source or limitation you admit and "
+                             "why. It is logged to DECISIONS.jsonl as the basis for the row, "
+                             "so a word or two is not a record"}
+        item["status"] = "ready"
+        item["reviewer_ruling"] = ruling
+        save_nc(NEW_QUEUE, queue)
+        log_decision({"action": "new_ruling", "name": name, "ruling": ruling})
+        return {"ok": True, "new_ruling": name}
 
     if action == "new_to_appendix":
         # An out-of-scope candidate is never a dashboard row. Move it to the
@@ -389,28 +580,6 @@ def apply_new(req):
         log_decision({"action": "new_to_appendix", "name": name,
                       "prior_status": item.get("status")})
         return {"ok": True, "new_to_appendix": name}
-
-    if action == "new_ruling":
-        # A tier_ruling candidate is blocked on a source-tier judgment that only a
-        # human may make (SOURCES.md §1: a T3 source is admitted as corroboration
-        # only on a reviewer's explicit, recorded decision). Record the ruling and
-        # release the candidate to the normal approve path — the row bar still
-        # applies at new_approve, so this promotes the STATUS, never the evidence.
-        item = next((e for e in queue if e.get("row", {}).get("name") == name), None)
-        if item is None:
-            return {"error": f"no staged candidate named {name!r}"}
-        if item.get("status") != "tier_ruling":
-            return {"error": "only a tier_ruling candidate takes a source ruling"}
-        ruling = (req.get("ruling") or "").strip()
-        if not ruling:
-            return {"error": "the ruling must say which source was admitted, and why"}
-        item["status"] = "ready"
-        item["reason"] = (item.get("reason", "") + " REVIEWER RULING: " + ruling).strip()
-        item.setdefault("rulings", []).append(
-            {"on": date.today().isoformat(), "ruling": ruling})
-        save_nc(NEW_QUEUE, queue)
-        log_decision({"action": "new_ruling", "name": name, "ruling": ruling})
-        return {"ok": True, "new_ruling": name}
 
     if action == "new_publish":
         item = next((e for e in approved if e.get("row", {}).get("name") == name), None)
@@ -448,9 +617,28 @@ def apply_new(req):
         return {"ok": True, "new_rejected": name}
     if action != "new_approve":
         return {"error": f"unknown action {action!r}"}
-    if item.get("status") != "ready":
-        return {"error": "candidate has an unresolved evidence or source-tier gap"}
-    sources = item.get("evidence", [])
+    # A reviewer reading the dossier often finds the source the agent missed. An
+    # event may only cite a T1/T2 entry, so adding a dated event here means
+    # registering its source too — with the tier, which is the reviewer's call to
+    # make and never the agent's (SOURCES.md §1). Stamped so the published
+    # dossier shows which sources came from the review rather than the intake.
+    added = req.get("evidence_added") or []
+    if not isinstance(added, list):
+        return {"error": "evidence_added must be a list"}
+    stamped = []
+    for e in added:
+        if not isinstance(e, dict):
+            return {"error": "each added source must be an object"}
+        if not str(e.get("url", "")).startswith("https://"):
+            return {"error": "a reviewer-added source needs an https URL"}
+        note = str(e.get("note", "")).strip()
+        stamped.append({
+            "date": str(e.get("date", "")), "publisher": str(e.get("publisher", "")).strip(),
+            "tier": e.get("tier", ""), "url": e["url"], "quote": str(e.get("quote", "")).strip(),
+            "note": (note + f" [added by the reviewer on {date.today().isoformat()}]").strip(),
+        })
+
+    sources = item.get("evidence", []) + stamped
     row = dict(item["row"])
     err = _set_fields(row, req.get("fields", {}))
     if err:
@@ -458,24 +646,28 @@ def apply_new(req):
     err = _new_row_error(row)
     if err:
         return {"error": err}
-    qualifying = [e for e in sources if isinstance(e, dict)
-                  and e.get("tier") in ("T1", "T2")
-                  and e.get("publisher") and e.get("quote")
-                  and str(e.get("url", "")).startswith("https://")]
-    if len({e["publisher"].casefold().strip() for e in qualifying}) < 2:
-        return {"error": "candidate needs two distinct T1/T2 source publishers with quotes"}
-    if any(event["source_url"] not in {e["url"] for e in qualifying}
-           for event in row["events"]):
-        return {"error": "each event source URL needs a matching T1/T2 evidence entry"}
+    # Advisory, not a gate — the reviewer disposes. Shown on the card before the
+    # click; recorded below with the decision.
+    warnings = judgment_warnings(row, sources, item.get("status"))
     duplicate = _new_duplicate(row)
     if duplicate:
         return {"error": f"candidate conflicts with {duplicate}"}
     if any(e.get("row", {}).get("name") == name for e in approved):
         return {"error": f"candidate {name!r} is already approved locally"}
     row["as_of_reviewed"] = date.today().isoformat()
-    row["agent_proposed_stage"] = item["row"]["stage"]
-    row["label_provenance"] = ("agent_proposed_accepted" if row["stage"] == item["row"]["stage"]
-                               else "human_revised")
+    # An intake dossier held on an evidence gap may propose NO stage at all: the
+    # agent declined to call it. The schema records that as null, never as "",
+    # and a stage the reviewer supplies over no proposal is human_originated —
+    # calling it "revised" would invent a proposal the agreement record then
+    # counts as a disagreement.
+    proposed = item["row"].get("stage") or None
+    row["agent_proposed_stage"] = proposed
+    if proposed is None:
+        row["label_provenance"] = "human_originated"
+    elif row["stage"] == proposed:
+        row["label_provenance"] = "agent_proposed_accepted"
+    else:
+        row["label_provenance"] = "human_revised"
     schema_errors = validate_data.validate(
         row, validate_data._load_schema("institution.schema.json")["items"])
     if schema_errors:
@@ -489,8 +681,13 @@ def apply_new(req):
     queue.remove(item)
     save_nc(NEW_QUEUE, queue)
     log_decision({"action": "new_approve", "name": name, "stage": row["stage"],
-                  "agent_proposed_stage": item["row"]["stage"],
+                  "agent_proposed_stage": proposed,
                   "label_provenance": row["label_provenance"],
+                  "intake_status": item.get("status"),
+                  "published_over_warnings": warnings,
+                  "events_proposed": len(item["row"].get("events", [])),
+                  "events_approved": len(row["events"]),
+                  "sources_added_by_reviewer": len(stamped),
                   "published": True,
                   "blind_recode_pending": freeze_active()})
     return {"ok": True, "new_approved": name, "new_published": name,
@@ -670,11 +867,13 @@ def _apply(req):
         entry = queue[qidx]
         row = rows[idx]
         proposed = entry.get("proposed_stage")
+        proposed_conf = entry.get("proposed_confidence")
         before_stage = row["stage"]
+        before_conf = row.get("confidence")
 
         if action == "ch_reject":
             # The human looked and kept the row as it stands. That IS a review,
-            # so the 30-day clock resets; the row itself is untouched.
+            # so the reviewed date advances; the row itself is untouched.
             row["as_of_reviewed"] = date.today().isoformat()
             save_rows(rows)
             queue.pop(qidx)
@@ -683,6 +882,8 @@ def _apply(req):
                           "type": row.get("type"), "sweep": entry.get("sweep"),
                           "agent_proposed_stage": proposed,
                           "stage_held": before_stage,
+                          "agent_proposed_confidence": proposed_conf,
+                          "confidence_held": before_conf,
                           "reason": (req.get("reason") or "").strip()})
             return {"ok": True, "ch_rejected": name}
 
@@ -692,7 +893,8 @@ def _apply(req):
             return err
         after_stage = row["stage"]
 
-        if after_stage != before_stage:
+        correction = entry.get("correction") is True
+        if after_stage != before_stage and not correction:
             # A stage move is a dated event in the panel — same guard as `approve`.
             err = _transition_guard(req, row, name, before_stage, after_stage,
                                     sweep=entry.get("sweep"), proposed=proposed)
@@ -703,255 +905,27 @@ def _apply(req):
         save_rows(rows)
         queue.pop(qidx)
         save_nc(CH_QUEUE, queue)
+        moved = after_stage != before_stage
+        after_conf = row.get("confidence")
         log_decision({"action": "ch_approve", "name": name, "type": row.get("type"),
                       "sweep": entry.get("sweep"),
                       "agent_proposed_stage": proposed,
                       "stage_from": before_stage, "stage_to": after_stage,
                       "human_overruled": proposed != after_stage,
-                      "transition_logged": after_stage != before_stage})
+                      # The 2026-09-26 audit found confidence raises invisible in
+                      # this log; the field's outcome is now recorded beside the stage's.
+                      "agent_proposed_confidence": proposed_conf,
+                      "confidence_from": before_conf, "confidence_to": after_conf,
+                      "confidence_overruled": (proposed_conf is not None
+                                               and proposed_conf != after_conf),
+                      "correction": correction,
+                      "transition_logged": moved and not correction})
         return {"ok": True, "ch_approved": name,
-                "transition": after_stage != before_stage}
+                "transition": moved and not correction,
+                "correction": correction and moved,
+                "confidence_from": before_conf, "confidence_to": after_conf}
 
     return {"error": f"unknown action {action!r}"}
-
-
-# ---------------------------------------------------------------------------
-# Roles review — CLI (METHODOLOGY §11)
-#
-# Deliberately not a pane in review.html. That page is built around one row of
-# institutions.json at a time; a role event is a different unit with a different
-# shape, and bolting it on would duplicate the whole card for no gain. The
-# review itself is a short, ordered set of questions, which a terminal does
-# better than a form.
-#
-# The gate is the same as everywhere else in this repo: an agent proposes into
-# local/roles_queue.jsonl, and NOTHING reaches data/roles.jsonl or
-# data/roles_not_found.jsonl except through a human answering these questions.
-# ---------------------------------------------------------------------------
-
-ROLES_LOCK = ROOT / "data" / ".roles.lock"
-# Variable precision, exactly like an institutions event date.
-ROLE_DATE = re.compile(r"^\d{4}(-\d{2}(-\d{2})?)?$")
-
-
-def _prompt(label, default=None, choices=None, required=True, allow_null=False):
-    """Ask once, validate, repeat until valid. Enter takes the default.
-
-    `allow_null` distinguishes "leave it empty" from "no answer yet": an unnamed
-    person is a complete record, not a missing one.
-    """
-    hint = ""
-    if choices:
-        hint = "\n    " + "  ".join(f"[{i + 1}] {c}" for i, c in enumerate(choices))
-    suffix = f" ({default})" if default not in (None, "") else ""
-    while True:
-        raw = input(f"  {label}{suffix}{hint}\n  > ").strip()
-        if not raw and default is not None:
-            return default
-        if not raw:
-            if allow_null:
-                return None
-            if not required:
-                return ""
-            print("    required.")
-            continue
-        if choices:
-            if raw.isdigit() and 1 <= int(raw) <= len(choices):
-                return choices[int(raw) - 1]
-            if raw in choices:
-                return raw
-            print(f"    one of: {', '.join(choices)}")
-            continue
-        return raw
-
-
-def _queue():
-    return roles_mod.read_jsonl(roles_mod.QUEUE_PATH)
-
-
-def _rewrite_queue(items):
-    out = "".join(json.dumps(i, ensure_ascii=False) + "\n" for i in items)
-    roles_mod.QUEUE_PATH.parent.mkdir(parents=True, exist_ok=True)
-    roles_mod.QUEUE_PATH.write_text(out, encoding="utf-8", newline="\n")
-
-
-def build_role_event(item, index):
-    """Interview the reviewer for one queued candidate; return the record.
-
-    Returns None if the reviewer aborts. Every field that carries a claim is
-    typed by the human against the source they just read — the screener's
-    guesses are offered as defaults and nothing more.
-    """
-    institution = roles_mod.resolve_institution(item.get("institution", ""), index)
-    if not institution:
-        print(f"  ! {item.get('institution')!r} is not in the population "
-              f"(or is excluded) — nothing can be filed for it.")
-        return None
-
-    proposed = item.get("event_type_guess") or None
-    print("\n  Fill the record from the source you just read. Enter takes the default.")
-    title_verbatim = _prompt("title_verbatim (as the source prints it)")
-    record = {
-        "id": roles_mod.new_ulid(),
-        "institution": institution,
-        "title_verbatim": title_verbatim,
-        "title_normalized": _prompt("title_normalized",
-                                    choices=list(roles_mod.TITLES_NORMALIZED)),
-        "person": _prompt("person (Enter = not named)", default=item.get("person_guess"),
-                          required=False, allow_null=True) or None,
-        "event_type": _prompt("event_type", default=proposed,
-                              choices=list(roles_mod.EVENT_TYPES)),
-        "date": _prompt("date (YYYY, YYYY-MM or YYYY-MM-DD)", default=item.get("date")),
-        "reporting_line": _prompt("reporting_line", default="unknown",
-                                  choices=list(roles_mod.REPORTING_LINES)),
-        "scope": _prompt("scope", default="unknown", choices=list(roles_mod.SCOPES)),
-        "source_url": _prompt("source_url", default=item.get("url")),
-        "source_tier": _prompt("source_tier", choices=list(roles_mod.TIERS)),
-        "quote_verbatim": _prompt("quote_verbatim (original language, verbatim)"),
-        "language": _prompt("language (BCP-47)", default="en"),
-        "confidence": _prompt("confidence", choices=list(roles_mod.CONFIDENCES)),
-        "rationale": _prompt("rationale (what it shows, and what it stops short of)"),
-    }
-    if not ROLE_DATE.match(record["date"]):
-        print("    ! date must be YYYY, YYYY-MM or YYYY-MM-DD — not filed.")
-        return None
-
-    # Provenance, written once, exactly as the institutions path does it. The
-    # anchored-agreement caveat in METHODOLOGY §6 applies here unchanged: the
-    # reviewer saw the screener's guess before answering.
-    record["as_of_reviewed"] = date.today().isoformat()
-    record["agent_proposed_event_type"] = proposed
-    record["label_provenance"] = (
-        "human_originated" if not proposed
-        else "agent_proposed_accepted" if record["event_type"] == proposed
-        else "human_revised"
-    )
-    return record
-
-
-
-def file_role_event(record):
-    with ROLES_LOCK.open("w") as lockf:
-        if not _try_lock(lockf):
-            print("  ! roles.jsonl is locked by another writer — try again.")
-            return False
-        roles_mod.append_jsonl(roles_mod.ROLES_PATH, record)
-    log_decision({"action": "roles_file", "institution": record["institution"],
-                  "id": record["id"], "event_type": record["event_type"],
-                  "agent_proposed_event_type": record["agent_proposed_event_type"],
-                  "label_provenance": record["label_provenance"],
-                  "person_named": bool(record["person"]),
-                  "source_tier": record["source_tier"]})
-    return True
-
-
-def file_roles_not_found(institution, outcome, reason):
-    record = {
-        "institution": institution,
-        # This date IS the reviewer's calendar, and the field name says so: it
-        # dates the LOOKING, not any evidence. Unlike a stage transition, a
-        # negative result has no evidence date to take.
-        "searched_on": date.today().isoformat(),
-        "outcome": outcome,
-        "reason": reason,
-    }
-    with ROLES_LOCK.open("w") as lockf:
-        if not _try_lock(lockf):
-            print("  ! roles_not_found.jsonl is locked by another writer — try again.")
-            return False
-        roles_mod.append_jsonl(roles_mod.ROLES_NOT_FOUND_PATH, record)
-    log_decision({"action": "roles_not_found", "institution": institution,
-                  "outcome": outcome, "reason": reason})
-    return True
-
-
-def remove_role_event(event_id, reason):
-    """Withdraw a filed event: drop it from roles.jsonl and record WHY in the
-    negative record. A removal that leaves no trace would make the corpus look
-    like the event was never filed."""
-    events = roles_mod.read_jsonl(roles_mod.ROLES_PATH)
-    target = next((e for e in events if e.get("id") == event_id), None)
-    if not target:
-        print(f"  ! no filed event with id {event_id!r}")
-        return False
-    with ROLES_LOCK.open("w") as lockf:
-        if not _try_lock(lockf):
-            print("  ! roles.jsonl is locked by another writer — try again.")
-            return False
-        roles_mod.rewrite_jsonl(roles_mod.ROLES_PATH,
-                                [e for e in events if e.get("id") != event_id])
-    file_roles_not_found(target["institution"], "withdrawn-on-review", reason)
-    log_decision({"action": "roles_remove", "institution": target["institution"],
-                  "id": event_id, "reason": reason})
-    print(f"  removed {event_id} ({target['institution']}) and recorded the withdrawal.")
-    return True
-
-
-def roles_cli(argv=()):
-    """Walk the queue. Returns the number of records filed."""
-    if "--remove" in argv:
-        pos = list(argv).index("--remove")
-        if pos + 1 >= len(argv):
-            print("usage: review.py --roles --remove <ULID>")
-            return 0
-        reason = _prompt("reason for withdrawal (public text)")
-        remove_role_event(argv[pos + 1], reason)
-        return 0
-
-    queue = _queue()
-    if not queue:
-        print(f"Roles queue is empty ({roles_mod.QUEUE_PATH}).")
-        print("Populate it with:  uv run --env-file .env python monitor.py --roles --limit 5")
-        return 0
-
-    index = roles_mod.alias_index()
-    filed = 0
-    remaining = []
-    for n, item in enumerate(queue, 1):
-        print("\n" + "─" * 72)
-        print(f"[{n}/{len(queue)}] {item.get('institution')} — "
-              f"{item.get('event_type_guess')} (screener guess)   {item.get('date')}")
-        if item.get("person_guess"):
-            print(f"  person guess : {item['person_guess']}")
-        print(f"  why queued   : {item.get('reason')}")
-        print(f"  source       : {item.get('url')}")
-        print("  Open the source and read it before answering.")
-        choice = _prompt("[f]ile  [n]ot-found  [s]kip  [d]iscard  [q]uit",
-                         default="s", choices=["f", "n", "s", "d", "q"])
-
-        if choice == "q":
-            remaining += queue[n - 1:]
-            break
-        if choice == "s":
-            remaining.append(item)
-            continue
-        if choice == "d":
-            log_decision({"action": "roles_discard",
-                          "institution": item.get("institution"),
-                          "url": item.get("url"),
-                          "reason": _prompt("reason (private note)", required=False)})
-            continue
-        if choice == "n":
-            institution = roles_mod.resolve_institution(item.get("institution", ""), index)
-            if not institution:
-                print("  ! outside the population — discarded instead.")
-                continue
-            file_roles_not_found(
-                institution, "no-qualifying-evidence",
-                _prompt("reason (PUBLIC text — it must stand alone)"))
-            continue
-
-        record = build_role_event(item, index)
-        if record and file_role_event(record):
-            filed += 1
-            print(f"  filed {record['id']} — {record['institution']} / "
-                  f"{record['event_type']} ({record['label_provenance']})")
-        else:
-            remaining.append(item)
-
-    _rewrite_queue(remaining)
-    print(f"\nFiled {filed}; {len(remaining)} left in the queue.")
-    return filed
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -999,12 +973,65 @@ class Handler(BaseHTTPRequestHandler):
         pass
 
 
-if __name__ == "__main__":
-    if "--roles" in sys.argv[1:]:
-        # CLI mode: no server, no browser. The web reviewer is untouched.
-        roles_cli(sys.argv[1:])
-        sys.exit(0)
+def freeze_cli(argv=()):
+    """Declare the blind-recode freeze and print the digests it will enforce.
 
+    One command, because the declaration and the pins have to come from the same
+    corpus at the same instant. Captured by hand on different days they describe
+    different data, and the test would then enforce a state that never existed.
+
+    The digests are PRINTED, never written into the test file. Pasting them is a
+    deliberate act; a tool that rewrites its own gate is how a red suite quietly
+    goes green (tests/test_frozen_corpus.py)."""
+    rows = load_rows()
+    if freeze_declared():
+        doc = json.loads(FREEZE_RECORD.read_text(encoding="utf-8"))
+        print(f"already declared on {doc.get('declared_on')} "
+              f"at {doc.get('rows_at_freeze')} rows — nothing to do")
+        return 0
+    if len(rows) < FREEZE_TARGET_ROWS and "--force" not in argv:
+        print(f"{len(rows)} rows, target is {FREEZE_TARGET_ROWS}. Freezing now locks "
+              f"the corpus short of the milestone.\n"
+              f"If that is what you mean, re-run with --force.")
+        return 1
+
+    core = [{"name": r["name"], "stage": r["stage"], "rationale": r["rationale"],
+             "events": r["events"]} for r in rows]
+    agreement = json.loads((ROOT / "data" / "agreement.json").read_text(encoding="utf-8"))
+    for key in ("_readme", "limitation"):
+        agreement.pop(key, None)
+
+    def _sha_json(obj):
+        blob = json.dumps(obj, ensure_ascii=False, sort_keys=True).encode("utf-8")
+        return hashlib.sha256(blob).hexdigest()
+
+    def _sha_file(name):
+        return hashlib.sha256((ROOT / "data" / name).read_bytes()).hexdigest()
+
+    FREEZE_RECORD.write_text(json.dumps({
+        "blind_recode_freeze": True,
+        "declared_on": date.today().isoformat(),
+        "rows_at_freeze": len(rows),
+        "note": ("The corpus is frozen for the blind re-code (METHODOLOGY §6). "
+                 "Reviewer approvals of public changes are closed until the "
+                 "re-code is complete and recorded."),
+    }, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+    print(f"declared: {len(rows)} rows frozen on {date.today().isoformat()}")
+    print(f"wrote {FREEZE_RECORD.relative_to(ROOT)}")
+    print("\nPaste these into tests/test_frozen_corpus.py — they are captured from "
+          "this corpus,\nthis moment, and must not be re-derived later:\n")
+    print(f'    "not_classified.json": "{_sha_file("not_classified.json")}",')
+    print(f'    "transitions.jsonl": "{_sha_file("transitions.jsonl")}",')
+    print(f'AGREEMENT_FIGURES_SHA = "{_sha_json(agreement)}"')
+    print(f'INSTITUTIONS_CORE_SHA = "{_sha_json(core)}"')
+    print(f"INSTITUTIONS_ROWS = {len(rows)}")
+    return 0
+
+
+if __name__ == "__main__":
+    if "--freeze" in sys.argv[1:]:
+        sys.exit(freeze_cli(sys.argv[1:]))
     server = ThreadingHTTPServer(("127.0.0.1", PORT), Handler)
     url = f"http://127.0.0.1:{PORT}/"
     _st = state()
