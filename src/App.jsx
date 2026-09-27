@@ -12,13 +12,12 @@ import {
   loadNotClassified,
   loadTranslations,
   loadSummaries,
+  loadTimelineSummaries,
   loadJobPostings,
   loadHomepages,
   loadDescriptions,
   loadHighlights,
   loadPublishers,
-  loadRoles,
-  loadRolesNotFound,
   REGION_LABELS,
   scopeNote,
   STAGE_LABELS,
@@ -34,7 +33,8 @@ import RegionMap from './components/RegionMap.jsx'
 import InstitutionTable from './components/InstitutionTable.jsx'
 import DrillDown from './components/DrillDown.jsx'
 import Methodology from './components/Methodology.jsx'
-import RolesView from './components/RolesView.jsx'
+import About from './components/About.jsx'
+import Releases from './components/Releases.jsx'
 import SearchBox from './components/SearchBox.jsx'
 import { institutionSearchText, matchesSearch, searchTerms } from './search.js'
 import { FILTER_TAGS } from './search.js'
@@ -43,8 +43,8 @@ import MobileFindings from './components/MobileFindings.jsx'
 import MobileInstitutions from './components/MobileInstitutions.jsx'
 
 // Minimal hash routing — no router dependency.
-// #/methodology and #/roles are pages; anything else is the dashboard.
-const ROUTES = ['methodology', 'roles']
+// #/methodology, #/releases and #/about are pages; anything else is the dashboard.
+const ROUTES = ['methodology', 'releases', 'about']
 const DEFAULT_FILTERS = {
   stage: 'all',
   type: 'all',
@@ -93,8 +93,6 @@ export default function App() {
   const [notClassified, setNotClassified] = useState(null)
   // Role events are a separate record with a separate unit of observation
   // (METHODOLOGY §11); they never feed the stage grid.
-  const [roles, setRoles] = useState([])
-  const [rolesNotFound, setRolesNotFound] = useState([])
   // The presentation-layer maps (translations, summaries, homepages,
   // descriptions, highlights, publishers) live in module-level caches in
   // data.js; this counter exists only to re-render the tree once they have
@@ -113,11 +111,10 @@ export default function App() {
   useEffect(() => {
     let live = true
     loadStageDefinitions().then((d) => live && setStageDefs(d))
-    loadRoles().then((d) => live && setRoles(d))
-    loadRolesNotFound().then((d) => live && setRolesNotFound(d))
     Promise.all([
       loadTranslations(),
       loadSummaries(),
+      loadTimelineSummaries(),
       loadJobPostings(),
       loadHomepages(),
       loadDescriptions(),
@@ -317,12 +314,10 @@ export default function App() {
       <main className="main" id="main" tabIndex={-1}>
         {route === 'methodology' ? (
           <Methodology defs={stageDefs} />
-        ) : route === 'roles' ? (
-          <RolesView
-            roles={roles}
-            notFound={rolesNotFound}
-            institutions={institutions}
-          />
+        ) : route === 'releases' ? (
+          <Releases />
+        ) : route === 'about' ? (
+          <About />
         ) : status === 'loading' ? (
           <div className="state-msg" role="status">
             <span className="spinner" aria-hidden="true" /> Loading
@@ -708,7 +703,6 @@ export default function App() {
       {selected && (
         <DrillDown
           inst={institutions.find((i) => i.name === selected.name) || selected}
-          roles={roles}
           onClose={() => setSelected(null)}
         />
       )}

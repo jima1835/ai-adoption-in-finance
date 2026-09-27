@@ -1,3 +1,8 @@
+// `__SITE_BUILD__` is baked in by vite.config.js: the day this bundle was built
+// and the commit it was built from. Guarded so a test that imports the module
+// outside Vite still renders.
+const BUILD = typeof __SITE_BUILD__ !== 'undefined' ? __SITE_BUILD__ : null
+
 export default function Footer() {
   return (
     <footer className="site-footer">
@@ -17,6 +22,15 @@ export default function Footer() {
       <span className="footer-muted">
         Classifications rest only on public sources.
       </span>
+      {BUILD && BUILD.built && (
+        <>
+          <span className="footer-sep">·</span>
+          <span className="footer-muted" title="Build date and source commit">
+            Updated {BUILD.commitDate || BUILD.built}
+            {BUILD.commit ? ` · ${BUILD.commit}` : ''}
+          </span>
+        </>
+      )}
     </footer>
   )
 }

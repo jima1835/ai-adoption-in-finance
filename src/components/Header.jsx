@@ -29,20 +29,29 @@ export default function Header({ route, onNavigate, refreshed, reviewed }) {
           <button
             type="button"
             className="nav-link"
-            data-active={route === 'roles'}
-            aria-current={route === 'roles' ? 'page' : undefined}
-            onClick={() => onNavigate('roles')}
-          >
-            Roles
-          </button>
-          <button
-            type="button"
-            className="nav-link"
             data-active={route === 'methodology'}
             aria-current={route === 'methodology' ? 'page' : undefined}
             onClick={() => onNavigate('methodology')}
           >
             Methodology
+          </button>
+          <button
+            type="button"
+            className="nav-link"
+            data-active={route === 'releases'}
+            aria-current={route === 'releases' ? 'page' : undefined}
+            onClick={() => onNavigate('releases')}
+          >
+            Releases
+          </button>
+          <button
+            type="button"
+            className="nav-link"
+            data-active={route === 'about'}
+            aria-current={route === 'about' ? 'page' : undefined}
+            onClick={() => onNavigate('about')}
+          >
+            About
           </button>
         </nav>
       </div>

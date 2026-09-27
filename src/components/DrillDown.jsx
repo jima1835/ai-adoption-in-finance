@@ -1,8 +1,6 @@
 import { useEffect, useRef } from 'react'
 import {
   TYPE_LABELS,
-  EVENT_TYPE_LABELS,
-  TITLE_LABELS,
   HIGHLIGHT_LABELS,
   aumUsdApprox,
   dateSortKey,
@@ -11,9 +9,9 @@ import {
   jobPostingFor,
   mediumLabel,
   publisherFor,
-  rolesForInstitution,
   summaryFor,
   summaryParts,
+  timelineSummaryFor,
 } from '../data.js'
 import StageBadge from './StageBadge.jsx'
 import Lang from './Lang.jsx'
@@ -67,7 +65,7 @@ function SourceLink({ href, context }) {
 // them matched on source URL), so it was printing the same thing twice. Instead
 // the timeline marks its most recent entry — preferring the one the latest_signal
 // points at — as the latest signal.
-export default function DrillDown({ inst, roles = [], onClose }) {
+export default function DrillDown({ inst, onClose }) {
   const panelRef = useRef(null)
   const closeRef = useRef(null)
 
@@ -123,12 +121,6 @@ export default function DrillDown({ inst, roles = [], onClose }) {
   // Looked up once per event so the legend and the rows cannot disagree.
   const highlights = events.map((ev) => highlightFor(inst.name, ev))
   const hasHighlight = highlights.some(Boolean)
-
-  // Role events are a separate record on a separate unit (METHODOLOGY §11).
-  // The section is hidden when there are none: an empty "Leadership" heading
-  // would read as "this firm has no AI leadership", which is a claim this
-  // corpus has not made.
-  const roleEvents = rolesForInstitution(roles, inst)
 
   // The latest signal is the most recent dated event, full stop — exactly one per
   // timeline, and a claim that is always true. Newest-first puts it at index 0.
@@ -252,12 +244,14 @@ export default function DrillDown({ inst, roles = [], onClose }) {
             <ol className="timeline">
               {events.map((ev, i) => {
                 const hl = highlights[i]
+                const digest = timelineSummaryFor(inst.name, ev)
                 return (
                   <li
                     key={i}
                     className="tl-item"
                     data-latest={isLatest(ev) ? 'true' : undefined}
                     data-highlight={hl ? hl.kind : undefined}
+                    data-summarized={digest.summarized ? 'true' : 'false'}
                   >
                     {/* The date stands in its own column, left of the rail,
                         so the eye can run straight down the record; the
@@ -275,7 +269,7 @@ export default function DrillDown({ inst, roles = [], onClose }) {
                     <span className="tl-rail" aria-hidden="true">
                       <span className="tl-dot" />
                     </span>
-                    <span className="tl-content">
+                    <div className="tl-content">
                       {/* The kind is text, never colour alone: the box says
                           "this matters", the pill says why. */}
                       {hl && (
@@ -283,18 +277,30 @@ export default function DrillDown({ inst, roles = [], onClose }) {
                           <span className="tl-kind">
                             {HIGHLIGHT_LABELS[hl.kind] || hl.kind}
                           </span>
-                          {hl.label && (
-                            <span className="tl-lead">{hl.label}</span>
-                          )}
                         </span>
                       )}
-                      <span className="tl-event">
-                        <Lang>{ev.event}</Lang>
-                      </span>
+                      <h4 className="tl-title">
+                        <Lang>{digest.title}</Lang>
+                      </h4>
+                      <ul className="tl-points">
+                        {digest.bullets.map((bullet, j) => (
+                          <li key={j}>
+                            <Lang>{bullet}</Lang>
+                          </li>
+                        ))}
+                      </ul>
                       {ev.source_url && (
                         <SourceLink href={ev.source_url} context={ev.date} />
                       )}
-                    </span>
+                      {digest.summarized && (
+                        <details className="tl-full">
+                          <summary>Full source note</summary>
+                          <p>
+                            <Lang>{ev.event}</Lang>
+                          </p>
+                        </details>
+                      )}
+                    </div>
                   </li>
                 )
               })}
@@ -328,56 +334,18 @@ export default function DrillDown({ inst, roles = [], onClose }) {
                       </span>
                     )}
                   </span>
-                  <span className="job-body">
+                  <div className="job-body">
                     <strong className="job-title">{posting.role}</strong>
-                    <span className="job-wording">
-                      <Lang>{posting.ai_wording}</Lang>
-                    </span>
+                    <ul className="tl-points job-wording">
+                      <li>
+                        <Lang>{posting.ai_wording}</Lang>
+                      </li>
+                    </ul>
                     <SourceLink
                       href={event.source_url}
                       context={`the ${event.date} job posting`}
                     />
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
-
-        {roleEvents.length > 0 && (
-          <section className="modal-section">
-            <h3 className="modal-label">
-              Leadership{' '}
-              <span className="modal-label-count">{roleEvents.length}</span>
-            </h3>
-            <p className="modal-note">
-              Dated AI-leadership role events, recorded separately from the
-              stage. A hire is an input to adoption, not evidence of it — none
-              of these moved the classification above.
-            </p>
-            <ul className="role-list">
-              {roleEvents.map((r) => (
-                <li key={r.id} className="role-item">
-                  <span className="role-date">{r.date}</span>
-                  <span className="role-body">
-                    <span className="role-title">
-                      {TITLE_LABELS[r.title_normalized] || r.title_normalized}
-                      {r.person ? ` — ${r.person}` : ''}
-                    </span>
-                    <span className="role-meta">
-                      {EVENT_TYPE_LABELS[r.event_type] || r.event_type}
-                      {r.scope !== 'unknown' &&
-                        ` · ${r.scope.replace('_', ' ')}`}
-                      {r.reporting_line !== 'unknown' &&
-                        ` · reports to ${r.reporting_line.toUpperCase()}`}
-                    </span>
-                    {r.source_url && (
-                      <SourceLink
-                        href={r.source_url}
-                        context={`the ${r.date} role event`}
-                      />
-                    )}
-                  </span>
+                  </div>
                 </li>
               ))}
             </ul>

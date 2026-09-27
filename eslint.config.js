@@ -16,7 +16,7 @@ export default [
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
-      globals: globals.browser,
+      globals: { ...globals.browser, __SITE_BUILD__: 'readonly' },
     },
     settings: { react: { version: 'detect' } },
     rules: {

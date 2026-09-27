@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 import { readdirSync, readFileSync, mkdirSync, copyFileSync } from 'node:fs'
+import { execSync } from 'node:child_process'
 
 const rootDir = dirname(fileURLToPath(import.meta.url))
 const dataDir = join(rootDir, 'data')
@@ -14,9 +15,9 @@ const dataDir = join(rootDir, 'data')
 //     deployed site always serves fresh, real files (symlinks don't survive
 //     reliably into docs/ — that was the old fragility).
 function syncData() {
-  // .jsonl as well as .json: the roles record is an append-only log, so it
+  // .jsonl as well as .json: transitions.jsonl is an append-only log, so it
   // ships one-record-per-line. Note the order — '.json' would also match
-  // 'roles.jsonl' if tested first, so both suffixes are listed explicitly.
+  // 'transitions.jsonl' if tested first, so both suffixes are listed explicitly.
   const DATA_SUFFIXES = ['.json', '.jsonl']
   const jsonFiles = () =>
     readdirSync(dataDir).filter((f) => DATA_SUFFIXES.some((s) => f.endsWith(s)))
@@ -51,10 +52,30 @@ function syncData() {
   }
 }
 
+// The site's "updated" stamp: the commit the build was made from and the day it
+// was built. The build is committed together with its sources, so at build time
+// HEAD is the previous commit; the build date is therefore shown beside the
+// commit, and both are literal strings baked in by `define`, never fetched.
+function git(args) {
+  try {
+    return execSync(`git ${args}`, { stdio: ['ignore', 'pipe', 'ignore'] })
+      .toString()
+      .trim()
+  } catch {
+    return ''
+  }
+}
+const SITE_BUILD = {
+  built: new Date().toISOString().slice(0, 10),
+  commit: git('rev-parse --short HEAD'),
+  commitDate: git('log -1 --format=%cs'),
+}
+
 // Relative base keeps the build portable to any GitHub Pages path. data/ is the
 // canonical source; syncData() propagates it into docs/ on build (see above).
 export default defineConfig({
   base: '/ai-adoption-in-finance/',
   build: { outDir: 'docs' },
   plugins: [react(), syncData()],
+  define: { __SITE_BUILD__: JSON.stringify(SITE_BUILD) },
 })

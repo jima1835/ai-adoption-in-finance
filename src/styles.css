@@ -1326,10 +1326,44 @@ code {
   letter-spacing: 0.03em;
   white-space: nowrap;
 }
-.tl-event {
-  font-size: 15.5px;
+.tl-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
   color: var(--text);
+  overflow-wrap: anywhere;
+}
+.tl-points {
+  margin: 2px 0 4px;
+  padding-left: 18px;
+  font-size: 15.5px;
+  color: var(--text-dim);
   line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+.tl-points li + li {
+  margin-top: 4px;
+}
+.tl-points li::marker {
+  color: var(--accent);
+}
+.tl-full {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--text-dim);
+}
+.tl-full summary {
+  width: fit-content;
+  cursor: pointer;
+  color: var(--text-dim);
+}
+.tl-full summary:hover {
+  color: var(--accent);
+}
+.tl-full p {
+  margin: 8px 0 0;
+  overflow-wrap: anywhere;
 }
 .tl-source {
   font-family: var(--mono);
@@ -2457,9 +2491,6 @@ li a,
 .tl-item[data-latest='true']:last-child .tl-content {
   margin-bottom: 0;
 }
-.tl-item[data-latest='true'] .tl-event {
-  color: var(--text);
-}
 .tl-badge {
   display: inline-flex;
   align-items: center;
@@ -2529,123 +2560,8 @@ li a,
   color: var(--accent);
   white-space: nowrap;
 }
-.tl-lead {
-  font-size: 15px;
-  font-weight: 600;
-  line-height: 1.4;
-  color: var(--text);
-}
 
-/* ============================================================
-   The disagreement record (Methodology page)
-   Magnitude on a near-diagonal 4x4 is a table, not a heatmap:
-   one amber tint for count, plus a border on the diagonal so
-   agreement is never encoded by colour alone. Numbers wear text
-   tokens; the accent stays on the marks.
-   ============================================================ */
-.agreement {
-  margin-top: 2.5rem;
-}
-
-.agree-tiles {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-  gap: 0.75rem;
-  margin: 1.25rem 0;
-}
-
-.agree-tile {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-  padding: 0.9rem 1rem;
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-left: 2px solid var(--human);
-  border-radius: var(--radius);
-}
-
-.agree-num {
-  font-family: var(--mono);
-  font-size: 1.6rem;
-  line-height: 1.1;
-  color: var(--text);
-  font-variant-numeric: tabular-nums;
-}
-
-.agree-den {
-  font-size: 1rem;
-  color: var(--text-faint);
-}
-
-.agree-label {
-  font-size: 0.8rem;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  color: var(--text-dim);
-}
-
-.agree-sub {
-  font-size: 0.8rem;
-  color: var(--text-faint);
-  font-family: var(--mono);
-}
-
-.agree-caveat {
-  border-left-color: var(--human);
-}
-
-.agree-caption {
-  caption-side: top;
-  text-align: left;
-  padding: 0 0 0.5rem;
-  font-size: 0.82rem;
-  color: var(--text-dim);
-}
-
-.agree-matrix th[scope='row'] {
-  white-space: nowrap;
-  font-weight: 500;
-}
-
-.agree-matrix .stage-swatch {
-  margin-right: 0.4rem;
-}
-
-.agree-cell {
-  font-family: var(--mono);
-  font-variant-numeric: tabular-nums;
-  color: var(--text);
-}
-
-.agree-cell[data-diagonal='true'] {
-  box-shadow: inset 0 0 0 1px var(--border-bright);
-}
-
-.agree-h3 {
-  margin: 1.5rem 0 0.4rem;
-  font-size: 0.95rem;
-  color: var(--text);
-}
-
-.agree-list li {
-  font-size: 0.9rem;
-}
-
-.agree-dir {
-  font-family: var(--mono);
-  font-size: 0.75rem;
-  padding: 0.05rem 0.35rem;
-  border-radius: 3px;
-  border: 1px solid var(--border-bright);
-  color: var(--text-dim);
-}
-
-.agree-dir[data-direction='up'] {
-  border-color: var(--stage-scaling);
-  color: var(--stage-scaling);
-}
-
+/* Footnote under a prose table (Releases page) */
 .agree-note {
   font-size: 0.82rem;
   color: var(--text-faint);
@@ -2671,91 +2587,12 @@ li a,
   transform: translateY(-3px);
 }
 
-/* ============================================================
-   AI leadership roles (#/roles + the drill-down's Leadership
-   section). Deliberately quiet: no stage colour anywhere, so
-   the eye never links a hire to a classification.
-   ============================================================ */
-.roles-view {
-  max-width: var(--maxw);
-  margin: 12px auto 0;
-}
-.roles-view .prose-lede {
-  max-width: 680px;
-}
-.roles-caveat {
-  max-width: 680px;
-  font-size: 15px;
-  line-height: 1.65;
-  color: var(--text-dim);
-  border-left: 2px solid var(--border-bright);
-  padding-left: 14px;
-  margin: 0 0 28px;
-}
-.roles-caveat a {
-  color: var(--text);
-}
-.roles-caveat a:hover {
-  color: var(--accent);
-}
-
-.roles-table td {
-  vertical-align: top;
-}
-/* Normalized label on top, the source's own wording underneath — the verbatim
-   title is the record, so it is always on screen, never behind a tooltip. */
-.roles-sub {
-  display: block;
-  font-size: 12px;
-  color: var(--text-faint);
-  margin-top: 3px;
-}
-.roles-null {
-  color: var(--text-faint);
-  font-style: italic;
-}
-
 .modal-note {
   font-size: 13px;
   line-height: 1.6;
   color: var(--text-faint);
   margin: 0 0 12px;
 }
-.role-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.role-item {
-  display: flex;
-  gap: 14px;
-  align-items: baseline;
-}
-.role-date {
-  font-family: var(--mono);
-  font-size: 13px;
-  color: var(--text-faint);
-  min-width: 88px;
-  flex-shrink: 0;
-}
-.role-body {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-.role-title {
-  color: var(--text);
-  font-size: 15px;
-}
-.role-meta {
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--text-dim);
-}
-
 .job-list {
   list-style: none;
   margin: 0;
@@ -2811,10 +2648,6 @@ li a,
     flex-direction: row;
     align-items: center;
   }
-  .role-item {
-    flex-direction: column;
-    gap: 4px;
-  }
   /* The date column folds above the content; the rail spans both rows. */
   .tl-item {
     grid-template-columns: 9px minmax(0, 1fr);
@@ -2836,4 +2669,34 @@ li a,
     grid-column: 2;
     grid-row: 2;
   }
+}
+
+/* ============================================================
+   Releases page (#/releases) and the TL;DR block on the methodology page
+   ============================================================ */
+.release-table tbody tr {
+  cursor: auto;
+}
+.release-table tbody tr:hover {
+  background: transparent;
+}
+.release-table .release-version {
+  font-family: var(--mono);
+  white-space: nowrap;
+}
+.release-table .release-notes {
+  min-width: 34ch;
+  max-width: 64ch;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--text-dim);
+}
+.tldr {
+  border-left: 3px solid var(--accent, #f0a830);
+  padding: 10px 14px;
+  margin: 12px 0 20px;
+  background: rgba(240, 168, 48, 0.06);
+}
+.tldr .prose-h2 {
+  margin-top: 0;
 }

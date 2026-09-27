@@ -8,9 +8,7 @@ import {
   embeddedNote,
   scopeNote,
   loadNotClassified,
-  loadAgreement,
 } from '../data.js'
-import AgreementPanel from './AgreementPanel.jsx'
 
 // Prose page — allowed to breathe more than the dense grid. Pulls the shared
 // stage-classification reference (stage_definitions.json) when available, and
@@ -18,12 +16,10 @@ import AgreementPanel from './AgreementPanel.jsx'
 export default function Methodology({ defs }) {
   const scope = scopeNote(defs)
   const [notClassified, setNotClassified] = useState([])
-  const [agreement, setAgreement] = useState(null)
 
   useEffect(() => {
     let live = true
     loadNotClassified().then((d) => live && setNotClassified(d))
-    loadAgreement().then((d) => live && setAgreement(d))
     return () => {
       live = false
     }
@@ -38,6 +34,27 @@ export default function Methodology({ defs }) {
         and hedge funds — organized by the stage each has actually reached, not
         the stage it markets.
       </p>
+
+      <section className="tldr" aria-labelledby="tldr-heading">
+        <h3 className="prose-h2" id="tldr-heading">
+          TL;DR
+        </h3>
+        <p>
+          Institutional investors are placed on four stages of{' '}
+          <strong>internal</strong> AI adoption — exploring, piloting, scaling,
+          embedded — from <strong>public evidence only</strong>. AI products
+          sold to clients, AI as an investment thesis and AI pushed into
+          portfolio companies do not count. A row needs two dated events, each
+          from a first-party or staff-written source, with the wording that
+          carries the call quoted verbatim. Between two stages the lower wins;
+          absence of evidence caps a stage and never infers one. An AI agent
+          drafts every row and proposes a stage; a human verifies, revises or
+          removes it, and that decision is published as an anchored agreement
+          rate — not a reliability coefficient. Institutions that could not be
+          placed are published too, with the reason. Nothing here is an industry
+          rate.
+        </p>
+      </section>
 
       <section>
         <h3 className="prose-h2">What this is</h3>
@@ -104,8 +121,18 @@ export default function Methodology({ defs }) {
             <strong>The decision is recorded.</strong> Each row keeps the stage
             the agent proposed alongside the stage the human settled on, and
             whether the label was accepted, revised, or written by the human
-            outright. That is what makes the disagreement record below possible
-            — and auditable.
+            outright. The full record — every acceptance, revision, later
+            correction, evidence-dated transition and withdrawal, with the
+            agreement rate computed from it — is published in the repository as{' '}
+            <a
+              href="https://github.com/jima1835/ai-adoption-in-finance/blob/main/data/agreement.json"
+              target="_blank"
+              rel="noreferrer"
+            >
+              data/agreement.json
+            </a>
+            , rebuilt from the two data files so it can be reproduced without
+            trusting this page.
           </li>
         </ol>
         <p>
@@ -124,12 +151,12 @@ export default function Methodology({ defs }) {
         <p className="prose-callout">
           The honest limitation: there is one reviewer, and he also wrote the
           classification rules. That is a real constraint on how far these
-          labels should be trusted, and it is why the agreement figures below
-          are published rather than asserted.
+          labels should be trusted, and it is why the agreement figures are
+          published rather than asserted. They are anchored, not blind — the
+          reviewer saw the agent’s proposed stage before deciding — and are
+          never a reliability coefficient.
         </p>
       </section>
-
-      <AgreementPanel data={agreement} />
 
       <section>
         <h3 className="prose-h2">The four stages</h3>
@@ -213,34 +240,6 @@ export default function Methodology({ defs }) {
         </p>
       </section>
 
-      <section className="author-bio">
-        <h3 className="prose-h2">About the author</h3>
-        <p>
-          Built and maintained by <strong>Jiajun Ma</strong>, an investment
-          professional working in institutional asset management. This is an
-          independent personal project: it is not affiliated with, sponsored by,
-          or endorsed by any employer, and every view and classification here is
-          the author’s alone.
-        </p>
-        <p>
-          Consistent with the public-sources-only rule above, no non-public
-          information from the author’s professional work informs any
-          classification, and institutions where the author has a professional
-          affiliation are excluded from coverage entirely. Nothing on this site
-          is investment advice.
-        </p>
-        <p>
-          Corrections and challenges are welcome —{' '}
-          <a
-            href="https://github.com/jima1835/ai-adoption-in-finance/issues"
-            target="_blank"
-            rel="noreferrer"
-          >
-            open an issue
-          </a>{' '}
-          with the public sources you think change the call.
-        </p>
-      </section>
       {notClassified.length > 0 && (
         <section className="prose-bleed">
           <h3 className="prose-h2">Appendix — insufficient public evidence</h3>

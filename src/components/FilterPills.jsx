@@ -1,10 +1,9 @@
 // Generic pill-group filter — one group per criterion (type, region,
-// confidence, AUM band, and on the roles page event type and source tier).
+// confidence, AUM band).
 // Client-side, defaults to the group's 'all' key.
 //
-// `unit` names what is being counted, for the screen-reader label only: the
-// roles page filters role events, not institutions, and a pill that announces
-// the wrong noun is worse than one that announces none.
+// `unit` names what is being counted, for the screen-reader label only: a pill
+// that announces the wrong noun is worse than one that announces none.
 export default function FilterPills({
   label,
   groups,

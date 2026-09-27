@@ -1,4 +1,5 @@
 // Shared constants + pure helpers for the dashboard.
+import { indexTimelineSummaries, timelineSummary } from './timeline.js'
 
 // The classification bar, in adoption order. Order matters: the grid renders
 // columns left→right in this sequence and the table sorts stages by index.
@@ -363,6 +364,7 @@ export function segmentCjk(text) {
 // and the feature simply does not render.
 // ---------------------------------------------------------------------------
 let SUMMARIES = {}
+let TIMELINE_SUMMARIES = new Map()
 let HOMEPAGES = {}
 let MANUALLY_VERIFIED_HOMEPAGES = new Set()
 let JOB_POSTINGS = []
@@ -370,6 +372,28 @@ let JOB_POSTINGS = []
 export function summaryFor(name) {
   const s = SUMMARIES[name]
   return Array.isArray(s) && s.length ? s : null
+}
+
+export function timelineSummaryFor(institution, event) {
+  return timelineSummary(TIMELINE_SUMMARIES, institution, event)
+}
+
+export async function loadTimelineSummaries() {
+  try {
+    const res = await fetch(
+      `${import.meta.env.BASE_URL}data/event_summaries.json`,
+      {
+        cache: 'no-store',
+      },
+    )
+    const data = res.ok ? await res.json() : null
+    TIMELINE_SUMMARIES = indexTimelineSummaries(
+      Array.isArray(data?.entries) ? data.entries : [],
+    )
+  } catch {
+    TIMELINE_SUMMARIES = new Map()
+  }
+  return TIMELINE_SUMMARIES
 }
 
 // Every rationale digest uses one explicit evidence label followed by the full
@@ -684,126 +708,4 @@ export const REGION_COLORS = {
   Asia: '#a03a6a',
   'Middle East': '#a07ee0',
   Other: '#00ac94',
-}
-
-// ---------------------------------------------------------------------------
-// data/agreement.json — the human-vs-agent disagreement record.
-//
-// Built by tools/build_agreement.py from institutions.json + not_classified.json
-// (both public, so the figures are reproducible from this repo alone). The panel
-// that renders it MUST carry the anchoring caveat: the reviewer saw the agent's
-// proposed stage before deciding, so this is anchored, non-independent agreement,
-// not a reliability coefficient. Never present a kappa from this file.
-// ---------------------------------------------------------------------------
-let AGREEMENT = null
-
-export function agreementData() {
-  return AGREEMENT
-}
-
-export async function loadAgreement() {
-  try {
-    const res = await fetch(`${import.meta.env.BASE_URL}data/agreement.json`, {
-      cache: 'no-store',
-    })
-    if (res.ok) {
-      const j = await res.json()
-      AGREEMENT = j && j.stage_agreement ? j : null
-    }
-  } catch {
-    AGREEMENT = null // absent or malformed → the panel simply does not render
-  }
-  return AGREEMENT
-}
-
-// ---------------------------------------------------------------------------
-// AI leadership roles (METHODOLOGY §11).
-//
-// data/roles.jsonl and data/roles_not_found.jsonl are JSONL, not JSON: they are
-// append-only public logs, and one record per line keeps a filing a one-line
-// diff. That costs a hand-written parse here, which is the right trade — the
-// alternative is rewriting the whole file on every filing.
-//
-// The unit is a ROLE EVENT. A role event never moves an adoption stage, so
-// nothing in this section reads `stage`.
-// ---------------------------------------------------------------------------
-
-export const EVENT_TYPE_LABELS = {
-  created: 'Role created',
-  hired: 'Hired',
-  retitled: 'Retitled',
-  departed: 'Departed',
-  expanded_remit: 'Remit expanded',
-}
-
-export const TITLE_LABELS = {
-  chief_ai_officer: 'Chief AI Officer',
-  head_of_ai: 'Head of AI',
-  chief_data_and_ai_officer: 'Chief Data & AI Officer',
-  head_of_ai_implementation: 'Head of AI Implementation',
-  ai_lead_other: 'Other AI lead',
-}
-
-export const REPORTING_LINE_LABELS = {
-  ceo: 'CEO',
-  cio: 'CIO',
-  cto: 'CTO',
-  coo: 'COO',
-  cdo: 'CDO',
-  other: 'Other',
-  unknown: 'Unknown',
-}
-
-// Parse JSONL leniently at the LINE level and strictly at nothing else: a blank
-// line is skipped, a malformed one is dropped rather than taking the page down
-// with it. The file is public and append-only, so a bad line is a data bug to
-// fix, not a reason for a reader to see an error screen.
-function parseJsonl(text) {
-  return text
-    .split('\n')
-    .filter((line) => line.trim())
-    .map((line) => {
-      try {
-        return JSON.parse(line)
-      } catch {
-        return null
-      }
-    })
-    .filter(Boolean)
-}
-
-async function loadJsonl(file) {
-  try {
-    const res = await fetch(`${import.meta.env.BASE_URL}data/${file}`, {
-      cache: 'no-store',
-    })
-    if (!res.ok) return []
-    return parseJsonl(await res.text())
-  } catch {
-    return []
-  }
-}
-
-export const loadRoles = () => loadJsonl('roles.jsonl')
-export const loadRolesNotFound = () => loadJsonl('roles_not_found.jsonl')
-
-// Role events for one institution row, newest first. Matched on name and
-// aliases, case-insensitively — the same exact-match discipline the engine uses,
-// with no fuzzy fallback.
-export function rolesForInstitution(roles, inst) {
-  if (!inst) return []
-  const keys = new Set(
-    [inst.name, ...(inst.aliases || [])]
-      .filter(Boolean)
-      .map((k) => k.trim().toLowerCase()),
-  )
-  return roles
-    .filter((r) =>
-      keys.has(
-        String(r.institution || '')
-          .trim()
-          .toLowerCase(),
-      ),
-    )
-    .sort((a, b) => dateSortKey(b.date) - dateSortKey(a.date))
 }
