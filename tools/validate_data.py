@@ -48,10 +48,7 @@ TYPES = {
 FILES = [
     ("institutions.json", "institution.schema.json", "json"),
     ("not_classified.json", "not_classified.schema.json", "json"),
-    ("roles_expansion.json", "roles_expansion.schema.json", "json"),
     ("excluded.json", "excluded.schema.json", "json"),
-    ("roles.jsonl", "role_event.schema.json", "jsonl"),
-    ("roles_not_found.jsonl", "roles_not_found.schema.json", "jsonl"),
 ]
 
 

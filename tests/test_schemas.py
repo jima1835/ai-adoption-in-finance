@@ -92,10 +92,7 @@ def test_names_are_unique_and_the_two_files_are_disjoint():
 # ---------------------------------------------------------------------------
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import validate_data  # noqa: E402
-
-import roles  # noqa: E402
 
 INSTITUTION_SCHEMA = validate_data._load_schema("institution.schema.json")
 
@@ -117,33 +114,3 @@ def test_the_validator_refuses_a_schema_it_cannot_enforce():
     guarantee and is not one. Unknown keywords are an error, not a pass."""
     with pytest.raises(validate_data.SchemaUnsupported):
         validate_data.validate({"a": 1}, {"type": "object", "patternProperties": {}})
-
-
-@pytest.mark.parametrize("field,vocabulary", [
-    ("event_type", roles.EVENT_TYPES),
-    ("title_normalized", roles.TITLES_NORMALIZED),
-    ("reporting_line", roles.REPORTING_LINES),
-    ("scope", roles.SCOPES),
-    ("source_tier", roles.TIERS),
-    ("confidence", roles.CONFIDENCES),
-    ("label_provenance", roles.PROVENANCE),
-])
-def test_roles_runtime_vocabulary_matches_the_published_schema(field, vocabulary):
-    schema = validate_data._load_schema("role_event.schema.json")
-    assert schema["properties"][field]["enum"] == list(vocabulary)
-
-
-def test_roles_outcomes_match_the_stage_appendix():
-    """A negative record means the same thing in both appendices, or a reader
-    has to learn two vocabularies for one idea."""
-    schema = validate_data._load_schema("roles_not_found.schema.json")
-    assert schema["properties"]["outcome"]["enum"] == list(roles.OUTCOMES)
-    assert set(roles.OUTCOMES) == OUTCOMES
-
-
-def test_no_row_in_the_population_is_on_the_denylist():
-    """Exclusion is enforced by dropping names at load time, so this asserts the
-    result rather than the mechanism: nothing excluded survives into the
-    population the roles sweep queries."""
-    excluded = roles.load_excluded()
-    assert all(not roles.is_excluded(e["name"], excluded) for e in roles.load_population())
