@@ -2,8 +2,16 @@
   "permissions": {
     "deny": [
       "Read(.env)",
-      "Edit(data/feed.json)",
-      "Edit(data/seen_urls.json)",
+      "Edit(/data/feed.json)",
+      "Edit(/data/seen_urls.json)",
+      "Edit(/data/institutions.json)",
+      "Edit(/data/not_classified.json)",
+      "Edit(/data/transitions.jsonl)",
+      "Edit(/data/agreement.json)",
+      "Edit(/data/recode_freeze.json)",
+      "Edit(/data/stage_definitions.json)",
+      "Edit(/.claude/settings.json)",
+      "Edit(/.claude/settings.local.json)",
       "Bash(git commit*)",
       "Bash(git push*)",
       "Bash(git merge*)",
