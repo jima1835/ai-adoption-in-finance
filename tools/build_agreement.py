@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """Build data/agreement.json — the public human-vs-agent disagreement record.
 
-Derived ENTIRELY from three already-public files, so anyone can reproduce it:
+Derived ENTIRELY from four already-public files, so anyone can reproduce it:
   data/institutions.json   — label_provenance, agent_proposed_stage, stage
   data/not_classified.json — outcome == withdrawn-on-review
   data/transitions.jsonl   — evidence-dated stage moves after first review
+  data/rereads.jsonl       — re-read passes: corrections on the evidence already
+                             on a row, filed by the reviewer (v1.2.2)
 
 WHAT THE RATE MEASURES. `stage_agreement` is the reviewer's FIRST decision on
 each row against the agent's proposal, read from `label_provenance`, which
@@ -42,6 +44,7 @@ ROOT = Path(__file__).resolve().parent.parent
 INST = ROOT / "data" / "institutions.json"
 NC = ROOT / "data" / "not_classified.json"
 TRANS = ROOT / "data" / "transitions.jsonl"
+REREADS = ROOT / "data" / "rereads.jsonl"
 OUT = ROOT / "data" / "agreement.json"
 
 STAGES = ["exploring", "piloting", "scaling", "embedded"]
@@ -56,8 +59,11 @@ README = (
     "saw the agent's proposed stage and its written reasoning before deciding, so "
     "these figures are ANCHORED, non-independent agreement and should not be "
     "read as an inter-rater reliability estimate. No kappa is reported here and "
-    "none should be inferred. Derived from data/institutions.json and "
-    "data/not_classified.json; rebuild with tools/build_agreement.py."
+    "none should be inferred. Re-read passes (data/rereads.jsonl) are summarised "
+    "under rereads: who drafted the change cards, the scope, the direction checked "
+    "and every decision; a re-read is anchored too. Derived from data/institutions.json, "
+    "data/not_classified.json, data/transitions.jsonl and data/rereads.jsonl; rebuild "
+    "with tools/build_agreement.py."
 )
 
 LIMITATION = (
@@ -79,6 +85,12 @@ def main():
             if line.strip():
                 rec = json.loads(line)
                 moved[rec["name"]] = rec
+    passes = []
+    if REREADS.exists():
+        for line in REREADS.read_text(encoding="utf-8").splitlines():
+            if line.strip():
+                passes.append(json.loads(line))
+    passes.sort(key=lambda p: (p["date"], p["id"]))
 
     # Comparable = a row where the agent proposed a stage AND a human ruled on it
     # at first review. label_provenance is that ruling, captured once.
@@ -89,11 +101,19 @@ def main():
     exact = len(accepted)
 
     # First-review outcome per row. For a row revised at first review and later
-    # corrected back to the proposal, the first-review stage is not in any public
-    # file (corrections are logged only in the private decision record, by design:
-    # they are not transitions), so it is reported as undetermined rather than
-    # invented.
-    pairs, undetermined = [], []
+    # corrected back to the proposal, the first-review stage is the `stage_before`
+    # of the approved re-read entry that restored the proposal (data/rereads.jsonl,
+    # v1.2.2; the same stages were public in agreement.json from v1.0.2 to v1.1.0).
+    # A row with no such entry is reported as undetermined rather than invented.
+    def restoring_entry(name, proposed):
+        for ps in passes:
+            for e in ps["entries"]:
+                if (e["institution"] == name and e["decision"] == "approved"
+                        and e["stage_after"] == proposed and e["stage_before"] != proposed):
+                    return ps, e
+        return None, None
+
+    pairs, undetermined, restored = [], [], {}
     for r in reviewed:
         p, cur = r["agent_proposed_stage"], r["stage"]
         if r["label_provenance"] == "agent_proposed_accepted":
@@ -101,7 +121,13 @@ def main():
         elif cur != p:
             pairs.append((p, cur, r["name"], r.get("as_of_reviewed")))
         else:
-            undetermined.append(r["name"])
+            ps, e = restoring_entry(r["name"], p)
+            if e:
+                pairs.append((p, e["stage_before"], r["name"], r.get("as_of_reviewed")))
+                restored[r["name"]] = {"reread": ps["id"], "date": ps["date"],
+                                       "restored_to_proposal": p}
+            else:
+                undetermined.append(r["name"])
     revised = [
         {
             "institution": n,
@@ -110,6 +136,7 @@ def main():
             "direction": "up" if STAGES.index(f) > STAGES.index(p) else "down",
             "distance": abs(STAGES.index(f) - STAGES.index(p)),
             "as_of_reviewed": d,
+            **({"later": restored[n]} if n in restored else {}),
         }
         for p, f, n, d in pairs
         if p != f
@@ -122,8 +149,8 @@ def main():
             "distance": None,
             "as_of_reviewed": r.get("as_of_reviewed"),
             "note": "revised at first review, later corrected back to the proposed stage on a "
-                    "re-reading of the same evidence; the first-review stage is in the private "
-                    "decision record only",
+                    "re-reading of the same evidence, with no re-read entry recording the "
+                    "first-review stage",
         }
         for r in revised_rows if r["name"] in undetermined
     ]
@@ -141,8 +168,35 @@ def main():
              "current": r["stage"]}
             for r in accepted if r["stage"] != r["agent_proposed_stage"] and r["name"] not in moved
         ],
-        "revised_then_corrected_back": sorted(undetermined),
+        "revised_then_corrected_back": sorted(set(undetermined) | set(restored)),
     }
+
+    # Re-read passes, summarised. A pass is anchored like the first review: the
+    # reviewer ruled on change cards that carried a proposed stage.
+    prov_of = {r["name"]: r for r in rows}
+    reread_summary = []
+    for ps in passes:
+        es = ps["entries"]
+        moves = [e for e in es
+                 if e["decision"] == "approved" and e["stage_after"] != e["stage_before"]]
+        reread_summary.append({
+            "id": ps["id"], "date": ps["date"], "scope": ps["scope"],
+            "n_in_scope": ps["n_in_scope"], "direction_checked": ps["direction_checked"],
+            "initiated_by": ps["initiated_by"], "cards_drafted_by": ps["cards_drafted_by"],
+            "cards": len(es),
+            "cards_proposing_a_move": sum(
+                1 for e in es if e["card_proposed_stage"] != e["stage_before"]),
+            "moved": sorted(e["institution"] for e in moves),
+            "rejected": sorted(e["institution"] for e in es if e["decision"] == "rejected"),
+            "held_on_approval": sorted(
+                e["institution"] for e in es
+                if e["decision"] == "approved" and e["stage_after"] == e["stage_before"]),
+            "no_card": ps["n_in_scope"] - len(es),
+            "restored_to_proposal": sorted(
+                e["institution"] for e in moves
+                if prov_of.get(e["institution"], {}).get("label_provenance") == "human_revised"
+                and prov_of[e["institution"]].get("agent_proposed_stage") == e["stage_after"]),
+        })
     cur_match = sum(1 for r in reviewed if r["stage"] == r["agent_proposed_stage"])
     withdrawn = [
         {"institution": e["name"], "as_of": e.get("as_of"), "reason": e.get("reason")}
@@ -219,6 +273,7 @@ def main():
                         "but placed in no cell"),
         "revisions": sorted(revised, key=lambda r: r["institution"]),
         "since_first_review": since,
+        "rereads": reread_summary,
         "withdrawals": sorted(withdrawn, key=lambda w: w["institution"]),
         "limitation": LIMITATION,
     }

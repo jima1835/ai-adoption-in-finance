@@ -173,7 +173,7 @@ automation writes only `latest_signal`, `latest_date` and `source_url`.
 
 Because §5 logs what the reviewer did with each proposal, the human–agent
 disagreement rate is a **published measurement**:
-[`data/agreement.json`](data/agreement.json), rebuilt from the two public data
+[`data/agreement.json`](data/agreement.json), rebuilt from the public data
 files (the site links it and renders no figure). Two figures, because one alone would
 flatter the pipeline: **stage agreement** — how often the proposed stage stood at
 the first human review; and **proposals accepted as-is** — how often a proposal
@@ -181,7 +181,11 @@ was taken unchanged, counting rows **withdrawn on review**, since a withdrawal i
 a disagreement. Provenance (accepted, revised, or human-written) is set once, at
 first review; later moves on new evidence or corrections on re-reading do not
 change the rate and are listed separately, beside a proposal-versus-current-stage
-figure, so the two reconcile.
+figure, so the two reconcile. A **re-read pass** — a re-check of reviewed rows
+against the evidence already on them — is filed in
+[`data/rereads.jsonl`](data/rereads.jsonl) with its scope, the direction it
+checked, who drafted the change cards and every decision. A re-read is anchored
+too: the reviewer rules on cards that carry a proposed stage.
 
 ### Corpus lifecycle and the blind-review freeze
 

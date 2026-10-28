@@ -167,7 +167,8 @@ each source link. `data/job_postings.json` — the requisition events rendered a
   `events`, `footnote`, `confidence`, `region`, `aum`, `type`, `aliases`.
 - **Reviewer-only** (`review.py` writes these; agents never do): `as_of_reviewed`,
   `label_provenance`, `agent_proposed_stage`, `data/not_classified.json`,
-  `data/transitions.jsonl`.
+  `data/transitions.jsonl`, `data/rereads.jsonl` (one record per re-read pass:
+  scope, direction checked, who drafted the cards, every decision; v1.2.2).
 
 ### Data-file formatting
 `monitor.py` owns the on-disk format of these files: `json.dumps(indent=2,

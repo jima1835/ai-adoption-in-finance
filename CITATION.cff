@@ -1,9 +1,9 @@
 cff-version: 1.2.0
 message: "If you use this corpus, please cite it as below."
-title: "AI Adoption in Finance: a human-verified, stage-classified corpus of institutional investors and its human-AI disagreement record"
+title: "AI Adoption in Finance: a human-reviewed, stage-classified corpus of institutional investors and its human-AI disagreement record"
 type: dataset
-version: 1.2.1
-date-released: "2026-09-27"
+version: 1.2.2
+date-released: "2026-10-27"
 authors:
   - family-names: Ma
     given-names: Jiajun
@@ -12,9 +12,6 @@ identifiers:
   - type: doi
     value: 10.5281/zenodo.22247885
     description: "Concept DOI — always resolves to the latest version"
-  - type: doi
-    value: 10.5281/zenodo.23002928
-    description: "Version DOI — v1.2.1 (2026-09-27)"
 license: CC-BY-4.0
 repository-code: "https://github.com/jima1835/ai-adoption-in-finance"
 url: "https://ai-adoption-in-finance.org/"
@@ -33,7 +30,7 @@ abstract: >-
   A public, sourced classification of where institutional investors sit on AI
   adoption - pensions, sovereign-wealth funds, endowments, asset managers and
   hedge funds - placed on a four-stage bar from public evidence alone. An AI
-  research agent drafts every row and proposes a stage; a human verifies every
+  research agent drafts every row and proposes a stage; a human reviews every
   row against its cited sources before it publishes, and the rate at which the
   two disagree is published as data rather than asserted. Institutions assessed
   against the methodology whose public record did not support a stage are

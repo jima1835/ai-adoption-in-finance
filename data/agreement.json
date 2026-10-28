@@ -1,5 +1,5 @@
 {
- "_readme": "Human-vs-agent disagreement record for the corpus. A research agent drafts each row from public sources and proposes an adoption stage; a human reviewer then checks the row against those sources and accepts, revises, or removes it. This file counts what the reviewer did at that FIRST review (label_provenance); later corrections and evidence-dated transitions are listed under since_first_review and never folded into the rate. IMPORTANT: the reviewer saw the agent's proposed stage and its written reasoning before deciding, so these figures are ANCHORED, non-independent agreement and should not be read as an inter-rater reliability estimate. No kappa is reported here and none should be inferred. Derived from data/institutions.json and data/not_classified.json; rebuild with tools/build_agreement.py.",
+ "_readme": "Human-vs-agent disagreement record for the corpus. A research agent drafts each row from public sources and proposes an adoption stage; a human reviewer then checks the row against those sources and accepts, revises, or removes it. This file counts what the reviewer did at that FIRST review (label_provenance); later corrections and evidence-dated transitions are listed under since_first_review and never folded into the rate. IMPORTANT: the reviewer saw the agent's proposed stage and its written reasoning before deciding, so these figures are ANCHORED, non-independent agreement and should not be read as an inter-rater reliability estimate. No kappa is reported here and none should be inferred. Re-read passes (data/rereads.jsonl) are summarised under rereads: who drafted the change cards, the scope, the direction checked and every decision; a re-read is anchored too. Derived from data/institutions.json, data/not_classified.json, data/transitions.jsonl and data/rereads.jsonl; rebuild with tools/build_agreement.py.",
  "as_of": "2026-09-26",
  "corpus": {
   "rows": 111,
@@ -20,9 +20,9 @@
   "rate": 0.95,
   "by_distance": {
    "0": 95,
-   "1": 2
+   "1": 5
   },
-  "first_review_stage_undetermined": 3
+  "first_review_stage_undetermined": 0
  },
  "proposal_accepted": {
   "n": 106,
@@ -56,7 +56,7 @@
   {
    "proposed": "piloting",
    "final": "scaling",
-   "n": 1
+   "n": 4
   },
   {
    "proposed": "scaling",
@@ -69,20 +69,28 @@
   {
    "institution": "Daiwa Asset Management",
    "proposed": "piloting",
-   "final": null,
-   "direction": "corrected-back",
-   "distance": null,
+   "final": "scaling",
+   "direction": "up",
+   "distance": 1,
    "as_of_reviewed": "2026-09-24",
-   "note": "revised at first review, later corrected back to the proposed stage on a re-reading of the same evidence; the first-review stage is in the private decision record only"
+   "later": {
+    "reread": "2026-09-24-scaling",
+    "date": "2026-09-24",
+    "restored_to_proposal": "piloting"
+   }
   },
   {
    "institution": "E Fund Management",
    "proposed": "piloting",
-   "final": null,
-   "direction": "corrected-back",
-   "distance": null,
+   "final": "scaling",
+   "direction": "up",
+   "distance": 1,
    "as_of_reviewed": "2026-09-24",
-   "note": "revised at first review, later corrected back to the proposed stage on a re-reading of the same evidence; the first-review stage is in the private decision record only"
+   "later": {
+    "reread": "2026-09-24-scaling",
+    "date": "2026-09-24",
+    "restored_to_proposal": "piloting"
+   }
   },
   {
    "institution": "MacArthur Foundation",
@@ -103,11 +111,15 @@
   {
    "institution": "Quilter",
    "proposed": "piloting",
-   "final": null,
-   "direction": "corrected-back",
-   "distance": null,
+   "final": "scaling",
+   "direction": "up",
+   "distance": 1,
    "as_of_reviewed": "2026-09-24",
-   "note": "revised at first review, later corrected back to the proposed stage on a re-reading of the same evidence; the first-review stage is in the private decision record only"
+   "later": {
+    "reread": "2026-09-24-scaling",
+    "date": "2026-09-24",
+    "restored_to_proposal": "piloting"
+   }
   }
  ],
  "since_first_review": {
@@ -133,6 +145,42 @@
    "Quilter"
   ]
  },
+ "rereads": [
+  {
+   "id": "2026-09-24-scaling",
+   "date": "2026-09-24",
+   "scope": "every row at stage scaling when the pass began",
+   "n_in_scope": 34,
+   "direction_checked": "down",
+   "initiated_by": "reviewer",
+   "cards_drafted_by": "research agent",
+   "cards": 11,
+   "cards_proposing_a_move": 7,
+   "moved": [
+    "Daiwa Asset Management",
+    "E Fund Management",
+    "Quilter",
+    "State Street Investment Management (SSGA)",
+    "Vanguard"
+   ],
+   "rejected": [
+    "CSOP Asset Management",
+    "EQT"
+   ],
+   "held_on_approval": [
+    "Hudson River Trading",
+    "Millennium Management",
+    "T. Rowe Price",
+    "Two Sigma"
+   ],
+   "no_card": 23,
+   "restored_to_proposal": [
+    "Daiwa Asset Management",
+    "E Fund Management",
+    "Quilter"
+   ]
+  }
+ ],
  "withdrawals": [
   {
    "institution": "APG",

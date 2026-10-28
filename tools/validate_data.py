@@ -49,6 +49,7 @@ FILES = [
     ("institutions.json", "institution.schema.json", "json"),
     ("not_classified.json", "not_classified.schema.json", "json"),
     ("excluded.json", "excluded.schema.json", "json"),
+    ("rereads.jsonl", "rereads.schema.json", "jsonl"),
 ]
 
 

@@ -7,6 +7,51 @@ agreement figures are those of the release they sit under, not industry rates.
 
 ## [Unreleased]
 
+## [1.2.2] - 2026-10-27
+
+Data-record patch. No row, stage, confidence, rationale or event changed; the corpus
+stands as at v1.2.0 (111 human-reviewed institutions). The re-code freeze is still not
+declared.
+
+### Added
+- **`data/rereads.jsonl`, the re-read record.** One record per re-read pass — a
+  re-check of reviewed rows against the evidence already on them — with its scope, the
+  direction it checked, who drafted the change cards and every decision. Filed by the
+  reviewer; agents never write it; its moves are corrections, never transitions. A
+  schema (`schemas/rereads.schema.json`) and validator coverage come with it.
+- **The first record: the skeptic re-read of 2026-09-24.** Scope: the 34 rows at
+  `scaling` when the pass began, as reconstructed by the reviewer from the review tool's
+  decision log (no public file holds a snapshot between 2026-09-20 and 2026-09-27).
+  Direction checked: down only, under METHODOLOGY §4 ("when between two stages, pick the
+  lower") — a row could be held or moved lower; no row was checked for an upward move.
+  The research agent drafted 11 change cards: seven proposed `piloting`, four proposed
+  holding at `scaling` with other edits. The reviewer approved nine and rejected two
+  (CSOP Asset Management, EQT). Five rows moved `scaling` → `piloting`, the moves
+  already disclosed under 1.2.0; 23 rows in scope had no card.
+
+### Changed
+- **`data/agreement.json` places every first-review revision.** Daiwa Asset Management,
+  E Fund Management and Quilter were revised `piloting` → `scaling` at first review, as
+  `agreement.json` published from 1.0.2 through 1.1.0, and restored to the proposal on
+  the 2026-09-24 re-read. The record now says so under `revisions[].later` instead of
+  marking the first-review stage undetermined. The 1.2.0 note that this stage was "no
+  longer in the public record" was wrong: it had been in every release since 1.0.2. A
+  new `rereads` block summarises each pass. The rates do not move — stage agreement
+  95/100 and proposals accepted as-is 95/106 at first review, current label 96/100, all
+  anchored — while the matrix's `piloting` → `scaling` cell goes from 1 to 4 and
+  `first_review_stage_undetermined` from 3 to 0.
+- `CITATION.cff` and `.zenodo.json` describe the corpus as human-*reviewed*, the word the
+  methodology and the changelog already use; the Zenodo keyword "inter-rater agreement"
+  becomes "human-AI agreement (anchored)", as in `CITATION.cff` since 23cfddb, because
+  the figures are not inter-rater agreement. The v1.2.1 version DOI leaves
+  `CITATION.cff`; this release's DOI is added once Zenodo mints it.
+- METHODOLOGY §6, the README data table, CONTRIBUTING and CLAUDE.md name the re-read
+  record. The agent harness (`.claude/settings.json`) denies agents writes to the
+  reviewer-only data files.
+
+### Fixed
+- The README's link text for the NIST AI 200-2 comment DOI carried a stray "N".
+
 ## [1.2.1] - 2026-09-27
 
 Site and documentation patch. No row, stage or methodology change; the corpus stands
@@ -328,7 +373,8 @@ First release: 84 human-verified institutions across four adoption stages, the
 assessed-but-not-classified appendix, and the published human-vs-agent
 disagreement record (`data/agreement.json`).
 
-[Unreleased]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.2.1...HEAD
+[Unreleased]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.2.2...HEAD
+[1.2.2]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.2.1...v1.2.2
 [1.2.1]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.0.3...v1.1.0

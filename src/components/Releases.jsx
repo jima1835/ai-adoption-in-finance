@@ -5,6 +5,12 @@ const BUILD = typeof __SITE_BUILD__ !== 'undefined' ? __SITE_BUILD__ : null
 // the full record; this page summarises it and is updated alongside it.
 const RELEASES = [
   {
+    version: '1.2.2',
+    date: '2026-10-27',
+    notes:
+      'Data-record patch. The 24 September 2026 re-read of the 34 scaling rows is published as data: 11 agent-drafted change cards, five moves down, two rejected. The agreement record now places every first-review revision. The corpus is described as human-reviewed. No row or stage changed.',
+  },
+  {
     version: '1.2.1',
     date: '2026-09-27',
     notes:
