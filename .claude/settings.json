@@ -7,6 +7,7 @@
       "Edit(/data/institutions.json)",
       "Edit(/data/not_classified.json)",
       "Edit(/data/transitions.jsonl)",
+      "Edit(/data/rereads.jsonl)",
       "Edit(/data/agreement.json)",
       "Edit(/data/recode_freeze.json)",
       "Edit(/data/stage_definitions.json)",
