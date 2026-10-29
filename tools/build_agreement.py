@@ -7,6 +7,9 @@ Derived ENTIRELY from four already-public files, so anyone can reproduce it:
   data/transitions.jsonl   — evidence-dated stage moves after first review
   data/rereads.jsonl       — re-read passes: corrections on the evidence already
                              on a row, filed by the reviewer (v1.2.2)
+  data/first_review.jsonl  — what the agent proposed and what the reviewer set at
+                             first review, stage and confidence, with the review time
+                             and the prompt version in force (v1.2.3)
 
 WHAT THE RATE MEASURES. `stage_agreement` is the reviewer's FIRST decision on
 each row against the agent's proposal, read from `label_provenance`, which
@@ -45,6 +48,8 @@ INST = ROOT / "data" / "institutions.json"
 NC = ROOT / "data" / "not_classified.json"
 TRANS = ROOT / "data" / "transitions.jsonl"
 REREADS = ROOT / "data" / "rereads.jsonl"
+FIRST = ROOT / "data" / "first_review.jsonl"
+CONF_ORD = {"low": 0, "med": 1, "high": 2}
 OUT = ROOT / "data" / "agreement.json"
 
 STAGES = ["exploring", "piloting", "scaling", "embedded"]
@@ -61,8 +66,12 @@ README = (
     "read as an inter-rater reliability estimate. No kappa is reported here and "
     "none should be inferred. Re-read passes (data/rereads.jsonl) are summarised "
     "under rereads: who drafted the change cards, the scope, the direction checked "
-    "and every decision; a re-read is anchored too. Derived from data/institutions.json, "
-    "data/not_classified.json, data/transitions.jsonl and data/rereads.jsonl; rebuild "
+    "and every decision; a re-read is anchored too. The confidence block compares the "
+    "confidence the agent proposed with the confidence the reviewer set at first review "
+    "(anchored too), and first_review_sessions sets both fields side by side per review "
+    "date with the agent prompt version in force. Derived from data/institutions.json, "
+    "data/not_classified.json, data/transitions.jsonl, data/rereads.jsonl and "
+    "data/first_review.jsonl; rebuild "
     "with tools/build_agreement.py."
 )
 
@@ -72,6 +81,97 @@ LIMITATION = (
     "rules. The figures are not independent of the proposal; never read them as "
     "a reliability coefficient."
 )
+
+
+def _first_review_records():
+    if not FIRST.exists():
+        return []
+    return [json.loads(line) for line in FIRST.read_text(encoding="utf-8").splitlines()
+            if line.strip()]
+
+
+def sessions_block(recs):
+    """Per review date: rows first reviewed, stage revisions against the agent's proposal
+    (up / down), confidence raised / lowered against it, and the agent prompt version(s)
+    in force. Both fields are anchored; the table shows where the reviewer moved, not
+    who was right."""
+    if not recs:
+        return None
+    out = {}
+    for r in recs:
+        if not r["first_review_at"]:
+            continue
+        d = out.setdefault(r["first_review_at"][:10], {
+            "rows": 0, "stage_proposals": 0, "stage_revised_up": 0, "stage_revised_down": 0,
+            "confidence_proposals": 0, "confidence_raised": 0, "confidence_lowered": 0,
+            "prompt_versions": set()})
+        d["rows"] += 1
+        if r["prompt_version_at_first_review"]:
+            d["prompt_versions"].add(r["prompt_version_at_first_review"])
+        p, f = r["agent_proposed_stage"], r["first_review_stage"]
+        if p:
+            d["stage_proposals"] += 1
+            if STAGES.index(f) > STAGES.index(p):
+                d["stage_revised_up"] += 1
+            elif STAGES.index(f) < STAGES.index(p):
+                d["stage_revised_down"] += 1
+        pc, fc = r["agent_proposed_confidence"], r["first_review_confidence"]
+        if pc and fc:
+            d["confidence_proposals"] += 1
+            d["confidence_raised"] += CONF_ORD[fc] > CONF_ORD[pc]
+            d["confidence_lowered"] += CONF_ORD[fc] < CONF_ORD[pc]
+    return [dict(date=k, **{**v, "prompt_versions": sorted(v["prompt_versions"])})
+            for k, v in sorted(out.items())]
+
+
+def confidence_block(rows):
+    """First-review confidence against the agent's proposal, from first_review.jsonl.
+
+    Same logic as stage_agreement: the reviewer saw the proposed confidence first, so
+    this is anchored, and it describes the reviewer's ruling on evidence strength, not
+    the accuracy of any label. Later moves (all before v1.2.0) are reported as
+    changes since first review, never folded into the first-review counts."""
+    recs = [r for r in _first_review_records() if r["agent_proposed_confidence"]]
+    if not recs:
+        return None
+    today = {r["name"]: r.get("confidence") for r in rows}
+    def step(r):
+        first, proposed = r["first_review_confidence"], r["agent_proposed_confidence"]
+        return CONF_ORD[first] - CONF_ORD[proposed]
+
+    up = [r for r in recs if step(r) > 0]
+    down = [r for r in recs if step(r) < 0]
+    pairs = Counter((r["agent_proposed_confidence"], r["first_review_confidence"]) for r in recs)
+    by_date = {}
+    for r in recs:
+        d = by_date.setdefault(r["first_review_at"][:10], {"n": 0, "raised": 0, "lowered": 0})
+        d["n"] += 1
+        d["raised"] += r in up
+        d["lowered"] += r in down
+    since = Counter()
+    for r in recs:
+        now = today.get(r["institution"])
+        if now and now != r["first_review_confidence"]:
+            since["lowered" if CONF_ORD[now] < CONF_ORD[r["first_review_confidence"]]
+                  else "raised"] += 1
+    order = ["high", "med", "low"]
+    return {
+        "basis": "first review: the confidence the agent proposed against the confidence the "
+                 "reviewer set when first approving the row; anchored (the reviewer saw the "
+                 "proposal); confidence rates the public evidence for the stage, not label "
+                 "accuracy",
+        "n": len(recs),
+        "rows_without_recoverable_proposal": len(rows) - len(recs),
+        "raised_at_first_review": len(up),
+        "lowered_at_first_review": len(down),
+        "unchanged_at_first_review": len(recs) - len(up) - len(down),
+        "matrix": [{"proposed": p, "first_review": f, "n": pairs[(p, f)]}
+                   for p in order for f in order if pairs[(p, f)]],
+        "by_first_review_date": [dict(date=k, **v) for k, v in sorted(by_date.items())],
+        "since_first_review": {"lowered": since["lowered"], "raised": since["raised"]},
+        "first_review_source": dict(
+            sorted(Counter(r["first_review_confidence_source"] for r in recs).items())),
+    }
 
 
 def main():
@@ -268,12 +368,14 @@ def main():
                 matrix.items(), key=lambda kv: (STAGES.index(kv[0][0]), STAGES.index(kv[0][1]))
             )
         ],
-        "matrix_note": ("first-review outcomes; rows whose first-review stage is undetermined "
-                        "(revised, then corrected back) are counted in stage_agreement.revised "
-                        "but placed in no cell"),
+        "matrix_note": ("first-review outcomes; a row revised and later corrected back is placed "
+                        "at its first-review stage when a re-read entry records it, and in no cell "
+                        "otherwise (stage_agreement.first_review_stage_undetermined counts those)"),
         "revisions": sorted(revised, key=lambda r: r["institution"]),
         "since_first_review": since,
         "rereads": reread_summary,
+        "confidence": confidence_block(rows),
+        "first_review_sessions": sessions_block(_first_review_records()),
         "withdrawals": sorted(withdrawn, key=lambda w: w["institution"]),
         "limitation": LIMITATION,
     }

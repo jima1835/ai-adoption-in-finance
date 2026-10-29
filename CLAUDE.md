@@ -168,7 +168,14 @@ each source link. `data/job_postings.json` — the requisition events rendered a
 - **Reviewer-only** (`review.py` writes these; agents never do): `as_of_reviewed`,
   `label_provenance`, `agent_proposed_stage`, `data/not_classified.json`,
   `data/transitions.jsonl`, `data/rereads.jsonl` (one record per re-read pass:
-  scope, direction checked, who drafted the cards, every decision; v1.2.2).
+  scope, direction checked, who drafted the cards, every decision; v1.2.2),
+  `data/first_review.jsonl` (agent proposal vs first-review stage and confidence,
+  review time, prompt version in force; v1.2.3), `data/prompt_versions.jsonl`
+  (prompt version dates + digests; v1.2.3). review.py logs both confidence values
+  and the proposal's `agent_model` / `prompt_version` stamp on every approval.
+- **Maintainer-only record:** `CODEBOOK_HISTORY.md` (v1.2.3). Any edit that changes
+  the bar in `METHODOLOGY.md`, `SOURCES.md` or `data/stage_definitions.json` adds a
+  dated row there in the same commit. Agents may draft the row; the maintainer files it.
 
 ### Data-file formatting
 `monitor.py` owns the on-disk format of these files: `json.dumps(indent=2,

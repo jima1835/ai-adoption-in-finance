@@ -480,3 +480,36 @@ def test_intake_dossier_backs_a_sweep_row_with_no_ledger_section(sandbox, monkey
     }]) + "\n", encoding="utf-8")
     assert "Example Fund" in review.state()["dossier_evidence"]
     assert review.intake_evidence([]) == {}
+
+
+def test_new_approve_logs_confidence_and_agent_stamp(sandbox):
+    """v1.2.3: a first review logs the proposed and the approved confidence beside
+    the stage, and the model + prompt version the proposal carries (None if absent),
+    so the first-review record is read from the log, never reconstructed."""
+    candidate = _new_candidate()
+    candidate["agent_model"] = "example-model-1"
+    candidate["prompt_version"] = "v3.9"
+    proposed_conf = candidate["row"]["confidence"]
+    review.save_nc(review.NEW_QUEUE, [candidate])
+    result = review.apply_new({"action": "new_approve", "name": "New Foundation"})
+    assert result.get("ok"), result
+    last = [json.loads(line) for line in
+            review.DECISIONS.read_text(encoding="utf-8").splitlines() if line.strip()][-1]
+    assert last["agent_proposed_confidence"] == proposed_conf
+    assert last["confidence"] == _rows(sandbox)[1]["confidence"]
+    assert (last["agent_model"], last["prompt_version"]) == ("example-model-1", "v3.9")
+
+
+def test_sweep_log_marks_a_missing_agent_stamp_as_none(sandbox):
+    review.CH_QUEUE.write_text(json.dumps([{
+        "name": "Example Fund", "sweep": "v1.2.3 test",
+        "current_stage": "piloting", "proposed_stage": "piloting",
+        "current_confidence": "med", "proposed_confidence": "med",
+        "correction": True, "reason": "no change",
+    }]) + "\n", encoding="utf-8")
+    assert review.apply_action({"action": "ch_approve", "name": "Example Fund",
+                                "fields": {}}).get("ok")
+    last = [json.loads(line) for line in
+            review.DECISIONS.read_text(encoding="utf-8").splitlines() if line.strip()][-1]
+    assert last["agent_model"] is None and last["prompt_version"] is None
+

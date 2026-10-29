@@ -7,6 +7,80 @@ agreement figures are those of the release they sit under, not industry rates.
 
 ## [Unreleased]
 
+## [1.2.3] - 2026-10-29
+
+Data-record patch. No row, stage, confidence, rationale or event changed; the corpus
+stands as at v1.2.0 (111 human-reviewed institutions). The re-code freeze is still not
+declared.
+
+### Added
+- **`data/first_review.jsonl`: the first review, row by row.** For all 111 rows: when
+  the row was first reviewed, the agent prompt version in force, how the row
+  originated, and — for stage and for confidence — what the agent proposed and what
+  the reviewer set at first review. Every value names its source: the review tool's
+  decision log, the intake dossier, the current value where no later change was
+  logged, a logged later change that was undone, or (for two rows) the reviewer's
+  contemporaneous audit note. Nine rows that originated with the reviewer have no
+  logged first review.
+  - **Stage.** Revised up on 4 rows and down on 1 at first review.
+  - **Confidence.** Recoverable for 101 rows. Raised on 31, lowered on none, unchanged
+    on 70. The raise rate ran between 0% and 36% in six review sessions and was 56%
+    (9 of 16) on 2026-09-24, under the same agent prompt (v3.6, in force from
+    2026-09-01 to 2026-09-26). Since first review the field has been lowered on 19 of
+    these rows and raised on none, all between the v1.1.0 (2026-09-19) and v1.2.0
+    (2026-09-27) releases, the window of the 2026-09-26 pre-freeze audit; 13 of them
+    are among the 15 confidence moves the v1.2.0 notes report. Each of the 19 was a
+    first-review raise, returned to exactly the agent's proposal; 12 of the 31 raises
+    stand.
+  - Like the stage figures these are anchored: the reviewer saw the proposal.
+    Confidence rates the public evidence for a stage, not the accuracy of a label.
+- **`data/prompt_versions.jsonl`: agent prompt versions.** Twelve versions of the
+  research agent's standing prompt (v1, 2026-08-25, to v3.8, 2026-09-26), each with its
+  effective time, a short label and the SHA-256 of the private prompt file as of that version (none
+  for v2, which has no surviving snapshot). The text stays private; the digests let it
+  be verified if it is released.
+- **`CODEBOOK_HISTORY.md`: how the bar changed.** 38 substantive changes to the stage
+  definitions, decision rules, source tiers and scope, in 8 commits from 2026-06-07 to
+  2026-09-27, each dated against the review sessions. 14 came before the first review,
+  17 while rows were being first reviewed and 7 after the last. Among them:
+  - The single-use-case route to `scaling` ("A single production use case that makes
+    live investment decisions with material capital counts as scaling") was added at
+    22:17 on 2026-08-25, 32 minutes after the first approval (AQR Capital Management,
+    `scaling`) and before the next three `scaling` approvals that evening.
+  - The first written evidence floor (two independent T2-or-better sources) arrived on
+    2026-09-19, three weeks into review. On 2026-09-27, after the last first review,
+    it became two dated events, each from a T2-or-better source, with independent
+    corroboration sought rather than required, and the one-voice rule capped a
+    single-voice row at `med` — the day after the 2026-09-26 pre-freeze audit.
+  - "Pick the lower", "plans are not stages", the evidence-absence cap and the three
+    conditions of the `embedded` bar are unchanged since first stated.
+- **Two blocks in `data/agreement.json`**, built from `first_review.jsonl`:
+  `confidence` (first-review counts, the proposed × first-review matrix, counts by
+  review date, moves since first review, value sources) and `first_review_sessions`
+  (per review date: rows, stage and confidence proposals, revisions up and down, and
+  the prompt versions in force).
+- **The review tool logs what the record lacked.** From this release `tools/review.py`
+  writes, on every approval, the confidence the agent proposed, the confidence the
+  reviewer set, and the proposal's `agent_model` and `prompt_version` stamp (`null`
+  when the proposal carries none). Earlier log entries are unchanged.
+- Schemas, validator coverage and tests for both data files and the new log fields.
+
+### Changed
+- **The empty `embedded` column is described as the record shows it.** METHODOLOGY §3,
+  `data/stage_definitions.json` and the dashboard's fallback note said that NBIM, CPP
+  Investments, BlackRock and GIC each "independently and publicly" state they keep humans
+  in control of decisions. The rows support that in the firm's own terms for NBIM only. The
+  text now says what each row records — NBIM, human oversight of investment decisions is
+  non-negotiable; CPP Investments, humans frame and verify every output; BlackRock, the
+  AI-default workflow "isn't quite here yet"; GIC, its virtual investment-committee member
+  evaluates and challenges proposals — and that an empty column is weak evidence about
+  what happens inside an institution, because the markers are rarely disclosed. The stage
+  bars are unchanged.
+- `agreement.json`'s `matrix_note` describes the v1.2.2 placement of corrected-back rows.
+- METHODOLOGY §6, the README, CONTRIBUTING and CLAUDE.md name the new files. CLAUDE.md
+  now requires that any edit changing the bar add a dated row to `CODEBOOK_HISTORY.md`
+  in the same commit.
+
 ## [1.2.2] - 2026-10-27
 
 Data-record patch. No row, stage, confidence, rationale or event changed; the corpus
@@ -373,7 +447,8 @@ First release: 84 human-verified institutions across four adoption stages, the
 assessed-but-not-classified appendix, and the published human-vs-agent
 disagreement record (`data/agreement.json`).
 
-[Unreleased]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.2.2...HEAD
+[Unreleased]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.2.3...HEAD
+[1.2.3]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.2.2...v1.2.3
 [1.2.2]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.2.1...v1.2.2
 [1.2.1]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.1.0...v1.2.0

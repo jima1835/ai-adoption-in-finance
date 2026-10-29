@@ -86,6 +86,8 @@ Everything the dashboard runs on is tracked in this repo:
 | `data/institutions.json` | **The state.** One row per institution: stage, rationale, use cases, dated events, confidence, region, AUM — plus `as_of_reviewed`, `label_provenance` and `agent_proposed_stage`, the audit trail behind the disagreement record. |
 | `data/not_classified.json` | **The negative record.** Assessed, not classified — with the reason and the outcome (`no-qualifying-evidence` or `withdrawn-on-review`). |
 | `data/agreement.json` | **The disagreement record.** Derived; rebuild with `tools/build_agreement.py`. |
+| `data/first_review.jsonl` | **The first review.** For every published row: what the agent proposed and what the reviewer set at first review — stage and confidence — with the review time and the agent prompt version in force. Filed by the reviewer. |
+| `data/prompt_versions.jsonl` | **Agent prompt versions.** Each version's date and the SHA-256 of the private prompt file; the text itself is not published. |
 | `data/rereads.jsonl` | **Re-read passes.** One record per re-check of reviewed rows against the evidence already on them: scope, direction checked, who drafted the change cards, and every decision. Filed by the reviewer; corrections, never transitions. |
 | `data/stage_definitions.json` | The shared stage reference, so the site and the docs cannot drift apart. |
 | `data/translations.json` | English renderings of the CJK evidence runs, consulted at render time. The stored evidence is never rewritten. |
@@ -140,6 +142,7 @@ ai-adoption-in-finance/
 ├── alerts.py              # notify-only email digest for stage-relevant signals
 ├── METHODOLOGY.md         # the classification rules + construction protocol
 ├── SOURCES.md             # source tiers, the tier floor, and how they apply
+├── CODEBOOK_HISTORY.md    # every change to the bar, dated against the review sessions
 ├── CLAUDE.md              # architecture & row schema
 ├── AGENTS.md              # notice to crawlers and AI agents: use the data, cite it, send people to the site
 ├── CONTRIBUTING.md        # how to contribute

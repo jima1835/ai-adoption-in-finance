@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jima1835/ai-adoption-in-finance/schemas/prompt_versions.schema.json",
+  "title": "Research-agent prompt versions",
+  "description": "One record per version of the research agent's standing prompt (data/prompt_versions.jsonl): version, effective timestamp, a short label and the SHA-256 of the private prompt file as of that version. The prompt text stays private; the digest lets it be verified if it is released. Human-gated.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "effective", "label", "snapshot_sha256", "snapshot_kind"],
+  "properties": {
+    "version": { "type": "string", "pattern": "^v\\d+(\\.\\d+)?$" },
+    "effective": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}" },
+    "label": { "type": ["string", "null"] },
+    "snapshot_sha256": { "type": ["string", "null"] },
+    "snapshot_kind": { "type": "string", "minLength": 1 }
+  }
+}

@@ -50,6 +50,8 @@ FILES = [
     ("not_classified.json", "not_classified.schema.json", "json"),
     ("excluded.json", "excluded.schema.json", "json"),
     ("rereads.jsonl", "rereads.schema.json", "jsonl"),
+    ("first_review.jsonl", "first_review.schema.json", "jsonl"),
+    ("prompt_versions.jsonl", "prompt_versions.schema.json", "jsonl"),
 ]
 
 

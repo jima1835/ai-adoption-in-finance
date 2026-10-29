@@ -1,5 +1,5 @@
 {
- "_readme": "Human-vs-agent disagreement record for the corpus. A research agent drafts each row from public sources and proposes an adoption stage; a human reviewer then checks the row against those sources and accepts, revises, or removes it. This file counts what the reviewer did at that FIRST review (label_provenance); later corrections and evidence-dated transitions are listed under since_first_review and never folded into the rate. IMPORTANT: the reviewer saw the agent's proposed stage and its written reasoning before deciding, so these figures are ANCHORED, non-independent agreement and should not be read as an inter-rater reliability estimate. No kappa is reported here and none should be inferred. Re-read passes (data/rereads.jsonl) are summarised under rereads: who drafted the change cards, the scope, the direction checked and every decision; a re-read is anchored too. Derived from data/institutions.json, data/not_classified.json, data/transitions.jsonl and data/rereads.jsonl; rebuild with tools/build_agreement.py.",
+ "_readme": "Human-vs-agent disagreement record for the corpus. A research agent drafts each row from public sources and proposes an adoption stage; a human reviewer then checks the row against those sources and accepts, revises, or removes it. This file counts what the reviewer did at that FIRST review (label_provenance); later corrections and evidence-dated transitions are listed under since_first_review and never folded into the rate. IMPORTANT: the reviewer saw the agent's proposed stage and its written reasoning before deciding, so these figures are ANCHORED, non-independent agreement and should not be read as an inter-rater reliability estimate. No kappa is reported here and none should be inferred. Re-read passes (data/rereads.jsonl) are summarised under rereads: who drafted the change cards, the scope, the direction checked and every decision; a re-read is anchored too. The confidence block compares the confidence the agent proposed with the confidence the reviewer set at first review (anchored too), and first_review_sessions sets both fields side by side per review date with the agent prompt version in force. Derived from data/institutions.json, data/not_classified.json, data/transitions.jsonl, data/rereads.jsonl and data/first_review.jsonl; rebuild with tools/build_agreement.py.",
  "as_of": "2026-09-26",
  "corpus": {
   "rows": 111,
@@ -64,7 +64,7 @@
    "n": 27
   }
  ],
- "matrix_note": "first-review outcomes; rows whose first-review stage is undetermined (revised, then corrected back) are counted in stage_agreement.revised but placed in no cell",
+ "matrix_note": "first-review outcomes; a row revised and later corrected back is placed at its first-review stage when a re-read entry records it, and in no cell otherwise (stage_agreement.first_review_stage_undetermined counts those)",
  "revisions": [
   {
    "institution": "Daiwa Asset Management",
@@ -178,6 +178,195 @@
     "Daiwa Asset Management",
     "E Fund Management",
     "Quilter"
+   ]
+  }
+ ],
+ "confidence": {
+  "basis": "first review: the confidence the agent proposed against the confidence the reviewer set when first approving the row; anchored (the reviewer saw the proposal); confidence rates the public evidence for the stage, not label accuracy",
+  "n": 101,
+  "rows_without_recoverable_proposal": 10,
+  "raised_at_first_review": 31,
+  "lowered_at_first_review": 0,
+  "unchanged_at_first_review": 70,
+  "matrix": [
+   {
+    "proposed": "high",
+    "first_review": "high",
+    "n": 7
+   },
+   {
+    "proposed": "med",
+    "first_review": "high",
+    "n": 22
+   },
+   {
+    "proposed": "med",
+    "first_review": "med",
+    "n": 59
+   },
+   {
+    "proposed": "low",
+    "first_review": "high",
+    "n": 1
+   },
+   {
+    "proposed": "low",
+    "first_review": "med",
+    "n": 8
+   },
+   {
+    "proposed": "low",
+    "first_review": "low",
+    "n": 4
+   }
+  ],
+  "by_first_review_date": [
+   {
+    "date": "2026-08-25",
+    "n": 6,
+    "raised": 1,
+    "lowered": 0
+   },
+   {
+    "date": "2026-08-26",
+    "n": 14,
+    "raised": 5,
+    "lowered": 0
+   },
+   {
+    "date": "2026-08-31",
+    "n": 38,
+    "raised": 12,
+    "lowered": 0
+   },
+   {
+    "date": "2026-09-01",
+    "n": 16,
+    "raised": 3,
+    "lowered": 0
+   },
+   {
+    "date": "2026-09-20",
+    "n": 3,
+    "raised": 0,
+    "lowered": 0
+   },
+   {
+    "date": "2026-09-24",
+    "n": 16,
+    "raised": 9,
+    "lowered": 0
+   },
+   {
+    "date": "2026-09-26",
+    "n": 8,
+    "raised": 1,
+    "lowered": 0
+   }
+  ],
+  "since_first_review": {
+   "lowered": 19,
+   "raised": 0
+  },
+  "first_review_source": {
+   "audit_note_2026-09-26 (later lowering not logged)": 2,
+   "decision_log": 75,
+   "later_logged_change_undone": 4,
+   "today_value_no_logged_later_change": 20
+  }
+ },
+ "first_review_sessions": [
+  {
+   "date": "2026-08-25",
+   "rows": 6,
+   "stage_proposals": 6,
+   "stage_revised_up": 0,
+   "stage_revised_down": 0,
+   "confidence_proposals": 6,
+   "confidence_raised": 1,
+   "confidence_lowered": 0,
+   "prompt_versions": [
+    "v1"
+   ]
+  },
+  {
+   "date": "2026-08-26",
+   "rows": 14,
+   "stage_proposals": 14,
+   "stage_revised_up": 0,
+   "stage_revised_down": 1,
+   "confidence_proposals": 14,
+   "confidence_raised": 5,
+   "confidence_lowered": 0,
+   "prompt_versions": [
+    "v1",
+    "v2.1",
+    "v3"
+   ]
+  },
+  {
+   "date": "2026-08-31",
+   "rows": 38,
+   "stage_proposals": 38,
+   "stage_revised_up": 2,
+   "stage_revised_down": 0,
+   "confidence_proposals": 38,
+   "confidence_raised": 12,
+   "confidence_lowered": 0,
+   "prompt_versions": [
+    "v3.4"
+   ]
+  },
+  {
+   "date": "2026-09-01",
+   "rows": 16,
+   "stage_proposals": 16,
+   "stage_revised_up": 2,
+   "stage_revised_down": 0,
+   "confidence_proposals": 16,
+   "confidence_raised": 3,
+   "confidence_lowered": 0,
+   "prompt_versions": [
+    "v3.6"
+   ]
+  },
+  {
+   "date": "2026-09-20",
+   "rows": 4,
+   "stage_proposals": 4,
+   "stage_revised_up": 0,
+   "stage_revised_down": 0,
+   "confidence_proposals": 3,
+   "confidence_raised": 0,
+   "confidence_lowered": 0,
+   "prompt_versions": [
+    "v3.6"
+   ]
+  },
+  {
+   "date": "2026-09-24",
+   "rows": 16,
+   "stage_proposals": 14,
+   "stage_revised_up": 0,
+   "stage_revised_down": 0,
+   "confidence_proposals": 16,
+   "confidence_raised": 9,
+   "confidence_lowered": 0,
+   "prompt_versions": [
+    "v3.6"
+   ]
+  },
+  {
+   "date": "2026-09-26",
+   "rows": 8,
+   "stage_proposals": 8,
+   "stage_revised_up": 0,
+   "stage_revised_down": 0,
+   "confidence_proposals": 8,
+   "confidence_raised": 1,
+   "confidence_lowered": 0,
+   "prompt_versions": [
+    "v3.6"
    ]
   }
  ],

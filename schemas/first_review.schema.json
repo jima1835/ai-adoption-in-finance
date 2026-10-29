@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jima1835/ai-adoption-in-finance/schemas/first_review.schema.json",
+  "title": "First review",
+  "description": "One record per published row (data/first_review.jsonl): what the research agent proposed and what the reviewer set at the row's FIRST review, for stage and confidence, with the review time (local, to the minute) and the version of the agent's standing prompt in force at that time — an upper bound on the version that drafted the proposal, which was not logged per proposal. Every value names its source. Human-gated — the reviewer files it; agents never write it. Confidence rates the public evidence for a stage, not the accuracy of a label.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["institution", "first_review_at", "prompt_version_at_first_review", "stage_provenance", "agent_proposed_stage", "first_review_stage", "first_review_stage_source", "agent_proposed_confidence", "first_review_confidence", "confidence_proposal_source", "first_review_confidence_source"],
+  "properties": {
+    "institution": { "type": "string", "minLength": 1 },
+    "first_review_at": { "type": ["string", "null"], "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}$" },
+    "prompt_version_at_first_review": { "type": ["string", "null"], "pattern": "^v\\d+(\\.\\d+)?$" },
+    "stage_provenance": { "type": "string", "enum": ["agent_proposed_accepted", "human_revised", "human_originated", "unknown_pre_capture"] },
+    "agent_proposed_stage": { "type": ["string", "null"], "enum": ["exploring", "piloting", "scaling", "embedded", null] },
+    "first_review_stage": { "type": "string", "enum": ["exploring", "piloting", "scaling", "embedded"] },
+    "first_review_stage_source": { "type": "string", "enum": ["decision_log", "later_logged_change_undone", "today_value_no_logged_later_change", "today_value_no_review_logged"] },
+    "agent_proposed_confidence": { "type": ["string", "null"], "enum": ["high", "med", "low", null] },
+    "first_review_confidence": { "type": ["string", "null"], "enum": ["high", "med", "low", null] },
+    "confidence_proposal_source": { "type": ["string", "null"], "enum": ["decision_log", "intake_dossier", null] },
+    "first_review_confidence_source": { "type": ["string", "null"], "enum": ["decision_log", "later_logged_change_undone", "today_value_no_logged_later_change", "audit_note_2026-09-26 (later lowering not logged)", null] }
+  }
+}

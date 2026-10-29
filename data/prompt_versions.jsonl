@@ -1,0 +1,12 @@
+{"version": "v1", "effective": "2026-08-25", "label": "initial-overnight-prompt", "snapshot_sha256": "96a889a517c5a170381d327aef5e4d80d39c444ff08b8a55df818fcd6d0dbfea", "snapshot_kind": "full prompt"}
+{"version": "v2", "effective": "2026-08-26T01:00:00", "label": null, "snapshot_sha256": null, "snapshot_kind": "prompt file as of this version"}
+{"version": "v2.1", "effective": "2026-08-26T21:30:00", "label": "region-field", "snapshot_sha256": "ad8916db4948b23dde990ea711dbdd721a59f390d14ec40850a048aaddc50347", "snapshot_kind": "prompt file as of this version"}
+{"version": "v3", "effective": "2026-08-26T22:00:00", "label": "priority-rewrite", "snapshot_sha256": "85ec24a1df1a7435511b7161000bf0fec07628cdd6597a9b07e83b683a2be710", "snapshot_kind": "prompt file as of this version"}
+{"version": "v3.1", "effective": "2026-08-26T22:40:00", "label": "nc-human-gate", "snapshot_sha256": "bcdff5e6df90a07c4ff01ceefb5e5af9484659f43f61b79f92ba0656e5f7363c", "snapshot_kind": "prompt file as of this version"}
+{"version": "v3.2", "effective": "2026-08-26T23:30:00", "label": "target-80", "snapshot_sha256": "3f5492000b8ee6471e9fe61da34e2a36c51ee0f4a06257ee5eb81af7d2145695", "snapshot_kind": "prompt file as of this version"}
+{"version": "v3.3", "effective": "2026-08-26T23:50:00", "label": "native-language", "snapshot_sha256": "75acc81ec02147229d5a4425899eca4067a6ab0c0ee3c4996e032d6921c5944f", "snapshot_kind": "prompt file as of this version"}
+{"version": "v3.4", "effective": "2026-08-27T08:50:00", "label": "aum-currency", "snapshot_sha256": "64f93ce4aa081c95b4526be4a6a975fff43bfb2dba888ae5ee9e114cc9ef795e", "snapshot_kind": "prompt file as of this version"}
+{"version": "v3.5", "effective": "2026-09-01T03:40:00", "label": "label-provenance", "snapshot_sha256": "086ae4efc4bf36db8ad03364cc557e87545d241133da56ca709ff05fe739092d", "snapshot_kind": "prompt file as of this version"}
+{"version": "v3.6", "effective": "2026-09-01T04:05:00", "label": "refresh-proposes", "snapshot_sha256": "ce7930a57e0db3a330c3bfa30bda770696b58c5d85195689dadd9983cd709abb", "snapshot_kind": "prompt file as of this version"}
+{"version": "v3.7", "effective": "2026-09-26T22:20:00", "label": "archive-job-postings", "snapshot_sha256": "1298bf903c6ba98adbdf2d835fad63b7bf14544909c0bfe3fee7d1569dcbafe6", "snapshot_kind": "prompt file as of this version"}
+{"version": "v3.8", "effective": "2026-09-26T22:32:18", "label": "one-voice-raw-verification", "snapshot_sha256": "dc456bef13d67e2bc9c2c4e2d2234f6440f3538615a6d9e41a5e06684e9358bc", "snapshot_kind": "prompt file as of this version"}

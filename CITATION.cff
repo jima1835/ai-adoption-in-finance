@@ -2,8 +2,8 @@ cff-version: 1.2.0
 message: "If you use this corpus, please cite it as below."
 title: "AI Adoption in Finance: a human-reviewed, stage-classified corpus of institutional investors and its human-AI disagreement record"
 type: dataset
-version: 1.2.2
-date-released: "2026-10-27"
+version: 1.2.3
+date-released: "2026-10-29"
 authors:
   - family-names: Ma
     given-names: Jiajun
@@ -12,9 +12,6 @@ identifiers:
   - type: doi
     value: 10.5281/zenodo.22247885
     description: "Concept DOI — always resolves to the latest version"
-  - type: doi
-    value: 10.5281/zenodo.23719851
-    description: "Version DOI — v1.2.2 (2026-10-28)"
 license: CC-BY-4.0
 repository-code: "https://github.com/jima1835/ai-adoption-in-finance"
 url: "https://ai-adoption-in-finance.org/"

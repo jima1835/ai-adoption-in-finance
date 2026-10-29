@@ -26,7 +26,7 @@ export const STAGE_DEFS = {
 // Fallback for the empty Embedded column. It reports a measured result — the bar
 // was applied and nothing met it — not a decision to hold the column empty.
 export const EMBEDDED_EMPTY_NOTE =
-  'No institution in this corpus meets the Embedded bar. The most AI-advanced institutions tracked each publicly state they keep humans in control of investment decisions and have not redesigned their structure around AI.'
+  'No institution in this corpus meets the Embedded bar on the public record. For the institutions furthest along, the record shows humans still deciding or verifying, and none shows an organisation redesigned around AI.'
 
 // Type filter groups. Allocators put capital to work via managers; managers
 // run the money. All current rows are allocators; the filter already works

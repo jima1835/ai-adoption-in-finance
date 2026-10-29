@@ -5,6 +5,12 @@ const BUILD = typeof __SITE_BUILD__ !== 'undefined' ? __SITE_BUILD__ : null
 // the full record; this page summarises it and is updated alongside it.
 const RELEASES = [
   {
+    version: '1.2.3',
+    date: '2026-10-29',
+    notes:
+      'Data-record patch. The first review of every row is published: what the agent proposed and what the reviewer set, for stage and confidence, with the prompt version in force. Confidence was raised on 31 of 101 rows and lowered on none. A codebook history dates every change to the bar against the review sessions. The review tool now logs both confidence values and the agent stamp. The empty Embedded column is described as the record shows it. No row changed.',
+  },
+  {
     version: '1.2.2',
     date: '2026-10-27',
     notes:

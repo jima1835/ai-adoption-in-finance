@@ -105,6 +105,16 @@ def save_rows(rows):
     DATA.write_text(out, encoding="utf-8", newline="\n")
 
 
+def _agent_meta(entry):
+    """Which agent drafted a proposal, as the proposal itself records it (v1.2.3).
+
+    The research agent is asked to stamp every queue entry with the model it ran
+    on and the prompt version it followed. Logged as given — None when absent, so
+    a missing stamp is visible in the decision log instead of silently assumed."""
+    return {"agent_model": entry.get("agent_model"),
+            "prompt_version": entry.get("prompt_version")}
+
+
 def log_decision(entry):
     """Append one human decision to local/DECISIONS.jsonl — the calibration
     log the overnight agent reads. Best-effort: never blocks a write."""
@@ -683,6 +693,11 @@ def apply_new(req):
     log_decision({"action": "new_approve", "name": name, "stage": row["stage"],
                   "agent_proposed_stage": proposed,
                   "label_provenance": row["label_provenance"],
+                  # v1.2.3: confidence at first review, logged beside the stage, so the
+                  # first-review record never has to be reconstructed from dossiers.
+                  "agent_proposed_confidence": item["row"].get("confidence") or None,
+                  "confidence": row.get("confidence"),
+                  **_agent_meta(item),
                   "intake_status": item.get("status"),
                   "published_over_warnings": warnings,
                   "events_proposed": len(item["row"].get("events", [])),
@@ -852,6 +867,9 @@ def _apply(req):
             new_events = row.get("events", [])
             log_decision({"action": "approve", "name": name, "type": row.get("type"),
                           "changes": changes,
+                          # v1.2.3: both confidence values every time, not only on change.
+                          "agent_proposed_confidence": before.get("confidence"),
+                          "confidence": row.get("confidence"),
                           "label_provenance": row.get("label_provenance"),
                           "agent_proposed_stage": row.get("agent_proposed_stage"),
                           "events_added": [e for e in new_events if e not in before_events],
@@ -880,6 +898,7 @@ def _apply(req):
             save_nc(CH_QUEUE, queue)
             log_decision({"action": "ch_reject", "name": name,
                           "type": row.get("type"), "sweep": entry.get("sweep"),
+                          **_agent_meta(entry),
                           "agent_proposed_stage": proposed,
                           "stage_held": before_stage,
                           "agent_proposed_confidence": proposed_conf,
@@ -909,6 +928,7 @@ def _apply(req):
         after_conf = row.get("confidence")
         log_decision({"action": "ch_approve", "name": name, "type": row.get("type"),
                       "sweep": entry.get("sweep"),
+                      **_agent_meta(entry),
                       "agent_proposed_stage": proposed,
                       "stage_from": before_stage, "stage_to": after_stage,
                       "human_overruled": proposed != after_stage,

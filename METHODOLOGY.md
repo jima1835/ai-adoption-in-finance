@@ -95,14 +95,18 @@ within it:
 
 **The `embedded` column is empty as an observation, not as an editorial
 position.** The bar above was applied to every institution in the corpus and
-none met it — that is a measured result, and it is reported as one. It is also
-not missing data: the most AI-advanced institutions tracked (NBIM, CPP
-Investments, BlackRock, GIC) each *independently and publicly* state they keep
-humans in control of decisions and have **not** redesigned their org structure
-around AI, so the record actively contradicts an `embedded` placement rather
-than merely failing to support one. The day that changes — with public
-evidence — the column fills, and nothing about this project has to be revised
-for it to.
+none met it on the public record. That is a finding about what institutions
+disclose: autonomous decisions and an organisation rebuilt around AI are rarely
+things a regulated institution says in public, so an empty column is weak
+evidence about what happens inside one. For the institutions furthest along,
+the record points the other way: NBIM's row records that AI makes no
+autonomous investment decisions and that human oversight is non-negotiable;
+CPP Investments' that humans still frame and verify every output; BlackRock's
+that the AI-default workflow its executives describe "isn't quite here yet";
+GIC's that its virtual investment-committee member "evaluates and challenges"
+proposals rather than deciding them. None records an organisation redesigned
+around AI. The day public evidence shows all three markers, the column fills,
+and nothing about this project has to be revised for it to.
 
 ---
 
@@ -186,6 +190,16 @@ against the evidence already on them — is filed in
 [`data/rereads.jsonl`](data/rereads.jsonl) with its scope, the direction it
 checked, who drafted the change cards and every decision. A re-read is anchored
 too: the reviewer rules on cards that carry a proposed stage.
+[`data/first_review.jsonl`](data/first_review.jsonl) holds, for every published
+row, what the agent proposed and what the reviewer set at first review — stage and
+confidence — with the review time and the prompt version in force, each value
+naming its source; and
+[`data/prompt_versions.jsonl`](data/prompt_versions.jsonl) dates every version of
+the agent's standing prompt and fixes its text by a SHA-256 digest without
+publishing it. How this bar itself changed — every substantive edit to the stage
+definitions, decision rules, source tiers and scope, dated against the review
+sessions so a reader can see which written bar was in force at each first
+review — is logged in [CODEBOOK_HISTORY.md](CODEBOOK_HISTORY.md).
 
 ### Corpus lifecycle and the blind-review freeze
 

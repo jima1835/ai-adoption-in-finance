@@ -122,8 +122,10 @@ human outright. They are written once, by the maintainer's local review tool, on
 a row's first review. A PR that sets them is a PR that marks its own homework,
 so they are rejected on sight. The same applies to
 [`data/not_classified.json`](data/not_classified.json),
-[`data/transitions.jsonl`](data/transitions.jsonl) and
-[`data/rereads.jsonl`](data/rereads.jsonl).
+[`data/transitions.jsonl`](data/transitions.jsonl),
+[`data/rereads.jsonl`](data/rereads.jsonl),
+[`data/first_review.jsonl`](data/first_review.jsonl) and
+[`data/prompt_versions.jsonl`](data/prompt_versions.jsonl).
 
 **Every curated claim needs a public source.** `rationale` must be defensible
 from the cited `events`; `aum` and `stage` must trace to public evidence. For
