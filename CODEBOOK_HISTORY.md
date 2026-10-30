@@ -80,6 +80,7 @@ Commits that touch the three files without changing the bar:
 - `92cdd12` (2026-09-19), M §6: withdraws the "upper bound" description of anchored agreement.
 - `09e663c` (2026-09-20), M §6: adds the corpus lifecycle and planned blind-review freeze.
 - `cb8e499` (2026-10-27), M §6: agreement rebuilt from public data files; the re-read record.
+- `c1fda9c` (2026-10-29, v1.2.3), M §3 `embedded`: the paragraph beneath the three markers now reports what the rows record for NBIM, CPP Investments, BlackRock and GIC instead of saying each publicly states it keeps humans in control (CHANGELOG [1.2.3]). The three-condition bar is unchanged.
 
 Hunks left out of commits that are in the table: workflow, agreement, coverage and transition-dating prose in `12f7345`; the separate AI-leadership roles record and framing text in `293f922`; condensed sections with no change of rule, the "maintainer declares the freeze" process line and the withdrawal of the roles record in `a640286`. Three wording changes were judged not substantive: the §1 exclusion wording and the §2 absence-cap wording in `a640286`, and the restatement of the absence cap in `SOURCES.md` §2 in `293f922`. Row 33 (the removal of "screening" from the in-scope list) is borderline and is kept in the table.
 
