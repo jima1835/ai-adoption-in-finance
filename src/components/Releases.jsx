@@ -5,6 +5,12 @@ const BUILD = typeof __SITE_BUILD__ !== 'undefined' ? __SITE_BUILD__ : null
 // the full record; this page summarises it and is updated alongside it.
 const RELEASES = [
   {
+    version: '1.2.4',
+    date: '2026-11-14',
+    notes:
+      'Citation patch. The paper that sets out the review record, Publish the Disagreement (Proceedings of the AAAI Symposium Series 10(1), 339–343), is now cited in the README, the About page, CITATION.cff and the Zenodo record. No data file, row or stage changed.',
+  },
+  {
     version: '1.2.3',
     date: '2026-10-29',
     notes:

@@ -3,6 +3,12 @@
 // LICENSE, the comments/ folder); the page adds no new claim about the author.
 const REPO = 'https://github.com/jima1835/ai-adoption-in-finance'
 
+const PAPER = {
+  title:
+    'Publish the Disagreement: Instrumented Human Verification in an Agentic Research Pipeline',
+  doi: 'https://doi.org/10.1609/aaaiss.v10i1.43424',
+}
+
 const COMMENTS = [
   {
     date: '2026-09-19',
@@ -93,6 +99,22 @@ export default function About() {
           which the two disagree is published with the data rather than
           asserted.
         </p>
+      </section>
+
+      <section>
+        <h3 className="prose-h2">Publications</h3>
+        <ul className="prose-list">
+          <li>
+            <strong>2026-11-06</strong> — Ma, J. <em>{PAPER.title}</em>.
+            Proceedings of the AAAI Symposium Series 10(1): 339–343. Argues that
+            an agentic research pipeline should publish its human–agent
+            disagreement record, with this corpus as the worked example; its
+            figures are those of release v1.1.0.{' '}
+            <a href={PAPER.doi} target="_blank" rel="noreferrer">
+              DOI
+            </a>
+          </li>
+        </ul>
       </section>
 
       <section>

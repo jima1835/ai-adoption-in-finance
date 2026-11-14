@@ -46,6 +46,16 @@ def test_versions_agree():
     assert all(SEMVER.match(v) for v in versions.values()), versions
 
 
+def test_zenodo_release_link_names_the_version():
+    # .zenodo.json lists its related works by hand, so the link back to the
+    # GitHub release has to be bumped with the version.
+    meta = json.loads(_read(".zenodo.json"))
+    links = [r["identifier"] for r in meta["related_identifiers"] if "/tree/v" in r["identifier"]]
+    assert links == [
+        f"https://github.com/jima1835/ai-adoption-in-finance/tree/v{meta['version']}"
+    ], links
+
+
 def test_citation_release_date_is_iso():
     # CFF requires YYYY-MM-DD; a bare "2026-9-12" or a free-text date breaks
     # the citation widget silently.

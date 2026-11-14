@@ -7,6 +7,25 @@ agreement figures are those of the release they sit under, not industry rates.
 
 ## [Unreleased]
 
+## [1.2.4] - 2026-11-14
+
+Citation patch. No data file changed: no row, stage, confidence, rationale or event, and
+no record under `data/`. The corpus stands as at v1.2.0 (111 human-reviewed
+institutions). The re-code freeze is still not declared.
+
+### Added
+- **The paper that sets out the review record is cited from the corpus.** Ma, J. (2026),
+  "Publish the Disagreement: Instrumented Human Verification in an Agentic Research
+  Pipeline", *Proceedings of the AAAI Symposium Series* 10(1): 339–343,
+  [doi:10.1609/aaaiss.v10i1.43424](https://doi.org/10.1609/aaaiss.v10i1.43424),
+  published 2026-11-06. It is listed under "Publications" in the README and on the About page, as
+  a `references` entry in `CITATION.cff` (the corpus remains the thing to cite), and as
+  a related work on the Zenodo record. The paper's figures are those of release v1.1.0
+  ([doi:10.5281/zenodo.22847558](https://doi.org/10.5281/zenodo.22847558)).
+- **`.zenodo.json` states its related works**: the paper, and the GitHub release the
+  record is archived from, named explicitly so that link does not depend on Zenodo
+  adding it. `tests/test_version.py` holds that link to the release version.
+
 ## [1.2.3] - 2026-10-29
 
 Data-record patch. No row, stage, confidence, rationale or event changed; the corpus
@@ -447,7 +466,8 @@ First release: 84 human-verified institutions across four adoption stages, the
 assessed-but-not-classified appendix, and the published human-vs-agent
 disagreement record (`data/agreement.json`).
 
-[Unreleased]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.2.3...HEAD
+[Unreleased]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.2.4...HEAD
+[1.2.4]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.2.3...v1.2.4
 [1.2.3]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.2.2...v1.2.3
 [1.2.2]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.2.1...v1.2.2
 [1.2.1]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.2.0...v1.2.1
