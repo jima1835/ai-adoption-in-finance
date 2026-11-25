@@ -3983,6 +3983,359 @@
         "Rolled out inside the firm over the past year and used regularly by nearly all equities investors, per Umesh Subramanian; investment judgment stays in human hands (company claim).",
         "Reuters' own interview is the primary disclosure; the article gives no other business line, user count or daily-use figure."
       ]
+    },
+    {
+      "institution": "CalSTRS",
+      "date": "2026-09-24",
+      "source_url": "https://www.calstrs.com/files/5b5f8440e/TRB+2026-11+Item+09b.00.pdf",
+      "source_note": "Teachers' Retirement Board approves its Board-Level AI Governance Foundational Beliefs and Principles (minutes, November 2026 board packet); the statements “govern the use of AI by CalSTRS staff and board members in the performance of their responsibilities”",
+      "title": "Board approves AI governance beliefs and principles",
+      "bullets": [
+        "The statements, recorded in the November 2026 board packet minutes, govern AI use by CalSTRS staff and board members in performing their responsibilities."
+      ]
+    },
+    {
+      "institution": "CalSTRS",
+      "date": "2026-07-21",
+      "source_url": "https://www.calstrs.com/files/6ddd98846/TRB+2026-09+Item+17c.00.pdf",
+      "source_note": "Board minutes (approved 24 September 2026) record a staff update on “the GenAI cases ongoing at CalSTRS”; the board requests regular updates on specific uses of AI within CalSTRS, “including Investments”",
+      "title": "Staff update the board on ongoing GenAI cases",
+      "bullets": [
+        "Minutes approved 24 September 2026 record the update; the board asks for regular updates on specific AI uses within CalSTRS, including Investments."
+      ]
+    },
+    {
+      "institution": "CalPERS",
+      "date": "2026",
+      "source_url": "https://www.calpers.ca.gov/documents/2026-27-business-plan/download",
+      "source_note": "CalPERS 2026-27 Business Plan sets June 2027 targets to “Implement Generative AI solutions to streamline workload processes across Customer Services” and to use GenAI “within critical business areas including customer service, health, and investments”; the 2025-26 plan had set the Customer Services target for June 2026",
+      "title": "Business plan sets June 2027 GenAI targets",
+      "bullets": [
+        "The 2026-27 plan targets GenAI solutions to streamline Customer Services workload, and GenAI use in customer service, health and investments; these are stated targets.",
+        "The 2025-26 plan had set the Customer Services target for June 2026."
+      ]
+    },
+    {
+      "institution": "CalPERS",
+      "date": "2026-11-16",
+      "source_url": "https://www.calpers.ca.gov/documents/202611-invest-agenda-item07b-01-a/download?inline",
+      "source_note": "Investment Committee, Total Fund Portfolio Management annual program review, lists as a challenge “Limited Artificial Intelligence (AI) adoption likely impacting our relative efficiency vs. peers”",
+      "title": "Portfolio management review cites limited AI adoption as a challenge",
+      "bullets": [
+        "The Investment Committee's Total Fund Portfolio Management annual program review says limited AI adoption is likely affecting relative efficiency versus peers."
+      ]
+    },
+    {
+      "institution": "Bridgewater Associates",
+      "date": "2026-10-28",
+      "source_url": "https://hedgeweek.com/news/citadel-bridgewater-and-man-group-expand-ai-use-but-warn-against-overreliance",
+      "source_note": "Hedgeweek, relaying Business Insider on a Bloomberg conference: Bridgewater's AIA Labs “is extending its AI-driven research capabilities and processes across the organisation”; AIA founding partner Aaron Linsky says keeping autonomous agents from creating security or operational risk “remains an unresolved challenge”",
+      "title": "AIA Labs extends AI-driven research across Bridgewater",
+      "bullets": [
+        "Hedgeweek relays Business Insider's report from a Bloomberg conference that AIA Labs is extending AI-driven research capabilities and processes across the organisation.",
+        "AIA founding partner Aaron Linsky says keeping autonomous agents from creating security or operational risk remains an unresolved challenge."
+      ]
+    },
+    {
+      "institution": "T. Rowe Price",
+      "date": "2026-09-10",
+      "source_url": "https://finviz.com/news/390948/t-rowe-price-works-with-anthropic-to-bring-claude-to-more-of-its-investment-process",
+      "source_note": "T. Rowe Price and Anthropic announce Claude's expansion across the investment organization: “Portfolio managers and analysts are using Claude to support and enhance the firm's research process, and its developers are adopting Claude Code to build investment tools that support the investment process” (company claim)",
+      "title": "T. Rowe Price and Anthropic announce Claude expansion across investments",
+      "bullets": [
+        "Company claim: portfolio managers and analysts use Claude to support the research process, and developers adopt Claude Code to build investment tools."
+      ]
+    },
+    {
+      "institution": "Balyasny Asset Management",
+      "date": "2026-09-17",
+      "source_url": "https://claude.com/blog/working-at-the-frontier-how-balyasny-asset-management-evaluates-and-governs-claude-fable-5",
+      "source_note": "Anthropic interview with BAM: BAMAgent, built in-house, “supports thousands of autonomous agents working 24/7”; “some teams running over 300 agents”; a merger-arbitrage agent runs about 30 minutes “with human review before any material output is relied on” (vendor-published, company claim)",
+      "title": "Balyasny describes in-house BAMAgent supporting thousands of agents",
+      "bullets": [
+        "In an Anthropic interview (vendor-published, company claim), BAM says BAMAgent supports thousands of autonomous agents working 24/7, with some teams running over 300.",
+        "A merger-arbitrage agent runs about 30 minutes, with human review before any material output is relied on."
+      ]
+    },
+    {
+      "institution": "Balyasny Asset Management",
+      "date": "2026-10-08",
+      "source_url": "https://www.googlecloudpresscorner.com/2026-10-08-Balyasny-Asset-Management-Deploys-Gemini-Models-for-Agentic-Financial-Research",
+      "source_note": "Google Cloud and BAM announce Gemini models deployed in BAM's proprietary research platforms; BAMAgent orchestrates AI models and agents “across more than 80 internal financial databases and enterprise tools”, for “more than 200 global investment teams” (vendor-published, company claim)",
+      "title": "Google Cloud and Balyasny announce Gemini in BAM research platforms",
+      "bullets": [
+        "Vendor-published company claim: BAMAgent orchestrates AI models and agents across more than 80 internal financial databases and enterprise tools, for more than 200 global investment teams."
+      ]
+    },
+    {
+      "institution": "National Pension Service (NPS)",
+      "date": "2026-10-13",
+      "source_url": "https://fund.nps.or.kr/impa/nscvrgdatadtl/getOHEF0014M0.do?hmpgBbsCd=BS20240174&pstId=ZZ202600000000001122",
+      "source_note": "NPS reports a cloud-based research AI agent proof of concept with AWS (June–September 2026, public data only): proofs of concept for AI analysis of major central banks' monetary policy and generative-AI analysis of corporate earnings commentary completed, a third task (integrated equity-market research) not; application to fund-management work “to be discussed” at a 16 October results session",
+      "title": "NPS reports AWS research AI agent proof-of-concept results",
+      "bullets": [
+        "The June–September 2026 cloud PoC used public data only; central-bank monetary-policy and generative-AI earnings-commentary analysis were completed, integrated equity-market research was not.",
+        "Application to fund-management work was to be discussed at a 16 October results session."
+      ]
+    },
+    {
+      "institution": "Franklin Templeton",
+      "date": "2026-11-05",
+      "source_url": "https://openai.com/index/franklin-templeton/",
+      "source_note": "OpenAI customer story: Codex “is one of several tools our investment teams are using to develop workflows for investment research”; Investment AI champions are turning hackathon experiments into “production-ready workflows” with security review and data controls (vendor-published, company claim)",
+      "title": "OpenAI story says investment teams use Codex for research workflows",
+      "bullets": [
+        "Vendor-published company claim: Codex is one of several tools investment teams use to develop investment-research workflows.",
+        "Investment AI champions are turning hackathon experiments into production-ready workflows with security review and data controls."
+      ]
+    },
+    {
+      "institution": "Amundi",
+      "date": "2025-11-18",
+      "source_url": "https://about.amundi.com/files/nuxeo/dl/844a7b94-1c10-41ec-b816-e2e2381b4ab1",
+      "source_note": "Amundi's 2025–2028 strategic plan makes AI solutions a plan pillar: “rolling out 50 applications at scale by 2028, and converting 100% AI platform access into 80% regular staff users” — stated targets, not deployment",
+      "title": "Strategic plan sets AI targets for 2028",
+      "bullets": [
+        "The 2025–2028 plan makes AI solutions a pillar, targeting 50 applications rolled out at scale by 2028 and conversion of 100% platform access into 80% regular staff users.",
+        "These are stated targets, not deployment."
+      ]
+    },
+    {
+      "institution": "Amundi",
+      "date": "2026-07-30",
+      "source_url": "https://about.amundi.com/article/2026-1st-half-and-2nd-quarter-results",
+      "source_note": "H1 2026 results and call: “Several AI use cases have been successfully deployed by Amundi Intermediation”, the entity executing orders for Amundi's portfolio management teams — AI “has been deployed to select the best execution strategies”; on the call, predictive tools help fixed-income portfolio managers identify which bonds to trade, and “AI is also now embedded in workflows such as Know Your Broker, due diligence, and RFP processes” (company claim)",
+      "title": "Amundi reports AI use cases deployed at Amundi Intermediation",
+      "bullets": [
+        "Company claim: AI is deployed to select best execution strategies at the entity executing orders for Amundi's portfolio managers; on the call, predictive tools help fixed-income managers identify bonds to trade.",
+        "Amundi says AI is now built into Know Your Broker, due diligence and RFP workflows."
+      ]
+    },
+    {
+      "institution": "Amundi",
+      "date": "2026-07-30",
+      "source_url": "https://www.abcbourse.com/marches/correction-amundi-surfe-sur-une-vague-de-records-au-deuxieme-trimestre-2026_700699",
+      "source_note": "L'Agefi (Agefi-Dow Jones dispatch, carried by ABC Bourse) reports CEO Valérie Baudson saying on the H1 call that more than 50% of staff use the internal AI platform, available since September 2025, every day, and that AI projects now run “non plus à l'échelle d'une équipe mais à l'échelle d'une division” (company claim; the remark is not in the published transcript)",
+      "title": "CEO says over half of staff use AI platform daily",
+      "bullets": [
+        "L'Agefi (Agefi-Dow Jones, carried by ABC Bourse) reports Valérie Baudson's H1-call remark; the internal platform has been available since September 2025.",
+        "She says AI projects now run at division rather than team scale. Company claim; the remark is not in the published transcript."
+      ]
+    },
+    {
+      "institution": "Amundi",
+      "date": "2026-10-29",
+      "source_url": "https://about.amundi.com/article/2026-3rd-quarter-results-and-first-9-months",
+      "source_note": "Q3 2026 results: the Amundi Investment Institute “has developed a model combining its cross-asset analysis framework and generative AI to build scenarios and asset allocation proposals”, which “saves half the analysis time compared to previous tools” (company claim)",
+      "title": "Investment Institute builds GenAI model for scenarios and allocation proposals",
+      "bullets": [
+        "Company claim in Q3 2026 results: the model combines the Institute's cross-asset analysis framework with generative AI and saves half the analysis time versus previous tools."
+      ]
+    },
+    {
+      "institution": "Citadel",
+      "date": "2026-10-28",
+      "source_url": "https://hedgeweek.com/news/citadel-bridgewater-and-man-group-expand-ai-use-but-warn-against-overreliance",
+      "source_note": "Hedgeweek, relaying Business Insider on a Bloomberg conference: “Some Citadel investment teams have developed AI versions of themselves capable of conducting independent research”; interim CTO Andrew Janian says strict controls keep agents inside designated environments, and fundamental teams are encouraged to use AI to challenge ideas and prepare for meetings, not to formulate theses",
+      "title": "Some Citadel investment teams build AI versions of themselves",
+      "bullets": [
+        "Hedgeweek relays Business Insider's Bloomberg-conference report that these AI versions can conduct independent research; interim CTO Andrew Janian says strict controls keep agents in designated environments.",
+        "Fundamental teams are encouraged to use AI to challenge ideas and prepare for meetings, not to formulate theses."
+      ]
+    },
+    {
+      "institution": "Millennium Management",
+      "date": "2026-09-30",
+      "source_url": "https://hedgeweek.com/news/millennium-rolls-out-personal-ai-twins-to-more-than-7-000-employees",
+      "source_note": "Hedgeweek, relaying Business Insider: Millennium has deployed about 1,600 personal AI “digital twins” and is making them available to its more than 7,000 employees, including investment professionals; a 150+ person pilot saw 97% interact with their twin each day (per Millennium); the twins “cannot make decisions on behalf of employees”",
+      "title": "Millennium deploys about 1,600 personal AI digital twins",
+      "bullets": [
+        "Hedgeweek relays Business Insider: the twins are being made available to more than 7,000 employees, including investment professionals; they cannot make decisions on behalf of employees.",
+        "Per Millennium, 97% of a 150+ person pilot interacted with their twin each day."
+      ]
+    },
+    {
+      "institution": "Ameriprise Financial",
+      "date": "2026-10-29",
+      "source_url": "https://www.fool.com/earnings/call-transcripts/2026/10/29/ameriprise-amp-q3-2026-earnings-call-transcript/",
+      "source_note": "On the Q3 2026 earnings call Cracchiolo says that in Global Asset Management “we're using AI to expand research capacity, help investment teams assess information faster”; advisor practices use AI insights (“nearly three quarters of practices”), and an AI meeting-prep agent and AI service assistant enter early release this quarter (company claims)",
+      "title": "Cracchiolo says Global Asset Management uses AI for research capacity",
+      "bullets": [
+        "Company claims on the Q3 2026 call: AI helps investment teams assess information faster; nearly three quarters of advisor practices use AI insights.",
+        "An AI meeting-prep agent and an AI service assistant enter early release this quarter."
+      ]
+    },
+    {
+      "institution": "J.P. Morgan Asset Management",
+      "date": "2026-10-29",
+      "source_url": "https://en.paperjam.lu/article/j-p-morgan-am-sees-fivefold-surge-in-ai-platform-usage",
+      "source_note": "Paperjam, reporting Edward Ralph, head of AI product management, at Clearstream's Global Fund Summit: “approximately 750 investment professionals now use Spectrum IQ every week, representing 70% to 80% of the firm's relevant investment workforce”; usage “has increased fivefold in 2026”; Spectrum IQ integrates AI into existing research, portfolio-management and trading workflows rather than offering a separate tool (company claim)",
+      "title": "About 750 investment professionals use Spectrum IQ weekly",
+      "bullets": [
+        "Paperjam reports head of AI product management Edward Ralph (company claim): that is 70% to 80% of the relevant investment workforce, and usage increased fivefold in 2026.",
+        "Spectrum IQ integrates AI into existing research, portfolio-management and trading workflows rather than offering a separate tool."
+      ]
+    },
+    {
+      "institution": "Manulife Investment Management",
+      "date": "2026-11-04",
+      "source_url": "https://www.prnewswire.com/news-releases/manulife-reports-third-quarter-2026-results-302929840.html",
+      "source_note": "Q3 2026 results: Global WAM “completed the rollout of an AI-enabled advisor engagement platform to all external wholesalers and investment specialists across North America Retail, identifying four times more product opportunities” (company claim)",
+      "title": "Manulife completes AI advisor engagement platform rollout to wholesalers",
+      "bullets": [
+        "Company claim in Q3 2026 results: Global WAM's platform reaches all external wholesalers and investment specialists across North America Retail, identifying four times more product opportunities."
+      ]
+    },
+    {
+      "institution": "ExodusPoint Capital Management",
+      "date": "2026-09-30",
+      "source_url": "https://hedgeweek.com/news/exoduspoint-partners-with-anthropic",
+      "source_note": "Hedgeweek, relaying a Bloomberg report and a firm statement: ExodusPoint is working with Anthropic to integrate Claude into its proprietary AI platform, Atlas, “with the aim of supporting investment research, portfolio management and operational functions”; “More than 80% of ExodusPoint employees use Atlas each week” (company claim)",
+      "title": "ExodusPoint works with Anthropic to integrate Claude into Atlas",
+      "bullets": [
+        "Hedgeweek relays Bloomberg and a firm statement: the aim is to support investment research, portfolio management and operational functions.",
+        "Company claim: more than 80% of ExodusPoint employees use Atlas each week."
+      ]
+    },
+    {
+      "institution": "ExodusPoint Capital Management",
+      "date": "2026-09-30",
+      "source_url": "https://hedgeweek.com/news/exoduspoint-partners-with-anthropic",
+      "source_note": "Same report: the firm says Claude Code “has already delivered measurable efficiency gains for its operations team, saving approximately four analyst hours per day on average”, after testing leading models across investment research, operations and software engineering (company claim)",
+      "title": "ExodusPoint says Claude Code saves operations analyst hours",
+      "bullets": [
+        "Company claim: about four analyst hours per day saved on average for the operations team, after testing leading models across investment research, operations and software engineering."
+      ]
+    },
+    {
+      "institution": "E Fund Management",
+      "date": "2026-11-13",
+      "source_url": "https://finance.eastmoney.com/a/202611133930622056.html",
+      "source_note": "21世纪经济报道 interview with E Fund's CIO: EWork, the firm's self-built enterprise AI operating system, links large models to internal knowledge and business systems; as of end-Q3 「大多数用户都在使用该平台，其中活跃用户占比相当高」 (most users are using the platform, with a fairly high share of active users); AI stays a Copilot and investment decisions stay with the team (company claim)",
+      "title": "CIO describes self-built EWork enterprise AI operating system",
+      "bullets": [
+        "21st Century Business Herald interview (company claim): EWork links large models to internal knowledge and business systems; as of end-Q3 most users use it, with a fairly high active share.",
+        "AI stays a Copilot; investment decisions stay with the team."
+      ]
+    },
+    {
+      "institution": "E Fund Management",
+      "date": "2026-11-16",
+      "source_url": "https://stock.stockstar.com/IG2026111600001836.shtml",
+      "source_note": "证券时报网: E Fund's AI 「已全面覆盖研报摘要、关键信息提取、公告抓取、会议纪要生成等标准化工作」, with high-risk work run under 「AI初筛、人工复核、专家终审」 — AI first screen, human review, expert sign-off (company claim)",
+      "title": "E Fund says AI covers standardized research tasks",
+      "bullets": [
+        "Securities Times online (company claim): AI fully covers research-report summaries, key-information extraction, announcement capture and meeting-minute generation.",
+        "High-risk work runs under AI first screen, human review and expert sign-off."
+      ]
+    },
+    {
+      "institution": "China Europe Fund Management",
+      "date": "2026-11-07",
+      "source_url": "https://wap.stockstar.com/detail/IG2026110700018204",
+      "source_note": "中国基金报 relays China Europe Fund: it 「正构建」 an intelligent research platform centred on a research AgentOS; its industry-prosperity agent covers nearly 300 sub-industries and refreshes the full dashboard in about two hours (company claim)",
+      "title": "China Europe Fund builds research platform around an AgentOS",
+      "bullets": [
+        "China Fund News relays the firm (company claim): the intelligent research platform is under construction.",
+        "Its industry-prosperity agent covers nearly 300 sub-industries and refreshes the full dashboard in about two hours."
+      ]
+    },
+    {
+      "institution": "China Merchants Fund Management",
+      "date": "2026-10-26",
+      "source_url": "https://www.chnfund.com/article/AR20261025110750429",
+      "source_note": "中国基金报 relays China Merchants Fund: its AI applications 「从早期技术试点进入平台化供给和可复制应用阶段」, embedded in research, marketing, client service, operations and risk; research tools in use include meeting minutes, stock AI insights, report translation and Q&A, AI credit-rating reports, earnings commentary and index-constituent prediction (company claim)",
+      "title": "China Merchants Fund describes AI moving to platform-based, replicable applications",
+      "bullets": [
+        "China Fund News relays the firm (company claim): AI has moved from early technical pilots to platform-based supply and replicable applications across research, marketing, client service, operations and risk.",
+        "Research tools in use include meeting minutes, stock AI insights, report translation and Q&A, AI credit-rating reports, earnings commentary and index-constituent prediction."
+      ]
+    },
+    {
+      "institution": "China Universal Asset Management",
+      "date": "2026-10-26",
+      "source_url": "https://www.chnfund.com/article/AR20261025110750429",
+      "source_note": "中国基金报 relays a 汇添富 representative: agent clusters for research, investment assistance, rules-based investing and trading span information gathering to execution, attribution and risk alerts; the “AI研究员” agent 「已接管研究员约40%的基础案头工作」 — has taken over about 40% of researchers' basic desk work — with human review at key nodes (company claim)",
+      "title": "AI Researcher agent takes over about 40% of basic desk work",
+      "bullets": [
+        "China Fund News relays a China Universal representative (company claim): agent clusters span research, investment assistance, rules-based investing and trading, from information gathering to execution, attribution and risk alerts.",
+        "Human review remains at key nodes."
+      ]
+    },
+    {
+      "institution": "China Asset Management (ChinaAMC)",
+      "date": "2026-11-03",
+      "source_url": "https://www.cls.cn/detail/2523882",
+      "source_note": "财联社: ChinaAMC applies machine learning, deep learning and agent technology in research, strategy development and portfolio management and across the trade-execution lifecycle, building a dynamically tuned intelligent execution engine; AI solves specific problems 「而非取代人的判断」 (company account)",
+      "title": "ChinaAMC is building an intelligent execution engine",
+      "bullets": [
+        "Cailian Press (company account): ChinaAMC applies machine learning, deep learning and agent technology in research, strategy development, portfolio management and the trade-execution lifecycle.",
+        "The engine is dynamically tuned; AI solves specific problems rather than replacing human judgment."
+      ]
+    },
+    {
+      "institution": "China Asset Management (ChinaAMC)",
+      "date": "2026-11-07",
+      "source_url": "https://wap.stockstar.com/detail/IG2026110700018204",
+      "source_note": "中国基金报 relays ChinaAMC: its AI research platform 「知几」(AIsight) has built more than twenty expert-level skills covering key research scenarios (company claim)",
+      "title": "AIsight research platform builds over twenty expert-level skills",
+      "bullets": [
+        "China Fund News relays ChinaAMC (company claim): the skills on its AI research platform AIsight cover key research scenarios."
+      ]
+    },
+    {
+      "institution": "Bosera Asset Management",
+      "date": "2026-11-07",
+      "source_url": "https://wap.stockstar.com/detail/IG2026110700018204",
+      "source_note": "中国基金报 relays Bosera: its investment-research team 「已全面拥抱AI，渗透率已达全员」 (every member uses AI), mainly on the self-developed, fully internally deployed 企业智慧中枢 and BsBox agent; all AI output is a research aid and core judgments stay with the team (company claim)",
+      "title": "Bosera says every research team member uses AI",
+      "bullets": [
+        "China Fund News relays Bosera (company claim): use runs mainly on its self-developed, fully internally deployed enterprise intelligence hub and BsBox agent.",
+        "All AI output is a research aid; core judgments stay with the team."
+      ]
+    },
+    {
+      "institution": "Tianhong Asset Management",
+      "date": "2026-10-26",
+      "source_url": "https://www.chnfund.com/article/AR20261025110750429",
+      "source_note": "中国基金报: Tianhong's “AI研究员”, an AI Challenge module embedded in its self-developed research platform 弘研智策TIRD, attends the research team's morning meeting and questions researchers' views (company account)",
+      "title": "Tianhong's AI Researcher questions researchers at morning meetings",
+      "bullets": [
+        "China Fund News (company account): the AI Researcher is an AI Challenge module built into Tianhong's self-developed TIRD research platform; it attends the morning meeting and questions researchers' views."
+      ]
+    },
+    {
+      "institution": "Ping An Fund Management",
+      "date": "2026-11-16",
+      "source_url": "https://stock.stockstar.com/IG2026111600001836.shtml",
+      "source_note": "证券时报网: Ping An Fund says AI agents 「目前已覆盖合规、运营、营销、风控、投研、客服六大板块」 on a firm-wide unified AI work platform, with staff reviewing results; 中国基金报 on 7 November had described the same platform as 「正在建设」 (company claims)",
+      "title": "Ping An Fund says AI agents cover six business areas",
+      "bullets": [
+        "Securities Times online (company claim): agents cover compliance, operations, marketing, risk control, investment research and client service on a firm-wide unified AI work platform, with staff reviewing results.",
+        "China Fund News on 7 November described the same platform as under construction."
+      ]
+    },
+    {
+      "institution": "Penghua Fund Management",
+      "date": "2026-11-16",
+      "source_url": "https://stock.stockstar.com/IG2026111600001836.shtml",
+      "source_note": "证券时报网: Penghua issued two tenders, for compute servers and a storage system, to buy AI compute hardware and build a storage-monitoring platform, and says it will build a 「商用+开源」 large-model matrix and AI plug-in library on models such as DeepSeek (procurement and plan)",
+      "title": "Penghua issues tenders for AI compute servers and storage",
+      "bullets": [
+        "Securities Times online: two tenders, for compute servers and a storage system, are to buy AI compute hardware and build a storage-monitoring platform (procurement).",
+        "Penghua says it will build a commercial-plus-open-source large-model matrix and AI plug-in library on models such as DeepSeek (plan)."
+      ]
+    },
+    {
+      "institution": "ICBC Credit Suisse Fund Management",
+      "date": "2026-10-12",
+      "source_url": "https://m.21jingji.com/article/20261012/herald/19c9b26160a574b0fd06748cceffa9e7.html",
+      "source_note": "中国基金报 relays the firm: private deployment of large models since 2023, with 「通用生成、编程智能体、多模态及OCR等多元化服务」 live; an 「智能体协同＋人工关键节点控制」 deep-research workflow for industry, company and thematic research is being explored and built (company claim); Same article: the firm's one-stop pension intelligent-management platform runs AI through annuity investment — automated rule checks, multi-scenario duration and return calculations supporting asset-liability matching — and won second prize in the People's Bank of China fintech development award (company claim)",
+      "title": "ICBC Credit Suisse has run privately deployed large models since 2023",
+      "bullets": [
+        "China Fund News relays the firm (company claim): generation, coding-agent, multimodal and OCR services are live; an agent-collaboration deep-research workflow with human key-node control is being explored and built.",
+        "Its pension intelligent-management platform runs AI through annuity investment, with automated rule checks and multi-scenario duration and return calculations; it won second prize in a People's Bank of China fintech award."
+      ]
     }
   ]
 }

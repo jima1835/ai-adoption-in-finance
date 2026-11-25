@@ -7,6 +7,48 @@ agreement figures are those of the release they sit under, not industry rates.
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-11-25
+
+Corpus at this release: 111 human-reviewed institutions, 431 dated events, 19
+assessed-but-not-classified entries; stage agreement 95/100 at first review,
+proposals accepted as-is 95/106 (both anchored, both unchanged: they measure the
+first review). All figures describe this corpus, not an industry. The re-code freeze
+is still not declared.
+
+### Changed
+- **First news review of the reviewed corpus since 1.2.0.** Public reporting from
+  20 September to 23 November 2026 was screened for all 111 rows and the 19 appendix
+  entries. A research agent drafted change cards; the reviewer ruled on each one. 24 rows
+  gained dated evidence (16 asset managers, 5 hedge funds, 3 pensions; 11 US, 11 Asia,
+  1 Europe, 1 Canada): 33 events, 398 → 431, with rationales updated to match. Three
+  moved stage (below); the 21 same-stage refreshes are Ameriprise, Balyasny,
+  Bridgewater, CalPERS, CalSTRS, Citadel, Franklin Templeton, Manulife Investment
+  Management, Millennium, NPS, T. Rowe Price and ten Chinese fund managers. No appendix
+  entry cleared the bar. The search was incomplete for most rows, so a row with no
+  new event is not a finding that nothing happened.
+- **Three stage moves on new evidence**, each appended to `data/transitions.jsonl`
+  with the date of the evidence that triggered it:
+  ExodusPoint Capital Management exploring → piloting (an internal platform used weekly
+  by most staff, and a tool in service in operations);
+  J.P. Morgan Asset Management piloting → scaling (several AI uses inside the
+  investment process, with most of the relevant investment staff using the platform
+  weekly); Amundi piloting → scaling (production uses at Amundi Intermediation and the
+  Amundi Investment Institute, a platform reported in daily use, and a plan naming AI a
+  pillar). Amundi's confidence moved high → med: its daily-use figure rests on one
+  news-agency report of the chief executive's remark. Corpus by stage: 19 exploring
+  (was 20), 58 piloting (59), 34 scaling (32), 0 embedded.
+- **The review tool's change card shows the new evidence first.** The agent's reason,
+  the citations and the proposed events, each with a tick box, now sit above the
+  rationale preview instead of in a collapsed section. Removing an event asks for
+  confirmation, and an event that shares a date with the one above it can be merged
+  into that event, with the second link recorded in the footnote.
+
+### Added
+- **`llms.txt` at the site root**: a plain-text guide for answer engines and other
+  automated readers. It says what the corpus measures and how to read it, links the
+  data and method files, and gives a snapshot of the figures, pinned to this release.
+
+
 ## [1.2.4] - 2026-11-14
 
 Citation patch. No data file changed: no row, stage, confidence, rationale or event, and
@@ -466,7 +508,8 @@ First release: 84 human-verified institutions across four adoption stages, the
 assessed-but-not-classified appendix, and the published human-vs-agent
 disagreement record (`data/agreement.json`).
 
-[Unreleased]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.2.4...HEAD
+[Unreleased]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.3.0...HEAD
+[1.3.0]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.2.4...v1.3.0
 [1.2.4]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.2.3...v1.2.4
 [1.2.3]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.2.2...v1.2.3
 [1.2.2]: https://github.com/jima1835/ai-adoption-in-finance/compare/v1.2.1...v1.2.2

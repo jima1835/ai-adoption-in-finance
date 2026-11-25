@@ -45,11 +45,21 @@
       "path_prefix": "/canadian-investment-review/",
       "name": "Canadian Investment Review",
       "medium": "press"
+    },
+    {
+      "host": "assets.contentstack.io",
+      "path_prefix": "/v3/assets/blt9415ea4cc4157833/",
+      "name": "Morningstar",
+      "medium": "press"
     }
   ],
   "publishers": {
     "21jingji.com": {
       "name": "21st Century Business Herald (21世纪经济报道)",
+      "medium": "press"
+    },
+    "abcbourse.com": {
+      "name": "ABC Bourse",
       "medium": "press"
     },
     "aberdeenplc.com": {
@@ -212,6 +222,10 @@
       "name": "CPP Investments",
       "medium": "firm"
     },
+    "eastmoney.com": {
+      "name": "Eastmoney (东方财富网)",
+      "medium": "press"
+    },
     "elo.fi": {
       "name": "Elo",
       "medium": "firm"
@@ -235,6 +249,10 @@
     "finews.ch": {
       "name": "finews.ch",
       "medium": "press"
+    },
+    "finviz.com": {
+      "name": "Finviz",
+      "medium": "wire"
     },
     "flowtraders.com": {
       "name": "Flow Traders",
@@ -264,6 +282,10 @@
       "name": "Gates Foundation careers (Workday)",
       "medium": "firm"
     },
+    "genai.mit.edu": {
+      "name": "MIT Generative AI Impact Consortium",
+      "medium": "vendor"
+    },
     "gic.com.sg": {
       "name": "GIC",
       "medium": "firm"
@@ -271,6 +293,10 @@
     "gitlabfoundation.org": {
       "name": "GitLab Foundation",
       "medium": "firm"
+    },
+    "googlecloudpresscorner.com": {
+      "name": "Google Cloud",
+      "medium": "vendor"
     },
     "hamiltonlane.com": {
       "name": "Hamilton Lane",
@@ -484,6 +510,10 @@
       "name": "Omny Studio",
       "medium": "podcast"
     },
+    "openai.com": {
+      "name": "OpenAI",
+      "medium": "vendor"
+    },
     "optiver.com": {
       "name": "Optiver",
       "medium": "firm"
@@ -495,6 +525,10 @@
     "otppb.wd3.myworkdayjobs.com": {
       "name": "Ontario Teachers' careers (Workday)",
       "medium": "firm"
+    },
+    "paperjam.lu": {
+      "name": "Paperjam",
+      "medium": "press"
     },
     "partnersgroup.com": {
       "name": "Partners Group",
@@ -574,6 +608,10 @@
     },
     "stcn.com": {
       "name": "Securities Times (证券时报)",
+      "medium": "press"
+    },
+    "stockstar.com": {
+      "name": "Stockstar (证券之星)",
       "medium": "press"
     },
     "thelogic.co": {

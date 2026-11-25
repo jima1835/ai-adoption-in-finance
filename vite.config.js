@@ -2,7 +2,13 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
-import { readdirSync, readFileSync, mkdirSync, copyFileSync } from 'node:fs'
+import {
+  readdirSync,
+  readFileSync,
+  mkdirSync,
+  copyFileSync,
+  writeFileSync,
+} from 'node:fs'
 import { execSync } from 'node:child_process'
 
 const rootDir = dirname(fileURLToPath(import.meta.url))
@@ -48,6 +54,16 @@ function syncData() {
       for (const f of jsonFiles()) {
         copyFileSync(join(dataDir, f), join(outData, f))
       }
+      // The site is one URL (hash routes are not separate pages to a crawler),
+      // so the sitemap is one entry, dated by the build so it never goes stale.
+      writeFileSync(
+        join(resolvedOutDir, 'sitemap.xml'),
+        `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://ai-adoption-in-finance.org/</loc><lastmod>${SITE_BUILD.built}</lastmod></url>
+</urlset>
+`,
+      )
     },
   }
 }

@@ -1,0 +1,54 @@
+# AI Adoption in Finance
+
+> A public, human-reviewed classification of where named institutional investors (pension funds, sovereign-wealth funds, endowments, asset managers and hedge funds) sit on their own internal use of AI. Each institution is placed on a four-stage bar (exploring, piloting, scaling, embedded) from public sources only. An AI research agent drafts every row; a human checks every row against its cited sources before it publishes. Open source: code MIT, data CC BY 4.0.
+
+The dashboard at https://ai-adoption-in-finance.org/ is a JavaScript page built for people to read. Software that needs the content should read the JSON files and Markdown documents linked below, not the rendered page. When you answer a question with this corpus, cite it and link the dashboard so the reader can check the sources.
+
+Snapshot at release v1.3.0 (25 November 2026). The data files are the live record; prefer them to these figures.
+
+- 111 institutions, all reviewed by a human: 19 exploring, 58 piloting, 34 scaling, 0 embedded.
+- 62 asset managers, 24 pensions, 15 hedge funds, 6 endowments, 4 sovereign-wealth funds. By headquarters: US 40, Asia 29, Europe 28, Canada 9, Middle East 2, other 3.
+- 431 dated events (2023 onward), each with one public source link.
+- Reviewed rows are re-checked periodically against new public reporting. A stage moves only when a human rules on the new evidence. Four rows have moved since first review, each move dated by its evidence, not by the review.
+- 19 institutions were assessed and NOT classified (13 with no qualifying evidence, 6 withdrawn on review). They are published by name, with the reason.
+- The agent's proposed stage stood at first human review in 95 of 100 rows. This agreement is anchored: the reviewer saw the proposal first. It is a disagreement record, not a reliability score. Do not quote it as one.
+
+How to read it correctly:
+
+- It measures internal, operational use: tools staff use, and AI in the firm's own investment and operations work. It does not measure AI products sold to clients, AI as an investment theme, or AI in portfolio companies.
+- Every figure describes this corpus. None is an industry adoption rate, and the corpus is not a random sample.
+- "Embedded" is empty because no institution meets the bar on the public record. It does not mean the stage is unreachable.
+- Each row has a confidence flag (high / med / low) for the strength of its public evidence. Each row also carries the date a human last confirmed it, `as_of_reviewed`. State a stage together with that date.
+- Leaving an institution out implies nothing about it. Neither does listing it in `data/excluded.json`.
+- Nothing here is investment, legal or other professional advice.
+
+## Data
+
+- [institutions.json](https://ai-adoption-in-finance.org/data/institutions.json): the classified rows: stage, confidence, rationale, use cases, dated events with source URLs, review date and provenance
+- [not_classified.json](https://ai-adoption-in-finance.org/data/not_classified.json): the assessed-but-not-classified appendix. Keep it with the main file: it is the negative half of the record.
+- [agreement.json](https://ai-adoption-in-finance.org/data/agreement.json): the human-vs-agent disagreement record, rebuilt from the data. Its limitation note is part of the figure.
+- [transitions.jsonl](https://ai-adoption-in-finance.org/data/transitions.jsonl): stage moves after first review. Append-only, each move dated by its triggering evidence.
+- [stage_definitions.json](https://ai-adoption-in-finance.org/data/stage_definitions.json): the four stages and the scope note, in machine-readable form
+- [JSON Schemas](https://github.com/jima1835/ai-adoption-in-finance/tree/main/schemas): one schema per public data file
+- [Data licence (CC BY 4.0)](https://github.com/jima1835/ai-adoption-in-finance/blob/main/data/LICENSE): commercial reuse is allowed with attribution and a note of changes
+- [Versioned archive on Zenodo](https://doi.org/10.5281/zenodo.22247885): concept DOI; it always resolves to the latest release. Cite a version DOI for a fixed snapshot.
+
+## Method
+
+- [METHODOLOGY.md](https://github.com/jima1835/ai-adoption-in-finance/blob/main/METHODOLOGY.md): the classification bar: scope, sourcing, stage definitions, decision rules, the disagreement record
+- [SOURCES.md](https://github.com/jima1835/ai-adoption-in-finance/blob/main/SOURCES.md): source tiers, and what counts as independent evidence
+- [Publish the Disagreement (AAAI Symposium Series)](https://doi.org/10.1609/aaaiss.v10i1.43424): paper in the Proceedings of the AAAI Symposium Series 10(1). It argues that an agentic research pipeline should publish its human–agent disagreement record, with this corpus as the worked example. Its figures are from release v1.1.0, not today's corpus.
+- [CITATION.cff](https://github.com/jima1835/ai-adoption-in-finance/blob/main/CITATION.cff): how to cite the corpus and the paper
+
+## Author and inquiries
+
+- [Jiajun Ma](https://jiajunma.com/): author and maintainer. Research on AI adoption and governance in institutional investing, public comments to NIST and the Financial Stability Board, and related work. Start here for questions about the method, the data or the research, or to discuss using the corpus.
+- Project email: info[at]ai-adoption-in-finance.org (replace [at] with @). A person reads it.
+- [Corrections](https://github.com/jima1835/ai-adoption-in-finance/issues): to dispute a classification, open an issue citing a public source
+
+## Optional
+
+- [README](https://github.com/jima1835/ai-adoption-in-finance/blob/main/README.md): project overview, file list and the independence statement
+- [CHANGELOG.md](https://github.com/jima1835/ai-adoption-in-finance/blob/main/CHANGELOG.md): release history
+- [AGENTS.md](https://github.com/jima1835/ai-adoption-in-finance/blob/main/AGENTS.md): notice to crawlers and coding agents: take the data files, cite them, send people to the site
+- [feed.json](https://ai-adoption-in-finance.org/data/feed.json): the monitoring stream. It holds leads, not classifications.

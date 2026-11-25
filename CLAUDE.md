@@ -258,6 +258,9 @@ Key from env (`ANTHROPIC_API_KEY`); repo secret in CI. Never hardcoded.
 - `AGENTS.md` — notice to crawlers and coding agents: take the licensed data files, cite them,
   send people to the live site; never write under `data/`. `public/robots.txt` — served at the
   site root (Vite copies `public/`); asks AI-training crawlers to stay out, search stays open.
+  `public/llms.txt` — served at the site root: plain-text guide for answer engines, reporters and
+  data users (what the corpus measures, how to read it, data/method links, author + inquiries).
+  Its snapshot figures are pinned to a release: update them with the version bump.
 - `data/` — `institutions.json` (STATE) · `feed.json` (STREAM) · `seen_urls.json` (dedup) · `stage_definitions.json` · `not_classified.json` (APPENDIX, human-gated)
 - ROLES module (METHODOLOGY §11 of v1.1.0) — withdrawn from the public tree in v1.2.0; preserved under local/roles_module/ for a later release.
 - `schemas/*.schema.json` + `tools/validate_data.py` — a JSON Schema per public data file

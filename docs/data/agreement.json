@@ -1,6 +1,6 @@
 {
  "_readme": "Human-vs-agent disagreement record for the corpus. A research agent drafts each row from public sources and proposes an adoption stage; a human reviewer then checks the row against those sources and accepts, revises, or removes it. This file counts what the reviewer did at that FIRST review (label_provenance); later corrections and evidence-dated transitions are listed under since_first_review and never folded into the rate. IMPORTANT: the reviewer saw the agent's proposed stage and its written reasoning before deciding, so these figures are ANCHORED, non-independent agreement and should not be read as an inter-rater reliability estimate. No kappa is reported here and none should be inferred. Re-read passes (data/rereads.jsonl) are summarised under rereads: who drafted the change cards, the scope, the direction checked and every decision; a re-read is anchored too. The confidence block compares the confidence the agent proposed with the confidence the reviewer set at first review (anchored too), and first_review_sessions sets both fields side by side per review date with the agent prompt version in force. Derived from data/institutions.json, data/not_classified.json, data/transitions.jsonl, data/rereads.jsonl and data/first_review.jsonl; rebuild with tools/build_agreement.py.",
- "as_of": "2026-09-26",
+ "as_of": "2026-11-23",
  "corpus": {
   "rows": 111,
   "reviewed": 111,
@@ -34,8 +34,8 @@
  "current_label": {
   "basis": "agent_proposed_stage against the row's stage today; moves with corrections and evidence-dated transitions, so it is not the anchored first decision",
   "n": 100,
-  "matches": 96,
-  "rate": 0.96
+  "matches": 93,
+  "rate": 0.93
  },
  "matrix": [
   {
@@ -85,7 +85,7 @@
    "final": "scaling",
    "direction": "up",
    "distance": 1,
-   "as_of_reviewed": "2026-09-24",
+   "as_of_reviewed": "2026-11-23",
    "later": {
     "reread": "2026-09-24-scaling",
     "date": "2026-09-24",
@@ -106,7 +106,7 @@
    "final": "scaling",
    "direction": "up",
    "distance": 1,
-   "as_of_reviewed": "2026-09-26"
+   "as_of_reviewed": "2026-11-23"
   },
   {
    "institution": "Quilter",
@@ -124,6 +124,27 @@
  ],
  "since_first_review": {
   "transitions_on_new_evidence": [
+   {
+    "institution": "Amundi",
+    "from": "piloting",
+    "to": "scaling",
+    "date_effective": "2026-07-30",
+    "agent_proposed_move": "scaling"
+   },
+   {
+    "institution": "J.P. Morgan Asset Management",
+    "from": "piloting",
+    "to": "scaling",
+    "date_effective": "2026-10-29",
+    "agent_proposed_move": "scaling"
+   },
+   {
+    "institution": "ExodusPoint Capital Management",
+    "from": "exploring",
+    "to": "piloting",
+    "date_effective": "2026-09-30",
+    "agent_proposed_move": "piloting"
+   },
    {
     "institution": "Fullgoal Fund Management",
     "from": "exploring",
@@ -265,7 +286,7 @@
    }
   ],
   "since_first_review": {
-   "lowered": 19,
+   "lowered": 20,
    "raised": 0
   },
   "first_review_source": {

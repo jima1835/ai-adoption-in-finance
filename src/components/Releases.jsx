@@ -5,6 +5,12 @@ const BUILD = typeof __SITE_BUILD__ !== 'undefined' ? __SITE_BUILD__ : null
 // the full record; this page summarises it and is updated alongside it.
 const RELEASES = [
   {
+    version: '1.3.0',
+    date: '2026-11-25',
+    notes:
+      'First news review since 1.2.0: 24 rows gain dated evidence, 398 → 431 events. Three stage moves on new evidence, each logged with its evidence date: ExodusPoint to piloting, J.P. Morgan Asset Management and Amundi to scaling. An llms.txt guide for automated readers is added.',
+  },
+  {
     version: '1.2.4',
     date: '2026-11-14',
     notes:

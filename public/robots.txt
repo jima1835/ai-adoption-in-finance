@@ -40,3 +40,5 @@ Disallow: /
 # --- Everyone else: index for search, and please send people here ----------
 User-agent: *
 Allow: /
+
+Sitemap: https://ai-adoption-in-finance.org/sitemap.xml

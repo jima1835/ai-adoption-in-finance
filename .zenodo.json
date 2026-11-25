@@ -1,7 +1,7 @@
 {
   "title": "AI Adoption in Finance: a human-reviewed, stage-classified corpus of institutional investors and its human-AI disagreement record",
   "upload_type": "dataset",
-  "version": "1.2.4",
+  "version": "1.3.0",
   "access_right": "open",
   "license": "cc-by-4.0",
   "creators": [
@@ -31,7 +31,7 @@
       "scheme": "doi"
     },
     {
-      "identifier": "https://github.com/jima1835/ai-adoption-in-finance/tree/v1.2.4",
+      "identifier": "https://github.com/jima1835/ai-adoption-in-finance/tree/v1.3.0",
       "relation": "isSupplementTo",
       "resource_type": "software",
       "scheme": "url"

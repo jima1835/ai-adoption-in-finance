@@ -50,11 +50,19 @@ def test_first_review_stage_matches_the_agreement_record():
 
 
 def test_values_inferred_from_today_match_today():
+    # "today_value…" means the record copied the row's stage when it was built. A stage
+    # move on new evidence after that is logged in transitions.jsonl and leaves the
+    # first review where it was, so the copy must equal the stage the row held before
+    # its first logged transition, which is today's stage when there is none.
     rows = _rows()
+    before_first_move = {}
+    for t in sorted(_jsonl("transitions.jsonl"), key=lambda t: t["decided_on"]):
+        before_first_move.setdefault(t["name"], t["from"])
     for r in _jsonl("first_review.jsonl"):
         row = rows[r["institution"]]
         if r["first_review_stage_source"].startswith("today_value"):
-            assert r["first_review_stage"] == row["stage"], r
+            expected = before_first_move.get(r["institution"], row["stage"])
+            assert r["first_review_stage"] == expected, r
         if r["first_review_confidence_source"] == "today_value_no_logged_later_change":
             assert r["first_review_confidence"] == row["confidence"], r
 

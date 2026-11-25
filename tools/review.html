@@ -93,6 +93,7 @@
   details.more summary { cursor:pointer; color:var(--dim); font-size:13px; }
   details.more[open] summary { margin-bottom:6px; }
   .holdnote { border-left:3px solid var(--amber); padding-left:8px; margin-top:8px; color:var(--text); }
+  .c-new { border-left:3px solid var(--accent); padding-left:10px; margin-top:10px; }
   #done { margin-top:26px; color:var(--dim); font-size:14px; }
   #done li { margin-bottom:2px; }
 </style>
@@ -118,6 +119,14 @@ const REGIONS = ['US','Canada','Europe','Middle East','Asia','Other'];
 const OUTCOMES = ['no-qualifying-evidence','withdrawn-on-review'];
 const ORDER = { scaling:0, embedded:1, piloting:2, exploring:3 };
 let S = null;                       // server state
+// Every × on an event row asks first: a removed row is gone from the card, and the
+// only way back is reloading the page, which also drops unsaved edits elsewhere.
+function confirmRemoveEvent(r){
+  const date = r.querySelector('.ev-date')?.value || '(no date)';
+  const desc = (r.querySelector('.ev-desc')?.value || '').trim();
+  return confirm(`Remove this event from the card?\n\n${date} — ${desc.length > 160 ? desc.slice(0, 160) + '…' : desc}\n\n`
+    + 'To leave it out of an approval without losing it, untick it instead (sweep cards).');
+}
 const approvedThisSession = [];     // {name,type} for the commit helper
 const ncFiledThisSession = [];      // names filed to the public appendix
 const transitionsThisSession = []; // names whose stage moved this sweep
@@ -225,7 +234,7 @@ function card(row){
       const next = r.nextElementSibling;
       if (next) { evWrap.insertBefore(next, r); markDirty(); }
     };
-    r.querySelector('.ev-del').onclick = () => { r.remove(); markDirty(); };
+    r.querySelector('.ev-del').onclick = () => { if (!confirmRemoveEvent(r)) return; r.remove(); markDirty(); };
     r.querySelectorAll('input').forEach(el => el.addEventListener('input', markDirty));
     evWrap.appendChild(r);
   };
@@ -470,6 +479,29 @@ function changeCard(entry){
     </div>
     <div><label>sources and dates on this row — as the dashboard shows them</label>
       <div class="evidence">${renderTimeline(row)}</div></div>
+    <div class="c-new"><label>new evidence this card adds — ${evs.length} proposed event${evs.length===1?'':'s'}, NOT yet on the row above</label>
+      <div class="note"><b>agent reason:</b> ${esc(entry.reason || '(none given)')}</div>
+      ${(entry.citations || []).length ? `<div class="note"><b>the flag rests on:</b><ul>${
+        (entry.citations || []).map(c => `<li><a href="${esc(c.url)}" target="_blank"
+          rel="noreferrer">${esc(c.url)}</a>${c.check ? ' — ' + esc(c.check) : ''}</li>`).join('')
+        }</ul></div>` : ''}
+      <label>proposed new events — tick the ones to add, pick the one that dates a stage move</label>
+      <div class="cvents"></div>
+      <div class="evrow">
+        <input type="text" class="e-date" placeholder="YYYY-MM-DD" style="flex:0 0 13ch">
+        <input type="text" class="e-desc" placeholder="event — what the source actually says" style="flex:2">
+        <input type="text" class="e-url" placeholder="https://source" style="flex:1">
+        <button class="addcv">add event</button>
+        <button class="cv-all">tick all</button>
+        <button class="cv-none">untick all</button>
+      </div>
+      <div class="note cv-count"></div>
+      <div class="evrow c-daterow" style="margin-top:8px">
+        <label>date_effective</label><input type="text" class="c-date" placeholder="YYYY-MM-DD" style="flex:0 0 14ch">
+        <label>evidence_url</label><input type="text" class="c-url" style="flex:1" placeholder="https://…">
+      </div>
+      <div class="note c-datenote">required only when the stage actually moves — the date of the evidence, never today</div>
+    </div>
     <div><label>rationale — what Approve change writes <span class="c-prev-rat-note"></span></label>
       <div class="evidence preview c-prev-rationale"></div></div>
     <div class="c-prev-footnote-wrap"><label>footnote — what Approve change writes (green added, red struck)</label>
@@ -496,13 +528,8 @@ function changeCard(entry){
       <button class="c-load-agent">Reset to the agent's proposal</button>
       ${hasHoldDraft ? `<button class="c-load-hold">Load the hold draft (field → ${esc(entry.current_confidence)})</button>` : ''}
     </div>
-    <details class="more"><summary>more — agent's reason, hold-as-is preview, evidence ledger, proposed events, AUM, transition date</summary>
-      <div class="note"><b>agent reason:</b> ${esc(entry.reason || '(none given)')}</div>
+    <details class="more"><summary>more — criterion, hold-as-is preview, evidence ledger, AUM</summary>
       ${entry.criterion ? `<div class="note"><b>criterion:</b> ${esc(entry.criterion)}</div>` : ''}
-      ${(entry.citations || []).length ? `<div class="note"><b>the flag rests on:</b><ul>${
-        (entry.citations || []).map(c => `<li><a href="${esc(c.url)}" target="_blank"
-          rel="noreferrer">${esc(c.url)}</a>${c.check ? ' — ' + esc(c.check) : ''}</li>`).join('')
-        }</ul></div>` : ''}
       <div class="subhead">hold row as-is leaves</div>
       <div class="note">confidence <b>${esc(entry.current_confidence)}</b>, stage ${esc(entry.current_stage)}; text and events untouched; only the reviewed date advances. The text's own statement of confidence:</div>
       <div class="evidence preview">${confidenceSentences(row.rationale, row.footnote).map(s => `<mark>${esc(s)}</mark>`).join('<br>')
@@ -522,24 +549,7 @@ function changeCard(entry){
           : dossier ? `intake dossier ${esc(dossier.path)} (no REVIEW.md section — the row entered through intake)`
           : 'local/REVIEW.md'}</label>
         <div class="evidence">${ledger ? renderEvidence(ledger) : dossier ? renderDossier(dossier) : renderEvidence('')}</div></div>
-      <div><label>proposed new events — tick the ones to add, pick the one that dates a stage move</label>
-        <div class="cvents"></div>
-        <div class="evrow">
-          <input type="text" class="e-date" placeholder="YYYY-MM-DD" style="flex:0 0 13ch">
-          <input type="text" class="e-desc" placeholder="event — what the source actually says" style="flex:2">
-          <input type="text" class="e-url" placeholder="https://source" style="flex:1">
-          <button class="addcv">add event</button>
-          <button class="cv-all">tick all</button>
-          <button class="cv-none">untick all</button>
-        </div>
-        <div class="note cv-count"></div>
-      </div>
       <div class="evrow" style="margin-top:8px"><label>AUM</label><input type="text" class="c-aum" style="flex:0 0 16ch"></div>
-      <div class="evrow c-daterow" style="margin-top:8px">
-        <label>date_effective</label><input type="text" class="c-date" placeholder="YYYY-MM-DD" style="flex:0 0 14ch">
-        <label>evidence_url</label><input type="text" class="c-url" style="flex:1" placeholder="https://…">
-      </div>
-      <div class="note c-datenote">required only when the stage actually moves — the date of the evidence, never today</div>
     </details>`;
 
   // Textareas/inputs set by value, never by innerHTML — no escaping pitfalls.
@@ -610,6 +620,7 @@ function changeCard(entry){
       <input type="text" class="ev-desc" title="event" style="flex:2">
       <input type="text" class="ev-url" title="source_url" style="flex:1">
       <a class="ev-test" target="_blank" rel="noreferrer" title="open link">↗</a>
+      <button class="ev-merge" title="merge into the event above (same date): one event, the upper link stays source_url, this link is noted in the footnote">⇡ merge</button>
       <button class="ev-del" title="remove from this proposal">×</button>`;
     r.querySelector('.cv-inc').checked = checked !== false;
     r.querySelector('.ev-date').value = e.date || '';
@@ -620,10 +631,30 @@ function changeCard(entry){
     const syncLink = () => { test.href = u.value || '#'; };
     syncLink();
     u.addEventListener('input', syncLink);
-    r.querySelector('.ev-del').onclick = () => { r.remove(); refresh(); };
+    r.querySelector('.ev-del').onclick = () => { if (!confirmRemoveEvent(r)) return; r.remove(); refresh(); };
+    // One event per source_url (the schema's rule): a second report of the same dated
+    // fact folds into the event above, and its link is recorded in the footnote, the
+    // way relays are recorded on the corpus, so no link is lost and no event is double-counted.
+    r.querySelector('.ev-merge').onclick = () => {
+      const up = r.previousElementSibling;
+      if (!up || !up.classList.contains('cvitem')) return;
+      const date = r.querySelector('.ev-date').value.trim();
+      const link = r.querySelector('.ev-url').value.trim();
+      if (!confirm(`Merge this ${date} event into the one above?\n\nThe upper event keeps its link as source_url; `
+          + `its text gets this event's text appended (edit it after). This link goes into the footnote:\n${link}`)) return;
+      const upDesc = up.querySelector('.ev-desc');
+      const add = r.querySelector('.ev-desc').value.trim();
+      if (add) upDesc.value = upDesc.value.trim() + '; ' + add;
+      const foot = d.querySelector('.c-footnote');
+      if (link) foot.value = (foot.value.trim() + ` The ${date} event is also carried by ${link}.`).trim();
+      footEdit.hidden = false;
+      r.remove(); refresh(); syncPreview(); d.classList.add('dirty');
+      toast('merged — tidy the merged event text and the footnote sentence before approving');
+    };
     r.querySelector('.cv-inc').onchange = refresh;
     r.querySelector('.cv-eff').onchange = syncEffective;
     r.querySelectorAll('input[type=text]').forEach(el => el.addEventListener('input', syncEffective));
+    r.querySelector('.ev-date').addEventListener('input', refresh);
     wrap.appendChild(r);
     return r;
   };
@@ -633,7 +664,10 @@ function changeCard(entry){
   function refresh(){
     const rows = [...wrap.querySelectorAll('.cvitem')];
     let held = null;
-    rows.forEach(r => {
+    rows.forEach((r, i) => {
+      const prev = rows[i - 1];
+      r.querySelector('.ev-merge').hidden = !(prev
+        && prev.querySelector('.ev-date').value.trim() === r.querySelector('.ev-date').value.trim());
       const inc = r.querySelector('.cv-inc').checked;
       const eff = r.querySelector('.cv-eff');
       eff.disabled = !inc;
@@ -854,7 +888,7 @@ function newCandidateCard(item){
       const next = line.nextElementSibling;
       if (next) wrap.insertBefore(next, line);
     };
-    line.querySelector('.ev-del').onclick = () => line.remove();
+    line.querySelector('.ev-del').onclick = () => { if (confirmRemoveEvent(line)) line.remove(); };
     wrap.appendChild(line);
   };
   (row.events || []).forEach(addEvRow);
